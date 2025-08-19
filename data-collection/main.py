@@ -14,10 +14,10 @@ async def main():
         "starting_artist": "Taylor Swift",
         "max_artists": None,
         "include_tags": False,
-        "similar_per_artist": 80,
+        "similar_per_artist": 50,
         "tags_per_artist": 50,
         "batch_size": 10,
-        "resume": False,
+        "resume": True,
     }
 
     # Create streaming collector

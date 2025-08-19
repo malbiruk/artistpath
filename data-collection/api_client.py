@@ -8,9 +8,9 @@ import aiohttp
 from dotenv import load_dotenv
 from tenacity import (
     retry,
+    retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
-    retry_if_exception_type,
 )
 
 load_dotenv()
@@ -29,11 +29,13 @@ API_ERRORS = {
 
 class RateLimitError(Exception):
     """Custom exception for rate limiting."""
+
     pass
 
 
 class APIError(Exception):
     """Custom exception for API errors."""
+
     pass
 
 
@@ -43,7 +45,7 @@ class APIError(Exception):
     retry=retry_if_exception_type(
         (RateLimitError, APIError, aiohttp.ClientError, asyncio.TimeoutError)
     ),
-    reraise=True,
+    reraise=False,
 )
 async def fetch_json(session: aiohttp.ClientSession, params: dict) -> Optional[dict]:
     """Fetch JSON data from Last.fm API with retry logic."""
@@ -62,10 +64,16 @@ async def fetch_json(session: aiohttp.ClientSession, params: dict) -> Optional[d
                     API_ERRORS["retries"] += 1
                     raise APIError("Empty response data")
                 if "error" in data:
-                    print(f"⚠️ API Error: {data.get('message', 'Unknown error')} - retrying...")
-                    API_ERRORS["other"] += 1
-                    API_ERRORS["retries"] += 1
-                    raise APIError(f"API returned error: {data.get('message')}")
+                    error_code = data.get('error')
+                    if error_code == 6:  # Artist not found
+                        print(f"⚠️ Artist not found: {params.get('mbid', params.get('artist', 'unknown'))}")
+                        API_ERRORS["other"] += 1
+                        return None  # Don't retry for not found errors
+                    else:
+                        print(f"⚠️ API Error: {data.get('message', 'Unknown error')} - retrying...")
+                        API_ERRORS["other"] += 1
+                        API_ERRORS["retries"] += 1
+                        raise APIError(f"API returned error: {data.get('message')}")
                 return data
             elif response.status == 429:
                 print("⚠️  RATE LIMITED! Retrying with exponential backoff...")
