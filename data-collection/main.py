@@ -14,7 +14,7 @@ async def main():
         "starting_artist": "Taylor Swift",
         "max_artists": None,
         "include_tags": False,
-        "similar_per_artist": 50,
+        "similar_per_artist": 250,
         "tags_per_artist": 50,
         "batch_size": 10,
         "resume": True,
