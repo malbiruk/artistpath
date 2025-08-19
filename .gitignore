@@ -1,0 +1,5 @@
+cli/target
+.venv
+.env
+data/*
+__pycache__
