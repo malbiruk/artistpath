@@ -13,6 +13,9 @@ name = "artistpath"
 path = "src/main.rs"
 
 [dependencies]
-petgraph = "0.8.2"
+clap = { version = "4.5.45", features = ["derive"] }
 pyo3 = { version = "0.25.1", features = ["extension-module"] }
-slugify = "0.1.0"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+unidecode = "0.3.0"
+uuid = { version = "1.18.0", features = ["serde"] }

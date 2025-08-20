@@ -1,5 +1,6 @@
 cli/target
 .venv
 .env
-data/*
+data/*.*json
+data/*.txt
 __pycache__
