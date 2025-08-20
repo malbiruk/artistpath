@@ -3,4 +3,16 @@ name = "artistpath"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "normalization"
+crate-type = ["cdylib"]
+path = "src/string_normalization.rs"
+
+[[bin]]
+name = "artistpath"
+path = "src/main.rs"
+
 [dependencies]
+petgraph = "0.8.2"
+pyo3 = { version = "0.25.1", features = ["extension-module"] }
+slugify = "0.1.0"

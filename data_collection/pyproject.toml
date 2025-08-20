@@ -1,0 +1,11 @@
+[project]
+name = "data-collection"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp>=3.12.15",
+    "maturin>=1.9.3",
+    "python-dotenv>=1.1.1",
+    "rich>=14.1.0",
+    "tenacity>=9.1.2",
+]

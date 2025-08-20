@@ -3,19 +3,16 @@
 import asyncio
 
 from collector import StreamingCollector
-from data_storage import export_to_json
 
 
-async def main():
+async def main() -> None:
     """Main function for memory-efficient graph collection."""
 
     # Configuration
     config = {
         "starting_artist": "Taylor Swift",
         "max_artists": None,
-        "include_tags": False,
         "similar_per_artist": 250,
-        "tags_per_artist": 50,
         "batch_size": 10,
         "resume": True,
     }
@@ -26,10 +23,9 @@ async def main():
     print("🚀 Starting memory-efficient artist graph collection...")
     print("📁 Output directory: ../data")
     print(
-        f"🎯 Target: {'Unlimited' if config['max_artists'] is None else config['max_artists']} artists"
+        f"🎯 Target: {'Unlimited' if config['max_artists'] is None else config['max_artists']} artists",
     )
     print(f"📦 Batch size: {config['batch_size']}")
-    print(f"🏷️  Include tags: {config['include_tags']}")
     print(f"🔄 Resume: {config['resume']}")
 
     # Collect data
@@ -37,21 +33,12 @@ async def main():
 
     if "error" not in result:
         print("\n✅ Collection finished successfully!")
-
-        # Export to regular JSON if needed (warning: this loads data back into RAM)
-        if result["processed_artists"] < 100000:  # Only export if reasonably small
-            export_to_json("../data")
-            print("📤 Exported to regular JSON files")
-        else:
-            print("⚠️  Dataset too large for JSON export - use NDJSON files directly")
-
-        # Show file sizes
         show_file_sizes()
     else:
         print(f"❌ Collection failed: {result['error']}")
 
 
-def show_file_sizes():
+def show_file_sizes() -> None:
     """Show sizes of generated files."""
     from pathlib import Path
 

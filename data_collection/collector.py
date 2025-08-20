@@ -1,14 +1,13 @@
 """Memory-efficient streaming processor for artist graph collection."""
 
 import asyncio
+import json
 from collections import deque
 from pathlib import Path
-from typing import Optional, Set
 
 import aiohttp
 from api_client import (
     get_artist_info_by_name,
-    get_artist_tags,
     get_similar_artists,
     print_api_error_summary,
 )
@@ -18,13 +17,13 @@ from data_storage import append_to_graph, append_to_metadata, save_state
 class StreamingCollector:
     """Memory-efficient collector that streams data to disk."""
 
-    def __init__(self, output_dir: str = "../data"):
+    def __init__(self, output_dir: str = "../data") -> None:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         # Only keep essential data in RAM
-        self.processed_mbids: Set[str] = set()
-        self.seen_metadata_ids: Set[str] = set()  # Track metadata to avoid duplicates
+        self.processed_mbids: set[str] = set()
+        self.seen_metadata_ids: set[str] = set()  # Track metadata to avoid duplicates
         self.queue: deque = deque()
 
     def load_state(self) -> bool:
@@ -35,31 +34,28 @@ class StreamingCollector:
         if not state_path.exists():
             return False
 
-        # Load processing state
-        import json
-
-        with open(state_path, "r") as f:
+        with Path(state_path).open() as f:
             state = json.load(f)
             self.processed_mbids = set(state.get("processed_mbids", []))
             self.queue = deque(state.get("queue", []))
 
         # Load seen metadata IDs
         if metadata_ids_path.exists():
-            with open(metadata_ids_path, "r") as f:
-                self.seen_metadata_ids = set(line.strip() for line in f if line.strip())
+            with metadata_ids_path.open() as f:
+                self.seen_metadata_ids = {line.strip() for line in f if line.strip()}
 
         print(f"Resuming with {len(self.processed_mbids)} processed artists")
         print(f"Queue has {len(self.queue)} pending artists")
         print(f"Tracking {len(self.seen_metadata_ids)} metadata entries")
         return True
 
-    def save_state(self):
+    def save_state(self) -> None:
         """Save current state to files."""
         save_state(self.processed_mbids, self.queue, str(self.output_dir))
 
         # Save seen metadata IDs
         metadata_ids_path = self.output_dir / "seen_metadata.txt"
-        with open(metadata_ids_path, "w") as f:
+        with Path(metadata_ids_path).open("w") as f:
             for metadata_id in self.seen_metadata_ids:
                 f.write(f"{metadata_id}\n")
 
@@ -72,7 +68,9 @@ class StreamingCollector:
         return False
 
     async def initialize_starting_artist(
-        self, session: aiohttp.ClientSession, starting_artist: str
+        self,
+        session: aiohttp.ClientSession,
+        starting_artist: str,
     ) -> bool:
         """Initialize with starting artist."""
         print(f"Starting with artist: {starting_artist}")
@@ -94,9 +92,7 @@ class StreamingCollector:
         self,
         session: aiohttp.ClientSession,
         mbid: str,
-        include_tags: bool,
-        similar_per_artist: Optional[int],
-        tags_per_artist: Optional[int],
+        similar_per_artist: int | None,
     ) -> int:
         """Process a single artist and return number of new artists found."""
         if mbid in self.processed_mbids:
@@ -106,12 +102,9 @@ class StreamingCollector:
 
         # Fetch data concurrently
         tasks = [get_similar_artists(session, mbid, similar_per_artist)]
-        if include_tags:
-            tasks.append(get_artist_tags(session, mbid, tags_per_artist))
 
         results = await asyncio.gather(*tasks)
         similar_artists = results[0]
-        artist_tags = results[1] if include_tags else []
 
         # Process similar artists
         connections = []
@@ -127,29 +120,14 @@ class StreamingCollector:
 
             # Add to metadata if new
             if self.add_metadata_if_new(
-                similar_mbid, similar.get("name", ""), similar.get("url", "")
+                similar_mbid,
+                similar.get("name", ""),
+                similar.get("url", ""),
             ):
                 new_artists += 1
                 # Add to queue if not processed
                 if similar_mbid not in self.processed_mbids:
                     self.queue.append(similar_mbid)
-
-        # Process tags if enabled
-        if include_tags:
-            for tag in artist_tags:
-                tag_name = tag.get("name")
-                if not tag_name:
-                    continue
-
-                tag_id = f"tag:{tag_name}"
-                connections.append((tag_id, 0.0))
-
-                # Add tag to metadata
-                self.add_metadata_if_new(tag_id, f"Tag: {tag_name}", tag.get("url", ""))
-
-                # Stream reverse connection (tag -> artist)
-                tag_connections = [(mbid, 0.0)]
-                append_to_graph(tag_id, tag_connections, str(self.output_dir))
 
         # Stream artist connections to disk
         if connections:
@@ -159,44 +137,41 @@ class StreamingCollector:
 
     async def collect_graph(
         self,
-        starting_artist: Optional[str] = None,
-        max_artists: Optional[int] = None,
-        include_tags: bool = False,
-        similar_per_artist: Optional[int] = 80,
-        tags_per_artist: Optional[int] = 50,
+        starting_artist: str | None = None,
+        max_artists: int | None = None,
+        similar_per_artist: int | None = 80,
         batch_size: int = 10,
+        *,
         resume: bool = True,
     ) -> dict:
         """Collect artist graph with streaming approach."""
 
         # Load existing state or initialize
-        if resume:
-            resumed = self.load_state()
-        else:
-            resumed = False
+        resumed = self.load_state() if resume else False
 
         async with aiohttp.ClientSession() as session:
             # Initialize starting artist if needed
-            if not resumed and not self.queue and starting_artist:
-                if not await self.initialize_starting_artist(session, starting_artist):
-                    return {"error": "Could not initialize starting artist"}
+            if (
+                not resumed
+                and not self.queue
+                and starting_artist
+                and not await self.initialize_starting_artist(session, starting_artist)
+            ):
+                return {"error": "Could not initialize starting artist"}
 
             total_processed = len(self.processed_mbids)
             batch_count = 0
 
             while self.queue and (max_artists is None or total_processed < max_artists):
                 # Process batch
-                batch_artists = []
                 batch_size_actual = min(batch_size, len(self.queue))
 
                 if max_artists is not None:
-                    batch_size_actual = min(
-                        batch_size_actual, max_artists - total_processed
-                    )
+                    batch_size_actual = min(batch_size_actual, max_artists - total_processed)
 
-                for _ in range(batch_size_actual):
-                    if self.queue:
-                        batch_artists.append(self.queue.popleft())
+                batch_artists = [
+                    self.queue.popleft() for _ in range(batch_size_actual) if self.queue
+                ]
 
                 if not batch_artists:
                     break
@@ -205,7 +180,9 @@ class StreamingCollector:
                 tasks = []
                 for mbid in batch_artists:
                     task = self.process_single_artist(
-                        session, mbid, include_tags, similar_per_artist, tags_per_artist
+                        session,
+                        mbid,
+                        similar_per_artist,
                     )
                     tasks.append(task)
 
@@ -218,13 +195,13 @@ class StreamingCollector:
                 max_display = "unlimited" if max_artists is None else str(max_artists)
                 print(
                     f"Batch {batch_count}: Processed {len(batch_artists)} artists "
-                    f"({total_processed}/{max_display} total)"
+                    f"({total_processed}/{max_display} total)",
                 )
                 print(f"  New artists found: {total_new_artists}")
                 print(f"  Queue size: {len(self.queue)}")
                 print(
                     f"  Memory usage: {len(self.processed_mbids)} processed IDs, "
-                    f"{len(self.seen_metadata_ids)} metadata entries"
+                    f"{len(self.seen_metadata_ids)} metadata entries",
                 )
 
                 # Periodic state save
@@ -236,9 +213,7 @@ class StreamingCollector:
                 await asyncio.sleep(0.1)
 
                 if total_new_artists == 0:
-                    print(
-                        "⚠️  No new artists found - might have reached component limit"
-                    )
+                    print("⚠️  No new artists found - might have reached component limit")
 
         # Final save
         self.save_state()
