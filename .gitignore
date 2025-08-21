@@ -3,4 +3,5 @@ cli/target
 .env
 data/*.*json
 data/*.txt
+data/*.bin
 __pycache__

@@ -5,13 +5,13 @@ use std::path::Path;
 fn main() {
     let args = Args::parse();
 
-    let graph_path = Path::new("../data/graph.ndjson");
+    let graph_path = Path::new("../data/graph.bin");
     let metadata_path = Path::new("../data/metadata.ndjson");
     let lookup_path = Path::new("../data/lookup.json");
-    let index_path = Path::new("../data/graph_index.json");
+    let index_path = Path::new("../data/graph_binary_index.json");
 
     let lookup = parse_lookup(lookup_path);
-    let graph_index = parse_graph_index(index_path);
+    let binary_index = parse_index(index_path);
 
     let artist1_id = match find_artist_id(&args.artist1, &lookup) {
         Ok(id) => id,
@@ -20,7 +20,7 @@ fn main() {
             std::process::exit(1);
         }
     };
-    
+
     let artist2_id = match find_artist_id(&args.artist2, &lookup) {
         Ok(id) => id,
         Err(e) => {
@@ -61,7 +61,7 @@ fn main() {
     let (path, visited_count, elapsed_time) = if args.weighted {
         todo!("Weighted pathfinding not yet implemented")
     } else {
-        bfs_find_path(artist1_id, artist2_id, graph_path, &graph_index, &args)
+        bfs_find_path(artist1_id, artist2_id, graph_path, &binary_index, &args)
     };
 
     display_results(
