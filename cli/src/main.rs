@@ -6,12 +6,9 @@ fn main() {
     let args = Args::parse();
 
     let graph_path = Path::new("../data/graph.bin");
-    let metadata_path = Path::new("../data/metadata.ndjson");
-    let lookup_path = Path::new("../data/lookup.json");
-    let index_path = Path::new("../data/graph_binary_index.json");
+    let metadata_path = Path::new("../data/metadata.bin");
 
-    let lookup = parse_lookup(lookup_path);
-    let binary_index = parse_index(index_path);
+    let (lookup, metadata, binary_index) = parse_unified_metadata(metadata_path);
 
     let artist1_id = match find_artist_id(&args.artist1, &lookup) {
         Ok(id) => id,
@@ -29,7 +26,6 @@ fn main() {
         }
     };
 
-    let metadata = parse_metadata(metadata_path);
 
     // Get correct artist names from metadata
     let artist1_name = &metadata[&artist1_id].name;

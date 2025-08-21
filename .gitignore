@@ -1,7 +1,6 @@
 cli/target
 .venv
 .env
-data/*.*json
-data/*.txt
-data/*.bin
+data/*
+!data/.gitkeep
 __pycache__
