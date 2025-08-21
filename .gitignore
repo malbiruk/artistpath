@@ -1,4 +1,4 @@
-cli/target
+target
 .venv
 .env
 data/*
