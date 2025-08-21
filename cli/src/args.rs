@@ -31,6 +31,6 @@ pub struct Args {
     pub show_ids: bool,
 
     /// Show similarity scores between connected artists
-    #[arg(short = 'W', long)]
-    pub show_weights: bool,
+    #[arg(short, long)]
+    pub show_similarity: bool,
 }

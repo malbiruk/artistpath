@@ -2,8 +2,8 @@ use pyo3::prelude::*;
 use unidecode::unidecode;
 
 #[pyfunction]
-fn clean_str(input: &str) -> String {
-    unidecode(input)  // Convert Unicode to ASCII
+pub fn clean_str(input: &str) -> String {
+    unidecode(input) // Convert Unicode to ASCII
         .trim()
         .to_lowercase()
         .split_whitespace()
