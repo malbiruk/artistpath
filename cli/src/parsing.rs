@@ -13,122 +13,102 @@ pub struct Artist {
     pub url: String,
 }
 
-pub fn parse_unified_metadata(
-    metadata_path: &Path,
-) -> (
-    FxHashMap<String, Uuid>,
-    FxHashMap<Uuid, Artist>,
-    FxHashMap<Uuid, u64>,
-) {
-    let data = std::fs::read(metadata_path).expect("Should be able to read metadata binary file");
-    let mut cursor = Cursor::new(&data);
+struct SectionOffsets {
+    lookup: usize,
+    metadata: usize,
+    index: usize,
+}
 
-    // Read header: 3 uint32 offsets
-    let lookup_offset = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read lookup offset") as usize;
-    let metadata_offset = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read metadata offset") as usize;
-    let index_offset = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read index offset") as usize;
+type NameLookup = FxHashMap<String, Uuid>;
+type ArtistMetadata = FxHashMap<Uuid, Artist>;
+type GraphIndex = FxHashMap<Uuid, u64>;
 
-    // Parse Section 1: Lookup (clean_name -> UUID)
-    let mut cursor = Cursor::new(&data[lookup_offset..]);
-    let lookup_count = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read lookup count") as usize;
-    let mut lookup = FxHashMap::with_capacity_and_hasher(lookup_count, Default::default());
+pub fn parse_unified_metadata(metadata_path: &Path) -> (NameLookup, ArtistMetadata, GraphIndex) {
+    let binary_data = read_binary_file(metadata_path);
+    let section_offsets = read_section_offsets(&binary_data);
+    
+    let name_lookup = parse_name_lookup_section(&binary_data, section_offsets.lookup);
+    let artist_metadata = parse_artist_metadata_section(&binary_data, section_offsets.metadata);
+    let graph_index = parse_graph_index_section(&binary_data, section_offsets.index);
+    
+    (name_lookup, artist_metadata, graph_index)
+}
 
-    for _ in 0..lookup_count {
-        // Read name length and name
-        let name_len = cursor
-            .read_u16::<LittleEndian>()
-            .expect("Should read name length") as usize;
-        let mut name_bytes = vec![0u8; name_len];
-        cursor
-            .read_exact(&mut name_bytes)
-            .expect("Should read name");
-        let name = String::from_utf8(name_bytes).expect("Should parse name as UTF-8");
+fn read_binary_file(file_path: &Path) -> Vec<u8> {
+    std::fs::read(file_path).expect("Should be able to read metadata binary file")
+}
 
-        // Read UUID
-        let mut uuid_bytes = [0u8; 16];
-        cursor
-            .read_exact(&mut uuid_bytes)
-            .expect("Should read UUID");
-        let uuid = Uuid::from_bytes(uuid_bytes);
-
-        lookup.insert(name, uuid);
+fn read_section_offsets(data: &[u8]) -> SectionOffsets {
+    let mut cursor = Cursor::new(data);
+    
+    SectionOffsets {
+        lookup: cursor.read_u32::<LittleEndian>().expect("Should read lookup offset") as usize,
+        metadata: cursor.read_u32::<LittleEndian>().expect("Should read metadata offset") as usize,
+        index: cursor.read_u32::<LittleEndian>().expect("Should read index offset") as usize,
     }
+}
 
-    // Parse Section 2: Metadata (UUID -> Artist)
-    let mut cursor = Cursor::new(&data[metadata_offset..]);
-    let metadata_count = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read metadata count") as usize;
-    let mut metadata = FxHashMap::with_capacity_and_hasher(metadata_count, Default::default());
-
-    for _ in 0..metadata_count {
-        // Read UUID
-        let mut uuid_bytes = [0u8; 16];
-        cursor
-            .read_exact(&mut uuid_bytes)
-            .expect("Should read UUID");
-        let uuid = Uuid::from_bytes(uuid_bytes);
-
-        // Read name length and name
-        let name_len = cursor
-            .read_u16::<LittleEndian>()
-            .expect("Should read name length") as usize;
-        let mut name_bytes = vec![0u8; name_len];
-        cursor
-            .read_exact(&mut name_bytes)
-            .expect("Should read name");
-        let name = String::from_utf8(name_bytes).expect("Should parse name as UTF-8");
-
-        // Read URL length and URL
-        let url_len = cursor
-            .read_u16::<LittleEndian>()
-            .expect("Should read URL length") as usize;
-        let mut url_bytes = vec![0u8; url_len];
-        cursor.read_exact(&mut url_bytes).expect("Should read URL");
-        let url = String::from_utf8(url_bytes).expect("Should parse URL as UTF-8");
-
-        metadata.insert(
-            uuid,
-            Artist {
-                id: uuid,
-                name,
-                url,
-            },
-        );
+fn parse_name_lookup_section(data: &[u8], offset: usize) -> NameLookup {
+    let mut cursor = Cursor::new(&data[offset..]);
+    let entry_count = cursor.read_u32::<LittleEndian>().expect("Should read lookup count") as usize;
+    let mut name_lookup = FxHashMap::with_capacity_and_hasher(entry_count, Default::default());
+    
+    for _ in 0..entry_count {
+        let clean_name = read_length_prefixed_string(&mut cursor);
+        let artist_uuid = read_uuid(&mut cursor);
+        name_lookup.insert(clean_name, artist_uuid);
     }
+    
+    name_lookup
+}
 
-    // Parse Section 3: Index (UUID -> file position)
-    let mut cursor = Cursor::new(&data[index_offset..]);
-    let index_count = cursor
-        .read_u32::<LittleEndian>()
-        .expect("Should read index count") as usize;
-    let mut index = FxHashMap::with_capacity_and_hasher(index_count, Default::default());
-
-    for _ in 0..index_count {
-        // Read UUID
-        let mut uuid_bytes = [0u8; 16];
-        cursor
-            .read_exact(&mut uuid_bytes)
-            .expect("Should read UUID");
-        let uuid = Uuid::from_bytes(uuid_bytes);
-
-        // Read position
-        let position = cursor
-            .read_u64::<LittleEndian>()
-            .expect("Should read position");
-
-        index.insert(uuid, position);
+fn parse_artist_metadata_section(data: &[u8], offset: usize) -> ArtistMetadata {
+    let mut cursor = Cursor::new(&data[offset..]);
+    let entry_count = cursor.read_u32::<LittleEndian>().expect("Should read metadata count") as usize;
+    let mut artist_metadata = FxHashMap::with_capacity_and_hasher(entry_count, Default::default());
+    
+    for _ in 0..entry_count {
+        let artist_uuid = read_uuid(&mut cursor);
+        let artist_name = read_length_prefixed_string(&mut cursor);
+        let artist_url = read_length_prefixed_string(&mut cursor);
+        
+        let artist = Artist {
+            id: artist_uuid,
+            name: artist_name,
+            url: artist_url,
+        };
+        
+        artist_metadata.insert(artist_uuid, artist);
     }
+    
+    artist_metadata
+}
 
-    (lookup, metadata, index)
+fn parse_graph_index_section(data: &[u8], offset: usize) -> GraphIndex {
+    let mut cursor = Cursor::new(&data[offset..]);
+    let entry_count = cursor.read_u32::<LittleEndian>().expect("Should read index count") as usize;
+    let mut graph_index = FxHashMap::with_capacity_and_hasher(entry_count, Default::default());
+    
+    for _ in 0..entry_count {
+        let artist_uuid = read_uuid(&mut cursor);
+        let file_position = cursor.read_u64::<LittleEndian>().expect("Should read position");
+        graph_index.insert(artist_uuid, file_position);
+    }
+    
+    graph_index
+}
+
+fn read_length_prefixed_string(cursor: &mut Cursor<&[u8]>) -> String {
+    let string_length = cursor.read_u16::<LittleEndian>().expect("Should read string length") as usize;
+    let mut string_bytes = vec![0u8; string_length];
+    cursor.read_exact(&mut string_bytes).expect("Should read string bytes");
+    String::from_utf8(string_bytes).expect("Should parse string as UTF-8")
+}
+
+fn read_uuid(cursor: &mut Cursor<&[u8]>) -> Uuid {
+    let mut uuid_bytes = [0u8; 16];
+    cursor.read_exact(&mut uuid_bytes).expect("Should read UUID bytes");
+    Uuid::from_bytes(uuid_bytes)
 }
 
 pub fn find_artist_id(name: &str, lookup: &FxHashMap<String, Uuid>) -> Result<Uuid, String> {
