@@ -9,58 +9,103 @@ ArtistPath discovers how artists are connected through their musical similaritie
 ## Example
 
 ```
-Taylor Swift → Ed Sheeran → Eminem → Dr. Dre → Snoop Dogg
+$ artistpath "Taylor Swift" "Metallica"
+
+"Taylor Swift" → "Halsey" → "Poppy" → "Slipknot" → "Metallica"
+
+1. "Taylor Swift" - https://www.last.fm/music/Taylor+Swift
+2. "Halsey" - https://www.last.fm/music/Halsey
+3. "Poppy" - https://www.last.fm/music/Poppy
+4. "Slipknot" - https://www.last.fm/music/Slipknot
+5. "Metallica" - https://www.last.fm/music/Metallica
 ```
 
 ## Project Structure
 
 ```
 artistpath/
-├── data-collection/    # Python scripts to build the artist graph from Last.fm API
-├── cli/                # Rust CLI for fast pathfinding queries
-└── data/               # Generated graph data (NDJSON format)
+├── data_collection/    # Python scripts to build the artist graph from Last.fm API
+├── artistpath/         # Rust CLI for fast pathfinding queries
+└── data/               # Generated graph data (binary format)
 ```
 
 ## Quick Start
 
-### 1. Collect Artist Data
+### Option 1: Use Pre-built Data (Recommended)
+
+Download the compressed data files from the [latest release](https://github.com/yourusername/artistpath/releases) and extract them to the `data/` directory. This saves several days of API crawling.
 
 ```bash
-cd data-collection
-uv sync
-echo "API_KEY=your_lastfm_api_key" > .env
-uv run python main.py
+# Download and extract data
+wget https://github.com/yourusername/artistpath/releases/latest/download/artistpath-data.tar.zst
+tar -xf artistpath-data.tar.zst
+
+# Build and run the CLI
+cd artistpath
+cargo build --release
+./target/release/artistpath "Artist 1" "Artist 2"
 ```
 
-This builds a graph of artist connections by crawling Last.fm's similar artists data.
+### Option 2: Collect Your Own Data
 
-### 2. Find Paths (Coming Soon)
+If you want to build your own artist graph from scratch:
+
+#### Prerequisites
+
+- Python 3.12+ with [uv](https://github.com/astral-sh/uv)
+- Rust 1.70+
+- Last.fm API key (get one at https://www.last.fm/api/account/create)
+
+#### 1. Collect Artist Data
 
 ```bash
-cd cli
-cargo run -- "Taylor Swift" "Metallica"
+cd data_collection
+uv sync
+echo "API_KEY=your_lastfm_api_key" > .env
+uv run python run_collection.py
+```
+
+**Note:** This process can take several days depending on how many artists you want to collect. The collection:
+- Starts from a seed artist (default: "Taylor Swift")
+- Uses BFS to explore related artists
+- Saves data in streaming NDJSON format for memory efficiency
+- Supports resuming interrupted collection
+
+#### 2. Post-process Data
+
+```bash
+uv run python run_postprocessing.py
+```
+
+This converts the NDJSON files to optimized binary formats for faster pathfinding.
+
+#### 3. Find Paths
+
+```bash
+cd ../artistpath
+cargo build --release
+./target/release/artistpath "Artist 1" "Artist 2"
+```
+
+## CLI Usage
+
+```bash
+# Basic usage
+artistpath "Artist 1" "Artist 2"
+
+# Options
+--verbose            # Show search statistics
+--quiet              # Only show path flow
+--show-similarity    # Display similarity scores
+--min-match 0.5      # Filter by similarity threshold
+--top-related 50     # Limit connections per artist
 ```
 
 ## How It Works
 
-1. **Data Collection**: Starting from a seed artist, the collector uses BFS to explore related artists through Last.fm's API, building a directed graph with similarity scores
-
-2. **Graph Storage**: Artist connections are stored in NDJSON format for efficient streaming and minimal memory usage
-
-3. **Pathfinding**: The CLI loads the graph and uses Dijkstra's algorithm to find the shortest path between any two artists
-
-## Features
-
-- Memory-efficient streaming data collection (~3GB RAM for millions of artists)
-- Resume capability for interrupted collection
-- Fast pathfinding with Rust CLI
-- Support for genre/tag connections as bridge nodes
-
-## Requirements
-
-- Python 3.12+ with [uv](https://github.com/astral-sh/uv)
-- Rust 1.70+
-- Last.fm API key
+1. **Data Collection**: BFS crawl of Last.fm's similar artists API
+2. **Binary Storage**: Optimized format with memory-mapped access
+3. **Pathfinding**: BFS or Dijkstra's algorithm for shortest paths
 
 ## License
 
