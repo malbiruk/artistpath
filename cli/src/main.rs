@@ -1,43 +1,11 @@
-mod string_normalization;
 use clap::Parser;
+mod args;
+mod string_normalization;
+
+use args::Args;
 use serde::Deserialize;
 use std::{collections::HashMap, fs, path::Path};
 use uuid::Uuid;
-
-#[derive(Parser)]
-#[command(name = "artistpath")]
-#[command(about = "Find the shortest connection path between any two music artists")]
-struct Args {
-    /// First artist name
-    artist1: String,
-
-    /// Second artist name
-    artist2: String,
-
-    /// Only use connections with similarity >= threshold (0.0-1.0)
-    #[arg(short = 'm', long, value_name = "SIMILARITY", default_value = "0.0")]
-    min_match: f32,
-
-    /// Limit to top N connections per artist
-    #[arg(short = 't', long, value_name = "COUNT", default_value = "80")]
-    top_related: usize,
-
-    /// Use weighted pathfinding (considers similarity scores)
-    #[arg(short, long)]
-    weighted: bool,
-
-    /// Hide artist URLs from output (URLs shown by default)
-    #[arg(short = 'u', long)]
-    hide_urls: bool,
-
-    /// Show artist UUIDs in output
-    #[arg(short = 'i', long)]
-    show_ids: bool,
-
-    /// Show similarity scores between connected artists
-    #[arg(short = 'W', long)]
-    show_weights: bool,
-}
 
 #[derive(Deserialize)]
 struct GraphNode {
