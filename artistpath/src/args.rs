@@ -33,4 +33,16 @@ pub struct Args {
     /// Show similarity scores between connected artists
     #[arg(short, long)]
     pub show_similarity: bool,
+
+    /// Disable colored output
+    #[arg(long)]
+    pub no_color: bool,
+
+    /// Verbose mode - show search info and statistics
+    #[arg(short, long)]
+    pub verbose: bool,
+
+    /// Quiet mode - only show the path flow
+    #[arg(short, long)]
+    pub quiet: bool,
 }
