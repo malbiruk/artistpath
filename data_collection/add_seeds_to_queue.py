@@ -6,6 +6,7 @@ from pathlib import Path
 
 import aiohttp
 from api_client import get_artist_info_by_name
+from data_storage import append_to_metadata
 
 
 async def add_seeds_to_queue(seeds: list[str], data_dir: str = "../data") -> int:
@@ -59,8 +60,9 @@ async def add_seeds_to_queue(seeds: list[str], data_dir: str = "../data") -> int
                 print(f"  📝 Already in queue: {info.get('name', seed)}")
                 continue
 
-            # Add to queue
+            # Add to queue and metadata
             queue.append(artist_id)
+            append_to_metadata(artist_id, info.get("name", seed), info.get("url", ""), data_dir)
             added_count += 1
             print(f"  ✅ Added to queue: {info.get('name', seed)}")
 
