@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+import uuid
 
 import aiohttp
 from dotenv import load_dotenv
@@ -158,6 +159,35 @@ async def get_similar_artists(
         if isinstance(artists, list):
             return artists
     return []
+
+
+async def get_similar_artists_by_name(
+    session: aiohttp.ClientSession,
+    artist_name: str,
+    limit: int | None = 250,
+) -> list[dict]:
+    """Get similar artists for a given artist by name."""
+    params = {"method": "artist.getsimilar", "artist": artist_name}
+    if limit is not None:
+        params["limit"] = limit
+
+    data = await fetch_json(session, params)
+    if data and "similarartists" in data:
+        artists = data["similarartists"].get("artist", [])
+        if isinstance(artists, list):
+            return artists
+    return []
+
+
+def is_real_mbid(artist_id: str) -> bool:
+    """Check if artist_id is a real MBID (not our generated UUID5)."""
+    try:
+        parsed = uuid.UUID(artist_id)
+    except (ValueError, AttributeError):
+        return False
+    else:
+        uuid_version = 5
+        return parsed.version != uuid_version
 
 
 def print_api_error_summary() -> None:

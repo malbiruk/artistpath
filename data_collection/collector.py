@@ -9,6 +9,8 @@ import aiohttp
 from api_client import (
     get_artist_info_by_name,
     get_similar_artists,
+    get_similar_artists_by_name,
+    is_real_mbid,
     print_api_error_summary,
 )
 from data_storage import append_to_graph, append_to_metadata, save_state
@@ -76,62 +78,114 @@ class StreamingCollector:
         print(f"Starting with artist: {starting_artist}")
         info = await get_artist_info_by_name(session, starting_artist)
 
-        if not info or not info.get("mbid"):
-            print(f"Could not get mbid for {starting_artist}")
+        if not info:
+            print(f"Could not find artist info for {starting_artist}")
             return False
 
-        initial_mbid = info["mbid"]
+        # Use MBID if available, otherwise generate UUID5 from Last.fm URL
+        if info.get("mbid"):
+            artist_id = info["mbid"]
+            print(f"  Using MBID: {artist_id}")
+        elif info.get("url"):
+            import uuid
+            # Generate deterministic UUID from Last.fm URL for artists without MBID
+            artist_id = str(uuid.uuid5(uuid.NAMESPACE_URL, info["url"]))
+            print(f"  Generated UUID5 from URL: {artist_id}")
+        else:
+            print(f"Could not get MBID or URL for {starting_artist}")
+            return False
+
         name = info.get("name", starting_artist)
         url = info.get("url", "")
 
-        self.add_metadata_if_new(initial_mbid, name, url)
-        self.queue.append(initial_mbid)
+        self.add_metadata_if_new(artist_id, name, url)
+        self.queue.append(artist_id)
         return True
+
+    def get_artist_name_from_metadata(self, artist_id: str) -> str | None:
+        """Get artist name from metadata files for UUID5 artists."""
+        metadata_path = self.output_dir / "metadata.ndjson"
+        if not metadata_path.exists():
+            return None
+            
+        # For efficiency, we could cache this, but for now just search
+        try:
+            with metadata_path.open() as f:
+                for line in f:
+                    if not line.strip():
+                        continue
+                    entry = json.loads(line)
+                    if entry.get("id") == artist_id:
+                        return entry.get("name")
+        except Exception:
+            pass
+        return None
 
     async def process_single_artist(
         self,
         session: aiohttp.ClientSession,
-        mbid: str,
+        artist_id: str,
         similar_per_artist: int | None,
     ) -> int:
         """Process a single artist and return number of new artists found."""
-        if mbid in self.processed_mbids:
+        if artist_id in self.processed_mbids:
             return 0
 
-        self.processed_mbids.add(mbid)
+        self.processed_mbids.add(artist_id)
 
-        # Fetch data concurrently
-        tasks = [get_similar_artists(session, mbid, similar_per_artist)]
-
-        results = await asyncio.gather(*tasks)
-        similar_artists = results[0]
+        # Get similar artists using hybrid approach
+        similar_artists = []
+        
+        if is_real_mbid(artist_id):
+            # Try MBID first for real MBIDs
+            similar_artists = await get_similar_artists(session, artist_id, similar_per_artist)
+            if not similar_artists:
+                # MBID failed, try to get name and fall back
+                artist_name = self.get_artist_name_from_metadata(artist_id)
+                if artist_name:
+                    print(f"  🔄 MBID failed for {artist_id}, trying name: {artist_name}")
+                    similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
+        else:
+            # UUID5 artist, get name and search by name
+            artist_name = self.get_artist_name_from_metadata(artist_id)
+            if artist_name:
+                print(f"  🔗 UUID5 artist, searching by name: {artist_name}")
+                similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
+            else:
+                print(f"  ❌ Could not find name for UUID5 artist: {artist_id}")
+                return 0
 
         # Process similar artists
         connections = []
         new_artists = 0
 
         for similar in similar_artists:
-            if not similar.get("mbid"):
-                continue
+            # Use MBID if available, otherwise generate UUID5 from Last.fm URL
+            if similar.get("mbid"):
+                similar_id = similar["mbid"]
+            elif similar.get("url"):
+                import uuid
+                similar_id = str(uuid.uuid5(uuid.NAMESPACE_URL, similar["url"]))
+            else:
+                continue  # Skip artists without MBID or URL
 
-            similar_mbid = similar["mbid"]
             match_score = float(similar.get("match", 0))
-            connections.append((similar_mbid, match_score))
+            connections.append((similar_id, match_score))
 
             # Add to metadata if new
             if self.add_metadata_if_new(
-                similar_mbid,
+                similar_id,
                 similar.get("name", ""),
                 similar.get("url", ""),
             ):
                 new_artists += 1
                 # Add to queue if not processed
-                if similar_mbid not in self.processed_mbids:
-                    self.queue.append(similar_mbid)
+                if similar_id not in self.processed_mbids:
+                    self.queue.append(similar_id)
 
         # Stream artist connections to disk
         if connections:
-            append_to_graph(mbid, connections, str(self.output_dir))
+            append_to_graph(artist_id, connections, str(self.output_dir))
 
         return new_artists
 
