@@ -1,4 +1,4 @@
-# ArtistPath 🎵
+# artistpath 🎵
 
 Find the shortest connection path between any two music artists using Last.fm's related artists data.
 
