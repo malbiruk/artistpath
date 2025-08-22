@@ -4,7 +4,7 @@ Find the shortest connection path between any two music artists using Last.fm's 
 
 ## What is this?
 
-A command-line tool that finds how any two artists are connected through musical similarity. Think of it as exploring the hidden pathways of musical influence and listener behavior across 850,658 artists.
+A command-line tool that finds how any two artists are connected through musical similarity. Think of it as exploring the hidden pathways of musical influence and listener behavior across more than 850k artists.
 
 ## Artist Discovery
 
