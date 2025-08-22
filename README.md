@@ -22,7 +22,9 @@ I googled around and couldn't find anything like this, so I decided to build it 
 
 So I switched to Last.fm instead — actually turned out better since they have up to 250 similar artists per artist (compared to Spotify's 80) plus similarity scores, and many users scrobble there their data from Spotify anyway.
 
-The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**. Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding. I even use a Rust function from within Python even though it's totally unnecessary, just because I could 😄
+The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**. 
+
+Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding. I even use a Rust function from within Python even though it's totally unnecessary, just because I could 😄
 
 For performance, I couldn't load the whole graph into RAM, so I skipped the fancy graph libraries and implemented BFS and Dijkstra manually with binary files and memory mapping. Now most searches run in under a second!
 
