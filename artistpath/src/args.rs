@@ -18,7 +18,7 @@ pub struct Args {
     #[arg(short = 't', long, value_name = "COUNT", default_value = "80")]
     pub top_related: usize,
 
-    /// Use weighted pathfinding (considers similarity scores)
+    /// Use weighted pathfinding for best similarity (default: shortest path)
     #[arg(short, long)]
     pub weighted: bool,
 

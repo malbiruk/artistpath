@@ -121,7 +121,13 @@ fn execute_pathfinding_search(
     graph_index: &GraphIndex,
 ) -> SearchResult {
     let (path, visited_count, elapsed_time) = if request.search_args.weighted {
-        todo!("Weighted pathfinding not yet implemented")
+        dijkstra_find_path(
+            request.from_artist,
+            request.to_artist,
+            graph_path,
+            graph_index,
+            &request.search_args,
+        )
     } else {
         bfs_find_path(
             request.from_artist,
