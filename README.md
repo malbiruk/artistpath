@@ -20,7 +20,7 @@ That's when it hit me: Spotify shows similar artists, so wouldn't it be cool to 
 
 I googled around and couldn't find anything like this, so I decided to build it myself. Started with Spotify, but of course they deprecated their similar artists API right when I needed it 🙄
 
-So I switched to Last.fm instead — actually turned out better since they have up to 250 similar artists per artist (compared to Spotify's 80) plus similarity scores.
+So I switched to Last.fm instead — actually turned out better since they have up to 250 similar artists per artist (compared to Spotify's 80) plus similarity scores, and many users scrobble there their data from Spotify anyway.
 
 The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**. Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding. I even use a Rust function from within Python even though it's totally unnecessary, just because I could 😄
 
