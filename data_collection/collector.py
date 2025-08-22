@@ -143,13 +143,11 @@ class StreamingCollector:
                 # MBID failed, try to get name and fall back
                 artist_name = self.get_artist_name_from_metadata(artist_id)
                 if artist_name:
-                    print(f"  🔄 MBID failed for {artist_id}, trying name: {artist_name}")
                     similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
         else:
             # UUID5 artist, get name and search by name
             artist_name = self.get_artist_name_from_metadata(artist_id)
             if artist_name:
-                print(f"  🔗 UUID5 artist, searching by name: {artist_name}")
                 similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
             else:
                 print(f"  ❌ Could not find name for UUID5 artist: {artist_id}")
