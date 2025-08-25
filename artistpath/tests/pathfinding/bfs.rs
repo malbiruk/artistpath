@@ -57,6 +57,7 @@ fn test_bfs_find_direct_path() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, visited_count, _) = bfs_find_path(alice_id, bob_id, file.path(), &index, &args);
@@ -108,6 +109,7 @@ fn test_bfs_no_path() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, visited_count, _) = bfs_find_path(alice_id, isolated_id, file.path(), &index, &args);
@@ -132,6 +134,7 @@ fn test_bfs_min_match_filter() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, _, _) = bfs_find_path(alice_id, bob_id, file.path(), &index, &args);

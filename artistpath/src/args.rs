@@ -45,4 +45,8 @@ pub struct Args {
     /// Quiet mode - only show the path flow
     #[arg(short, long)]
     pub quiet: bool,
+
+    /// Output as JSON format
+    #[arg(long)]
+    pub json: bool,
 }

@@ -78,6 +78,7 @@ fn test_dijkstra_finds_best_similarity_path() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, visited_count, _) = dijkstra_find_path(alice_id, dave_id, file.path(), &index, &args);
@@ -127,6 +128,7 @@ fn test_dijkstra_direct_connection() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, _, _) = dijkstra_find_path(alice_id, bob_id, file.path(), &index, &args);
@@ -173,6 +175,7 @@ fn test_dijkstra_no_path() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, visited_count, _) = dijkstra_find_path(alice_id, isolated_id, file.path(), &index, &args);
@@ -197,6 +200,7 @@ fn test_dijkstra_with_min_match_filter() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, _, _) = dijkstra_find_path(alice_id, dave_id, file.path(), &index, &args);
@@ -251,6 +255,7 @@ fn test_dijkstra_with_top_related_limit() {
         no_color: false,
         verbose: false,
         quiet: false,
+        json: false,
     };
 
     let (path, _, _) = dijkstra_find_path(alice_id, bob_id, file.path(), &index, &args);

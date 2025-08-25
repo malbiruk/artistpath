@@ -1,4 +1,5 @@
 use artistpath::colors::ColorScheme;
+use artistpath::json_output::{create_json_output, print_json_output};
 use artistpath::*;
 use clap::Parser;
 use std::path::Path;
@@ -45,6 +46,7 @@ struct SearchResult {
 
 fn main() {
     let search_args = Args::parse();
+    let json_mode = search_args.json;
     let colors = ColorScheme::new(!search_args.no_color);
     let app = ArtistPathApp::new();
     let (name_lookup, artist_metadata, graph_index) = app.load_data();
@@ -52,17 +54,40 @@ fn main() {
     let search_request = match create_search_request(search_args, &name_lookup, &artist_metadata) {
         Ok(request) => request,
         Err(error_message) => {
-            eprintln!("{}", colors.error(&format!("❌ Error: {}", error_message)));
+            if json_mode {
+                eprintln!(
+                    "{}",
+                    serde_json::json!({
+                        "error": error_message
+                    })
+                );
+            } else {
+                eprintln!("{}", colors.error(&format!("❌ Error: {}", error_message)));
+            }
             std::process::exit(1);
         }
     };
 
-    if search_request.search_args.verbose {
+    if search_request.search_args.verbose && !search_request.search_args.json {
         display_search_info(&search_request, &colors);
     }
 
     let search_result = execute_pathfinding_search(search_request, app.graph_path, &graph_index);
-    display_search_results(search_result, &artist_metadata, &colors);
+    
+    if search_result.display_options.json {
+        let json_output = create_json_output(
+            search_result.path,
+            search_result.artists_visited,
+            search_result.search_duration,
+            search_result.from_name,
+            search_result.to_name,
+            &search_result.display_options,
+            &artist_metadata,
+        );
+        print_json_output(&json_output);
+    } else {
+        display_search_results(search_result, &artist_metadata, &colors);
+    }
 }
 
 fn create_search_request(

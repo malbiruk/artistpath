@@ -1,5 +1,6 @@
 pub mod args;
 pub mod colors;
+pub mod json_output;
 pub mod parsing;
 pub mod pathfinding;
 pub mod string_normalization;
