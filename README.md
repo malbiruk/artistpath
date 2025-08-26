@@ -22,7 +22,7 @@ I googled around and couldn't find anything like this, so I decided to build it 
 
 So I switched to Last.fm instead — actually turned out better since they have up to 250 similar artists per artist (compared to Spotify's 80) plus similarity scores, and many users scrobble there their data from Spotify anyway.
 
-The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**. 
+The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**.
 
 Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding. I even use a Rust function from within Python even though it's totally unnecessary, just because I could 😄
 
@@ -69,32 +69,24 @@ Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 ## CLI Usage
 
 ```bash
-# Basic usage (finds shortest path)
-artistpath "Taylor Swift" "Metallica"
+Usage: artistpath [OPTIONS] <ARTIST1> <ARTIST2>
 
-# Use similarity-based pathfinding instead of shortest path
-artistpath "Taylor Swift" "Metallica" --weighted
+Arguments:
+  <ARTIST1>  First artist name
+  <ARTIST2>  Second artist name
 
-# Show detailed search info and statistics
-artistpath "Taylor Swift" "Metallica" --verbose
-
-# Just the path, no details
-artistpath "Taylor Swift" "Metallica" --quiet
-
-# Show similarity scores between artists
-artistpath "Taylor Swift" "Metallica" --show-similarity
-
-# Only use high-quality connections (0.0-1.0)
-artistpath "Taylor Swift" "Metallica" --min-match 0.5
-
-# Limit to top N most similar artists per artist
-artistpath "Taylor Swift" "Metallica" --top-related 40
-
-# Hide Last.fm URLs from output
-artistpath "Taylor Swift" "Metallica" --hide-urls
-
-# Disable colored output
-artistpath "Taylor Swift" "Metallica" --no-color
+Options:
+  -m, --min-match <SIMILARITY>  Only use connections with similarity >= threshold (0.0-1.0) [default: 0.0]
+  -t, --top-related <COUNT>     Limit to top N connections per artist [default: 80]
+  -w, --weighted                Use weighted pathfinding for best similarity (default: shortest path)
+  -u, --hide-urls               Hide artist URLs from output (URLs shown by default)
+  -i, --show-ids                Show artist UUIDs in output
+  -s, --show-similarity         Show similarity scores between connected artists
+      --no-color                Disable colored output
+  -v, --verbose                 Verbose mode - show search info and statistics
+  -q, --quiet                   Quiet mode - only show the path flow
+      --json                    Output as JSON format
+  -h, --help                    Print help
 ```
 
 ## Two Algorithms
