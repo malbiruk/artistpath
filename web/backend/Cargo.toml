@@ -10,13 +10,22 @@ path = "src/main.rs"
 [dependencies]
 artistpath-core = { path = "../../core" }
 
-# TODO: Add web server dependencies when implementing
-# axum = "0.7"
-# tokio = { version = "1.0", features = ["full"] }
-# serde = { version = "1.0.219", features = ["derive"] }
-# serde_json = "1.0.143"
-# tower = "0.4"
-# tower-http = { version = "0.5", features = ["cors"] }
+# Web server
+axum = "0.7"
+tokio = { version = "1", features = ["full"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Serialization
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+
+# Utils
+uuid = { version = "1.18.0", features = ["serde", "v4"] }
+rustc-hash = "2.1.1"
+memmap2 = "0.9.7"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [profile.release]
 opt-level = 3

@@ -1,0 +1,106 @@
+meta {
+  name: explore
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/explore?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=30&max_relations=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  artist_id: 20244d07-534f-4eff-b4d4-930878889970
+  budget: 30
+  max_relations: 10
+  ~min_similarity: 0.1
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have explore response structure", function() {
+    const data = res.body;
+    expect(data.center_artist).to.be.an('object');
+    expect(data.related_artists).to.be.an('array');
+    expect(data.total_found).to.be.a('number');
+    expect(data.search_stats).to.be.an('object');
+  });
+  
+  test("Center artist should have correct structure", function() {
+    const data = res.body;
+    const center = data.center_artist;
+    expect(center.id).to.be.a('string');
+    expect(center.name).to.be.a('string');
+    expect(center.url).to.be.a('string');
+    // similarity field doesn't exist on center_artist
+  });
+  
+  test("Related artists should have correct structure", function() {
+    const data = res.body;
+    if (data.related_artists.length > 0) {
+      const artist = data.related_artists[0];
+      expect(artist.id).to.be.a('string');
+      expect(artist.name).to.be.a('string');
+      expect(artist.url).to.be.a('string');
+      expect(artist.similarity).to.be.a('number');
+      expect(artist.related_artists).to.be.an('array');
+      expect(artist.similarity).to.be.greaterThan(0);
+      expect(artist.similarity).to.be.lessThanOrEqual(1);
+    }
+  });
+  
+  test("Should respect budget", function() {
+    const data = res.body;
+    expect(data.total_found).to.be.at.most(30);
+    // Note: total_found now counts nested artists too, not just top level
+  });
+  
+  test("Should have recursive structure", function() {
+    const data = res.body;
+    if (data.related_artists.length > 0) {
+      const firstArtist = data.related_artists[0];
+      expect(firstArtist.related_artists).to.be.an('array');
+      
+      // Check if we have nested artists (second level)
+      if (firstArtist.related_artists.length > 0) {
+        const secondLevelArtist = firstArtist.related_artists[0];
+        expect(secondLevelArtist.id).to.be.a('string');
+        expect(secondLevelArtist.name).to.be.a('string');
+        expect(secondLevelArtist.related_artists).to.be.an('array');
+      }
+    }
+  });
+  
+  test("Should find related artists for Taylor Swift", function() {
+    const data = res.body;
+    expect(data.center_artist.name).to.equal('Taylor Swift');
+    expect(data.related_artists.length).to.be.greaterThan(0);
+    expect(data.total_found).to.be.greaterThan(0);
+  });
+  
+  test("Search stats should be present", function() {
+    const data = res.body;
+    expect(data.search_stats.artists_visited).to.be.a('number');
+    expect(data.search_stats.duration_ms).to.be.a('number');
+    expect(data.search_stats.artists_visited).to.be.greaterThan(0);
+    // duration_ms can be 0 on fast machines
+    expect(data.search_stats.duration_ms).to.be.at.least(0);
+  });
+  
+  test("Performance should be reasonable", function() {
+    const data = res.body;
+    expect(data.search_stats.duration_ms).to.be.lessThan(2000); // Under 2 seconds
+  });
+}
+
+settings {
+  encodeUrl: true
+}

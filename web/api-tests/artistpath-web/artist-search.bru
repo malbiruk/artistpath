@@ -1,0 +1,58 @@
+meta {
+  name: artist-search
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/artists/search?q=alice&limit=5
+  body: none
+  auth: inherit
+}
+
+params:query {
+  q: alice
+  limit: 5
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have search results structure", function() {
+    const data = res.body;
+    expect(data.query).to.be.a('string');
+    expect(data.results).to.be.an('array');
+    expect(data.count).to.be.a('number');
+  });
+  
+  test("Results should have correct structure", function() {
+    const data = res.body;
+    if (data.results.length > 0) {
+      const artist = data.results[0];
+      expect(artist.id).to.be.a('string');
+      expect(artist.name).to.be.a('string');
+      expect(artist.url).to.be.a('string');
+      expect(artist.url).to.include('last.fm');
+    }
+  });
+  
+  test("Count should match results length", function() {
+    const data = res.body;
+    expect(data.count).to.equal(data.results.length);
+  });
+  
+  test("Should respect limit parameter", function() {
+    const data = res.body;
+    expect(data.results.length).to.be.at.most(5);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

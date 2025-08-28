@@ -1,0 +1,101 @@
+meta {
+  name: find-path
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/path?from_id=20244d07-534f-4eff-b4d4-930878889970&to_id=65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab&algorithm=bfs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  from_id: 20244d07-534f-4eff-b4d4-930878889970
+  to_id: 65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab
+  algorithm: bfs
+  ~min_similarity: 0.2
+  ~max_relations: 30
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have path structure", function() {
+    const data = res.body;
+    expect(data.path).to.be.an('array');
+    expect(data.artist_count).to.be.a('number');
+    expect(data.step_count).to.be.a('number');
+    expect(data.algorithm).to.be.a('string');
+    expect(data.search_stats).to.be.an('object');
+  });
+  
+  test("Algorithm should match request", function() {
+    const data = res.body;
+    expect(data.algorithm).to.equal('bfs');
+  });
+  
+  test("Artist count should match path length", function() {
+    const data = res.body;
+    if (data.path) {
+      expect(data.artist_count).to.equal(data.path.length);
+    }
+  });
+  
+  test("Step count should be artist count minus 1", function() {
+    const data = res.body;
+    if (data.artist_count > 0) {
+      expect(data.step_count).to.equal(data.artist_count - 1);
+    }
+  });
+  
+  test("Path artists should have correct structure", function() {
+    const data = res.body;
+    if (data.path && data.path.length > 0) {
+      const firstArtist = data.path[0];
+      expect(firstArtist.id).to.be.a('string');
+      expect(firstArtist.name).to.be.a('string');
+      expect(firstArtist.url).to.be.a('string');
+      expect(firstArtist.similarity).to.be.undefined; // First artist has no similarity
+      
+      if (data.path.length > 1) {
+        const secondArtist = data.path[1];
+        expect(secondArtist.similarity).to.be.a('number');
+        expect(secondArtist.similarity).to.be.greaterThan(0);
+        expect(secondArtist.similarity).to.be.lessThanOrEqual(1);
+      }
+    }
+  });
+  
+  test("Search stats should be present", function() {
+    const data = res.body;
+    expect(data.search_stats.artists_visited).to.be.a('number');
+    expect(data.search_stats.duration_ms).to.be.a('number');
+    expect(data.search_stats.artists_visited).to.be.greaterThan(0);
+    expect(data.search_stats.duration_ms).to.be.greaterThan(0);
+  });
+  
+  test("Should find path between Taylor Swift and Metallica", function() {
+    const data = res.body;
+    expect(data.path).to.not.be.null;
+    expect(data.artist_count).to.be.greaterThan(1);
+    expect(data.step_count).to.equal(4); // CLI shows 4 steps
+    expect(data.path[0].name).to.equal('Taylor Swift');
+    expect(data.path[data.path.length - 1].name).to.equal('Metallica');
+  });
+  
+  test("Performance should be reasonable", function() {
+    const data = res.body;
+    expect(data.search_stats.duration_ms).to.be.lessThan(1000); // Under 1 second
+  });
+}
+
+settings {
+  encodeUrl: true
+}

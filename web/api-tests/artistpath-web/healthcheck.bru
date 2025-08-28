@@ -1,0 +1,35 @@
+meta {
+  name: healthcheck
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status should be 200", function() {
+      expect(res.status).to.equal(200);
+    });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Status should be ok", function() {
+    const data = res.body;
+    expect(data.status).to.equal('ok');
+  });
+  
+  test("Should have message", function() {
+    const data = res.body;
+    expect(data.message).to.equal('Artistpath API is running');
+  });
+}
+
+settings {
+  encodeUrl: true
+}
