@@ -1,0 +1,15 @@
+{
+  "name": "artistpath-frontend",
+  "version": "0.1.0",
+  "description": "Artistpath web frontend",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "echo 'TODO: Add dev server'",
+    "build": "echo 'TODO: Add build script'",
+    "serve": "echo 'TODO: Add static server'"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}

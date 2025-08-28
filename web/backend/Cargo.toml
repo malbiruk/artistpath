@@ -1,0 +1,26 @@
+[package]
+name = "artistpath-web"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "artistpath-web"
+path = "src/main.rs"
+
+[dependencies]
+artistpath-core = { path = "../../core" }
+
+# TODO: Add web server dependencies when implementing
+# axum = "0.7"
+# tokio = { version = "1.0", features = ["full"] }
+# serde = { version = "1.0.219", features = ["derive"] }
+# serde_json = "1.0.143"
+# tower = "0.4"
+# tower-http = { version = "0.5", features = ["cors"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
