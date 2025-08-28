@@ -2,8 +2,11 @@ use axum::{Router, routing::get};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
+mod exploration;
 mod handlers;
 mod models;
+mod pathfinding;
+mod search;
 mod state;
 
 use state::AppState;

@@ -5,15 +5,15 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/explore?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=30&max_relations=10
+  url: {{baseUrl}}/api/explore?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=10&max_relations=2
   body: none
   auth: inherit
 }
 
 params:query {
   artist_id: 20244d07-534f-4eff-b4d4-930878889970
-  budget: 30
-  max_relations: 10
+  budget: 10
+  max_relations: 2
   ~min_similarity: 0.1
 }
 
@@ -26,10 +26,11 @@ tests {
     expect(res.headers['content-type']).to.include('application/json');
   });
   
-  test("Should have explore response structure", function() {
+  test("Should have graph response structure", function() {
     const data = res.body;
     expect(data.center_artist).to.be.an('object');
-    expect(data.related_artists).to.be.an('array');
+    expect(data.nodes).to.be.an('array');
+    expect(data.edges).to.be.an('array');
     expect(data.total_found).to.be.a('number');
     expect(data.search_stats).to.be.an('object');
   });
@@ -43,47 +44,69 @@ tests {
     // similarity field doesn't exist on center_artist
   });
   
-  test("Related artists should have correct structure", function() {
+  test("Graph nodes should have correct structure", function() {
     const data = res.body;
-    if (data.related_artists.length > 0) {
-      const artist = data.related_artists[0];
-      expect(artist.id).to.be.a('string');
-      expect(artist.name).to.be.a('string');
-      expect(artist.url).to.be.a('string');
-      expect(artist.similarity).to.be.a('number');
-      expect(artist.related_artists).to.be.an('array');
-      expect(artist.similarity).to.be.greaterThan(0);
-      expect(artist.similarity).to.be.lessThanOrEqual(1);
+    if (data.nodes.length > 0) {
+      const node = data.nodes[0];
+      expect(node.id).to.be.a('string');
+      expect(node.name).to.be.a('string');
+      expect(node.layer).to.be.a('number');
+      expect(node.similarity).to.be.a('number');
+      expect(node.similarity).to.be.greaterThanOrEqual(0);
+      expect(node.similarity).to.be.lessThanOrEqual(1);
+      expect(node.layer).to.be.greaterThanOrEqual(0);
+    }
+  });
+  
+  test("Graph edges should have correct structure", function() {
+    const data = res.body;
+    if (data.edges.length > 0) {
+      const edge = data.edges[0];
+      expect(edge.from).to.be.a('string');
+      expect(edge.to).to.be.a('string');
+      expect(edge.similarity).to.be.a('number');
+      expect(edge.similarity).to.be.greaterThan(0);
+      expect(edge.similarity).to.be.lessThanOrEqual(1);
     }
   });
   
   test("Should respect budget", function() {
     const data = res.body;
-    expect(data.total_found).to.be.at.most(30);
-    // Note: total_found now counts nested artists too, not just top level
+    expect(data.total_found).to.be.at.most(10);  // Updated to match the test budget
+    expect(data.nodes.length).to.equal(data.total_found);
   });
   
-  test("Should have recursive structure", function() {
+  test("Should have layered graph structure", function() {
     const data = res.body;
-    if (data.related_artists.length > 0) {
-      const firstArtist = data.related_artists[0];
-      expect(firstArtist.related_artists).to.be.an('array');
+    if (data.nodes.length > 1) {
+      // Check that we have a center node at layer 0
+      const centerNodes = data.nodes.filter(node => node.layer === 0);
+      expect(centerNodes.length).to.equal(1);
       
-      // Check if we have nested artists (second level)
-      if (firstArtist.related_artists.length > 0) {
-        const secondLevelArtist = firstArtist.related_artists[0];
-        expect(secondLevelArtist.id).to.be.a('string');
-        expect(secondLevelArtist.name).to.be.a('string');
-        expect(secondLevelArtist.related_artists).to.be.an('array');
+      // Check that edges connect valid nodes
+      if (data.edges.length > 0) {
+        const nodeIds = new Set(data.nodes.map(node => node.id));
+        const edge = data.edges[0];
+        expect(nodeIds.has(edge.from)).to.be.true;
+        expect(nodeIds.has(edge.to)).to.be.true;
       }
+      
+      // Check layer progression
+      const layers = [...new Set(data.nodes.map(node => node.layer))].sort();
+      expect(layers[0]).to.equal(0); // Should start from layer 0
     }
   });
   
   test("Should find related artists for Taylor Swift", function() {
     const data = res.body;
     expect(data.center_artist.name).to.equal('Taylor Swift');
-    expect(data.related_artists.length).to.be.greaterThan(0);
+    expect(data.nodes.length).to.be.greaterThan(0);
     expect(data.total_found).to.be.greaterThan(0);
+    
+    // Should have the center artist in the nodes
+    const taylorNode = data.nodes.find(node => node.name === 'Taylor Swift');
+    expect(taylorNode).to.exist;
+    expect(taylorNode.layer).to.equal(0);
   });
   
   test("Search stats should be present", function() {

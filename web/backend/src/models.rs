@@ -44,7 +44,7 @@ pub struct PathQuery {
     pub max_relations: usize,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct PathArtist {
     pub id: Uuid,
     pub name: String,
@@ -53,13 +53,13 @@ pub struct PathArtist {
     pub similarity: Option<f32>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct SearchStats {
     pub artists_visited: usize,
     pub duration_ms: u64,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct PathResponse {
     pub path: Option<Vec<PathArtist>>,
     pub artist_count: usize,
@@ -84,19 +84,28 @@ pub struct ExploreQuery {
     pub budget: usize,
 }
 
-#[derive(Serialize)]
-pub struct ExploreArtist {
+#[derive(Serialize, Deserialize)]
+pub struct GraphNode {
     pub id: Uuid,
     pub name: String,
-    pub url: String,
+    pub layer: usize,
     pub similarity: f32,
-    pub related_artists: Vec<ExploreArtist>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
 }
 
-#[derive(Serialize)]
-pub struct ExploreResponse {
+#[derive(Serialize, Deserialize)]
+pub struct GraphEdge {
+    pub from: Uuid,
+    pub to: Uuid,
+    pub similarity: f32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GraphExploreResponse {
     pub center_artist: PathArtist,
-    pub related_artists: Vec<ExploreArtist>,
+    pub nodes: Vec<GraphNode>,
+    pub edges: Vec<GraphEdge>,
     pub total_found: usize,
     pub search_stats: SearchStats,
 }

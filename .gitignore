@@ -4,3 +4,4 @@ target
 data/*
 !data/.gitkeep
 __pycache__
+.claude

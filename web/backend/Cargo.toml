@@ -3,6 +3,10 @@ name = "artistpath-web"
 version = "0.1.0"
 edition = "2024"
 
+[lib]
+name = "artistpath_web"
+path = "src/lib.rs"
+
 [[bin]]
 name = "artistpath-web"
 path = "src/main.rs"
@@ -13,7 +17,7 @@ artistpath-core = { path = "../../core" }
 # Web server
 axum = "0.7"
 tokio = { version = "1", features = ["full"] }
-tower = "0.4"
+tower = { version = "0.4", features = ["util"] }
 tower-http = { version = "0.5", features = ["cors", "trace"] }
 
 # Serialization
@@ -33,3 +37,7 @@ lto = true
 codegen-units = 1
 strip = true
 panic = "abort"
+
+[dev-dependencies]
+tempfile = "3.8"
+byteorder = "1.5"
