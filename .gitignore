@@ -5,3 +5,8 @@ data/*
 !data/.gitkeep
 __pycache__
 .claude
+
+# Frontend
+node_modules/
+dist/
+.vite/

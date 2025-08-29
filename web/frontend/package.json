@@ -1,15 +1,22 @@
 {
   "name": "artistpath-frontend",
   "version": "0.1.0",
-  "description": "Artistpath web frontend",
-  "main": "src/main.js",
+  "type": "module",
+  "description": "Artistpath web frontend - Interactive music artist network exploration",
   "scripts": {
-    "dev": "echo 'TODO: Add dev server'",
-    "build": "echo 'TODO: Add build script'",
-    "serve": "echo 'TODO: Add static server'"
-  },
-  "devDependencies": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "d3": "^7.8.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
   }
 }
