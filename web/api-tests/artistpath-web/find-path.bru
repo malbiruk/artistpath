@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/path?from_id=20244d07-534f-4eff-b4d4-930878889970&to_id=65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab&algorithm=bfs
+  url: {{baseUrl}}/api/path?from_id=20244d07-534f-4eff-b4d4-930878889970&to_id=65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab
   body: none
   auth: inherit
 }
@@ -13,7 +13,7 @@ get {
 params:query {
   from_id: 20244d07-534f-4eff-b4d4-930878889970
   to_id: 65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab
-  algorithm: bfs
+  ~algorithm: bfs
   ~min_similarity: 0.2
   ~max_relations: 30
 }

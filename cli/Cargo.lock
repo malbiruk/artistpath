@@ -59,6 +59,7 @@ dependencies = [
  "artistpath-core",
  "clap",
  "colored",
+ "memmap2",
  "rustc-hash",
  "serde",
  "serde_json",

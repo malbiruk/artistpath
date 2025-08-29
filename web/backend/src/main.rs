@@ -2,6 +2,7 @@ use axum::{Router, routing::get};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
+mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
 mod models;
@@ -25,6 +26,7 @@ async fn main() {
         .route("/health", get(handlers::health_check))
         .route("/api/artists/search", get(handlers::search_artists))
         .route("/api/path", get(handlers::find_path))
+        .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
         .route("/api/stats", get(handlers::get_stats))
         .layer(CorsLayer::permissive())

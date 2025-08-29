@@ -12,6 +12,28 @@ use uuid::Uuid;
 pub type PathStep = (Uuid, f32);
 pub type PathResult = (Option<Vec<PathStep>>, usize, f64);
 
+#[derive(Debug, Clone)]
+pub enum EnhancedPathResult {
+    Success {
+        primary_path: Vec<PathStep>,
+        related_artists: FxHashMap<Uuid, (f32, usize)>,
+        connections: FxHashMap<Uuid, Vec<(Uuid, f32)>>,
+        artists_visited: usize,
+        duration_ms: u64,
+    },
+    PathTooLong {
+        primary_path: Vec<PathStep>,
+        path_length: usize,
+        minimum_budget_needed: usize,
+        artists_visited: usize,
+        duration_ms: u64,
+    },
+    NoPath {
+        artists_visited: usize,
+        duration_ms: u64,
+    },
+}
+
 pub fn open_memory_mapped_file(file_path: &Path) -> Result<Mmap, std::io::Error> {
     let file = File::open(file_path)?;
     unsafe { Mmap::map(&file) }

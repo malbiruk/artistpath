@@ -1,16 +1,14 @@
 pub mod bfs;
 
-use artistpath_core::{Artist, explore_bfs, ExplorationResult};
-use rustc_hash::FxHashMap;
 use memmap2::Mmap;
+use rustc_hash::FxHashMap;
 use uuid::Uuid;
-use std::collections::HashMap;
 
 pub struct TestGraph {
     pub taylor_id: Uuid,
-    pub olivia_id: Uuid,
-    pub billie_id: Uuid,
-    pub finneas_id: Uuid,
+    pub _olivia_id: Uuid,
+    pub _billie_id: Uuid,
+    pub _finneas_id: Uuid,
     pub graph_index: FxHashMap<Uuid, u64>,
     pub mmap: Mmap,
 }
@@ -31,9 +29,9 @@ impl TestGraph {
 
         Self {
             taylor_id,
-            olivia_id,
-            billie_id,
-            finneas_id,
+            _olivia_id: olivia_id,
+            _billie_id: billie_id,
+            _finneas_id: finneas_id,
             graph_index,
             mmap,
         }
@@ -41,12 +39,12 @@ impl TestGraph {
 }
 
 fn create_test_graph_data(
-    connections: &[(Uuid, Vec<(Uuid, f32)>)]
+    connections: &[(Uuid, Vec<(Uuid, f32)>)],
 ) -> (Mmap, FxHashMap<Uuid, u64>) {
     use byteorder::{LittleEndian, WriteBytesExt};
-    use tempfile::NamedTempFile;
     use memmap2::MmapOptions;
     use std::io::{Seek, Write};
+    use tempfile::NamedTempFile;
 
     let mut file = NamedTempFile::new().unwrap();
     let mut index = FxHashMap::default();
@@ -54,10 +52,11 @@ fn create_test_graph_data(
     for (artist_id, artist_connections) in connections {
         let position = file.stream_position().unwrap();
         index.insert(*artist_id, position);
-        
+
         file.write_all(&artist_id.into_bytes()).unwrap();
-        file.write_u32::<LittleEndian>(artist_connections.len() as u32).unwrap();
-        
+        file.write_u32::<LittleEndian>(artist_connections.len() as u32)
+            .unwrap();
+
         for (connected_id, similarity) in artist_connections {
             file.write_all(&connected_id.into_bytes()).unwrap();
             file.write_f32::<LittleEndian>(*similarity).unwrap();

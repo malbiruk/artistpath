@@ -1,7 +1,7 @@
-use super::utils::{PathResult, get_artist_connections, open_memory_mapped_file, reconstruct_path};
+use super::utils::{PathResult, get_artist_connections, reconstruct_path};
 use crate::pathfinding_config::PathfindingConfig;
 use rustc_hash::{FxHashMap, FxHashSet};
-use std::{cmp::Ordering, collections::BinaryHeap, path::Path, time::Instant};
+use std::{cmp::Ordering, collections::BinaryHeap, time::Instant};
 use uuid::Uuid;
 
 #[derive(Clone)]
@@ -89,16 +89,11 @@ impl DijkstraState {
 pub fn dijkstra_find_path(
     start: Uuid,
     target: Uuid,
-    graph_binary_path: &Path,
+    graph_data: &memmap2::Mmap,
     graph_index: &FxHashMap<Uuid, u64>,
     config: &PathfindingConfig,
 ) -> PathResult {
     let search_timer = Instant::now();
-
-    let graph_data = match open_memory_mapped_file(graph_binary_path) {
-        Ok(data) => data,
-        Err(_) => return (None, 0, 0.0),
-    };
 
     let mut dijkstra_state = DijkstraState::new(start);
 
@@ -119,7 +114,7 @@ pub fn dijkstra_find_path(
         dijkstra_state.visited.insert(current_artist);
 
         let artist_connections =
-            get_artist_connections(current_artist, &graph_data, graph_index, config);
+            get_artist_connections(current_artist, graph_data, graph_index, config);
 
         for (neighbor_artist, similarity_score) in artist_connections {
             dijkstra_state.visit_neighbor(neighbor_artist, current_artist, similarity_score, cost);

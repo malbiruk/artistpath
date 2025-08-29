@@ -1,5 +1,6 @@
 use artistpath_core::{PathfindingConfig, dijkstra_find_path};
 use byteorder::{LittleEndian, WriteBytesExt};
+use memmap2::Mmap;
 use rustc_hash::FxHashMap;
 use std::io::{Seek, Write};
 use tempfile::NamedTempFile;
@@ -68,7 +69,8 @@ fn test_dijkstra_finds_best_similarity_path() {
 
     let config = PathfindingConfig::new(0.0, 80, true);
 
-    let (path, visited_count, _) = dijkstra_find_path(alice_id, dave_id, file.path(), &index, &config);
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let (path, visited_count, _) = dijkstra_find_path(alice_id, dave_id, &mmap, &index, &config);
 
     assert!(path.is_some());
     let path = path.unwrap();
@@ -105,7 +107,8 @@ fn test_dijkstra_direct_connection() {
 
     let config = PathfindingConfig::new(0.0, 80, true);
 
-    let (path, _, _) = dijkstra_find_path(alice_id, bob_id, file.path(), &index, &config);
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let (path, _, _) = dijkstra_find_path(alice_id, bob_id, &mmap, &index, &config);
 
     assert!(path.is_some());
     let path = path.unwrap();
@@ -139,7 +142,8 @@ fn test_dijkstra_no_path() {
 
     let config = PathfindingConfig::new(0.0, 80, true);
 
-    let (path, visited_count, _) = dijkstra_find_path(alice_id, isolated_id, file.path(), &index, &config);
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let (path, visited_count, _) = dijkstra_find_path(alice_id, isolated_id, &mmap, &index, &config);
 
     assert!(path.is_none());
     assert_eq!(visited_count, 1); // Only visited Alice
@@ -151,7 +155,8 @@ fn test_dijkstra_with_min_match_filter() {
 
     let config = PathfindingConfig::new(0.75, 80, true); // Filters out Alice->Bob (0.5) and Charlie->Dave (0.7)
 
-    let (path, _, _) = dijkstra_find_path(alice_id, dave_id, file.path(), &index, &config);
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let (path, _, _) = dijkstra_find_path(alice_id, dave_id, &mmap, &index, &config);
 
     // Path should be None because Charlie->Dave (0.7) is filtered out
     assert!(path.is_none());
@@ -193,7 +198,8 @@ fn test_dijkstra_with_top_related_limit() {
 
     let config = PathfindingConfig::new(0.0, 1, true); // Only take top 1 connection
 
-    let (path, _, _) = dijkstra_find_path(alice_id, bob_id, file.path(), &index, &config);
+    let mmap = unsafe { Mmap::map(&file).unwrap() };
+    let (path, _, _) = dijkstra_find_path(alice_id, bob_id, &mmap, &index, &config);
 
     // Should be None because only Charlie (top connection) is kept
     assert!(path.is_none());

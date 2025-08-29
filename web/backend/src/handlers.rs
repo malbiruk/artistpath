@@ -2,8 +2,10 @@ use crate::exploration::explore_artist_network_graph;
 use crate::models::{
     ExploreQuery, GraphExploreResponse, HealthResponse,
     PathQuery, PathResponse, SearchQuery, SearchResponse, StatsResponse,
+    EnhancedPathQuery, EnhancedPathResponse,
 };
 use crate::pathfinding::find_path_between_artists;
+use crate::enhanced_pathfinding::find_enhanced_path_between_artists;
 use crate::search::search_artists_in_state;
 use crate::state::AppState;
 use axum::{
@@ -64,6 +66,23 @@ pub async fn explore_artist(
         params.budget,
         params.max_relations,
         params.min_similarity,
+        &state,
+    );
+
+    Json(response)
+}
+
+pub async fn find_enhanced_path(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<EnhancedPathQuery>,
+) -> Json<EnhancedPathResponse> {
+    let response = find_enhanced_path_between_artists(
+        params.from_id,
+        params.to_id,
+        params.algorithm,
+        params.min_similarity,
+        params.max_relations,
+        params.budget,
         &state,
     );
 

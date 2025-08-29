@@ -9,7 +9,8 @@ use colors::ColorScheme;
 use json_output::{create_json_output, print_json_output};
 use utils::format_number;
 use clap::Parser;
-use std::path::Path;
+use memmap2::Mmap;
+use std::{fs::File, path::Path};
 use uuid::Uuid;
 
 type NameLookup = rustc_hash::FxHashMap<String, Uuid>;
@@ -158,11 +159,15 @@ fn execute_pathfinding_search(
         request.search_args.weighted,
     );
     
+    // Open the memory-mapped file
+    let graph_file = File::open(graph_path).expect("Failed to open graph file");
+    let graph_mmap = unsafe { Mmap::map(&graph_file).expect("Failed to map graph file") };
+    
     let (path, visited_count, elapsed_time) = if request.search_args.weighted {
         dijkstra_find_path(
             request.from_artist,
             request.to_artist,
-            graph_path,
+            &graph_mmap,
             graph_index,
             &config,
         )
@@ -170,7 +175,7 @@ fn execute_pathfinding_search(
         bfs_find_path(
             request.from_artist,
             request.to_artist,
-            graph_path,
+            &graph_mmap,
             graph_index,
             &config,
         )

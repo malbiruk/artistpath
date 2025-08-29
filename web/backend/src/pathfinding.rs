@@ -33,7 +33,7 @@ pub fn execute_pathfinding(
         dijkstra_find_path(
             from_id,
             to_id,
-            std::path::Path::new("../../data/graph.bin"),
+            &state.graph_mmap,
             &state.graph_index,
             config,
         )
@@ -41,7 +41,7 @@ pub fn execute_pathfinding(
         bfs_find_path(
             from_id,
             to_id,
-            std::path::Path::new("../../data/graph.bin"),
+            &state.graph_mmap,
             &state.graph_index,
             config,
         )

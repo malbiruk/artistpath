@@ -166,6 +166,7 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         .route("/health", get(handlers::health_check))
         .route("/api/artists/search", get(handlers::search_artists))
         .route("/api/path", get(handlers::find_path))
+        .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
         .route("/api/stats", get(handlers::get_stats))
         .layer(CorsLayer::permissive())

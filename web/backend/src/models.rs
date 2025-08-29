@@ -121,3 +121,43 @@ fn default_max_relations() -> usize {
 fn default_budget() -> usize {
     100
 }
+
+#[derive(Deserialize)]
+pub struct EnhancedPathQuery {
+    pub from_id: Uuid,
+    pub to_id: Uuid,
+    #[serde(default = "default_algorithm")]
+    pub algorithm: String,
+    #[serde(default)]
+    pub min_similarity: f32,
+    #[serde(default = "default_max_relations")]
+    pub max_relations: usize,
+    #[serde(default = "default_budget")]
+    pub budget: usize,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct EnhancedPathResponse {
+    pub status: String,
+    pub data: Option<EnhancedPathData>,
+    pub error: Option<EnhancedPathError>,
+    pub search_stats: SearchStats,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct EnhancedPathData {
+    pub primary_path: Vec<PathArtist>,
+    pub nodes: Vec<GraphNode>,
+    pub edges: Vec<GraphEdge>,
+    pub total_artists: usize,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct EnhancedPathError {
+    pub error_type: String,
+    pub message: String,
+    pub path_length: Option<usize>,
+    pub minimum_budget_needed: Option<usize>,
+    pub primary_path: Option<Vec<PathArtist>>,
+}
+

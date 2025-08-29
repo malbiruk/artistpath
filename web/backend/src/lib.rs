@@ -1,3 +1,4 @@
+pub mod enhanced_pathfinding;
 pub mod exploration;
 pub mod handlers;
 pub mod models;

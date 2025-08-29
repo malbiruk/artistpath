@@ -1,0 +1,87 @@
+meta {
+  name: enhanced-path
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/enhanced_path?from_id=20244d07-534f-4eff-b4d4-930878889970&to_id=65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab
+  body: none
+  auth: none
+}
+
+params:query {
+  from_id: 20244d07-534f-4eff-b4d4-930878889970
+  to_id: 65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab
+  ~budget: 100
+  ~min_similarity: 0.5
+  ~max_relations: 20
+}
+
+tests {
+  test("Status code is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response has correct structure", function() {
+    const json = res.getBody();
+    expect(json).to.have.property('status');
+    expect(json).to.have.property('search_stats');
+    expect(json.search_stats).to.have.property('artists_visited');
+    expect(json.search_stats).to.have.property('duration_ms');
+  });
+  
+  test("Success response has required fields", function() {
+    const json = res.getBody();
+    if (json.status === 'success') {
+      expect(json).to.have.property('data');
+      expect(json.data).to.have.property('primary_path');
+      expect(json.data).to.have.property('nodes');
+      expect(json.data).to.have.property('edges');
+      expect(json.data).to.have.property('total_artists');
+      expect(json.data.primary_path).to.be.an('array');
+      expect(json.data.nodes).to.be.an('array');
+      expect(json.data.edges).to.be.an('array');
+    }
+  });
+  
+  test("Path too long response has required fields", function() {
+    const json = res.getBody();
+    if (json.status === 'path_too_long') {
+      expect(json).to.have.property('error');
+      expect(json.error).to.have.property('error_type');
+      expect(json.error).to.have.property('message');
+      expect(json.error).to.have.property('path_length');
+      expect(json.error).to.have.property('minimum_budget_needed');
+      expect(json.error).to.have.property('primary_path');
+    }
+  });
+  
+  test("No path response has required fields", function() {
+    const json = res.getBody();
+    if (json.status === 'no_path') {
+      expect(json).to.have.property('error');
+      expect(json.error).to.have.property('error_type');
+      expect(json.error).to.have.property('message');
+      expect(json.error.error_type).to.equal('no_path');
+    }
+  });
+  
+  test("Primary path starts and ends with correct artists", function() {
+    const json = res.getBody();
+    if (json.status === 'success' && json.data.primary_path.length > 0) {
+      const path = json.data.primary_path;
+      expect(path[0].id).to.equal("20244d07-534f-4eff-b4d4-930878889970");
+      expect(path[path.length - 1].id).to.equal("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab");
+    }
+  });
+  
+  test("Edges respect similarity filter", function() {
+    const json = res.getBody();
+    if (json.status === 'success') {
+      json.data.edges.forEach(edge => {
+        expect(edge.similarity).to.be.at.least(0.5);
+      });
+    }
+  });
+}
