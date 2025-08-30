@@ -1,19 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
+import ArtistInput from "./components/ArtistInput";
+import { exploreArtist, findEnhancedPath } from "./utils/api";
 
 function App() {
-  const [fromArtist, setFromArtist] = useState("");
-  const [toArtist, setToArtist] = useState("");
+  const [fromArtist, setFromArtist] = useState(null);
+  const [toArtist, setToArtist] = useState(null);
   const [minSimilarity, setMinSimilarity] = useState(0);
   const [maxRelations, setMaxRelations] = useState(80);
   const [maxArtists, setMaxArtists] = useState(100);
   const [totalArtists, setTotalArtists] = useState(0);
   const [currentlyShown, setCurrentlyShown] = useState(0);
+  const [statusInfo, setStatusInfo] = useState("connecting...");
+  const [isError, setIsError] = useState(false);
+  const [networkData, setNetworkData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const swapArtists = () => {
     setToArtist(fromArtist);
     setFromArtist(toArtist);
   };
+
+  // Fetch total artists on mount
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        setTotalArtists(data.total_artists);
+        setStatusInfo("");
+        setIsError(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch stats:", err);
+        setStatusInfo("ERROR: couldn't connect to backend");
+        setIsError(true);
+      });
+  }, []);
+
+  // Trigger exploration/pathfinding when artists change
+  useEffect(() => {
+    const performSearch = async () => {
+      if (!fromArtist) {
+        setNetworkData(null);
+        setCurrentlyShown(0);
+        return;
+      }
+
+      if (fromArtist && !toArtist) {
+        // Single artist - explore
+        setIsLoading(true);
+        setStatusInfo("exploring artist network...");
+        setIsError(false);
+        try {
+          const data = await exploreArtist(
+            fromArtist.id,
+            maxArtists,
+            maxRelations,
+            minSimilarity
+          );
+          setNetworkData(data);
+          setCurrentlyShown(data.nodes?.length || 0);
+          setStatusInfo("");
+        } catch (error) {
+          setStatusInfo("exploration failed");
+          setIsError(true);
+        } finally {
+          setIsLoading(false);
+        }
+      } else if (fromArtist && toArtist) {
+        // Two artists - find path
+        setIsLoading(true);
+        setStatusInfo("finding path...");
+        setIsError(false);
+        try {
+          const data = await findEnhancedPath(
+            fromArtist.id,
+            toArtist.id,
+            minSimilarity,
+            maxRelations,
+            maxArtists
+          );
+          setNetworkData(data);
+          setCurrentlyShown(data.nodes?.length || 0);
+          setStatusInfo("");
+        } catch (error) {
+          setStatusInfo("pathfinding failed");
+          setIsError(true);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    performSearch();
+  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists]);
 
   return (
     <div className="app">
@@ -24,12 +104,10 @@ function App() {
         </div>
 
         <div className="header-center">
-          <input
-            type="text"
-            placeholder="from"
+          <ArtistInput
             value={fromArtist}
-            onChange={(e) => setFromArtist(e.target.value)}
-            className="artist-input"
+            onChange={setFromArtist}
+            placeholder="from"
           />
 
           <button
@@ -40,12 +118,10 @@ function App() {
             ⇄
           </button>
 
-          <input
-            type="text"
-            placeholder="to"
+          <ArtistInput
             value={toArtist}
-            onChange={(e) => setToArtist(e.target.value)}
-            className="artist-input"
+            onChange={setToArtist}
+            placeholder="to"
           />
         </div>
 
@@ -75,7 +151,9 @@ function App() {
 
       <footer className="footer">
         <div className="footer-left">
-          <span className="status-info">initializing...</span>
+          <span className={`status-info ${isError ? "error" : ""}`}>
+            {statusInfo}
+          </span>
         </div>
 
         <div className="footer-right">

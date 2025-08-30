@@ -182,6 +182,41 @@ body {
     color: gray;
 }
 
+.status-info.error {
+    color: #cc0000;
+}
+
+.artist-input-wrapper {
+    position: relative;
+    display: inline-block;
+    flex: 1;
+    min-width: 0;
+}
+
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid black;
+    border-top: none;
+    z-index: 1000;
+}
+
+.suggestion {
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: clamp(11px, 1.2vw, 13px);
+    font-family: inherit;
+}
+
+.suggestion:hover,
+.suggestion.selected {
+    background: black;
+    color: white;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     body {
@@ -214,6 +249,8 @@ body {
         display: flex;
         gap: 0.5rem;
         justify-self: center;
+        width: 100%;
+        max-width: 100%;
     }
 
     .header-right {
@@ -221,11 +258,10 @@ body {
     }
 
     .artist-input {
-        flex: 1;
         font-size: 14px;
         padding: 0.75rem;
         min-width: 0;
-        width: auto;
+        width: 100%;
     }
 
     .swap-button {
@@ -288,5 +324,10 @@ body {
 
     .stats div {
         font-size: 11px;
+    }
+    
+    .suggestion {
+        padding: 1rem;
+        font-size: 14px;
     }
 }
