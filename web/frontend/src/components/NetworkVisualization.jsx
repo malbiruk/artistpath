@@ -40,6 +40,30 @@ function NetworkVisualization({ data }) {
       return false;
     });
 
+    // Calculate connection count for each node
+    const connectionCounts = new Map();
+    nodes.forEach(node => connectionCounts.set(node.id, 0));
+    
+    validLinks.forEach(link => {
+      connectionCounts.set(link.source.id, (connectionCounts.get(link.source.id) || 0) + 1);
+      connectionCounts.set(link.target.id, (connectionCounts.get(link.target.id) || 0) + 1);
+    });
+
+    const maxConnections = Math.max(...connectionCounts.values());
+    
+    // Add connection count to nodes
+    nodes.forEach(node => {
+      node.connectionCount = connectionCounts.get(node.id) || 0;
+    });
+
+    console.log("Max connections:", maxConnections);
+    
+    // Debug a few nodes
+    nodes.slice(0, 3).forEach(node => {
+      const height = 16 + (node.connectionCount / maxConnections) * 16;
+      console.log(`${node.name}: ${node.connectionCount} connections -> ${height}px height`);
+    });
+
     // Create force simulation with similarity-based distances
     const simulation = d3
       .forceSimulation(nodes)
@@ -81,10 +105,34 @@ function NetworkVisualization({ data }) {
 
     nodeGroup
       .append("rect")
-      .attr("width", (d) => d.name.length * 7 + 6)
-      .attr("height", 24)
-      .attr("x", (d) => -(d.name.length * 7 + 6) / 2)
-      .attr("y", -12)
+      .attr("width", (d) => {
+        const baseFontSize = 9;
+        const extraFontSize = 6;
+        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const charWidth = fontSize * 0.6; // Approximate character width
+        return d.name.length * charWidth + 8;
+      })
+      .attr("height", (d) => {
+        const baseFontSize = 9;
+        const extraFontSize = 6;
+        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        return fontSize + 10; // Font size + padding
+      })
+      .attr("x", (d) => {
+        const baseFontSize = 9;
+        const extraFontSize = 6;
+        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const charWidth = fontSize * 0.6;
+        const rectWidth = d.name.length * charWidth + 8;
+        return -rectWidth / 2;
+      })
+      .attr("y", (d) => {
+        const baseFontSize = 9;
+        const extraFontSize = 6;
+        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const rectHeight = fontSize + 10;
+        return -rectHeight / 2;
+      })
       .attr("fill", "white")
       .attr("stroke", (d) => (d.layer === 0 ? "#0000cc" : "black"))
       .attr("stroke-width", 1);
@@ -94,7 +142,12 @@ function NetworkVisualization({ data }) {
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
       .style("font-family", "inherit")
-      .style("font-size", "11px")
+      .style("font-size", (d) => {
+        // Base font size 9px, up to 15px for most connected
+        const baseFontSize = 9;
+        const extraFontSize = 6;
+        return (baseFontSize + (d.connectionCount / maxConnections) * extraFontSize) + "px";
+      })
       .style("pointer-events", "none")
       .style("fill", (d) => (d.layer === 0 ? "#0000cc" : "black"))
       .text((d) => d.name);
