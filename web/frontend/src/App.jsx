@@ -68,7 +68,7 @@ function App() {
           const visited = data.timing?.visited_nodes || 0;
 
           setStatusInfo(
-            `${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`,
+            `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`,
           );
         } catch (error) {
           setStatusInfo("exploration failed");
@@ -99,7 +99,7 @@ function App() {
           const visited = data.timing?.visited_nodes || 0;
 
           setStatusInfo(
-            `${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`,
+            `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`,
           );
         } catch (error) {
           setStatusInfo("pathfinding failed");

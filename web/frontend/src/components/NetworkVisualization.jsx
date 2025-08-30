@@ -22,6 +22,17 @@ function NetworkVisualization({ data }) {
       .attr("height", height)
       .style("shape-rendering", "crispEdges");
 
+    const g = svg.append("g");
+    
+    // Add zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.1, 3])
+      .on("zoom", (event) => {
+        g.attr("transform", event.transform);
+      });
+    
+    svg.call(zoom);
+
     // Create node map for D3 linking
     const nodeMap = new Map();
     nodes.forEach((node) => {
@@ -56,13 +67,6 @@ function NetworkVisualization({ data }) {
       node.connectionCount = connectionCounts.get(node.id) || 0;
     });
 
-    console.log("Max connections:", maxConnections);
-    
-    // Debug a few nodes
-    nodes.slice(0, 3).forEach(node => {
-      const height = 16 + (node.connectionCount / maxConnections) * 16;
-      console.log(`${node.name}: ${node.connectionCount} connections -> ${height}px height`);
-    });
 
     // Create force simulation with similarity-based distances
     const simulation = d3
@@ -87,7 +91,7 @@ function NetworkVisualization({ data }) {
       .force("collision", d3.forceCollide().radius(40));
 
     // Create links
-    const link = svg
+    const link = g
       .selectAll("line")
       .data(validLinks)
       .enter()
@@ -96,7 +100,7 @@ function NetworkVisualization({ data }) {
       .attr("stroke-width", 1);
 
     // Create nodes (rectangles)
-    const nodeGroup = svg
+    const nodeGroup = g
       .selectAll("g.node")
       .data(nodes)
       .enter()
