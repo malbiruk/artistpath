@@ -20,7 +20,7 @@ function NetworkVisualization({ data }) {
     svg
       .attr("width", width)
       .attr("height", height)
-      .style("shape-rendering", "crispEdges");
+      .style("shape-rendering", "geometricPrecision");
 
     const g = svg.append("g");
 
@@ -107,11 +107,25 @@ function NetworkVisualization({ data }) {
       .append("g")
       .attr("class", "link");
 
+    // Create path edge set for highlighting
+    const pathEdges = new Set();
+    if (data.path) {
+      for (let i = 0; i < data.path.length - 1; i++) {
+        const from = data.path[i].id;
+        const to = data.path[i + 1].id;
+        pathEdges.add(`${from}-${to}`);
+        pathEdges.add(`${to}-${from}`); // Both directions
+      }
+    }
+
     // Visible line
     link
       .append("line")
       .attr("class", "link-line")
-      .attr("stroke", "black")
+      .attr("stroke", (d) => {
+        const edgeKey = `${d.source.id}-${d.target.id}`;
+        return pathEdges.has(edgeKey) ? "#0000cc" : "black";
+      })
       .attr("stroke-width", 1);
 
     // Invisible wider line for hover
@@ -303,7 +317,12 @@ function NetworkVisualization({ data }) {
         return -rectHeight / 2;
       })
       .attr("fill", "white")
-      .attr("stroke", (d) => (d.layer === 0 ? "#0000cc" : "black"))
+      .attr("stroke", (d) => {
+        // Check if node is in the path
+        const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
+        if (isInPath || d.layer === 0) return "#0000cc";
+        return "black";
+      })
       .attr("stroke-width", 1);
 
     nodeGroup
@@ -322,19 +341,24 @@ function NetworkVisualization({ data }) {
         );
       })
       .style("pointer-events", "none")
-      .style("fill", (d) => (d.layer === 0 ? "#0000cc" : "black"))
+      .style("fill", (d) => {
+        // Check if node is in the path
+        const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
+        if (isInPath || d.layer === 0) return "#0000cc";
+        return "black";
+      })
       .text((d) => d.name);
 
     // Update positions on each simulation tick
     simulation.on("tick", () => {
       link
         .selectAll("line")
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y);
+        .attr("x1", (d) => Math.round(d.source.x))
+        .attr("y1", (d) => Math.round(d.source.y))
+        .attr("x2", (d) => Math.round(d.target.x))
+        .attr("y2", (d) => Math.round(d.target.y));
 
-      nodeGroup.attr("transform", (d) => `translate(${d.x},${d.y})`);
+      nodeGroup.attr("transform", (d) => `translate(${Math.round(d.x)},${Math.round(d.y)})`);
     });
 
     // Clean up simulation when component unmounts

@@ -34,10 +34,39 @@ export async function findEnhancedPath(
       algorithm: "bfs",
     });
 
-    const response = await fetch(`${API_BASE}/enhanced_path?${params}`);
-    if (!response.ok) throw new Error("Path finding failed");
+    const url = `${API_BASE}/enhanced_path?${params}`;
 
-    return await response.json();
+    const response = await fetch(url);
+
+    if (!response.ok)
+      throw new Error(`Path finding failed: ${response.status}`);
+
+    const response_data = await response.json();
+
+    // Handle case where no path is found
+    if (!response_data.data) {
+      console.log("No path found - response_data.data is null");
+      return {
+        nodes: [],
+        edges: [],
+        path: null,
+        timing: {
+          duration_ms: response_data.search_stats?.duration_ms || 0,
+          visited_nodes: response_data.search_stats?.artists_visited || 0,
+        },
+      };
+    }
+
+    // Extract the actual data from the nested structure
+    return {
+      nodes: response_data.data.nodes,
+      edges: response_data.data.edges,
+      path: response_data.data.primary_path,
+      timing: {
+        duration_ms: response_data.search_stats.duration_ms,
+        visited_nodes: response_data.search_stats.artists_visited,
+      },
+    };
   } catch (error) {
     console.error("Path finding error:", error);
     throw error;
