@@ -99,13 +99,35 @@ function NetworkVisualization({ data }) {
       .attr("stroke", "black")
       .attr("stroke-width", 1);
 
+    // Drag behavior for nodes
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+
     // Create nodes (rectangles)
     const nodeGroup = g
       .selectAll("g.node")
       .data(nodes)
       .enter()
       .append("g")
-      .attr("class", "node");
+      .attr("class", "node")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
 
     nodeGroup
       .append("rect")
