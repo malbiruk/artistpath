@@ -23,14 +23,15 @@ function NetworkVisualization({ data }) {
       .style("shape-rendering", "crispEdges");
 
     const g = svg.append("g");
-    
+
     // Add zoom behavior
-    const zoom = d3.zoom()
+    const zoom = d3
+      .zoom()
       .scaleExtent([0.1, 3])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
       });
-    
+
     svg.call(zoom);
 
     // Create node map for D3 linking
@@ -53,20 +54,25 @@ function NetworkVisualization({ data }) {
 
     // Calculate connection count for each node
     const connectionCounts = new Map();
-    nodes.forEach(node => connectionCounts.set(node.id, 0));
-    
-    validLinks.forEach(link => {
-      connectionCounts.set(link.source.id, (connectionCounts.get(link.source.id) || 0) + 1);
-      connectionCounts.set(link.target.id, (connectionCounts.get(link.target.id) || 0) + 1);
+    nodes.forEach((node) => connectionCounts.set(node.id, 0));
+
+    validLinks.forEach((link) => {
+      connectionCounts.set(
+        link.source.id,
+        (connectionCounts.get(link.source.id) || 0) + 1,
+      );
+      connectionCounts.set(
+        link.target.id,
+        (connectionCounts.get(link.target.id) || 0) + 1,
+      );
     });
 
     const maxConnections = Math.max(...connectionCounts.values());
-    
+
     // Add connection count to nodes
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       node.connectionCount = connectionCounts.get(node.id) || 0;
     });
-
 
     // Create force simulation with similarity-based distances
     const simulation = d3
@@ -90,14 +96,85 @@ function NetworkVisualization({ data }) {
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(40));
 
-    // Create links
-    const link = g
-      .selectAll("line")
+    // Create links group
+    const linkGroup = g.append("g").attr("class", "links");
+
+    // Create visible links
+    const link = linkGroup
+      .selectAll("g.link")
       .data(validLinks)
       .enter()
+      .append("g")
+      .attr("class", "link");
+
+    // Visible line
+    link
       .append("line")
+      .attr("class", "link-line")
       .attr("stroke", "black")
       .attr("stroke-width", 1);
+
+    // Invisible wider line for hover
+    link
+      .append("line")
+      .attr("class", "link-hover")
+      .attr("stroke", "transparent")
+      .attr("stroke-width", 10)
+      .style("cursor", "pointer")
+      .on("mouseenter", function (event, d) {
+        const thisLink = d3.select(this.parentNode).select(".link-line");
+
+        // Show similarity score
+        const midX = (d.source.x + d.target.x) / 2;
+        const midY = (d.source.y + d.target.y) / 2;
+
+        const tooltip = g
+          .append("g")
+          .attr("class", "edge-tooltip")
+          .attr("transform", `translate(${midX}, ${midY})`);
+
+        tooltip
+          .append("rect")
+          .attr("x", -20)
+          .attr("y", -10)
+          .attr("width", 40)
+          .attr("height", 20)
+          .attr("fill", "white")
+          .attr("stroke", "black");
+
+        tooltip
+          .append("text")
+          .attr("text-anchor", "middle")
+          .attr("dy", "0.35em")
+          .style("font-size", "10px")
+          .text(d.similarity.toFixed(2));
+
+        // Animate dashed line for direction
+        thisLink
+          .attr("stroke-dasharray", "5,5")
+          .attr("stroke-dashoffset", 0)
+          .transition()
+          .duration(500)
+          .ease(d3.easeLinear)
+          .attr("stroke-dashoffset", -10)
+          .on("end", function repeat() {
+            thisLink
+              .attr("stroke-dashoffset", 0)
+              .transition()
+              .duration(500)
+              .ease(d3.easeLinear)
+              .attr("stroke-dashoffset", -10)
+              .on("end", repeat);
+          });
+      })
+      .on("mouseleave", function () {
+        const thisLink = d3.select(this.parentNode).select(".link-line");
+        thisLink
+          .interrupt()
+          .attr("stroke-dasharray", null)
+          .attr("stroke-dashoffset", null);
+        g.selectAll(".edge-tooltip").remove();
+      });
 
     // Drag behavior for nodes
     function dragstarted(event, d) {
@@ -124,30 +201,95 @@ function NetworkVisualization({ data }) {
       .enter()
       .append("g")
       .attr("class", "node")
-      .call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
+      .style("cursor", "pointer")
+      .call(
+        d3
+          .drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended),
+      )
+      .on("mouseenter", function (event, hoveredNode) {
+        // Find connected nodes
+        const connectedNodes = new Set([hoveredNode.id]);
+        validLinks.forEach((l) => {
+          if (l.source.id === hoveredNode.id) connectedNodes.add(l.target.id);
+          if (l.target.id === hoveredNode.id) connectedNodes.add(l.source.id);
+        });
+
+        // Gray out non-connected nodes
+        nodeGroup.style("opacity", (d) => (connectedNodes.has(d.id) ? 1 : 0.2));
+
+        // Gray out non-connected links
+        link.style("opacity", (d) => {
+          const isConnected =
+            d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
+          return isConnected ? 1 : 0.1;
+        });
+
+        // Animate connected edges
+        link.each(function (d) {
+          const isConnected =
+            d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
+
+          if (isConnected) {
+            const thisLink = d3.select(this).select(".link-line");
+            thisLink
+              .attr("stroke-dasharray", "5,5")
+              .attr("stroke-dashoffset", 0)
+              .transition()
+              .duration(500)
+              .ease(d3.easeLinear)
+              .attr("stroke-dashoffset", -10) // Always animate from source to target
+              .on("end", function repeat() {
+                thisLink
+                  .attr("stroke-dashoffset", 0)
+                  .transition()
+                  .duration(500)
+                  .ease(d3.easeLinear)
+                  .attr("stroke-dashoffset", -10)
+                  .on("end", repeat);
+              });
+          }
+        });
+      })
+      .on("mouseleave", function () {
+        // Reset opacity
+        nodeGroup.style("opacity", 1);
+        link.style("opacity", 1);
+
+        // Stop edge animations
+        link.each(function () {
+          const thisLink = d3.select(this).select(".link-line");
+          thisLink
+            .interrupt()
+            .attr("stroke-dasharray", null)
+            .attr("stroke-dashoffset", null);
+        });
+      });
 
     nodeGroup
       .append("rect")
       .attr("width", (d) => {
         const baseFontSize = 9;
         const extraFontSize = 6;
-        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const fontSize =
+          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
         const charWidth = fontSize * 0.6; // Approximate character width
         return d.name.length * charWidth + 8;
       })
       .attr("height", (d) => {
         const baseFontSize = 9;
         const extraFontSize = 6;
-        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const fontSize =
+          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
         return fontSize + 10; // Font size + padding
       })
       .attr("x", (d) => {
         const baseFontSize = 9;
         const extraFontSize = 6;
-        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const fontSize =
+          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
         const charWidth = fontSize * 0.6;
         const rectWidth = d.name.length * charWidth + 8;
         return -rectWidth / 2;
@@ -155,7 +297,8 @@ function NetworkVisualization({ data }) {
       .attr("y", (d) => {
         const baseFontSize = 9;
         const extraFontSize = 6;
-        const fontSize = baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+        const fontSize =
+          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
         const rectHeight = fontSize + 10;
         return -rectHeight / 2;
       })
@@ -172,7 +315,11 @@ function NetworkVisualization({ data }) {
         // Base font size 9px, up to 15px for most connected
         const baseFontSize = 9;
         const extraFontSize = 6;
-        return (baseFontSize + (d.connectionCount / maxConnections) * extraFontSize) + "px";
+        return (
+          baseFontSize +
+          (d.connectionCount / maxConnections) * extraFontSize +
+          "px"
+        );
       })
       .style("pointer-events", "none")
       .style("fill", (d) => (d.layer === 0 ? "#0000cc" : "black"))
@@ -181,6 +328,7 @@ function NetworkVisualization({ data }) {
     // Update positions on each simulation tick
     simulation.on("tick", () => {
       link
+        .selectAll("line")
         .attr("x1", (d) => d.source.x)
         .attr("y1", (d) => d.source.y)
         .attr("x2", (d) => d.target.x)
