@@ -8,8 +8,8 @@ function App() {
   const [fromArtist, setFromArtist] = useState(null);
   const [toArtist, setToArtist] = useState(null);
   const [minSimilarity, setMinSimilarity] = useState(0);
-  const [maxRelations, setMaxRelations] = useState(80);
-  const [maxArtists, setMaxArtists] = useState(100);
+  const [maxRelations, setMaxRelations] = useState(10);
+  const [maxArtists, setMaxArtists] = useState(50);
   const [totalArtists, setTotalArtists] = useState(0);
   const [currentlyShown, setCurrentlyShown] = useState(0);
   const [statusInfo, setStatusInfo] = useState("connecting...");
