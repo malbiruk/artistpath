@@ -41,20 +41,22 @@ function App() {
   // Trigger exploration/pathfinding when artists change
   useEffect(() => {
     const performSearch = async () => {
-      if (!fromArtist) {
+      if (!fromArtist && !toArtist) {
         setNetworkData(null);
         setCurrentlyShown(0);
+        setStatusInfo("");
         return;
       }
 
-      if (fromArtist && !toArtist) {
+      if ((fromArtist && !toArtist) || (!fromArtist && toArtist)) {
         // Single artist - explore
+        const artistToExplore = fromArtist || toArtist;
         setIsLoading(true);
         setStatusInfo("exploring artist network...");
         setIsError(false);
         try {
           const data = await exploreArtist(
-            fromArtist.id,
+            artistToExplore.id,
             maxArtists,
             maxRelations,
             minSimilarity,
@@ -175,9 +177,28 @@ function App() {
               <p>enter one artist to explore their network</p>
               <p>enter two artists to find the path between them</p>
             </>
-          ) : (
-            <NetworkVisualization data={networkData} />
-          )}
+          ) : networkData &&
+            networkData.nodes &&
+            networkData.nodes.length > 0 ? (
+            networkData.nodes.length > 500 ||
+            networkData.edges.length > 2000 ? (
+              <>
+                <p>
+                  network too large to display (
+                  {networkData.nodes.length.toLocaleString()} artists,{" "}
+                  {networkData.edges.length.toLocaleString()} connections)
+                </p>
+                <p>reduce parameters to avoid tab crash</p>
+              </>
+            ) : (
+              <NetworkVisualization data={networkData} />
+            )
+          ) : fromArtist && toArtist ? (
+            <>
+              <p>no path found between these artists</p>
+              <p>try adjusting parameters - they might be too restrictive</p>
+            </>
+          ) : null}
         </div>
       </main>
 

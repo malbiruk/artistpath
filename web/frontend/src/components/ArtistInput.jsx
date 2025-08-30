@@ -75,7 +75,14 @@ function ArtistInput({ value, onChange, placeholder }) {
         ref={inputRef}
         type="text"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          const newValue = e.target.value;
+          setInputValue(newValue);
+          // Clear the selected artist if input is empty or doesn't match current selection
+          if (!newValue.trim() || (value && newValue !== value.name)) {
+            onChange(null);
+          }
+        }}
         onKeyDown={handleKeyDown}
         onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
         placeholder={placeholder}
