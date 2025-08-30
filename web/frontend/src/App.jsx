@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import ArtistInput from "./components/ArtistInput";
+import NetworkVisualization from "./components/NetworkVisualization";
 import { exploreArtist, findEnhancedPath } from "./utils/api";
 
 function App() {
@@ -56,11 +57,19 @@ function App() {
             fromArtist.id,
             maxArtists,
             maxRelations,
-            minSimilarity
+            minSimilarity,
           );
           setNetworkData(data);
           setCurrentlyShown(data.nodes?.length || 0);
-          setStatusInfo("");
+
+          const nodeCount = data.nodes?.length || 0;
+          const edgeCount = data.edges?.length || 0;
+          const duration = data.timing?.duration_ms || 0;
+          const visited = data.timing?.visited_nodes || 0;
+
+          setStatusInfo(
+            `${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`,
+          );
         } catch (error) {
           setStatusInfo("exploration failed");
           setIsError(true);
@@ -78,11 +87,20 @@ function App() {
             toArtist.id,
             minSimilarity,
             maxRelations,
-            maxArtists
+            maxArtists,
           );
           setNetworkData(data);
           setCurrentlyShown(data.nodes?.length || 0);
-          setStatusInfo("");
+
+          const nodeCount = data.nodes?.length || 0;
+          const edgeCount = data.edges?.length || 0;
+          const pathLength = data.path?.length || 0;
+          const duration = data.timing?.duration_ms || 0;
+          const visited = data.timing?.visited_nodes || 0;
+
+          setStatusInfo(
+            `${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`,
+          );
         } catch (error) {
           setStatusInfo("pathfinding failed");
           setIsError(true);
@@ -99,7 +117,15 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-left">
-          <h1>artistpath</h1>
+          <h1>
+            <a
+              href="https://github.com/malbiruk/artistpath"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              artistpath
+            </a>
+          </h1>
           <p>music artist connection finder</p>
         </div>
 
@@ -127,7 +153,16 @@ function App() {
 
         <div className="header-right">
           <div className="stats">
-            <div>artists displayed: {currentlyShown.toLocaleString()}</div>
+            <div>
+              data from{" "}
+              <a
+                href="https://www.last.fm/home"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Last.fm
+              </a>
+            </div>
             <div>artists available: {totalArtists.toLocaleString()}</div>
           </div>
         </div>
@@ -141,10 +176,7 @@ function App() {
               <p>enter two artists to find the path between them</p>
             </>
           ) : (
-            <>
-              <p>network visualization</p>
-              <p>rectangular nodes with d3.js force simulation</p>
-            </>
+            <NetworkVisualization data={networkData} />
           )}
         </div>
       </main>

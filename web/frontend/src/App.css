@@ -47,6 +47,11 @@ body {
     margin-bottom: 0.1rem;
 }
 
+.header-left h1 a {
+    color: black;
+    text-decoration: none;
+}
+
 .header-left p {
     font-size: clamp(11px, 1.2vw, 13px);
     color: gray;
@@ -157,6 +162,11 @@ body {
     color: gray;
     text-align: left;
     line-height: 1.5;
+}
+
+.stats a {
+    color: gray;
+    text-decoration: none;
 }
 
 .footer {
@@ -325,7 +335,7 @@ body {
     .stats div {
         font-size: 11px;
     }
-    
+
     .suggestion {
         padding: 1rem;
         font-size: 14px;
