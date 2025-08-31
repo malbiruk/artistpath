@@ -130,9 +130,22 @@ pub async fn get_artist_details(
             let (bio_summary, bio_full) = info
                 .bio
                 .map(|b| {
-                    let clean_summary = b.summary.replace("&quot;", "\"");
-                    let clean_full = b.content.replace("&quot;", "\"");
-                    (Some(clean_summary), Some(clean_full))
+                    let clean_summary = b.summary
+                        .replace("&quot;", "\"")
+                        .replace("Read more on Last.fm", "")
+                        .replace("\\n", "\n")
+                        .trim()
+                        .to_string();
+                    let clean_full = b.content
+                        .replace("&quot;", "\"")
+                        .replace("Read more on Last.fm", "")
+                        .replace("\\n", "\n")
+                        .trim()
+                        .to_string();
+                    (
+                        if clean_summary.is_empty() { None } else { Some(clean_summary) },
+                        if clean_full.is_empty() { None } else { Some(clean_full) }
+                    )
                 })
                 .unwrap_or((None, None));
 

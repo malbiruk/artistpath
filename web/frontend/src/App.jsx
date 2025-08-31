@@ -4,6 +4,7 @@ import "./App.css";
 import ArtistInput from "./components/ArtistInput";
 import NumberInput from "./components/NumberInput";
 import NetworkVisualization from "./components/NetworkVisualization";
+import ArtistCard from "./components/ArtistCard";
 import { exploreArtist, findEnhancedPath } from "./utils/api";
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
   const [networkData, setNetworkData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [algorithm, setAlgorithm] = useState("simple");
+  const [selectedArtistId, setSelectedArtistId] = useState(null);
+  const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
 
   const swapArtists = () => {
     const tempFrom = fromArtist;
@@ -82,6 +85,28 @@ function App() {
     setStatusInfo("");
   };
 
+  const handleArtistClick = (node) => {
+    setSelectedArtistId(node.id);
+    setIsArtistCardOpen(true);
+  };
+
+  const handleArtistCardClose = () => {
+    setIsArtistCardOpen(false);
+    setSelectedArtistId(null);
+  };
+
+  const handleFromHere = (artistData) => {
+    setFromArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
+    setIsArtistCardOpen(false);
+    setSelectedArtistId(null);
+  };
+
+  const handleToHere = (artistData) => {
+    setToArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
+    setIsArtistCardOpen(false);
+    setSelectedArtistId(null);
+  };
+
   const renderVisualization = () => {
     // Loading state
     if (isLoading) {
@@ -128,7 +153,7 @@ function App() {
       }
 
       // Show visualization
-      return <NetworkVisualization data={networkData} />;
+      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleArtistCardClose} />;
     }
 
     // Only "to" artist set - suggest using swap button
@@ -277,7 +302,16 @@ function App() {
       </header>
 
       <main className="main">
-        <div className="visualization">{renderVisualization()}</div>
+        <div className="visualization">
+          {renderVisualization()}
+          <ArtistCard
+            artistId={selectedArtistId}
+            isOpen={isArtistCardOpen}
+            onClose={handleArtistCardClose}
+            onFromHere={handleFromHere}
+            onToHere={handleToHere}
+          />
+        </div>
       </main>
 
       <footer className="footer">

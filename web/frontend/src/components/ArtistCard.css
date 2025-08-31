@@ -1,0 +1,335 @@
+.artist-card {
+  position: absolute;
+  right: -400px;
+  top: 20px;
+  bottom: 20px;
+  width: 360px;
+  background: white;
+  border: 1px solid black;
+  z-index: 1000;
+  font-family: inherit;
+  font-size: clamp(11px, 1.2vw, 13px);
+  display: flex;
+  flex-direction: column;
+}
+
+.artist-card.open {
+  right: 20px;
+}
+
+.artist-card-header {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.close-button {
+  background: none;
+  border: 1px solid black;
+  font-family: inherit;
+  font-size: 16px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: black;
+  color: white;
+}
+
+.artist-card-loading,
+.artist-card-error {
+  padding: 1rem;
+  text-align: center;
+  color: gray;
+}
+
+.artist-card-error {
+  color: #cc0000;
+}
+
+.fallback-info {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.fallback-info h3 {
+  font-size: clamp(13px, 1.5vw, 16px);
+  margin-bottom: 0.5rem;
+  color: black;
+}
+
+.fallback-info a {
+  color: black;
+  text-decoration: none;
+}
+
+.fallback-info a:hover {
+  text-decoration: underline;
+}
+
+.artist-card-content {
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.artist-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.artist-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid black;
+  flex-shrink: 0;
+}
+
+.artist-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.artist-info h3 {
+  font-size: clamp(14px, 1.6vw, 18px);
+  margin-bottom: 0.5rem;
+  color: black;
+  font-weight: normal;
+  line-height: 1.3;
+}
+
+.artist-link {
+  color: gray;
+  text-decoration: none;
+  font-size: clamp(10px, 1.1vw, 12px);
+}
+
+.artist-link:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.artist-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  border: 1px solid #eee;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: clamp(9px, 1vw, 11px);
+  color: gray;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: clamp(12px, 1.3vw, 14px);
+  color: black;
+  font-weight: bold;
+}
+
+.artist-tags {
+  margin-bottom: 1.5rem;
+}
+
+.tags-label {
+  font-size: clamp(10px, 1.1vw, 12px);
+  color: gray;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  background: black;
+  color: white;
+  padding: 0.125rem 0.375rem;
+  font-size: clamp(9px, 1vw, 11px);
+  border-radius: 0;
+}
+
+.artist-bio {
+  margin-bottom: 1.5rem;
+}
+
+.bio-text {
+  line-height: 1.5;
+  color: black;
+  font-size: clamp(10px, 1.1vw, 12px);
+  margin-bottom: 0.5rem;
+}
+
+.bio-text a {
+  color: black;
+  text-decoration: underline;
+}
+
+.bio-text a:hover {
+  background: black;
+  color: white;
+}
+
+.bio-toggle {
+  background: none;
+  border: 1px solid gray;
+  color: gray;
+  font-family: inherit;
+  font-size: clamp(9px, 1vw, 11px);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.bio-toggle:hover {
+  border-color: black;
+  color: black;
+}
+
+.top-tracks {
+  margin-bottom: 2rem;
+}
+
+.top-tracks h4 {
+  font-size: clamp(12px, 1.3vw, 14px);
+  margin-bottom: 0.75rem;
+  color: black;
+  font-weight: normal;
+}
+
+.tracks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.track {
+  border: 1px solid #eee;
+}
+
+.track:hover {
+  border-color: black;
+}
+
+.track-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  color: black;
+  text-decoration: none;
+  width: 100%;
+}
+
+.track-name {
+  font-size: clamp(10px, 1.1vw, 12px);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-stats {
+  font-size: clamp(9px, 1vw, 11px);
+  color: gray;
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
+.track:hover .track-stats {
+  color: black;
+}
+
+.artist-actions {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid black;
+  flex-shrink: 0;
+  background: white;
+}
+
+.action-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid black;
+  background: white;
+  color: black;
+  font-family: inherit;
+  font-size: clamp(11px, 1.2vw, 13px);
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background: black;
+  color: white;
+}
+
+.from-button:hover {
+  background: #0066cc;
+  border-color: #0066cc;
+}
+
+.to-button:hover {
+  background: #cc6600;
+  border-color: #cc6600;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .artist-card {
+    right: -100%;
+    width: calc(100% - 40px);
+    top: 20px;
+    bottom: 80px;
+  }
+  
+  .artist-card.open {
+    right: 20px;
+  }
+  
+  .artist-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .artist-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .artist-stats {
+    justify-content: space-around;
+  }
+  
+  .tags {
+    justify-content: center;
+  }
+  
+}

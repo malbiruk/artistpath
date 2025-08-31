@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
-function NetworkVisualization({ data }) {
+function NetworkVisualization({ data, onArtistClick, onClickAway }) {
   const svgRef = useRef(null);
 
   useEffect(() => {
@@ -419,16 +419,21 @@ function NetworkVisualization({ data }) {
       });
     };
 
-    // Add tap-away handler for mobile
-    if (isTouchDevice) {
-      svg.on("click", function (event) {
-        // Only clear if clicking on empty space (svg itself)
-        if (event.target === svgRef.current) {
+    // Add click-away handler for both mobile and desktop
+    svg.on("click", function (event) {
+      // Only handle if clicking on empty space (svg itself)
+      if (event.target === svgRef.current) {
+        if (isTouchDevice) {
           clearNodeHighlight();
           clearEdgeTooltip();
         }
-      });
-    }
+        
+        // Close artist card on click away (desktop and mobile)
+        if (onClickAway) {
+          onClickAway();
+        }
+      }
+    });
 
     nodeGroup
       .on("mouseenter", function (event, hoveredNode) {
@@ -463,6 +468,11 @@ function NetworkVisualization({ data }) {
           } else {
             activeNode = clickedNode.id;
             showNodeConnections(clickedNode);
+          }
+        } else {
+          // Desktop: open artist card on click
+          if (onArtistClick) {
+            onArtistClick(clickedNode);
           }
         }
       });

@@ -171,6 +171,7 @@ body {
     font-size: clamp(10px, 1.1vw, 12px);
     line-height: 1.5;
     color: gray;
+    position: relative;
 }
 
 .stats {
