@@ -27,7 +27,7 @@
 }
 
 .close-button {
-  background: none;
+  background: white;
   border: 1px solid black;
   font-family: inherit;
   font-size: 16px;
@@ -74,7 +74,7 @@
 }
 
 .artist-card-content {
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   flex: 1;
   overflow-y: auto;
 }
@@ -82,8 +82,12 @@
 .artist-header {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
   align-items: flex-start;
+  position: sticky;
+  top: 0;
+  background: white;
 }
 
 .artist-image {

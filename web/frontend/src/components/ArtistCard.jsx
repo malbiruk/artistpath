@@ -10,6 +10,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
   useEffect(() => {
     if (artistId && isOpen) {
       fetchArtistData();
+      setShowFullBio(false); // Reset to summary when opening new artist
     }
   }, [artistId, isOpen]);
 
