@@ -59,11 +59,16 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlaying
   };
 
   const handleClose = () => {
-    // Don't close if audio is playing
-    if (currentlyPlaying) {
-      return;
+    // Stop any playing audio
+    if (audio) {
+      audio.pause();
+      setAudio(null);
     }
-    onClose();
+    setCurrentlyPlaying(null);
+    onPlayingStateChange && onPlayingStateChange(false);
+    
+    // Force close regardless of playing state
+    onClose(true); // Pass force=true to bypass playing check
   };
 
   const handlePlayTrack = (track) => {

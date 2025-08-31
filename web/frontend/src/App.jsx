@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import "./App.css";
 import ArtistInput from "./components/ArtistInput";
@@ -23,6 +23,7 @@ function App() {
   const [selectedArtistId, setSelectedArtistId] = useState(null);
   const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const isAudioPlayingRef = useRef(false);
 
   const swapArtists = () => {
     const tempFrom = fromArtist;
@@ -91,17 +92,25 @@ function App() {
     setIsArtistCardOpen(true);
   };
 
-  const handleArtistCardClose = () => {
-    // Don't close if audio is playing
-    if (isAudioPlaying) {
+  const handleArtistCardClose = (force = false) => {
+    // Don't close if audio is playing (unless forced) - use ref for immediate value
+    if (isAudioPlayingRef.current && !force) {
       return;
     }
     setIsArtistCardOpen(false);
     setSelectedArtistId(null);
+    setIsAudioPlaying(false);
+    isAudioPlayingRef.current = false; // Reset ref as well
+  };
+
+  const handleClickAway = () => {
+    // Only close if no audio is playing (no force option for click-away)
+    handleArtistCardClose(false);
   };
 
   const handlePlayingStateChange = (isPlaying) => {
     setIsAudioPlaying(isPlaying);
+    isAudioPlayingRef.current = isPlaying; // Update ref immediately
   };
 
   const handleFromHere = (artistData) => {
@@ -158,7 +167,7 @@ function App() {
       }
 
       // Show visualization
-      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleArtistCardClose} />;
+      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleClickAway} />;
     }
 
     // Only "to" artist set - suggest using swap button
