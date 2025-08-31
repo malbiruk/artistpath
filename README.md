@@ -22,7 +22,7 @@ The interactive web interface provides visual exploration and pathfinding with r
 
 ### Settings
 - **Algorithm**: Toggle between "simple" (BFS) and "weighted" (Dijkstra)
-- **Max Relations**: Limit connections per artist (1-250)  
+- **Max Relations**: Limit connections per artist (1-250)
 - **Min Similarity**: Filter weak connections (0.0-1.0)
 - **Max Artists**: Budget limit for exploration/pathfinding (10-500)
 
@@ -71,6 +71,18 @@ cd artistpath
 cargo build --release
 ./target/release/artistpath "Taylor Swift" "Metallica"
 ```
+
+### Dataset Information
+
+**Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
+- **Binary format**: Optimized for performance
+- **NDJSON format**: For development/research use
+  - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
+  - Metadata: `{"id": uuid, "name": "Artist Name", "url": "..."}`
+
+**In progress**: Full 3M+ artist dataset (including artists without MusicBrainz IDs)
+
+Releases will include separate zstd archives for binary files and NDJSON data.
 
 **Build your own dataset:**
 1. Get a [Last.fm API key](https://www.last.fm/api/account/create)
