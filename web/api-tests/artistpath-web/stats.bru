@@ -1,0 +1,37 @@
+meta {
+  name: stats
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/stats
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have stats structure", function() {
+    const data = res.body;
+    expect(data.total_artists).to.be.a('number');
+    expect(data.total_artists).to.be.greaterThan(0);
+  });
+  
+  test("Total artists should be reasonable count", function() {
+    const data = res.body;
+    expect(data.total_artists).to.be.greaterThan(1000);
+    expect(data.total_artists).to.be.lessThan(10000000);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

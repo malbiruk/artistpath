@@ -1,0 +1,43 @@
+[package]
+name = "artistpath-web"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "artistpath_web"
+path = "src/lib.rs"
+
+[[bin]]
+name = "artistpath-web"
+path = "src/main.rs"
+
+[dependencies]
+artistpath-core = { path = "../../core" }
+
+# Web server
+axum = "0.7"
+tokio = { version = "1", features = ["full"] }
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Serialization
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+
+# Utils
+uuid = { version = "1.18.0", features = ["serde", "v4"] }
+rustc-hash = "2.1.1"
+memmap2 = "0.9.7"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
+
+[dev-dependencies]
+tempfile = "3.8"
+byteorder = "1.5"

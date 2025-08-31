@@ -1,0 +1,34 @@
+[package]
+name = "artistpath-core"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "artistpath_core"
+path = "src/lib.rs"
+
+[dependencies]
+byteorder = "1.5.0"
+memmap2 = "0.9.7"
+rustc-hash = "2.1.1"
+serde = { version = "1.0.219", features = ["derive"] }
+unidecode = "0.3.0"
+uuid = { version = "1.18.0", features = ["serde", "v4"] }
+
+# PyO3 optional for Python integration (data_collection)
+pyo3 = { version = "0.25.1", features = ["extension-module"], optional = true }
+
+[features]
+default = []
+python = ["pyo3"]
+
+[dev-dependencies]
+tempfile = "3.0"
+serde_json = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

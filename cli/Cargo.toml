@@ -1,0 +1,28 @@
+[package]
+name = "artistpath"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "artistpath"
+path = "src/main.rs"
+
+[dependencies]
+artistpath-core = { path = "../core" }
+clap = { version = "4.5.45", features = ["derive"] }
+colored = "3.0.0"
+memmap2 = "0.9"
+rustc-hash = "2.1.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.143"
+uuid = { version = "1.18.0", features = ["serde", "v4"] }
+
+[dev-dependencies]
+tempfile = "3.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
