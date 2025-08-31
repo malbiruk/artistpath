@@ -173,31 +173,45 @@ pub async fn get_artist_details(
         Err(_) => None,
     };
 
-    // Process Last.fm top tracks with iTunes previews
+    // Process Last.fm top tracks with iTunes previews (parallel fetching)
     let top_tracks = match lastfm_tracks {
         Ok(tracks) => {
-            let mut track_data = Vec::new();
-
-            for track in tracks {
-                // Search for iTunes preview
-                let preview_url = match state
-                    .itunes_client
-                    .search_track(artist_name, &track.name)
-                    .await
-                {
-                    Ok(Some(itunes_track)) => Some(itunes_track.preview_url),
-                    _ => None,
-                };
-
-                track_data.push(LastFmTrackData {
-                    name: track.name,
-                    url: track.url,
-                    playcount: track.playcount,
-                    listeners: track.listeners,
-                    preview_url,
-                });
-            }
-
+            // Create futures for all iTunes searches in parallel
+            let itunes_futures: Vec<_> = tracks
+                .iter()
+                .map(|track| {
+                    let client = &state.itunes_client;
+                    let artist = artist_name.to_string();
+                    let track_name = track.name.clone();
+                    async move {
+                        client.search_track(&artist, &track_name).await
+                    }
+                })
+                .collect();
+            
+            // Wait for all iTunes searches to complete
+            let itunes_results = futures::future::join_all(itunes_futures).await;
+            
+            // Combine track data with iTunes preview URLs
+            let track_data: Vec<LastFmTrackData> = tracks
+                .into_iter()
+                .zip(itunes_results.into_iter())
+                .map(|(track, itunes_result)| {
+                    let preview_url = match itunes_result {
+                        Ok(Some(itunes_track)) => Some(itunes_track.preview_url),
+                        _ => None,
+                    };
+                    
+                    LastFmTrackData {
+                        name: track.name,
+                        url: track.url,
+                        playcount: track.playcount,
+                        listeners: track.listeners,
+                        preview_url,
+                    }
+                })
+                .collect();
+            
             Some(track_data)
         }
         Err(_) => None,

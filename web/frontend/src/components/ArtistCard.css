@@ -5,7 +5,6 @@
     bottom: 20px;
     width: 360px;
     background: none;
-    /*border: 1px solid black;*/
     z-index: 1000;
     font-family: inherit;
     font-size: clamp(11px, 1.2vw, 13px);

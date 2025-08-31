@@ -254,6 +254,7 @@ function ArtistCard({
                           <button
                             className="play-button"
                             onClick={() => handlePlayTrack(track)}
+                            title="play 30s preview from itunes"
                           >
                             {currentlyPlaying === track.name ? "⏸" : "▶"}
                           </button>
