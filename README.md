@@ -30,6 +30,8 @@ The interactive web interface provides visual exploration and pathfinding with r
 - **Blue highlighting**: Selected path/explored artist is highlighted in blue
 - **Animated connections**: Hover/tap on nodes or edges to see running ant animations showing connection direction
 - **Bidirectional indicators**: When connections exist in both directions, animations overlap creating a "blinking" effect, and the maximum similarity is displayed
+- **Dynamic layout**: Stronger connections (higher similarity) appear shorter and more rigid in the network
+- **Adaptive text size**: Artist font size reflects their local importance (connection count relative to the current network)
 
 ### Algorithms
 - **Simple (BFS)**: Wide layer-by-layer exploration, discovers diverse/distant clusters
@@ -61,15 +63,33 @@ For performance, I couldn't load the whole graph into RAM, so I skipped the fanc
 
 ## Installation
 
-**With pre-built data** (recommended - saves days of API crawling):
-```bash
-# Download data from releases (coming soon!)
-# For now, you'll need to build your own dataset
+### CLI Tool (Recommended)
 
-# Build and run
+```bash
+cargo install artistpath
+```
+
+The CLI binary installs to `~/.cargo/bin/` and automatically downloads dataset to `~/.artistpath/` on first run.
+
+### Web Interface (Development)
+
+For running the web interface locally:
+
+```bash
+git clone https://github.com/malbiruk/artistpath
 cd artistpath
-cargo build --release
-./target/release/artistpath "Taylor Swift" "Metallica"
+
+# Download binary data to data/ directory from releases
+# (coming soon!)
+
+# Start backend
+cd web/backend
+cargo run --release
+
+# Start frontend (new terminal)
+cd web/frontend
+npm install
+npm run dev
 ```
 
 ### Dataset Information
@@ -84,12 +104,13 @@ cargo build --release
 
 Releases will include separate zstd archives for binary files and NDJSON data.
 
-**Build your own dataset:**
+### Build Your Own Dataset
+
 1. Get a [Last.fm API key](https://www.last.fm/api/account/create)
 2. `cd data_collection && uv sync && echo "API_KEY=your_key" > .env`
 3. `uv run python run_collection.py` (takes several days!)
 4. `uv run python run_postprocessing.py`
-5. `cd ../artistpath && cargo build --release`
+5. Build CLI: `cd cli && cargo build --release`
 
 Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 
