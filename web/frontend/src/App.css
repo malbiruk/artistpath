@@ -229,25 +229,54 @@ body {
     }
 }
 
-.loading-dots:nth-child(1) { animation-delay: 0s; }
-.loading-dots .dot-1 { animation: show-dot-1 1.2s steps(3) infinite; }
-.loading-dots .dot-2 { animation: show-dot-2 1.2s steps(3) infinite; }
-.loading-dots .dot-3 { animation: show-dot-3 1.2s steps(3) infinite; }
+.loading-dots:nth-child(1) {
+    animation-delay: 0s;
+}
+.loading-dots .dot-1 {
+    animation: show-dot-1 1.2s steps(3) infinite;
+}
+.loading-dots .dot-2 {
+    animation: show-dot-2 1.2s steps(3) infinite;
+}
+.loading-dots .dot-3 {
+    animation: show-dot-3 1.2s steps(3) infinite;
+}
 
 @keyframes show-dot-1 {
-    0%, 33.33% { visibility: visible; }
-    33.34%, 100% { visibility: hidden; }
+    0%,
+    33.33% {
+        visibility: visible;
+    }
+    33.34%,
+    100% {
+        visibility: hidden;
+    }
 }
 
 @keyframes show-dot-2 {
-    0%, 33.33% { visibility: hidden; }
-    33.34%, 66.66% { visibility: visible; }
-    66.67%, 100% { visibility: hidden; }
+    0%,
+    33.33% {
+        visibility: hidden;
+    }
+    33.34%,
+    66.66% {
+        visibility: visible;
+    }
+    66.67%,
+    100% {
+        visibility: hidden;
+    }
 }
 
 @keyframes show-dot-3 {
-    0%, 66.66% { visibility: hidden; }
-    66.67%, 100% { visibility: visible; }
+    0%,
+    66.66% {
+        visibility: hidden;
+    }
+    66.67%,
+    100% {
+        visibility: visible;
+    }
 }
 
 .artist-input-wrapper {

@@ -23,13 +23,13 @@ function App() {
   const swapArtists = () => {
     const tempFrom = fromArtist;
     const tempTo = toArtist;
-    
+
     // Clear both inputs first, then swap synchronously
     flushSync(() => {
       setFromArtist(null);
       setToArtist(null);
     });
-    
+
     flushSync(() => {
       setFromArtist(tempTo);
       setToArtist(tempFrom);
@@ -90,7 +90,9 @@ function App() {
           <p className="loading">
             {fromArtist && toArtist ? "finding path" : "exploring network"}
             <span className="loading-dots">
-              <span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span>
+              <span className="dot-1">.</span>
+              <span className="dot-2">.</span>
+              <span className="dot-3">.</span>
             </span>
           </p>
         </>
@@ -111,21 +113,20 @@ function App() {
     if (networkData?.nodes?.length > 0) {
       const nodeCount = networkData.nodes.length;
       const edgeCount = networkData.edges.length;
-      
+
       // Network too large
       if (nodeCount > 500 || edgeCount > 2000) {
         return (
           <>
             <p>
-              network too large to display (
-              {nodeCount.toLocaleString()} artists,{" "}
-              {edgeCount.toLocaleString()} connections)
+              network too large to display ({nodeCount.toLocaleString()}{" "}
+              artists, {edgeCount.toLocaleString()} connections)
             </p>
             <p>reduce parameters to avoid tab crash</p>
           </>
         );
       }
-      
+
       // Show visualization
       return <NetworkVisualization data={networkData} />;
     }
@@ -135,7 +136,10 @@ function App() {
       return (
         <>
           <p>exploration only works from the "from" field</p>
-          <p>use the ⇄ button to move {toArtist.name} to "from" and start exploring</p>
+          <p>
+            use the ⇄ button to move {toArtist.name} to "from" and start
+            exploring
+          </p>
           <p>or fill in another "from" artist to get the path</p>
         </>
       );
@@ -199,7 +203,8 @@ function App() {
           handleSearchSuccess(data, true);
         }
       } catch (error) {
-        const errorMessage = fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
+        const errorMessage =
+          fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
         handleSearchError(errorMessage);
       } finally {
         setIsLoading(false);
@@ -207,7 +212,14 @@ function App() {
     };
 
     performSearch();
-  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists, algorithm]);
+  }, [
+    fromArtist,
+    toArtist,
+    minSimilarity,
+    maxRelations,
+    maxArtists,
+    algorithm,
+  ]);
 
   return (
     <div className="app">
@@ -265,9 +277,7 @@ function App() {
       </header>
 
       <main className="main">
-        <div className="visualization">
-          {renderVisualization()}
-        </div>
+        <div className="visualization">{renderVisualization()}</div>
       </main>
 
       <footer className="footer">
@@ -281,7 +291,9 @@ function App() {
           <div className="setting">
             <label>algorithm:</label>
             <button
-              onClick={() => setAlgorithm(algorithm === "simple" ? "weighted" : "simple")}
+              onClick={() =>
+                setAlgorithm(algorithm === "simple" ? "weighted" : "simple")
+              }
               className="algorithm-toggle"
             >
               {algorithm}
