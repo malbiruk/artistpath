@@ -1,10 +1,39 @@
 # `artistpath`
 
-Find the shortest connection path between any two music artists using Last.fm's related artists data.
+Explore music artist networks and discover connections using Last.fm's related artists data.
 
 ## What is this?
 
-A command-line tool that finds how any two artists are connected through musical similarity. Think of it as exploring the hidden pathways of musical influence and listener behavior across more than 850k artists.
+An interactive web application for exploring artist networks and finding paths between artists. Visualize how artists are connected through musical similarity and discover related artists around any musician or along connection paths. Available as both a web interface and command-line tool covering more than 850k artists.
+
+## How connections work
+
+Artist connections are based on Last.fm listener overlap — artists are similar if people listen to them together. The graph is directional, meaning that swapping artists gives different results since unpopular artists are often similar to popular ones, but not necessarily the other way around.
+
+## Web Interface
+
+The interactive web interface provides visual exploration and pathfinding with real-time network visualization.
+
+### Features
+- **Artist Exploration**: Enter one artist to explore their network of similar artists
+- **Path Finding**: Enter two artists to find connection paths between them
+- **Visual Network**: Interactive graph showing artists as nodes and similarities as edges
+- **Real-time Search**: Instant results as you type and adjust parameters
+
+### Settings
+- **Algorithm**: Toggle between "simple" (BFS) and "weighted" (Dijkstra)
+- **Max Relations**: Limit connections per artist (1-250)  
+- **Min Similarity**: Filter weak connections (0.0-1.0)
+- **Max Artists**: Budget limit for exploration/pathfinding (10-500)
+
+### Visual Features
+- **Blue highlighting**: Selected path/explored artist is highlighted in blue
+- **Animated connections**: Hover/tap on nodes or edges to see running ant animations showing connection direction
+- **Bidirectional indicators**: When connections exist in both directions, animations overlap creating a "blinking" effect, and the maximum similarity is displayed
+
+### Algorithms
+- **Simple (BFS)**: Wide layer-by-layer exploration, discovers diverse/distant clusters
+- **Weighted (Dijkstra)**: Similarity-based exploration, finds tightly connected clusters and smoother musical transitions
 
 ## Artist Discovery
 
@@ -30,20 +59,6 @@ For performance, I couldn't load the whole graph into RAM, so I skipped the fanc
 
 *I'm a musician myself — check out [flowersinyoureyes.com](https://flowersinyoureyes.com) if you're curious about my band "flowers in your eyes".*
 
-## Example
-
-```
-$ artistpath "Taylor Swift" "Metallica"
-
-"Taylor Swift" → "Halsey" → "Poppy" → "Slipknot" → "Metallica"
-
-1. "Taylor Swift" - https://www.last.fm/music/Taylor+Swift
-2. "Halsey" - https://www.last.fm/music/Halsey
-3. "Poppy" - https://www.last.fm/music/Poppy
-4. "Slipknot" - https://www.last.fm/music/Slipknot
-5. "Metallica" - https://www.last.fm/music/Metallica
-```
-
 ## Installation
 
 **With pre-built data** (recommended - saves days of API crawling):
@@ -66,7 +81,9 @@ cargo build --release
 
 Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 
-## CLI Usage
+## Command Line Usage
+
+The CLI version focuses on pathfinding between two specific artists.
 
 ```bash
 Usage: artistpath [OPTIONS] <ARTIST1> <ARTIST2>
@@ -89,7 +106,21 @@ Options:
   -h, --help                    Print help
 ```
 
-## Two Algorithms
+### Example
+
+```
+$ artistpath "Taylor Swift" "Metallica"
+
+"Taylor Swift" → "Halsey" → "Poppy" → "Slipknot" → "Metallica"
+
+1. "Taylor Swift" - https://www.last.fm/music/Taylor+Swift
+2. "Halsey" - https://www.last.fm/music/Halsey
+3. "Poppy" - https://www.last.fm/music/Poppy
+4. "Slipknot" - https://www.last.fm/music/Slipknot
+5. "Metallica" - https://www.last.fm/music/Metallica
+```
+
+### CLI Algorithms
 
 **BFS (default)** - Finds the shortest path by number of hops:
 ```
@@ -102,9 +133,9 @@ Options:
 ```
 (20 steps but smoother musical transitions)
 
-## Try These Connections
+### Try These Connections
 
-Explore some unexpected musical bridges (use "weighted" option for more gradual transitions):
+Explore some unexpected musical bridges (use `--weighted` for more gradual transitions):
 - Classical to Hip-Hop: `"Johann Sebastian Bach" "Kendrick Lamar"`
 - Country to Electronic: `"Johnny Cash" "Aphex Twin"`
 - Jazz to Death Metal: `"Miles Davis" "Cannibal Corpse"`
