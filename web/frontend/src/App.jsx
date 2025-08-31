@@ -5,21 +5,40 @@ import ArtistInput from "./components/ArtistInput";
 import NumberInput from "./components/NumberInput";
 import NetworkVisualization from "./components/NetworkVisualization";
 import ArtistCard from "./components/ArtistCard";
-import { exploreArtist, findEnhancedPath } from "./utils/api";
+import { exploreArtist, findEnhancedPath, searchArtists } from "./utils/api";
 
 function App() {
+  // Parse initial state from URL (names only)
+  const getInitialStateFromURL = () => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      fromName: params.get('from'),
+      toName: params.get('to'),
+      minSimilarity: parseFloat(params.get('similarity') || '0'),
+      maxRelations: parseInt(params.get('relations') || '10'),
+      maxArtists: parseInt(params.get('artists') || '50'),
+      algorithm: params.get('algo') || 'simple'
+    };
+  };
+
+  const urlParams = getInitialStateFromURL();
+  const [urlArtistsToLoad, setUrlArtistsToLoad] = useState({
+    from: urlParams.fromName,
+    to: urlParams.toName
+  });
+
   const [fromArtist, setFromArtist] = useState(null);
   const [toArtist, setToArtist] = useState(null);
-  const [minSimilarity, setMinSimilarity] = useState(0);
-  const [maxRelations, setMaxRelations] = useState(10);
-  const [maxArtists, setMaxArtists] = useState(50);
+  const [minSimilarity, setMinSimilarity] = useState(urlParams.minSimilarity);
+  const [maxRelations, setMaxRelations] = useState(urlParams.maxRelations);
+  const [maxArtists, setMaxArtists] = useState(urlParams.maxArtists);
   const [totalArtists, setTotalArtists] = useState(0);
   const [currentlyShown, setCurrentlyShown] = useState(0);
   const [statusInfo, setStatusInfo] = useState("connecting...");
   const [isError, setIsError] = useState(false);
   const [networkData, setNetworkData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [algorithm, setAlgorithm] = useState("simple");
+  const [algorithm, setAlgorithm] = useState(urlParams.algorithm);
   const [selectedArtistId, setSelectedArtistId] = useState(null);
   const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -56,6 +75,42 @@ function App() {
         setIsError(true);
       });
   }, []);
+
+  // Update URL when state changes
+  useEffect(() => {
+    updateURL();
+  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists, algorithm]);
+
+  // Load artists from URL names on mount
+  useEffect(() => {
+    const loadArtistFromName = async (name, setArtist) => {
+      if (!name) return;
+      
+      try {
+        const results = await searchArtists(name);
+        if (results.length > 0) {
+          // Take the first result (best match)
+          const artist = results[0];
+          setArtist({
+            id: artist.id,
+            name: artist.name,
+            url: artist.url
+          });
+        }
+      } catch (error) {
+        console.error(`Failed to load artist: ${name}`, error);
+      }
+    };
+
+    // Only load from URL once on mount
+    if (urlArtistsToLoad.from || urlArtistsToLoad.to) {
+      loadArtistFromName(urlArtistsToLoad.from, setFromArtist);
+      loadArtistFromName(urlArtistsToLoad.to, setToArtist);
+      
+      // Clear the URL artists to load so we don't keep trying
+      setUrlArtistsToLoad({ from: null, to: null });
+    }
+  }, [urlArtistsToLoad]);
 
   // Helper functions
   const formatStatusMessage = (data, isPathfinding = false) => {
@@ -119,6 +174,21 @@ function App() {
 
   const handleToHere = (artistData) => {
     setToArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
+  };
+
+  // Update URL when state changes
+  const updateURL = () => {
+    const params = new URLSearchParams();
+    
+    if (fromArtist?.name) params.set('from', fromArtist.name);
+    if (toArtist?.name) params.set('to', toArtist.name);
+    if (minSimilarity > 0) params.set('similarity', minSimilarity.toString());
+    if (maxRelations !== 10) params.set('relations', maxRelations.toString());
+    if (maxArtists !== 50) params.set('artists', maxArtists.toString());
+    if (algorithm !== 'simple') params.set('algo', algorithm);
+    
+    const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
+    window.history.replaceState({}, '', newURL);
   };
 
   const renderVisualization = () => {
