@@ -176,7 +176,6 @@ function ArtistCard({
 
       {error && (
         <div className="artist-card-error">
-          <p>ERROR: {error}</p>
           {artistData && (
             <div className="fallback-info">
               <h3>{artistData.name}</h3>
@@ -189,6 +188,7 @@ function ArtistCard({
               </a>
             </div>
           )}
+          <p className="error-message">ERROR: {error}</p>
         </div>
       )}
 
