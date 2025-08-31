@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/explore?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=10&max_relations=2
+  url: {{baseUrl}}/api/explore?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=10&max_relations=2&algorithm=bfs
   body: none
   auth: inherit
 }
@@ -14,6 +14,7 @@ params:query {
   artist_id: 20244d07-534f-4eff-b4d4-930878889970
   budget: 10
   max_relations: 2
+  algorithm: bfs
   ~min_similarity: 0.1
 }
 
