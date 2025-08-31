@@ -412,6 +412,15 @@ function NetworkVisualization({ data }) {
     nodeGroup
       .on("mouseenter", function (event, hoveredNode) {
         if (!isTouchDevice) {
+          // Clear any active edge hover first
+          if (activeEdge) {
+            activeEdge = null;
+            if (hoverTimeout) {
+              clearTimeout(hoverTimeout);
+              hoverTimeout = null;
+            }
+            clearEdgeTooltip();
+          }
           showNodeConnections(hoveredNode);
         }
       })
