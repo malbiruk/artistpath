@@ -1,340 +1,333 @@
 .artist-card {
-  position: absolute;
-  right: -400px;
-  top: 20px;
-  bottom: 20px;
-  width: 360px;
-  background: white;
-  border: 1px solid black;
-  z-index: 1000;
-  font-family: inherit;
-  font-size: clamp(11px, 1.2vw, 13px);
-  display: flex;
-  flex-direction: column;
+    position: absolute;
+    right: -400px;
+    top: 20px;
+    bottom: 20px;
+    width: 360px;
+    background: none;
+    /*border: 1px solid black;*/
+    z-index: 1000;
+    font-family: inherit;
+    font-size: clamp(11px, 1.2vw, 13px);
+    display: flex;
+    flex-direction: column;
 }
 
 .artist-card.open {
-  right: 20px;
+    right: 20px;
 }
 
 .artist-card-header {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1rem;
-  background: transparent;
-  z-index: 10;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    background: transparent;
+    z-index: 10;
 }
 
 .close-button {
-  background: white;
-  border: 1px solid black;
-  font-family: inherit;
-  font-size: 16px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-  line-height: 1;
+    background: white;
+    border: 1px solid black;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    line-height: 1;
 }
 
 .close-button:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
 .artist-card-loading,
 .artist-card-error {
-  padding: 1rem;
-  text-align: center;
-  color: gray;
+    padding: 1rem;
+    text-align: center;
+    color: gray;
 }
 
 .artist-card-error {
-  color: #cc0000;
+    color: #cc0000;
 }
 
 .fallback-info {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
 }
 
 .fallback-info h3 {
-  font-size: 16px;
-  margin-bottom: 0.5rem;
-  color: black;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    color: black;
 }
 
 .fallback-info a {
-  color: black;
-  text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 .fallback-info a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .artist-card-content {
-  padding: 0 1rem 1rem 1rem;
-  flex: 1;
-  overflow-y: auto;
+    padding: 0 1rem 1rem 1rem;
+    overflow-y: auto;
+    border: 1px solid black;
+    background: white;
+    max-height: 100%;
 }
 
 .artist-header {
-  display: flex;
-  gap: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 1.5rem;
-  align-items: flex-start;
-  position: sticky;
-  top: 0;
-  background: white;
-}
-
-.artist-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border: 1px solid black;
-  flex-shrink: 0;
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+    background: white;
 }
 
 .artist-info {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 .artist-name-link {
-  color: black;
-  text-decoration: none;
+    color: black;
+    text-decoration: none;
 }
 
 .artist-name-link:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .artist-info h3 {
-  font-size: 16px;
-  margin-bottom: 0.25rem;
-  color: black;
-  font-weight: normal;
-  line-height: 1.3;
-  padding-right: 60px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 16px;
+    margin-bottom: 0.25rem;
+    color: black;
+    font-weight: normal;
+    line-height: 1.3;
+    padding-right: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .artist-stats-inline {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  font-size: 11px;
-  color: gray;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    font-size: 11px;
+    color: gray;
 }
 
 .artist-stats {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: white;
-  border: 1px solid black;
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid black;
 }
 
 .stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .stat-label {
-  font-size: 11px;
-  color: gray;
-  margin-bottom: 0.25rem;
+    font-size: 11px;
+    color: gray;
+    margin-bottom: 0.25rem;
 }
 
 .stat-value {
-  font-size: 12px;
-  color: black;
+    font-size: 12px;
+    color: black;
 }
 
 .artist-tags {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .tags-label {
-  font-size: 12px;
-  color: black;
-  margin-bottom: 0.5rem;
-  display: block;
+    font-size: 12px;
+    color: black;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .tag {
-  background: black;
-  color: white;
-  padding: 0.125rem 0.375rem;
-  font-size: 11px;
-  border-radius: 0;
+    background: black;
+    color: white;
+    padding: 0.125rem 0.375rem;
+    font-size: 11px;
+    border-radius: 0;
 }
 
 .artist-bio {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .bio-text {
-  line-height: 1.5;
-  color: black;
-  font-size: 11px;
-  margin-bottom: 0.5rem;
+    line-height: 1.5;
+    color: black;
+    font-size: 11px;
+    margin-bottom: 0.5rem;
 }
 
 .bio-text a {
-  color: black;
-  text-decoration: underline;
+    color: black;
+    text-decoration: underline;
 }
 
 .bio-text a:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
 .bio-toggle {
-  background: none;
-  border: 1px solid black;
-  color: gray;
-  font-family: inherit;
-  font-size: 11px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-  margin-top: 0.5rem;
+    background: none;
+    border: 1px solid black;
+    color: gray;
+    font-family: inherit;
+    font-size: 11px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
 }
 
 .bio-toggle:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
-
+/*
 .top-tracks {
-  margin-bottom: 2rem;
-}
+    margin-bottom: 2rem;
+}*/
 
 .top-tracks h4 {
-  font-size: 12px;
-  margin-bottom: 0.75rem;
-  color: black;
-  font-weight: normal;
+    font-size: 12px;
+    margin-bottom: 0.75rem;
+    color: black;
+    font-weight: normal;
 }
 
 .tracks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .track {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
 .track:hover {
-  border-color: black;
-  background: black;
+    border-color: black;
+    background: black;
 }
 
 .track:hover .track-link {
-  color: white;
+    color: white;
 }
 
 .track-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
-  color: black;
-  text-decoration: none;
-  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    color: black;
+    text-decoration: none;
+    width: 100%;
 }
 
 .track-name {
-  font-size: 11px;
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 11px;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .track-stats {
-  font-size: 11px;
-  color: gray;
-  margin-left: 1rem;
-  flex-shrink: 0;
+    font-size: 11px;
+    color: gray;
+    margin-left: 1rem;
+    flex-shrink: 0;
 }
 
 .track:hover .track-stats {
-  color: gray;
+    color: gray;
 }
 
 .artist-actions {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  flex-shrink: 0;
-  background: transparent;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0 0 0;
+    flex-shrink: 0;
+    background: transparent;
 }
 
 .action-button {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid black;
-  background: white;
-  color: black;
-  font-family: inherit;
-  font-size: 11px;
-  cursor: pointer;
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid black;
+    background: white;
+    color: black;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
 }
 
 .action-button:hover {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
-  .artist-card {
-    right: -100%;
-    width: calc(100% - 40px);
-    top: 20px;
-    bottom: 80px;
-  }
-  
-  .artist-card.open {
-    right: 20px;
-  }
-  
-  .artist-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .artist-image {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .artist-stats {
-    justify-content: space-around;
-  }
-  
-  .tags {
-    justify-content: center;
-  }
-  
+    .artist-card {
+        right: -100%;
+        width: calc(100% - 40px);
+        top: 20px;
+        bottom: 80px;
+    }
+
+    .artist-card.open {
+        right: 20px;
+    }
+
+    .artist-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .artist-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .artist-stats {
+        justify-content: space-around;
+    }
+
+    .tags {
+        justify-content: center;
+    }
 }
