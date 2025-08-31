@@ -7,6 +7,11 @@ function NetworkVisualization({ data }) {
   useEffect(() => {
     if (!data || !data.nodes || !data.edges) return;
 
+    // State for mobile interactions
+    let activeNode = null;
+    let activeEdge = null;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
@@ -136,58 +141,31 @@ function NetworkVisualization({ data }) {
       .attr("stroke-width", 10)
       .style("cursor", "pointer")
       .on("mouseenter", function (event, d) {
-        const thisLink = d3.select(this.parentNode).select(".link-line");
-
-        // Show similarity score
-        const midX = (d.source.x + d.target.x) / 2;
-        const midY = (d.source.y + d.target.y) / 2;
-
-        const tooltip = g
-          .append("g")
-          .attr("class", "edge-tooltip")
-          .attr("transform", `translate(${midX}, ${midY})`);
-
-        tooltip
-          .append("rect")
-          .attr("x", -20)
-          .attr("y", -10)
-          .attr("width", 40)
-          .attr("height", 20)
-          .attr("fill", "white")
-          .attr("stroke", "black");
-
-        tooltip
-          .append("text")
-          .attr("text-anchor", "middle")
-          .attr("dy", "0.35em")
-          .style("font-size", "10px")
-          .text(d.similarity.toFixed(2));
-
-        // Animate dashed line for direction
-        thisLink
-          .attr("stroke-dasharray", "5,5")
-          .attr("stroke-dashoffset", 0)
-          .transition()
-          .duration(500)
-          .ease(d3.easeLinear)
-          .attr("stroke-dashoffset", -10)
-          .on("end", function repeat() {
-            thisLink
-              .attr("stroke-dashoffset", 0)
-              .transition()
-              .duration(500)
-              .ease(d3.easeLinear)
-              .attr("stroke-dashoffset", -10)
-              .on("end", repeat);
-          });
+        if (!isTouchDevice) {
+          showEdgeTooltip(d);
+        }
       })
       .on("mouseleave", function () {
-        const thisLink = d3.select(this.parentNode).select(".link-line");
-        thisLink
-          .interrupt()
-          .attr("stroke-dasharray", null)
-          .attr("stroke-dashoffset", null);
-        g.selectAll(".edge-tooltip").remove();
+        if (!isTouchDevice) {
+          clearEdgeTooltip();
+        }
+      })
+      .on("click", function (event, clickedEdge) {
+        event.stopPropagation();
+        
+        if (isTouchDevice) {
+          // Clear any active node highlight
+          clearNodeHighlight();
+          
+          // Toggle edge tooltip
+          const edgeKey = `${clickedEdge.source.id}-${clickedEdge.target.id}`;
+          if (activeEdge === edgeKey) {
+            clearEdgeTooltip();
+          } else {
+            activeEdge = edgeKey;
+            showEdgeTooltip(clickedEdge);
+          }
+        }
       });
 
     // Drag behavior for nodes
@@ -223,63 +201,167 @@ function NetworkVisualization({ data }) {
           .on("drag", dragged)
           .on("end", dragended),
       )
-      .on("mouseenter", function (event, hoveredNode) {
-        // Find connected nodes
-        const connectedNodes = new Set([hoveredNode.id]);
-        validLinks.forEach((l) => {
-          if (l.source.id === hoveredNode.id) connectedNodes.add(l.target.id);
-          if (l.target.id === hoveredNode.id) connectedNodes.add(l.source.id);
-        });
 
-        // Gray out non-connected nodes
-        nodeGroup.style("opacity", (d) => (connectedNodes.has(d.id) ? 1 : 0.2));
+    // Helper functions for mobile interactions
+    const clearNodeHighlight = () => {
+      activeNode = null;
+      nodeGroup.style("opacity", 1);
+      link.style("opacity", 1);
+      link.each(function () {
+        const thisLink = d3.select(this).select(".link-line");
+        thisLink
+          .interrupt()
+          .attr("stroke-dasharray", null)
+          .attr("stroke-dashoffset", null);
+      });
+    };
 
-        // Gray out non-connected links
-        link.style("opacity", (d) => {
-          const isConnected =
-            d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
-          return isConnected ? 1 : 0.1;
-        });
+    const clearEdgeTooltip = () => {
+      activeEdge = null;
+      g.selectAll(".edge-tooltip").remove();
+      link.each(function () {
+        const thisLink = d3.select(this).select(".link-line");
+        thisLink
+          .interrupt()
+          .attr("stroke-dasharray", null)
+          .attr("stroke-dashoffset", null);
+      });
+    };
 
-        // Animate connected edges
-        link.each(function (d) {
-          const isConnected =
-            d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
+    const showNodeConnections = (hoveredNode) => {
+      // Find connected nodes
+      const connectedNodes = new Set([hoveredNode.id]);
+      validLinks.forEach((l) => {
+        if (l.source.id === hoveredNode.id) connectedNodes.add(l.target.id);
+        if (l.target.id === hoveredNode.id) connectedNodes.add(l.source.id);
+      });
 
-          if (isConnected) {
-            const thisLink = d3.select(this).select(".link-line");
-            thisLink
-              .attr("stroke-dasharray", "5,5")
-              .attr("stroke-dashoffset", 0)
-              .transition()
-              .duration(500)
-              .ease(d3.easeLinear)
-              .attr("stroke-dashoffset", -10) // Always animate from source to target
-              .on("end", function repeat() {
-                thisLink
-                  .attr("stroke-dashoffset", 0)
-                  .transition()
-                  .duration(500)
-                  .ease(d3.easeLinear)
-                  .attr("stroke-dashoffset", -10)
-                  .on("end", repeat);
-              });
-          }
-        });
-      })
-      .on("mouseleave", function () {
-        // Reset opacity
-        nodeGroup.style("opacity", 1);
-        link.style("opacity", 1);
+      // Gray out non-connected nodes
+      nodeGroup.style("opacity", (d) => (connectedNodes.has(d.id) ? 1 : 0.2));
 
-        // Stop edge animations
-        link.each(function () {
+      // Gray out non-connected links
+      link.style("opacity", (d) => {
+        const isConnected =
+          d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
+        return isConnected ? 1 : 0.1;
+      });
+
+      // Animate connected edges
+      link.each(function (d) {
+        const isConnected =
+          d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
+
+        if (isConnected) {
           const thisLink = d3.select(this).select(".link-line");
           thisLink
-            .interrupt()
-            .attr("stroke-dasharray", null)
-            .attr("stroke-dashoffset", null);
+            .attr("stroke-dasharray", "5,5")
+            .attr("stroke-dashoffset", 0)
+            .transition()
+            .duration(500)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", -10)
+            .on("end", function repeat() {
+              thisLink
+                .attr("stroke-dashoffset", 0)
+                .transition()
+                .duration(500)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", -10)
+                .on("end", repeat);
+            });
+        }
+      });
+    };
+
+    const showEdgeTooltip = (d) => {
+      // Clear existing tooltip
+      g.selectAll(".edge-tooltip").remove();
+
+      const thisLink = link.filter(linkData => 
+        linkData.source.id === d.source.id && linkData.target.id === d.target.id
+      ).select(".link-line");
+
+      // Show similarity score
+      const midX = (d.source.x + d.target.x) / 2;
+      const midY = (d.source.y + d.target.y) / 2;
+
+      const tooltip = g
+        .append("g")
+        .attr("class", "edge-tooltip")
+        .attr("transform", `translate(${midX}, ${midY})`);
+
+      tooltip
+        .append("rect")
+        .attr("x", -20)
+        .attr("y", -10)
+        .attr("width", 40)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .attr("stroke", "black");
+
+      tooltip
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .style("font-size", "10px")
+        .text(d.similarity.toFixed(2));
+
+      // Animate dashed line for direction
+      thisLink
+        .attr("stroke-dasharray", "5,5")
+        .attr("stroke-dashoffset", 0)
+        .transition()
+        .duration(500)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", -10)
+        .on("end", function repeat() {
+          thisLink
+            .attr("stroke-dashoffset", 0)
+            .transition()
+            .duration(500)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", -10)
+            .on("end", repeat);
         });
+    };
+
+    // Add tap-away handler for mobile
+    if (isTouchDevice) {
+      svg.on("click", function(event) {
+        // Only clear if clicking on empty space (svg itself)
+        if (event.target === svgRef.current) {
+          clearNodeHighlight();
+          clearEdgeTooltip();
+        }
+      });
+    }
+
+    nodeGroup
+      .on("mouseenter", function (event, hoveredNode) {
+        if (!isTouchDevice) {
+          showNodeConnections(hoveredNode);
+        }
+      })
+      .on("mouseleave", function () {
+        if (!isTouchDevice) {
+          clearNodeHighlight();
+        }
+      })
+      .on("click", function (event, clickedNode) {
+        event.stopPropagation();
+        
+        if (isTouchDevice) {
+          // Clear any active edge tooltip
+          clearEdgeTooltip();
+          
+          // Toggle node highlight
+          if (activeNode === clickedNode.id) {
+            clearNodeHighlight();
+          } else {
+            activeNode = clickedNode.id;
+            showNodeConnections(clickedNode);
+          }
+        }
       });
 
     nodeGroup

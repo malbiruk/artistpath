@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import ArtistInput from "./components/ArtistInput";
+import NumberInput from "./components/NumberInput";
 import NetworkVisualization from "./components/NetworkVisualization";
 import { exploreArtist, findEnhancedPath } from "./utils/api";
 
@@ -16,6 +17,7 @@ function App() {
   const [isError, setIsError] = useState(false);
   const [networkData, setNetworkData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [algorithm, setAlgorithm] = useState("simple");
 
   const swapArtists = () => {
     setToArtist(fromArtist);
@@ -211,40 +213,46 @@ function App() {
 
         <div className="footer-right">
           <div className="setting">
+            <label>algorithm:</label>
+            <button
+              onClick={() => setAlgorithm(algorithm === "simple" ? "weighted" : "simple")}
+              className="algorithm-toggle"
+            >
+              {algorithm}
+            </button>
+          </div>
+
+          <div className="setting">
             <label>max relations:</label>
-            <input
-              type="number"
-              min="1"
-              max="250"
+            <NumberInput
+              min={1}
+              max={250}
               value={maxRelations}
-              onChange={(e) => setMaxRelations(parseInt(e.target.value) || 1)}
+              onChange={(value) => setMaxRelations(value)}
               className="setting-input"
             />
           </div>
 
           <div className="setting">
             <label>min similarity:</label>
-            <input
-              type="number"
-              min="0"
-              max="1"
-              step="0.01"
-              value={minSimilarity.toFixed(2)}
-              onChange={(e) =>
-                setMinSimilarity(parseFloat(e.target.value) || 0)
-              }
+            <NumberInput
+              min={0}
+              max={1}
+              step={0.01}
+              decimals={2}
+              value={minSimilarity}
+              onChange={(value) => setMinSimilarity(value)}
               className="setting-input"
             />
           </div>
 
           <div className="setting">
             <label>max artists:</label>
-            <input
-              type="number"
-              min="10"
-              max="500"
+            <NumberInput
+              min={10}
+              max={500}
               value={maxArtists}
-              onChange={(e) => setMaxArtists(parseInt(e.target.value) || 10)}
+              onChange={(value) => setMaxArtists(value)}
               className="setting-input"
             />
           </div>

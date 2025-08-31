@@ -138,6 +138,22 @@ body {
     outline-offset: -1px;
 }
 
+.algorithm-toggle {
+    padding: 0rem 0.125rem;
+    border: 1px solid white;
+    font-size: 11px;
+    font-family: inherit;
+    background: white;
+    color: black;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.algorithm-toggle:focus {
+    outline: none;
+}
+
 .main {
     flex: 1;
     padding: 0.5rem 1rem;
