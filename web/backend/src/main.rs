@@ -5,6 +5,7 @@ use tower_http::cors::CorsLayer;
 mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
+mod lastfm;
 mod models;
 mod pathfinding;
 mod search;
@@ -14,6 +15,9 @@ use state::AppState;
 
 #[tokio::main]
 async fn main() {
+    // Load environment variables from .env file
+    dotenvy::dotenv().ok();
+    
     let app_state = match AppState::new() {
         Ok(state) => Arc::new(state),
         Err(e) => {
@@ -29,6 +33,7 @@ async fn main() {
         .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
         .route("/api/stats", get(handlers::get_stats))
+        .route("/api/artist/:id", get(handlers::get_artist_details))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 

@@ -1,15 +1,15 @@
 use artistpath_core::Artist;
-use memmap2::{Mmap, MmapOptions};
+use artistpath_web::handlers;
+use artistpath_web::state::AppState;
+use axum::{Router, routing::get};
 use byteorder::{LittleEndian, WriteBytesExt};
+use memmap2::{Mmap, MmapOptions};
 use rustc_hash::FxHashMap;
 use std::io::{Seek, Write};
 use std::sync::Arc;
 use tempfile::NamedTempFile;
-use uuid::Uuid;
-use axum::{Router, routing::get};
 use tower_http::cors::CorsLayer;
-use artistpath_web::state::AppState;
-use artistpath_web::handlers;
+use uuid::Uuid;
 
 pub struct TestArtists {
     pub taylor: (Uuid, Artist),
@@ -63,26 +63,38 @@ impl TestArtists {
 
     pub fn as_metadata(&self) -> FxHashMap<Uuid, Artist> {
         let mut map = FxHashMap::default();
-        map.insert(self.taylor.0, Artist {
-            id: self.taylor.1.id,
-            name: self.taylor.1.name.clone(),
-            url: self.taylor.1.url.clone(),
-        });
-        map.insert(self.olivia.0, Artist {
-            id: self.olivia.1.id,
-            name: self.olivia.1.name.clone(),
-            url: self.olivia.1.url.clone(),
-        });
-        map.insert(self.billie.0, Artist {
-            id: self.billie.1.id,
-            name: self.billie.1.name.clone(),
-            url: self.billie.1.url.clone(),
-        });
-        map.insert(self.finneas.0, Artist {
-            id: self.finneas.1.id,
-            name: self.finneas.1.name.clone(),
-            url: self.finneas.1.url.clone(),
-        });
+        map.insert(
+            self.taylor.0,
+            Artist {
+                id: self.taylor.1.id,
+                name: self.taylor.1.name.clone(),
+                url: self.taylor.1.url.clone(),
+            },
+        );
+        map.insert(
+            self.olivia.0,
+            Artist {
+                id: self.olivia.1.id,
+                name: self.olivia.1.name.clone(),
+                url: self.olivia.1.url.clone(),
+            },
+        );
+        map.insert(
+            self.billie.0,
+            Artist {
+                id: self.billie.1.id,
+                name: self.billie.1.name.clone(),
+                url: self.billie.1.url.clone(),
+            },
+        );
+        map.insert(
+            self.finneas.0,
+            Artist {
+                id: self.finneas.1.id,
+                name: self.finneas.1.name.clone(),
+                url: self.finneas.1.url.clone(),
+            },
+        );
         map
     }
 
@@ -99,7 +111,7 @@ impl TestArtists {
 pub fn create_test_graph() -> (NamedTempFile, FxHashMap<Uuid, u64>) {
     let mut file = NamedTempFile::new().unwrap();
     let mut index = FxHashMap::default();
-    
+
     let artists = TestArtists::new();
 
     // Taylor -> Olivia (1.0)
@@ -147,19 +159,20 @@ pub fn create_empty_mmap() -> Mmap {
     let mut file = NamedTempFile::new().unwrap();
     file.write_all(&[0; 100]).unwrap();
     file.flush().unwrap();
-    
+
     unsafe { MmapOptions::new().map(&file).unwrap() }
 }
 
 pub async fn create_test_app_state() -> (Router, TestArtists) {
     let test_artists = TestArtists::new();
     let (graph_file, graph_index) = create_test_graph();
-    
+
     let app_state = Arc::new(AppState {
         name_lookup: test_artists.as_name_lookup(),
         artist_metadata: test_artists.as_metadata(),
         graph_index,
         graph_mmap: unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     let app = Router::new()

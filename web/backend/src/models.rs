@@ -1,6 +1,6 @@
+use artistpath_core::Algorithm;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use artistpath_core::Algorithm;
 
 #[derive(Serialize)]
 pub struct HealthResponse {
@@ -113,7 +113,6 @@ pub struct GraphExploreResponse {
     pub search_stats: SearchStats,
 }
 
-
 fn default_max_relations() -> usize {
     80
 }
@@ -161,3 +160,31 @@ pub struct EnhancedPathError {
     pub primary_path: Option<Vec<PathArtist>>,
 }
 
+#[derive(Serialize)]
+pub struct ArtistDetailsResponse {
+    pub id: Uuid,
+    pub name: String,
+    pub url: String,
+    pub lastfm_data: Option<LastFmArtistData>,
+    pub top_tracks: Option<Vec<LastFmTrackData>>,
+}
+
+#[derive(Serialize)]
+pub struct LastFmArtistData {
+    pub name: String,
+    pub url: String,
+    pub image_url: Option<String>,
+    pub listeners: Option<String>,
+    pub plays: Option<String>,
+    pub tags: Vec<String>,
+    pub bio_summary: Option<String>,
+    pub bio_full: Option<String>,
+}
+
+#[derive(Serialize)]
+pub struct LastFmTrackData {
+    pub name: String,
+    pub url: String,
+    pub playcount: String,
+    pub listeners: String,
+}

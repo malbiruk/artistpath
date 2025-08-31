@@ -1,12 +1,8 @@
-use artistpath_web::{
-    handlers::search_artists,
-    models::SearchQuery,
-    state::AppState,
-};
+use crate::fixtures::{TestArtists, create_empty_mmap};
+use artistpath_web::{handlers::search_artists, models::SearchQuery, state::AppState};
 use axum::extract::{Query, State};
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::fixtures::{TestArtists, create_empty_mmap};
 
 #[tokio::test]
 async fn search_returns_empty_for_empty_query() {
@@ -16,6 +12,7 @@ async fn search_returns_empty_for_empty_query() {
         artist_metadata: artists.as_metadata(),
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     let params = SearchQuery {
@@ -39,6 +36,7 @@ async fn search_finds_exact_match() {
         artist_metadata: artists.as_metadata(),
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     let params = SearchQuery {
@@ -62,6 +60,7 @@ async fn search_finds_partial_match() {
         artist_metadata: artists.as_metadata(),
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     let params = SearchQuery {
@@ -84,6 +83,7 @@ async fn search_respects_limit() {
         artist_metadata: artists.as_metadata(),
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     // Search for something that matches multiple artists
@@ -105,7 +105,7 @@ async fn search_prioritizes_prefix_matches() {
     let swift_boat_id = Uuid::new_v4();
     let mut name_lookup = artists.as_name_lookup();
     name_lookup.insert("swift boat".to_string(), swift_boat_id);
-    
+
     let mut metadata = artists.as_metadata();
     metadata.insert(
         swift_boat_id,
@@ -115,12 +115,13 @@ async fn search_prioritizes_prefix_matches() {
             url: "".to_string(),
         },
     );
-    
+
     let state = Arc::new(AppState {
         name_lookup,
         artist_metadata: metadata,
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
+        lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
     });
 
     let params = SearchQuery {

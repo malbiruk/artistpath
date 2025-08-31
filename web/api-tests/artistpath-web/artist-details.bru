@@ -1,0 +1,82 @@
+meta {
+  name: artist-details
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/artist/20244d07-534f-4eff-b4d4-930878889970
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have artist details structure", function() {
+    const data = res.body;
+    expect(data.id).to.be.a('string');
+    expect(data.name).to.be.a('string');
+    expect(data.url).to.be.a('string');
+    expect(data.lastfm_data).to.satisfy(function(val) {
+      return val === null || typeof val === 'object';
+    });
+    expect(data.top_tracks).to.satisfy(function(val) {
+      return val === null || Array.isArray(val);
+    });
+  });
+  
+  test("Should have Taylor Swift details", function() {
+    const data = res.body;
+    expect(data.name).to.equal('Taylor Swift');
+    expect(data.id).to.equal('20244d07-534f-4eff-b4d4-930878889970');
+  });
+  
+  test("Last.fm data structure (if present)", function() {
+    const data = res.body;
+    if (data.lastfm_data) {
+      expect(data.lastfm_data.name).to.be.a('string');
+      expect(data.lastfm_data.url).to.be.a('string');
+      expect(data.lastfm_data.tags).to.be.an('array');
+      expect(data.lastfm_data.listeners).to.satisfy(function(val) {
+        return val === null || typeof val === 'string';
+      });
+      expect(data.lastfm_data.plays).to.satisfy(function(val) {
+        return val === null || typeof val === 'string';
+      });
+      expect(data.lastfm_data.image_url).to.satisfy(function(val) {
+        return val === null || typeof val === 'string';
+      });
+      expect(data.lastfm_data.bio_summary).to.satisfy(function(val) {
+        return val === null || typeof val === 'string';
+      });
+    }
+  });
+  
+  test("Top tracks structure (if present)", function() {
+    const data = res.body;
+    if (data.top_tracks && data.top_tracks.length > 0) {
+      const track = data.top_tracks[0];
+      expect(track.name).to.be.a('string');
+      expect(track.url).to.be.a('string');
+      expect(track.playcount).to.be.a('string');
+      expect(track.listeners).to.be.a('string');
+    }
+  });
+  
+  test("Performance should be reasonable", function() {
+    // First request might be slow due to Last.fm API call
+    // Subsequent requests should be fast due to caching
+    expect(res.responseTime).to.be.lessThan(5000); // Under 5 seconds
+  });
+}
+
+settings {
+  encodeUrl: true
+}

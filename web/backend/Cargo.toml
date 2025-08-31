@@ -31,6 +31,12 @@ memmap2 = "0.9.7"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
+# HTTP client and caching
+reqwest = { version = "0.11", features = ["json"] }
+moka = { version = "0.12", features = ["future"] }
+urlencoding = "2.1"
+dotenvy = "0.15"
+
 [profile.release]
 opt-level = 3
 lto = true
