@@ -6,15 +6,11 @@ pub mod string_normalization;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum Algorithm {
+    #[default]
     Bfs,
     Dijkstra,
-}
-
-impl Default for Algorithm {
-    fn default() -> Self {
-        Algorithm::Bfs
-    }
 }
 
 impl Algorithm {
@@ -42,9 +38,12 @@ impl From<String> for Algorithm {
 }
 
 // Re-export commonly used items
-pub use exploration::{explore_bfs, explore_dijkstra, ExplorationResult, ExplorationStats};
+pub use exploration::{ExplorationResult, ExplorationStats, explore_bfs, explore_dijkstra};
 pub use parsing::{Artist, find_artist_id, parse_unified_metadata};
-pub use pathfinding::{bfs_find_path, dijkstra_find_path, get_artist_connections, find_paths_with_exploration, EnhancedPathResult};
+pub use pathfinding::{
+    EnhancedPathResult, bfs_find_path, dijkstra_find_path, find_paths_with_exploration,
+    get_artist_connections,
+};
 pub use pathfinding_config::PathfindingConfig;
 
 // Re-export PyO3 module when python feature is enabled
