@@ -97,14 +97,10 @@ function App() {
 
   const handleFromHere = (artistData) => {
     setFromArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
-    setIsArtistCardOpen(false);
-    setSelectedArtistId(null);
   };
 
   const handleToHere = (artistData) => {
     setToArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
-    setIsArtistCardOpen(false);
-    setSelectedArtistId(null);
   };
 
   const renderVisualization = () => {
