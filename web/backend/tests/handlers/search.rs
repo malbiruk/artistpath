@@ -13,6 +13,7 @@ async fn search_returns_empty_for_empty_query() {
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     let params = SearchQuery {
@@ -37,6 +38,7 @@ async fn search_finds_exact_match() {
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     let params = SearchQuery {
@@ -61,6 +63,7 @@ async fn search_finds_partial_match() {
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     let params = SearchQuery {
@@ -84,6 +87,7 @@ async fn search_respects_limit() {
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     // Search for something that matches multiple artists
@@ -122,6 +126,7 @@ async fn search_prioritizes_prefix_matches() {
         graph_index: Default::default(),
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     let params = SearchQuery {

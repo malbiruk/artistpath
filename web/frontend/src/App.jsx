@@ -22,6 +22,7 @@ function App() {
   const [algorithm, setAlgorithm] = useState("simple");
   const [selectedArtistId, setSelectedArtistId] = useState(null);
   const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const swapArtists = () => {
     const tempFrom = fromArtist;
@@ -91,8 +92,16 @@ function App() {
   };
 
   const handleArtistCardClose = () => {
+    // Don't close if audio is playing
+    if (isAudioPlaying) {
+      return;
+    }
     setIsArtistCardOpen(false);
     setSelectedArtistId(null);
+  };
+
+  const handlePlayingStateChange = (isPlaying) => {
+    setIsAudioPlaying(isPlaying);
   };
 
   const handleFromHere = (artistData) => {
@@ -306,6 +315,7 @@ function App() {
             onClose={handleArtistCardClose}
             onFromHere={handleFromHere}
             onToHere={handleToHere}
+            onPlayingStateChange={handlePlayingStateChange}
           />
         </div>
       </main>

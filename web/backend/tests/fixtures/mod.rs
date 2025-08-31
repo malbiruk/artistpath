@@ -173,6 +173,7 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         graph_index,
         graph_mmap: unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
+        itunes_client: artistpath_web::itunes::ITunesClient::new(),
     });
 
     let app = Router::new()

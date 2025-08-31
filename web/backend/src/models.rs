@@ -187,4 +187,22 @@ pub struct LastFmTrackData {
     pub url: String,
     pub playcount: String,
     pub listeners: String,
+    pub preview_url: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct ITunesSearchResponse {
+    pub results: Vec<ITunesTrack>,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct ITunesTrack {
+    #[serde(rename = "trackName")]
+    pub track_name: String,
+    #[serde(rename = "artistName")]
+    pub artist_name: String,
+    #[serde(rename = "previewUrl")]
+    pub preview_url: String,
+    #[serde(rename = "trackId")]
+    pub track_id: u64,
 }

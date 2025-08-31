@@ -1,6 +1,7 @@
 pub mod enhanced_pathfinding;
 pub mod exploration;
 pub mod handlers;
+pub mod itunes;
 pub mod lastfm;
 pub mod models;
 pub mod pathfinding;

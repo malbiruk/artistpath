@@ -5,6 +5,7 @@ use std::fs::File;
 use std::path::Path;
 use uuid::Uuid;
 use crate::lastfm::LastFmClient;
+use crate::itunes::ITunesClient;
 
 pub struct AppState {
     pub name_lookup: FxHashMap<String, Uuid>,
@@ -12,6 +13,7 @@ pub struct AppState {
     pub graph_index: FxHashMap<Uuid, u64>,
     pub graph_mmap: Mmap,
     pub lastfm_client: LastFmClient,
+    pub itunes_client: ITunesClient,
 }
 
 impl AppState {
@@ -31,6 +33,7 @@ impl AppState {
             .expect("LASTFM_API_KEY or API_KEY environment variable must be set");
         
         let lastfm_client = LastFmClient::new(api_key);
+        let itunes_client = ITunesClient::new();
         
         println!("Loaded {} artists", artist_metadata.len());
         println!("Graph file: {} MB", graph_mmap.len() / 1_000_000);
@@ -41,6 +44,7 @@ impl AppState {
             graph_index,
             graph_mmap,
             lastfm_client,
+            itunes_client,
         })
     }
 }

@@ -67,6 +67,9 @@ tests {
       expect(track.url).to.be.a('string');
       expect(track.playcount).to.be.a('string');
       expect(track.listeners).to.be.a('string');
+      expect(track.preview_url).to.satisfy(function(val) {
+        return val === null || typeof val === 'string';
+      });
     }
   });
   

@@ -1,18 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./ArtistCard.css";
 
-function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
+function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlayingStateChange }) {
   const [artistData, setArtistData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showFullBio, setShowFullBio] = useState(false);
+  const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
+  const [audio, setAudio] = useState(null);
 
   useEffect(() => {
     if (artistId && isOpen) {
       fetchArtistData();
       setShowFullBio(false); // Reset to summary when opening new artist
+      
+      // Stop any playing audio when switching artists
+      if (audio) {
+        audio.pause();
+        setAudio(null);
+        setCurrentlyPlaying(null);
+      }
     }
   }, [artistId, isOpen]);
+
+  // Clean up audio when component unmounts
+  useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.pause();
+      }
+    };
+  }, [audio]);
 
   const fetchArtistData = async () => {
     setLoading(true);
@@ -21,7 +39,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
     try {
       const response = await fetch(`/api/artist/${artistId}`);
       if (!response.ok) {
-        throw new Error("Artist not found");
+        throw new Error("artist not found");
       }
       const data = await response.json();
       setArtistData(data);
@@ -38,6 +56,52 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
 
   const handleToHere = () => {
     onToHere(artistData);
+  };
+
+  const handleClose = () => {
+    // Don't close if audio is playing
+    if (currentlyPlaying) {
+      return;
+    }
+    onClose();
+  };
+
+  const handlePlayTrack = (track) => {
+    if (!track.preview_url) return;
+
+    if (currentlyPlaying === track.name) {
+      // Stop current track
+      if (audio) {
+        audio.pause();
+        setAudio(null);
+      }
+      setCurrentlyPlaying(null);
+      onPlayingStateChange && onPlayingStateChange(false);
+    } else {
+      // Stop any existing audio
+      if (audio) {
+        audio.pause();
+      }
+
+      // Create new audio
+      const newAudio = new Audio(track.preview_url);
+      newAudio.play();
+      
+      newAudio.onended = () => {
+        setCurrentlyPlaying(null);
+        setAudio(null);
+        onPlayingStateChange && onPlayingStateChange(false);
+      };
+
+      setAudio(newAudio);
+      setCurrentlyPlaying(track.name);
+      onPlayingStateChange && onPlayingStateChange(true);
+    }
+  };
+
+  const getYouTubeSearchUrl = (artistName, trackName) => {
+    const query = encodeURIComponent(`${artistName} ${trackName}`);
+    return `https://www.youtube.com/results?search_query=${query}`;
   };
 
   const renderBio = () => {
@@ -80,7 +144,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
   return (
     <div className={`artist-card ${isOpen ? "open" : ""}`}>
       <div className="artist-card-header">
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={handleClose}>
           ×
         </button>
       </div>
@@ -100,7 +164,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
 
       {error && (
         <div className="artist-card-error">
-          <p>error: {error}</p>
+          <p>ERROR: {error}</p>
           {artistData && (
             <div className="fallback-info">
               <h3>{artistData.name}</h3>
@@ -166,17 +230,34 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
               <div className="tracks-list">
                 {artistData.top_tracks.map((track, index) => (
                   <div key={index} className="track">
-                    <a
-                      href={track.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="track-link"
-                    >
-                      <span className="track-name">{track.name}</span>
-                      <span className="track-stats">
-                        {formatNumber(track.playcount)} plays
-                      </span>
-                    </a>
+                    <div className="track-content">
+                      <div className="track-info">
+                        <span className="track-name">{track.name}</span>
+                        <span className="track-stats">
+                          {formatNumber(track.playcount)} plays
+                        </span>
+                      </div>
+                      <div className="track-actions">
+                        {track.preview_url ? (
+                          <button
+                            className="play-button"
+                            onClick={() => handlePlayTrack(track)}
+                          >
+                            {currentlyPlaying === track.name ? "⏸" : "▶"}
+                          </button>
+                        ) : (
+                          <a
+                            href={getYouTubeSearchUrl(artistData.name, track.name)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="youtube-link"
+                            title="search on youtube"
+                          >
+                            yt
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

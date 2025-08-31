@@ -5,6 +5,7 @@ use tower_http::cors::CorsLayer;
 mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
+mod itunes;
 mod lastfm;
 mod models;
 mod pathfinding;

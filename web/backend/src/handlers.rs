@@ -130,21 +130,31 @@ pub async fn get_artist_details(
             let (bio_summary, bio_full) = info
                 .bio
                 .map(|b| {
-                    let clean_summary = b.summary
+                    let clean_summary = b
+                        .summary
                         .replace("&quot;", "\"")
                         .replace("Read more on Last.fm", "")
                         .replace("\\n", "\n")
                         .trim()
                         .to_string();
-                    let clean_full = b.content
+                    let clean_full = b
+                        .content
                         .replace("&quot;", "\"")
                         .replace("Read more on Last.fm", "")
                         .replace("\\n", "\n")
                         .trim()
                         .to_string();
                     (
-                        if clean_summary.is_empty() { None } else { Some(clean_summary) },
-                        if clean_full.is_empty() { None } else { Some(clean_full) }
+                        if clean_summary.is_empty() {
+                            None
+                        } else {
+                            Some(clean_summary)
+                        },
+                        if clean_full.is_empty() {
+                            None
+                        } else {
+                            Some(clean_full)
+                        },
                     )
                 })
                 .unwrap_or((None, None));
@@ -163,19 +173,33 @@ pub async fn get_artist_details(
         Err(_) => None,
     };
 
-    // Process Last.fm top tracks
+    // Process Last.fm top tracks with iTunes previews
     let top_tracks = match lastfm_tracks {
-        Ok(tracks) => Some(
-            tracks
-                .into_iter()
-                .map(|track| LastFmTrackData {
+        Ok(tracks) => {
+            let mut track_data = Vec::new();
+
+            for track in tracks {
+                // Search for iTunes preview
+                let preview_url = match state
+                    .itunes_client
+                    .search_track(artist_name, &track.name)
+                    .await
+                {
+                    Ok(Some(itunes_track)) => Some(itunes_track.preview_url),
+                    _ => None,
+                };
+
+                track_data.push(LastFmTrackData {
                     name: track.name,
                     url: track.url,
                     playcount: track.playcount,
                     listeners: track.listeners,
-                })
-                .collect(),
-        ),
+                    preview_url,
+                });
+            }
+
+            Some(track_data)
+        }
         Err(_) => None,
     };
 

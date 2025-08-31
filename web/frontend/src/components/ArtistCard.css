@@ -72,15 +72,14 @@
 }
 
 .fallback-info {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
+    margin-top: 0.5rem;
 }
 
 .fallback-info h3 {
     font-size: 16px;
     margin-bottom: 0.5rem;
     color: black;
+    font-weight: normal;
 }
 
 .fallback-info a {
@@ -233,10 +232,6 @@
     background: black;
     color: white;
 }
-/*
-.top-tracks {
-    margin-bottom: 2rem;
-}*/
 
 .top-tracks h4 {
     font-size: 12px;
@@ -260,24 +255,29 @@
     background: black;
 }
 
-.track:hover .track-link {
+.track:hover .track-name,
+.track:hover .track-stats {
     color: white;
 }
 
-.track-link {
+.track-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem;
-    color: black;
-    text-decoration: none;
-    width: 100%;
+}
+
+.track-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    flex: 1;
+    min-width: 0;
 }
 
 .track-name {
     font-size: 11px;
-    flex: 1;
-    min-width: 0;
+    color: black;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -286,12 +286,43 @@
 .track-stats {
     font-size: 11px;
     color: gray;
-    margin-left: 1rem;
+}
+
+.track-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
     flex-shrink: 0;
 }
 
-.track:hover .track-stats {
-    color: gray;
+.play-button {
+    background: white;
+    border: 1px solid black;
+    font-size: 11px;
+    padding: 0.25rem 0.375rem;
+    cursor: pointer;
+    color: black;
+    font-family: inherit;
+}
+
+.play-button:hover {
+    background: black;
+    color: white;
+}
+
+.youtube-link {
+    background: white;
+    border: 1px solid black;
+    font-size: 11px;
+    padding: 0.25rem 0.375rem;
+    color: black;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.youtube-link:hover {
+    background: black;
+    color: white;
 }
 
 .artist-actions {
