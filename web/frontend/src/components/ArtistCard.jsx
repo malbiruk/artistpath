@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./ArtistCard.css";
 
-function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlayingStateChange }) {
+function ArtistCard({
+  artistId,
+  isOpen,
+  onClose,
+  onFromHere,
+  onToHere,
+  onPlayingStateChange,
+}) {
   const [artistData, setArtistData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,7 +20,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlaying
     if (artistId && isOpen) {
       fetchArtistData();
       setShowFullBio(false); // Reset to summary when opening new artist
-      
+
       // Stop any playing audio when switching artists
       if (audio) {
         audio.pause();
@@ -66,7 +73,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlaying
     }
     setCurrentlyPlaying(null);
     onPlayingStateChange && onPlayingStateChange(false);
-    
+
     // Force close regardless of playing state
     onClose(true); // Pass force=true to bypass playing check
   };
@@ -91,7 +98,7 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlaying
       // Create new audio
       const newAudio = new Audio(track.preview_url);
       newAudio.play();
-      
+
       newAudio.onended = () => {
         setCurrentlyPlaying(null);
         setAudio(null);
@@ -243,24 +250,26 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere, onPlaying
                         </span>
                       </div>
                       <div className="track-actions">
-                        {track.preview_url ? (
+                        {track.preview_url && (
                           <button
                             className="play-button"
                             onClick={() => handlePlayTrack(track)}
                           >
                             {currentlyPlaying === track.name ? "⏸" : "▶"}
                           </button>
-                        ) : (
-                          <a
-                            href={getYouTubeSearchUrl(artistData.name, track.name)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="youtube-link"
-                            title="search on youtube"
-                          >
-                            yt
-                          </a>
                         )}
+                        <a
+                          href={getYouTubeSearchUrl(
+                            artistData.name,
+                            track.name,
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="youtube-link"
+                          title="search on youtube"
+                        >
+                          ⌕
+                        </a>
                       </div>
                     </div>
                   </div>
