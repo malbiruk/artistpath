@@ -87,7 +87,14 @@ function ArtistCard({ artistId, isOpen, onClose, onFromHere, onToHere }) {
 
       {loading && (
         <div className="artist-card-loading">
-          <p>loading artist details...</p>
+          <p className="loading artist-loading-text">
+            loading artist details
+            <span className="loading-dots">
+              <span className="dot-1">.</span>
+              <span className="dot-2">.</span>
+              <span className="dot-3">.</span>
+            </span>
+          </p>
         </div>
       )}
 

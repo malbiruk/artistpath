@@ -41,11 +41,30 @@
     color: white;
 }
 
-.artist-card-loading,
+.artist-card-loading {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: gray;
+    border: 1px solid black;
+    background: white;
+    margin: 1rem;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-loading-text {
+    font-size: 11px;
+}
+
 .artist-card-error {
     padding: 1rem;
     text-align: center;
-    color: gray;
+    color: #cc0000;
+    border: 1px solid black;
+    background: white;
+    margin: 1rem;
 }
 
 .artist-card-error {
