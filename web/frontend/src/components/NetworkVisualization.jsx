@@ -10,6 +10,7 @@ function NetworkVisualization({ data }) {
     // State for mobile interactions
     let activeNode = null;
     let activeEdge = null;
+    let hoverTimeout = null;
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     const svg = d3.select(svgRef.current);
@@ -185,15 +186,38 @@ function NetworkVisualization({ data }) {
       .attr("class", "link-hover")
       .attr("stroke", "transparent")
       .attr("stroke-width", 10)
-      .style("cursor", "pointer")
+      .style("cursor", "default")
       .on("mouseenter", function (event, d) {
         if (!isTouchDevice) {
-          showEdgeTooltip(d);
+          // Clear any pending timeout
+          if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+          }
+          
+          // Create edge key for this connection (both directions)
+          const edgeKey = [d.source.id, d.target.id].sort().join('-');
+          
+          // Only show if it's a different edge connection
+          if (activeEdge !== edgeKey) {
+            activeEdge = edgeKey;
+            showEdgeTooltip(d);
+          }
         }
       })
-      .on("mouseleave", function () {
+      .on("mouseleave", function (event, d) {
         if (!isTouchDevice) {
-          clearEdgeTooltip();
+          // Debounce the mouseleave to prevent flickering
+          if (hoverTimeout) clearTimeout(hoverTimeout);
+          
+          hoverTimeout = setTimeout(() => {
+            const edgeKey = [d.source.id, d.target.id].sort().join('-');
+            if (activeEdge === edgeKey) {
+              activeEdge = null;
+              clearEdgeTooltip();
+            }
+            hoverTimeout = null;
+          }, 50);
         }
       })
       .on("click", function (event, clickedEdge) {
@@ -261,6 +285,12 @@ function NetworkVisualization({ data }) {
     const clearEdgeTooltip = () => {
       activeEdge = null;
       g.selectAll(".edge-tooltip").remove();
+      
+      // Reset all opacities
+      nodeGroup.style("opacity", 1);
+      link.style("opacity", 1);
+      
+      // Stop all animations
       link.each(function () {
         stopLinkAnimation(d3.select(this).select(".link-line"));
       });
@@ -303,7 +333,20 @@ function NetworkVisualization({ data }) {
         linkData.source.id === d.source.id && linkData.target.id === d.target.id
       ).select(".link-line");
 
-      // Show similarity score
+      // Find maximum similarity between these two nodes (both directions)
+      const allEdges = validLinks.filter(linkData => 
+        (linkData.source.id === d.source.id && linkData.target.id === d.target.id) ||
+        (linkData.source.id === d.target.id && linkData.target.id === d.source.id)
+      );
+      
+      if (allEdges.length === 0) {
+        console.warn("No edges found for tooltip", d);
+        return;
+      }
+      
+      const maxSimilarity = Math.max(...allEdges.map(edge => edge.similarity));
+
+      // Show max similarity score (strongest connection)
       const midX = (d.source.x + d.target.x) / 2;
       const midY = (d.source.y + d.target.y) / 2;
 
@@ -319,17 +362,40 @@ function NetworkVisualization({ data }) {
         .attr("width", 40)
         .attr("height", 20)
         .attr("fill", "white")
-        .attr("stroke", "black");
+        .attr("stroke", "black")
+        .style("pointer-events", "none");
 
       tooltip
         .append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .style("font-size", "10px")
-        .text(d.similarity.toFixed(2));
+        .style("user-select", "none")
+        .style("pointer-events", "none")
+        .text(maxSimilarity.toFixed(2));
 
-      // Animate dashed line for direction
-      animateLink(thisLink);
+      // Gray out all other nodes and edges (focus on this connection)
+      const connectedNodeIds = new Set([d.source.id, d.target.id]);
+      
+      nodeGroup.style("opacity", (node) => connectedNodeIds.has(node.id) ? 1 : 0.2);
+      
+      link.style("opacity", (linkData) => {
+        const isThisConnection = 
+          (linkData.source.id === d.source.id && linkData.target.id === d.target.id) ||
+          (linkData.source.id === d.target.id && linkData.target.id === d.source.id);
+        return isThisConnection ? 1 : 0.1;
+      });
+
+      // Animate all links between these nodes (both directions)
+      allEdges.forEach(edge => {
+        const linkToAnimate = link.filter(linkData => 
+          linkData.source.id === edge.source.id && linkData.target.id === edge.target.id
+        ).select(".link-line");
+        
+        if (!linkToAnimate.empty()) {
+          animateLink(linkToAnimate);
+        }
+      });
     };
 
     // Add tap-away handler for mobile
