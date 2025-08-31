@@ -41,12 +41,13 @@
 }
 
 .artist-card-loading {
-    padding: 2rem 1rem;
+    padding: 0 1rem 1rem 1rem;
     text-align: center;
     color: gray;
     border: 1px solid black;
     background: white;
-    margin: 1rem;
+    max-height: 100%;
+    overflow-y: auto;
     height: 50%;
     display: flex;
     align-items: center;
@@ -58,16 +59,18 @@
 }
 
 .artist-card-error {
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
     text-align: center;
     color: #cc0000;
     border: 1px solid black;
     background: white;
-    margin: 1rem;
-}
-
-.artist-card-error {
-    color: #cc0000;
+    max-height: 100%;
+    overflow-y: auto;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .fallback-info {
