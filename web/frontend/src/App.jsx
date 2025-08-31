@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { flushSync } from "react-dom";
 import "./App.css";
 import ArtistInput from "./components/ArtistInput";
 import NumberInput from "./components/NumberInput";
@@ -20,8 +21,19 @@ function App() {
   const [algorithm, setAlgorithm] = useState("simple");
 
   const swapArtists = () => {
-    setToArtist(fromArtist);
-    setFromArtist(toArtist);
+    const tempFrom = fromArtist;
+    const tempTo = toArtist;
+    
+    // Clear both inputs first, then swap synchronously
+    flushSync(() => {
+      setFromArtist(null);
+      setToArtist(null);
+    });
+    
+    flushSync(() => {
+      setFromArtist(tempTo);
+      setToArtist(tempFrom);
+    });
   };
 
   // Fetch total artists on mount
@@ -104,6 +116,17 @@ function App() {
       return <NetworkVisualization data={networkData} />;
     }
 
+    // Only "to" artist set - suggest using swap button
+    if (!fromArtist && toArtist) {
+      return (
+        <>
+          <p>exploration only works from the "from" field</p>
+          <p>use the ⇄ button to move {toArtist.name} to "from" and start exploring</p>
+          <p>or fill in another "from" artist to get the path</p>
+        </>
+      );
+    }
+
     // No path found between two artists
     if (fromArtist && toArtist) {
       return (
@@ -126,17 +149,22 @@ function App() {
         return;
       }
 
+      // Also reset if we have only "to" artist (invalid state)
+      if (!fromArtist && toArtist) {
+        resetSearch();
+        return;
+      }
+
       setIsLoading(true);
       setIsError(false);
 
       try {
-        if ((fromArtist && !toArtist) || (!fromArtist && toArtist)) {
-          // Single artist - explore
-          const artistToExplore = fromArtist || toArtist;
+        if (fromArtist && !toArtist) {
+          // Single artist - explore (only from "from" field)
           setStatusInfo("exploring artist network...");
           
           const data = await exploreArtist(
-            artistToExplore.id,
+            fromArtist.id,
             maxArtists,
             maxRelations,
             minSimilarity,
