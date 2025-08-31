@@ -33,7 +33,7 @@ function ArtistInput({ value, onChange, placeholder }) {
       const results = await searchArtists(inputValue);
       setSuggestions(results);
       setShowSuggestions(true);
-    }, 300);
+    }, 150);
 
     return () => {
       if (debounceTimer.current) {
