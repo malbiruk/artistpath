@@ -322,31 +322,23 @@
 @media (max-width: 768px) {
     .artist-card {
         right: -100%;
-        width: calc(100% - 40px);
-        top: 20px;
-        bottom: 80px;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        padding: 0.5rem;
+        background: white;
     }
 
-    .artist-card.open {
-        right: 20px;
+    .artist-card-loading {
+        height: 100%;
     }
 
-    .artist-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    .artist-card-content {
+        height: 100%;
     }
 
-    .artist-image {
-        width: 120px;
-        height: 120px;
-    }
-
-    .artist-stats {
-        justify-content: space-around;
-    }
-
-    .tags {
-        justify-content: center;
+    .artist-actions {
+        padding: 0.5rem 0 0 0;
     }
 }

@@ -462,12 +462,31 @@ function NetworkVisualization({ data, onArtistClick, onClickAway }) {
           // Clear any active edge tooltip
           clearEdgeTooltip();
 
-          // Toggle node highlight
-          if (activeNode === clickedNode.id) {
+          // Double tap detection for mobile
+          if (!clickedNode.tapCount) clickedNode.tapCount = 0;
+          clickedNode.tapCount++;
+
+          if (clickedNode.tapCount === 1) {
+            // First tap - immediate single tap action
+            if (activeNode === clickedNode.id) {
+              clearNodeHighlight();
+            } else {
+              activeNode = clickedNode.id;
+              showNodeConnections(clickedNode);
+            }
+            
+            // Start timer to reset tap count
+            clickedNode.tapTimer = setTimeout(() => {
+              clickedNode.tapCount = 0;
+            }, 300);
+          } else if (clickedNode.tapCount === 2) {
+            // Double tap - clear highlights and open artist card
+            clearTimeout(clickedNode.tapTimer);
+            clickedNode.tapCount = 0;
             clearNodeHighlight();
-          } else {
-            activeNode = clickedNode.id;
-            showNodeConnections(clickedNode);
+            if (onArtistClick) {
+              onArtistClick(clickedNode);
+            }
           }
         } else {
           // Desktop: open artist card on click
