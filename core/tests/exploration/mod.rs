@@ -1,4 +1,5 @@
 pub mod bfs;
+pub mod dijkstra;
 
 use memmap2::Mmap;
 use rustc_hash::FxHashMap;

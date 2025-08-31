@@ -63,6 +63,7 @@ pub async fn explore_artist(
 ) -> Json<GraphExploreResponse> {
     let response = explore_artist_network_graph(
         params.artist_id,
+        params.algorithm,
         params.budget,
         params.max_relations,
         params.min_similarity,

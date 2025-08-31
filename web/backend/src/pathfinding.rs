@@ -1,21 +1,21 @@
 use crate::models::{PathArtist, PathResponse, SearchStats};
 use crate::state::AppState;
-use artistpath_core::{PathfindingConfig, bfs_find_path, dijkstra_find_path};
+use artistpath_core::{PathfindingConfig, bfs_find_path, dijkstra_find_path, Algorithm};
 use std::time::Instant;
 use uuid::Uuid;
 
 pub fn find_path_between_artists(
     from_id: Uuid,
     to_id: Uuid,
-    algorithm: String,
+    algorithm: Algorithm,
     min_similarity: f32,
     max_relations: usize,
     state: &AppState,
 ) -> PathResponse {
-    let config = PathfindingConfig::new(min_similarity, max_relations, algorithm == "dijkstra");
+    let config = PathfindingConfig::new(min_similarity, max_relations, algorithm == Algorithm::Dijkstra);
 
     let (path_result, artists_visited, start_time) =
-        execute_pathfinding(from_id, to_id, &algorithm, &config, state);
+        execute_pathfinding(from_id, to_id, algorithm, &config, state);
 
     build_path_response(path_result, artists_visited, start_time, algorithm, state)
 }
@@ -23,28 +23,27 @@ pub fn find_path_between_artists(
 pub fn execute_pathfinding(
     from_id: Uuid,
     to_id: Uuid,
-    algorithm: &str,
+    algorithm: Algorithm,
     config: &PathfindingConfig,
     state: &AppState,
 ) -> (Option<Vec<(Uuid, f32)>>, usize, Instant) {
     let start_time = Instant::now();
 
-    let (path_result, artists_visited, _duration) = if algorithm == "dijkstra" {
-        dijkstra_find_path(
+    let (path_result, artists_visited, _duration) = match algorithm {
+        Algorithm::Dijkstra => dijkstra_find_path(
             from_id,
             to_id,
             &state.graph_mmap,
             &state.graph_index,
             config,
-        )
-    } else {
-        bfs_find_path(
+        ),
+        Algorithm::Bfs => bfs_find_path(
             from_id,
             to_id,
             &state.graph_mmap,
             &state.graph_index,
             config,
-        )
+        ),
     };
 
     (path_result, artists_visited, start_time)
@@ -54,7 +53,7 @@ pub fn build_path_response(
     path_result: Option<Vec<(Uuid, f32)>>,
     artists_visited: usize,
     start_time: Instant,
-    algorithm: String,
+    algorithm: Algorithm,
     state: &AppState,
 ) -> PathResponse {
     let duration_ms = start_time.elapsed().as_millis() as u64;

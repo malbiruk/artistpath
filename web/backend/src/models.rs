@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
+use artistpath_core::Algorithm;
 
 #[derive(Serialize)]
 pub struct HealthResponse {
@@ -36,8 +37,8 @@ fn default_limit() -> usize {
 pub struct PathQuery {
     pub from_id: Uuid,
     pub to_id: Uuid,
-    #[serde(default = "default_algorithm")]
-    pub algorithm: String,
+    #[serde(default)]
+    pub algorithm: Algorithm,
     #[serde(default)]
     pub min_similarity: f32,
     #[serde(default = "default_max_relations")]
@@ -64,7 +65,7 @@ pub struct PathResponse {
     pub path: Option<Vec<PathArtist>>,
     pub artist_count: usize,
     pub step_count: usize,
-    pub algorithm: String,
+    pub algorithm: Algorithm,
     pub search_stats: SearchStats,
 }
 
@@ -76,6 +77,8 @@ pub struct StatsResponse {
 #[derive(Deserialize)]
 pub struct ExploreQuery {
     pub artist_id: Uuid,
+    #[serde(default)]
+    pub algorithm: Algorithm,
     #[serde(default)]
     pub min_similarity: f32,
     #[serde(default = "default_max_relations")]
@@ -110,9 +113,6 @@ pub struct GraphExploreResponse {
     pub search_stats: SearchStats,
 }
 
-fn default_algorithm() -> String {
-    "bfs".to_string()
-}
 
 fn default_max_relations() -> usize {
     80
@@ -126,8 +126,8 @@ fn default_budget() -> usize {
 pub struct EnhancedPathQuery {
     pub from_id: Uuid,
     pub to_id: Uuid,
-    #[serde(default = "default_algorithm")]
-    pub algorithm: String,
+    #[serde(default)]
+    pub algorithm: Algorithm,
     #[serde(default)]
     pub min_similarity: f32,
     #[serde(default = "default_max_relations")]

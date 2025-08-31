@@ -1,11 +1,12 @@
 use crate::models::{GraphEdge, GraphExploreResponse, GraphNode, PathArtist, SearchStats};
 use crate::state::AppState;
-use artistpath_core::{explore_bfs, ExplorationResult};
+use artistpath_core::{explore_bfs, explore_dijkstra, ExplorationResult, Algorithm};
 use std::time::Instant;
 use uuid::Uuid;
 
 pub fn explore_artist_network_graph(
     center_id: Uuid,
+    algorithm: Algorithm,
     budget: usize,
     max_relations: usize,
     min_similarity: f32,
@@ -19,14 +20,24 @@ pub fn explore_artist_network_graph(
         return build_empty_graph_response(center_artist, start_time);
     }
 
-    let exploration_result = explore_bfs(
-        center_id,
-        budget,
-        max_relations,
-        min_similarity,
-        &state.graph_mmap,
-        &state.graph_index,
-    );
+    let exploration_result = match algorithm {
+        Algorithm::Dijkstra => explore_dijkstra(
+            center_id,
+            budget,
+            max_relations,
+            min_similarity,
+            &state.graph_mmap,
+            &state.graph_index,
+        ),
+        Algorithm::Bfs => explore_bfs(
+            center_id,
+            budget,
+            max_relations,
+            min_similarity,
+            &state.graph_mmap,
+            &state.graph_index,
+        ),
+    };
 
     build_graph_response_from_exploration(
         center_artist,

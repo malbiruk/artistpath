@@ -23,6 +23,7 @@ export async function findEnhancedPath(
   minSimilarity,
   maxRelations,
   budget,
+  algorithm = "bfs",
 ) {
   try {
     const params = new URLSearchParams({
@@ -31,7 +32,7 @@ export async function findEnhancedPath(
       min_similarity: minSimilarity,
       max_relations: maxRelations,
       budget: budget,
-      algorithm: "bfs",
+      algorithm: algorithm,
     });
 
     const url = `${API_BASE}/enhanced_path?${params}`;
@@ -78,6 +79,7 @@ export async function exploreArtist(
   budget,
   maxRelations,
   minSimilarity,
+  algorithm = "bfs",
 ) {
   try {
     const params = new URLSearchParams({
@@ -85,6 +87,7 @@ export async function exploreArtist(
       budget: budget,
       max_relations: maxRelations,
       min_similarity: minSimilarity,
+      algorithm: algorithm,
     });
 
     const response = await fetch(`${API_BASE}/explore?${params}`);

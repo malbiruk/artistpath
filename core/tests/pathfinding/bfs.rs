@@ -1,4 +1,4 @@
-use artistpath_core::{PathfindingConfig, bfs_find_path, find_paths_with_exploration_bfs, EnhancedPathResult};
+use artistpath_core::{PathfindingConfig, bfs_find_path, find_paths_with_exploration, EnhancedPathResult, Algorithm};
 use byteorder::{LittleEndian, WriteBytesExt};
 use memmap2::Mmap;
 use rustc_hash::FxHashMap;
@@ -177,7 +177,7 @@ fn test_enhanced_pathfinding_finds_path_and_explores() {
     let config = PathfindingConfig::new(0.0, 10, false);
     
     let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let result = find_paths_with_exploration_bfs(a_id, c_id, 10, &mmap, &index, &config);
+    let result = find_paths_with_exploration(a_id, c_id, Algorithm::Bfs, 10, &mmap, &index, &config);
     
     // Should find the path A -> B -> C
     match result {
@@ -207,7 +207,7 @@ fn test_enhanced_pathfinding_respects_budget() {
     let config = PathfindingConfig::new(0.0, 10, false);
     
     let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let result = find_paths_with_exploration_bfs(a_id, c_id, 3, &mmap, &index, &config);
+    let result = find_paths_with_exploration(a_id, c_id, Algorithm::Bfs, 3, &mmap, &index, &config);
     
     // Should respect budget limit - might be Success or PathTooLong
     match result {
@@ -233,7 +233,7 @@ fn test_enhanced_pathfinding_no_path_still_explores() {
     let config = PathfindingConfig::new(0.0, 10, false);
     
     let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let result = find_paths_with_exploration_bfs(a_id, isolated_id, 3, &mmap, &index, &config);
+    let result = find_paths_with_exploration(a_id, isolated_id, Algorithm::Bfs, 3, &mmap, &index, &config);
     
     // Should not find path to non-existent artist
     match result {
@@ -252,7 +252,7 @@ fn test_enhanced_pathfinding_with_similarity_filter() {
     let config = PathfindingConfig::new(0.75, 10, false); // Filter out connections < 0.75
     
     let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let result = find_paths_with_exploration_bfs(a_id, c_id, 5, &mmap, &index, &config);
+    let result = find_paths_with_exploration(a_id, c_id, Algorithm::Bfs, 5, &mmap, &index, &config);
     
     // Should still find path (A->B has 0.9, B->C has 0.8, both > 0.75)
     match result {
@@ -280,7 +280,7 @@ fn test_enhanced_pathfinding_budget_too_low() {
     
     // Force PathTooLong by using budget = 1 (only start artist)
     let mmap = unsafe { Mmap::map(&file).unwrap() };
-    let result = find_paths_with_exploration_bfs(a_id, c_id, 1, &mmap, &index, &config);
+    let result = find_paths_with_exploration(a_id, c_id, Algorithm::Bfs, 1, &mmap, &index, &config);
     
     match result {
         EnhancedPathResult::PathTooLong { primary_path, path_length, minimum_budget_needed, .. } => {

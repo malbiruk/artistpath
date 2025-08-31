@@ -172,6 +172,9 @@ function App() {
       setIsLoading(true);
       setIsError(false);
 
+      // Convert frontend algorithm to backend algorithm
+      const backendAlgorithm = algorithm === "weighted" ? "dijkstra" : "bfs";
+
       try {
         if (fromArtist && !toArtist) {
           // Single artist - explore (only from "from" field)
@@ -180,6 +183,7 @@ function App() {
             maxArtists,
             maxRelations,
             minSimilarity,
+            backendAlgorithm,
           );
           handleSearchSuccess(data, false);
         } else if (fromArtist && toArtist) {
@@ -190,6 +194,7 @@ function App() {
             minSimilarity,
             maxRelations,
             maxArtists,
+            backendAlgorithm,
           );
           handleSearchSuccess(data, true);
         }
@@ -202,7 +207,7 @@ function App() {
     };
 
     performSearch();
-  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists]);
+  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists, algorithm]);
 
   return (
     <div className="app">

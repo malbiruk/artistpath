@@ -1,4 +1,5 @@
 use crate::fixtures::create_test_app_state;
+use artistpath_core::Algorithm;
 use artistpath_web::models::PathResponse;
 use axum::{
     body::{Body, to_bytes},
@@ -38,7 +39,7 @@ async fn test_path_basic() {
 
     assert_eq!(path_response.artist_count, path.len());
     assert_eq!(path_response.step_count, path.len().saturating_sub(1));
-    assert_eq!(path_response.algorithm, "bfs"); // Default algorithm
+    assert_eq!(path_response.algorithm, Algorithm::Bfs); // Default algorithm
     assert!(path_response.search_stats.artists_visited > 0);
 }
 
@@ -67,7 +68,7 @@ async fn test_path_algorithms() {
         .await
         .unwrap();
     let bfs_path: PathResponse = serde_json::from_slice(&bfs_body).unwrap();
-    assert_eq!(bfs_path.algorithm, "bfs");
+    assert_eq!(bfs_path.algorithm, Algorithm::Bfs);
 
     // Test Dijkstra
     let dijkstra_response = app
@@ -88,7 +89,7 @@ async fn test_path_algorithms() {
         .await
         .unwrap();
     let dijkstra_path: PathResponse = serde_json::from_slice(&dijkstra_body).unwrap();
-    assert_eq!(dijkstra_path.algorithm, "dijkstra");
+    assert_eq!(dijkstra_path.algorithm, Algorithm::Dijkstra);
 }
 
 /// Test same artist (from = to)
