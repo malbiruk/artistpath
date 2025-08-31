@@ -11,7 +11,8 @@ function NetworkVisualization({ data }) {
     let activeNode = null;
     let activeEdge = null;
     let hoverTimeout = null;
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -84,7 +85,9 @@ function NetworkVisualization({ data }) {
     const getNodeFontSize = (d) => {
       const baseFontSize = 9;
       const extraFontSize = 6;
-      return baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+      return (
+        baseFontSize + (d.connectionCount / maxConnections) * extraFontSize
+      );
     };
 
     const getNodeDimensions = (d) => {
@@ -96,8 +99,9 @@ function NetworkVisualization({ data }) {
     };
 
     const getNodeColor = (d) => {
-      const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
-      return (isInPath || d.layer === 0) ? "#0000cc" : "black";
+      const isInPath =
+        data.path && data.path.some((pathNode) => pathNode.id === d.id);
+      return isInPath || d.layer === 0 ? "#0000cc" : "black";
     };
 
     const animateLink = (linkElement) => {
@@ -194,10 +198,10 @@ function NetworkVisualization({ data }) {
             clearTimeout(hoverTimeout);
             hoverTimeout = null;
           }
-          
+
           // Create edge key for this connection (both directions)
-          const edgeKey = [d.source.id, d.target.id].sort().join('-');
-          
+          const edgeKey = [d.source.id, d.target.id].sort().join("-");
+
           // Only show if it's a different edge connection
           if (activeEdge !== edgeKey) {
             activeEdge = edgeKey;
@@ -209,9 +213,9 @@ function NetworkVisualization({ data }) {
         if (!isTouchDevice) {
           // Debounce the mouseleave to prevent flickering
           if (hoverTimeout) clearTimeout(hoverTimeout);
-          
+
           hoverTimeout = setTimeout(() => {
-            const edgeKey = [d.source.id, d.target.id].sort().join('-');
+            const edgeKey = [d.source.id, d.target.id].sort().join("-");
             if (activeEdge === edgeKey) {
               activeEdge = null;
               clearEdgeTooltip();
@@ -222,11 +226,11 @@ function NetworkVisualization({ data }) {
       })
       .on("click", function (event, clickedEdge) {
         event.stopPropagation();
-        
+
         if (isTouchDevice) {
           // Clear any active node highlight
           clearNodeHighlight();
-          
+
           // Toggle edge tooltip
           const edgeKey = `${clickedEdge.source.id}-${clickedEdge.target.id}`;
           if (activeEdge === edgeKey) {
@@ -270,7 +274,7 @@ function NetworkVisualization({ data }) {
           .on("start", dragstarted)
           .on("drag", dragged)
           .on("end", dragended),
-      )
+      );
 
     // Helper functions for mobile interactions
     const clearNodeHighlight = () => {
@@ -285,11 +289,11 @@ function NetworkVisualization({ data }) {
     const clearEdgeTooltip = () => {
       activeEdge = null;
       g.selectAll(".edge-tooltip").remove();
-      
+
       // Reset all opacities
       nodeGroup.style("opacity", 1);
       link.style("opacity", 1);
-      
+
       // Stop all animations
       link.each(function () {
         stopLinkAnimation(d3.select(this).select(".link-line"));
@@ -329,22 +333,31 @@ function NetworkVisualization({ data }) {
       // Clear existing tooltip
       g.selectAll(".edge-tooltip").remove();
 
-      const thisLink = link.filter(linkData => 
-        linkData.source.id === d.source.id && linkData.target.id === d.target.id
-      ).select(".link-line");
+      const thisLink = link
+        .filter(
+          (linkData) =>
+            linkData.source.id === d.source.id &&
+            linkData.target.id === d.target.id,
+        )
+        .select(".link-line");
 
       // Find maximum similarity between these two nodes (both directions)
-      const allEdges = validLinks.filter(linkData => 
-        (linkData.source.id === d.source.id && linkData.target.id === d.target.id) ||
-        (linkData.source.id === d.target.id && linkData.target.id === d.source.id)
+      const allEdges = validLinks.filter(
+        (linkData) =>
+          (linkData.source.id === d.source.id &&
+            linkData.target.id === d.target.id) ||
+          (linkData.source.id === d.target.id &&
+            linkData.target.id === d.source.id),
       );
-      
+
       if (allEdges.length === 0) {
         console.warn("No edges found for tooltip", d);
         return;
       }
-      
-      const maxSimilarity = Math.max(...allEdges.map(edge => edge.similarity));
+
+      const maxSimilarity = Math.max(
+        ...allEdges.map((edge) => edge.similarity),
+      );
 
       // Show max similarity score (strongest connection)
       const midX = (d.source.x + d.target.x) / 2;
@@ -376,22 +389,30 @@ function NetworkVisualization({ data }) {
 
       // Gray out all other nodes and edges (focus on this connection)
       const connectedNodeIds = new Set([d.source.id, d.target.id]);
-      
-      nodeGroup.style("opacity", (node) => connectedNodeIds.has(node.id) ? 1 : 0.2);
-      
+
+      nodeGroup.style("opacity", (node) =>
+        connectedNodeIds.has(node.id) ? 1 : 0.2,
+      );
+
       link.style("opacity", (linkData) => {
-        const isThisConnection = 
-          (linkData.source.id === d.source.id && linkData.target.id === d.target.id) ||
-          (linkData.source.id === d.target.id && linkData.target.id === d.source.id);
+        const isThisConnection =
+          (linkData.source.id === d.source.id &&
+            linkData.target.id === d.target.id) ||
+          (linkData.source.id === d.target.id &&
+            linkData.target.id === d.source.id);
         return isThisConnection ? 1 : 0.1;
       });
 
       // Animate all links between these nodes (both directions)
-      allEdges.forEach(edge => {
-        const linkToAnimate = link.filter(linkData => 
-          linkData.source.id === edge.source.id && linkData.target.id === edge.target.id
-        ).select(".link-line");
-        
+      allEdges.forEach((edge) => {
+        const linkToAnimate = link
+          .filter(
+            (linkData) =>
+              linkData.source.id === edge.source.id &&
+              linkData.target.id === edge.target.id,
+          )
+          .select(".link-line");
+
         if (!linkToAnimate.empty()) {
           animateLink(linkToAnimate);
         }
@@ -400,7 +421,7 @@ function NetworkVisualization({ data }) {
 
     // Add tap-away handler for mobile
     if (isTouchDevice) {
-      svg.on("click", function(event) {
+      svg.on("click", function (event) {
         // Only clear if clicking on empty space (svg itself)
         if (event.target === svgRef.current) {
           clearNodeHighlight();
@@ -431,11 +452,11 @@ function NetworkVisualization({ data }) {
       })
       .on("click", function (event, clickedNode) {
         event.stopPropagation();
-        
+
         if (isTouchDevice) {
           // Clear any active edge tooltip
           clearEdgeTooltip();
-          
+
           // Toggle node highlight
           if (activeNode === clickedNode.id) {
             clearNodeHighlight();
@@ -475,7 +496,10 @@ function NetworkVisualization({ data }) {
         .attr("x2", (d) => Math.round(d.target.x))
         .attr("y2", (d) => Math.round(d.target.y));
 
-      nodeGroup.attr("transform", (d) => `translate(${Math.round(d.x)},${Math.round(d.y)})`);
+      nodeGroup.attr(
+        "transform",
+        (d) => `translate(${Math.round(d.x)},${Math.round(d.y)})`,
+      );
     });
 
     // Clean up simulation when component unmounts
