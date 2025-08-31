@@ -40,52 +40,112 @@ function App() {
       });
   }, []);
 
+  // Helper functions
+  const formatStatusMessage = (data, isPathfinding = false) => {
+    const nodeCount = data.nodes?.length || 0;
+    const edgeCount = data.edges?.length || 0;
+    const duration = data.timing?.duration_ms || 0;
+    const visited = data.timing?.visited_nodes || 0;
+
+    if (isPathfinding) {
+      return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`;
+    }
+    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`;
+  };
+
+  const handleSearchSuccess = (data, isPathfinding = false) => {
+    setNetworkData(data);
+    setCurrentlyShown(data.nodes?.length || 0);
+    setStatusInfo(formatStatusMessage(data, isPathfinding));
+  };
+
+  const handleSearchError = (errorMessage) => {
+    setStatusInfo(errorMessage);
+    setIsError(true);
+  };
+
+  const resetSearch = () => {
+    setNetworkData(null);
+    setCurrentlyShown(0);
+    setStatusInfo("");
+  };
+
+  const renderVisualization = () => {
+    // No artists selected
+    if (!fromArtist && !toArtist) {
+      return (
+        <>
+          <p>enter one artist to explore their network</p>
+          <p>enter two artists to find the path between them</p>
+        </>
+      );
+    }
+
+    // Have data to show
+    if (networkData?.nodes?.length > 0) {
+      const nodeCount = networkData.nodes.length;
+      const edgeCount = networkData.edges.length;
+      
+      // Network too large
+      if (nodeCount > 500 || edgeCount > 2000) {
+        return (
+          <>
+            <p>
+              network too large to display (
+              {nodeCount.toLocaleString()} artists,{" "}
+              {edgeCount.toLocaleString()} connections)
+            </p>
+            <p>reduce parameters to avoid tab crash</p>
+          </>
+        );
+      }
+      
+      // Show visualization
+      return <NetworkVisualization data={networkData} />;
+    }
+
+    // No path found between two artists
+    if (fromArtist && toArtist) {
+      return (
+        <>
+          <p>no path found between these artists</p>
+          <p>try adjusting parameters - they might be too restrictive</p>
+        </>
+      );
+    }
+
+    // Default case (shouldn't happen)
+    return null;
+  };
+
   // Trigger exploration/pathfinding when artists change
   useEffect(() => {
     const performSearch = async () => {
       if (!fromArtist && !toArtist) {
-        setNetworkData(null);
-        setCurrentlyShown(0);
-        setStatusInfo("");
+        resetSearch();
         return;
       }
 
-      if ((fromArtist && !toArtist) || (!fromArtist && toArtist)) {
-        // Single artist - explore
-        const artistToExplore = fromArtist || toArtist;
-        setIsLoading(true);
-        setStatusInfo("exploring artist network...");
-        setIsError(false);
-        try {
+      setIsLoading(true);
+      setIsError(false);
+
+      try {
+        if ((fromArtist && !toArtist) || (!fromArtist && toArtist)) {
+          // Single artist - explore
+          const artistToExplore = fromArtist || toArtist;
+          setStatusInfo("exploring artist network...");
+          
           const data = await exploreArtist(
             artistToExplore.id,
             maxArtists,
             maxRelations,
             minSimilarity,
           );
-          setNetworkData(data);
-          setCurrentlyShown(data.nodes?.length || 0);
-
-          const nodeCount = data.nodes?.length || 0;
-          const edgeCount = data.edges?.length || 0;
-          const duration = data.timing?.duration_ms || 0;
-          const visited = data.timing?.visited_nodes || 0;
-
-          setStatusInfo(
-            `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`,
-          );
-        } catch (error) {
-          setStatusInfo("exploration failed");
-          setIsError(true);
-        } finally {
-          setIsLoading(false);
-        }
-      } else if (fromArtist && toArtist) {
-        // Two artists - find path
-        setIsLoading(true);
-        setStatusInfo("finding path...");
-        setIsError(false);
-        try {
+          handleSearchSuccess(data, false);
+        } else if (fromArtist && toArtist) {
+          // Two artists - find path
+          setStatusInfo("finding path...");
+          
           const data = await findEnhancedPath(
             fromArtist.id,
             toArtist.id,
@@ -93,24 +153,13 @@ function App() {
             maxRelations,
             maxArtists,
           );
-          setNetworkData(data);
-          setCurrentlyShown(data.nodes?.length || 0);
-
-          const nodeCount = data.nodes?.length || 0;
-          const edgeCount = data.edges?.length || 0;
-          const pathLength = data.path?.length || 0;
-          const duration = data.timing?.duration_ms || 0;
-          const visited = data.timing?.visited_nodes || 0;
-
-          setStatusInfo(
-            `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`,
-          );
-        } catch (error) {
-          setStatusInfo("pathfinding failed");
-          setIsError(true);
-        } finally {
-          setIsLoading(false);
+          handleSearchSuccess(data, true);
         }
+      } catch (error) {
+        const errorMessage = fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
+        handleSearchError(errorMessage);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -174,33 +223,7 @@ function App() {
 
       <main className="main">
         <div className="visualization">
-          {!fromArtist && !toArtist ? (
-            <>
-              <p>enter one artist to explore their network</p>
-              <p>enter two artists to find the path between them</p>
-            </>
-          ) : networkData &&
-            networkData.nodes &&
-            networkData.nodes.length > 0 ? (
-            networkData.nodes.length > 500 ||
-            networkData.edges.length > 2000 ? (
-              <>
-                <p>
-                  network too large to display (
-                  {networkData.nodes.length.toLocaleString()} artists,{" "}
-                  {networkData.edges.length.toLocaleString()} connections)
-                </p>
-                <p>reduce parameters to avoid tab crash</p>
-              </>
-            ) : (
-              <NetworkVisualization data={networkData} />
-            )
-          ) : fromArtist && toArtist ? (
-            <>
-              <p>no path found between these artists</p>
-              <p>try adjusting parameters - they might be too restrictive</p>
-            </>
-          ) : null}
+          {renderVisualization()}
         </div>
       </main>
 

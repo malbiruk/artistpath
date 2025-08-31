@@ -79,6 +79,52 @@ function NetworkVisualization({ data }) {
       node.connectionCount = connectionCounts.get(node.id) || 0;
     });
 
+    // Helper functions for repeated calculations
+    const getNodeFontSize = (d) => {
+      const baseFontSize = 9;
+      const extraFontSize = 6;
+      return baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
+    };
+
+    const getNodeDimensions = (d) => {
+      const fontSize = getNodeFontSize(d);
+      const charWidth = fontSize * 0.6;
+      const width = d.name.length * charWidth + 8;
+      const height = fontSize + 10;
+      return { width, height, fontSize };
+    };
+
+    const getNodeColor = (d) => {
+      const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
+      return (isInPath || d.layer === 0) ? "#0000cc" : "black";
+    };
+
+    const animateLink = (linkElement) => {
+      linkElement
+        .attr("stroke-dasharray", "5,5")
+        .attr("stroke-dashoffset", 0)
+        .transition()
+        .duration(500)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", -10)
+        .on("end", function repeat() {
+          linkElement
+            .attr("stroke-dashoffset", 0)
+            .transition()
+            .duration(500)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", -10)
+            .on("end", repeat);
+        });
+    };
+
+    const stopLinkAnimation = (linkElement) => {
+      linkElement
+        .interrupt()
+        .attr("stroke-dasharray", null)
+        .attr("stroke-dashoffset", null);
+    };
+
     // Create force simulation with similarity-based distances
     const simulation = d3
       .forceSimulation(nodes)
@@ -208,11 +254,7 @@ function NetworkVisualization({ data }) {
       nodeGroup.style("opacity", 1);
       link.style("opacity", 1);
       link.each(function () {
-        const thisLink = d3.select(this).select(".link-line");
-        thisLink
-          .interrupt()
-          .attr("stroke-dasharray", null)
-          .attr("stroke-dashoffset", null);
+        stopLinkAnimation(d3.select(this).select(".link-line"));
       });
     };
 
@@ -220,11 +262,7 @@ function NetworkVisualization({ data }) {
       activeEdge = null;
       g.selectAll(".edge-tooltip").remove();
       link.each(function () {
-        const thisLink = d3.select(this).select(".link-line");
-        thisLink
-          .interrupt()
-          .attr("stroke-dasharray", null)
-          .attr("stroke-dashoffset", null);
+        stopLinkAnimation(d3.select(this).select(".link-line"));
       });
     };
 
@@ -252,23 +290,7 @@ function NetworkVisualization({ data }) {
           d.source.id === hoveredNode.id || d.target.id === hoveredNode.id;
 
         if (isConnected) {
-          const thisLink = d3.select(this).select(".link-line");
-          thisLink
-            .attr("stroke-dasharray", "5,5")
-            .attr("stroke-dashoffset", 0)
-            .transition()
-            .duration(500)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", -10)
-            .on("end", function repeat() {
-              thisLink
-                .attr("stroke-dashoffset", 0)
-                .transition()
-                .duration(500)
-                .ease(d3.easeLinear)
-                .attr("stroke-dashoffset", -10)
-                .on("end", repeat);
-            });
+          animateLink(d3.select(this).select(".link-line"));
         }
       });
     };
@@ -307,22 +329,7 @@ function NetworkVisualization({ data }) {
         .text(d.similarity.toFixed(2));
 
       // Animate dashed line for direction
-      thisLink
-        .attr("stroke-dasharray", "5,5")
-        .attr("stroke-dashoffset", 0)
-        .transition()
-        .duration(500)
-        .ease(d3.easeLinear)
-        .attr("stroke-dashoffset", -10)
-        .on("end", function repeat() {
-          thisLink
-            .attr("stroke-dashoffset", 0)
-            .transition()
-            .duration(500)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", -10)
-            .on("end", repeat);
-        });
+      animateLink(thisLink);
     };
 
     // Add tap-away handler for mobile
@@ -366,45 +373,12 @@ function NetworkVisualization({ data }) {
 
     nodeGroup
       .append("rect")
-      .attr("width", (d) => {
-        const baseFontSize = 9;
-        const extraFontSize = 6;
-        const fontSize =
-          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
-        const charWidth = fontSize * 0.6; // Approximate character width
-        return d.name.length * charWidth + 8;
-      })
-      .attr("height", (d) => {
-        const baseFontSize = 9;
-        const extraFontSize = 6;
-        const fontSize =
-          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
-        return fontSize + 10; // Font size + padding
-      })
-      .attr("x", (d) => {
-        const baseFontSize = 9;
-        const extraFontSize = 6;
-        const fontSize =
-          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
-        const charWidth = fontSize * 0.6;
-        const rectWidth = d.name.length * charWidth + 8;
-        return -rectWidth / 2;
-      })
-      .attr("y", (d) => {
-        const baseFontSize = 9;
-        const extraFontSize = 6;
-        const fontSize =
-          baseFontSize + (d.connectionCount / maxConnections) * extraFontSize;
-        const rectHeight = fontSize + 10;
-        return -rectHeight / 2;
-      })
+      .attr("width", (d) => getNodeDimensions(d).width)
+      .attr("height", (d) => getNodeDimensions(d).height)
+      .attr("x", (d) => -getNodeDimensions(d).width / 2)
+      .attr("y", (d) => -getNodeDimensions(d).height / 2)
       .attr("fill", "white")
-      .attr("stroke", (d) => {
-        // Check if node is in the path
-        const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
-        if (isInPath || d.layer === 0) return "#0000cc";
-        return "black";
-      })
+      .attr("stroke", getNodeColor)
       .attr("stroke-width", 1);
 
     nodeGroup
@@ -412,23 +386,9 @@ function NetworkVisualization({ data }) {
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
       .style("font-family", "inherit")
-      .style("font-size", (d) => {
-        // Base font size 9px, up to 15px for most connected
-        const baseFontSize = 9;
-        const extraFontSize = 6;
-        return (
-          baseFontSize +
-          (d.connectionCount / maxConnections) * extraFontSize +
-          "px"
-        );
-      })
+      .style("font-size", (d) => `${getNodeFontSize(d)}px`)
       .style("pointer-events", "none")
-      .style("fill", (d) => {
-        // Check if node is in the path
-        const isInPath = data.path && data.path.some(pathNode => pathNode.id === d.id);
-        if (isInPath || d.layer === 0) return "#0000cc";
-        return "black";
-      })
+      .style("fill", getNodeColor)
       .text((d) => d.name);
 
     // Update positions on each simulation tick
