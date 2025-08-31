@@ -83,6 +83,20 @@ function App() {
   };
 
   const renderVisualization = () => {
+    // Loading state
+    if (isLoading) {
+      return (
+        <>
+          <p className="loading">
+            {fromArtist && toArtist ? "finding path" : "exploring network"}
+            <span className="loading-dots">
+              <span className="dot-1">.</span><span className="dot-2">.</span><span className="dot-3">.</span>
+            </span>
+          </p>
+        </>
+      );
+    }
+
     // No artists selected
     if (!fromArtist && !toArtist) {
       return (
@@ -161,8 +175,6 @@ function App() {
       try {
         if (fromArtist && !toArtist) {
           // Single artist - explore (only from "from" field)
-          setStatusInfo("exploring artist network...");
-          
           const data = await exploreArtist(
             fromArtist.id,
             maxArtists,
@@ -172,8 +184,6 @@ function App() {
           handleSearchSuccess(data, false);
         } else if (fromArtist && toArtist) {
           // Two artists - find path
-          setStatusInfo("finding path...");
-          
           const data = await findEnhancedPath(
             fromArtist.id,
             toArtist.id,
