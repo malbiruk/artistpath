@@ -78,8 +78,8 @@ function ArtistInput({ value, onChange, placeholder }) {
         onChange={(e) => {
           const newValue = e.target.value;
           setInputValue(newValue);
-          // Clear the selected artist if input is empty or doesn't match current selection
-          if (!newValue.trim() || (value && newValue !== value.name)) {
+          // Only clear the selected artist if input is completely empty
+          if (!newValue.trim()) {
             onChange(null);
           }
         }}
