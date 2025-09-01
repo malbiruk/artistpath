@@ -20,7 +20,7 @@ async fn main() {
     dotenvy::from_filename("../../.env")
         .or_else(|_| dotenvy::dotenv())
         .ok();
-    
+
     let app_state = match AppState::new() {
         Ok(state) => Arc::new(state),
         Err(e) => {
@@ -40,9 +40,9 @@ async fn main() {
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3050").await.unwrap();
 
-    println!("Server running on http://0.0.0.0:3000");
+    println!("Server running on http://0.0.0.0:3050");
 
     axum::serve(listener, app).await.unwrap();
 }

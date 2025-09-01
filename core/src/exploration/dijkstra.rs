@@ -62,9 +62,18 @@ pub fn explore_dijkstra(
     discovered.insert(center_id, (1.0, 0)); // (similarity, distance_from_center)
     
     while let Some(ExplorationNode { cost, artist: current_artist }) = heap.pop() {
-        // Stop if we've reached our budget
+        // Clean algorithmic stopping condition:
+        // If we have found at least 'budget' artists, and the current cost
+        // is higher than the cost of the budget-th cheapest artist we've found,
+        // we can stop because all remaining artists will be more expensive.
         if discovered.len() >= budget {
-            break;
+            let mut sorted_costs: Vec<f32> = distances.values().copied().collect();
+            sorted_costs.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+            if let Some(&budget_threshold) = sorted_costs.get(budget - 1) {
+                if cost > budget_threshold {
+                    break; // Found optimal subset
+                }
+            }
         }
         
         // Skip if already visited
@@ -94,10 +103,14 @@ pub fn explore_dijkstra(
             let new_cost = cost + edge_weight;
             
             // Check if this is a better path to the neighbor
-            if let Some(&existing_cost) = distances.get(&neighbor) {
-                if new_cost >= existing_cost {
-                    continue;
-                }
+            let is_better_path = if let Some(&existing_cost) = distances.get(&neighbor) {
+                new_cost < existing_cost
+            } else {
+                true // First time discovering this neighbor
+            };
+            
+            if !is_better_path {
+                continue;
             }
             
             // Update distance and add to heap
@@ -107,28 +120,29 @@ pub fn explore_dijkstra(
                 artist: neighbor,
             });
             
-            // Add to discovered artists if not already there or if this is a better path
-            if !discovered.contains_key(&neighbor) || new_cost < *distances.get(&neighbor).unwrap_or(&f32::INFINITY) {
-                // Calculate distance from center - center artist always gets layer 0, others get layer > 0
-                let distance_from_center = if neighbor == center_id { 
-                    0 
-                } else { 
-                    // Ensure non-center artists get layer >= 1
-                    1 + (new_cost * 5.0) as usize 
-                };
-                discovered.insert(neighbor, (similarity, distance_from_center));
-            }
+            // Update discovered artists with the better path
+            // Calculate distance from center - center artist always gets layer 0, others get layer > 0
+            let distance_from_center = if neighbor == center_id { 
+                0 
+            } else { 
+                // Ensure non-center artists get layer >= 1
+                1 + (new_cost * 5.0) as usize 
+            };
+            discovered.insert(neighbor, (similarity, distance_from_center));
         }
     }
     
-    // Build final connections map for discovered artists
+    // Select optimal subset of artists that minimizes total cost
+    let optimal_discovered = select_optimal_subset(center_id, &distances, budget);
+    
+    // Build final connections map for optimal subset
     let mut final_connections = FxHashMap::default();
-    for &artist_id in discovered.keys() {
+    for &artist_id in optimal_discovered.keys() {
         if let Some(cached_connections) = connection_cache.get(&artist_id) {
-            // Filter connections to only include other discovered artists
+            // Filter connections to only include other artists in optimal subset
             let filtered: Vec<(Uuid, f32)> = cached_connections
                 .iter()
-                .filter(|(neighbor_id, _)| discovered.contains_key(neighbor_id))
+                .filter(|(neighbor_id, _)| optimal_discovered.contains_key(neighbor_id))
                 .cloned()
                 .collect();
             final_connections.insert(artist_id, filtered);
@@ -136,9 +150,33 @@ pub fn explore_dijkstra(
     }
     
     ExplorationResult::new(
-        discovered,
+        optimal_discovered,
         final_connections,
         artists_visited,
         start_time.elapsed().as_millis() as u64,
     )
+}
+
+fn select_optimal_subset(
+    center_id: Uuid,
+    distances: &FxHashMap<Uuid, f32>,
+    budget: usize,
+) -> FxHashMap<Uuid, (f32, usize)> {
+    // Convert distances to sorted vector (artist_id, cost)
+    let mut candidates: Vec<(Uuid, f32)> = distances.iter().map(|(&id, &cost)| (id, cost)).collect();
+    candidates.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
+    
+    // Take the cheapest `budget` artists
+    let selected: Vec<Uuid> = candidates.into_iter().take(budget).map(|(id, _)| id).collect();
+    
+    // Build result map with (similarity, layer) for each selected artist
+    let mut result = FxHashMap::default();
+    for artist_id in selected {
+        let cost = distances[&artist_id];
+        let similarity = if artist_id == center_id { 1.0 } else { 1.0 - cost }; // Approximate similarity
+        let layer = if artist_id == center_id { 0 } else { 1 + (cost * 5.0) as usize };
+        result.insert(artist_id, (similarity, layer));
+    }
+    
+    result
 }

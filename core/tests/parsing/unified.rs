@@ -24,6 +24,7 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
     file.write_u16::<LittleEndian>(alice_name.len() as u16)
         .unwrap();
     file.write_all(alice_name).unwrap();
+    file.write_u16::<LittleEndian>(1).unwrap(); // UUID count = 1
     file.write_all(&alice_id.into_bytes()).unwrap();
 
     // Entry 2: "bob" -> bob_id
@@ -31,6 +32,7 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
     file.write_u16::<LittleEndian>(bob_name.len() as u16)
         .unwrap();
     file.write_all(bob_name).unwrap();
+    file.write_u16::<LittleEndian>(1).unwrap(); // UUID count = 1
     file.write_all(&bob_id.into_bytes()).unwrap();
 
     // Section 2: Metadata
@@ -94,8 +96,8 @@ fn test_parse_unified_metadata() {
 
     // Test lookup
     assert_eq!(lookup.len(), 2);
-    assert_eq!(lookup.get("alice"), Some(&alice_id));
-    assert_eq!(lookup.get("bob"), Some(&bob_id));
+    assert_eq!(lookup.get("alice"), Some(&vec![alice_id]));
+    assert_eq!(lookup.get("bob"), Some(&vec![bob_id]));
 
     // Test metadata
     assert_eq!(metadata.len(), 2);

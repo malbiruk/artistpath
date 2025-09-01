@@ -1,6 +1,6 @@
 use crate::models::{GraphEdge, GraphExploreResponse, GraphNode, PathArtist, SearchStats};
 use crate::state::AppState;
-use artistpath_core::{explore_bfs, explore_dijkstra, ExplorationResult, Algorithm};
+use artistpath_core::{Algorithm, ExplorationResult, explore_bfs, explore_dijkstra};
 use std::time::Instant;
 use uuid::Uuid;
 
@@ -39,12 +39,7 @@ pub fn explore_artist_network_graph(
         ),
     };
 
-    build_graph_response_from_exploration(
-        center_artist,
-        exploration_result,
-        state,
-        start_time,
-    )
+    build_graph_response_from_exploration(center_artist, exploration_result, state)
 }
 
 fn build_center_artist_info(center_id: Uuid, state: &AppState) -> PathArtist {
@@ -84,7 +79,6 @@ fn build_graph_response_from_exploration(
     center_artist: PathArtist,
     exploration_result: ExplorationResult,
     state: &AppState,
-    start_time: Instant,
 ) -> GraphExploreResponse {
     let nodes = build_graph_nodes(&exploration_result, state);
     let edges = build_graph_edges(&exploration_result);
@@ -96,7 +90,7 @@ fn build_graph_response_from_exploration(
         total_found: exploration_result.total_discovered(),
         search_stats: SearchStats {
             artists_visited: exploration_result.stats.artists_visited,
-            duration_ms: start_time.elapsed().as_millis() as u64,
+            duration_ms: exploration_result.stats.duration_ms,
         },
     }
 }
@@ -119,7 +113,10 @@ fn build_graph_nodes(exploration_result: &ExplorationResult, state: &AppState) -
 
 fn build_graph_edges(exploration_result: &ExplorationResult) -> Vec<GraphEdge> {
     let mut edges = Vec::new();
-    let discovered_ids = exploration_result.discovered_artists.keys().collect::<std::collections::HashSet<_>>();
+    let discovered_ids = exploration_result
+        .discovered_artists
+        .keys()
+        .collect::<std::collections::HashSet<_>>();
 
     for (&from_id, connections) in &exploration_result.connections {
         for &(to_id, similarity) in connections {

@@ -85,7 +85,8 @@ tar -I zstd -xvf artistpath-data-850k-binary.tar.zst -C data/
 
 # Setup environment
 cp .env.example .env
-# Edit .env and add your Last.fm API key (optional, for album art)
+# Edit .env and add your Last.fm API key (for fetching artist cards)
+# Put `const API_BASE_URL = "http://localhost:3050/api";` in web/frontend/src/config.js
 
 # Start backend
 cd web/backend
