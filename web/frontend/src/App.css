@@ -186,6 +186,10 @@ body {
     text-decoration: none;
 }
 
+.mobile-stats {
+    display: none;
+}
+
 .footer {
     padding: 0.5rem 1rem;
     display: flex;
@@ -383,6 +387,23 @@ body {
     .footer-left {
         text-align: left;
         order: 2;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mobile-stats {
+        margin-left: -1.5rem;
+        margin-right: -1rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: gray;
+        width: calc(100% + 2.5rem);
+    }
+
+    .mobile-stats a {
+        color: gray;
+        /*text-decoration: none;*/
     }
 
     .footer-right {

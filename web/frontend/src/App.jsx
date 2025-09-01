@@ -12,19 +12,19 @@ function App() {
   const getInitialStateFromURL = () => {
     const params = new URLSearchParams(window.location.search);
     return {
-      fromName: params.get('from'),
-      toName: params.get('to'),
-      minSimilarity: parseFloat(params.get('similarity') || '0'),
-      maxRelations: parseInt(params.get('relations') || '10'),
-      maxArtists: parseInt(params.get('artists') || '50'),
-      algorithm: params.get('algo') || 'simple'
+      fromName: params.get("from"),
+      toName: params.get("to"),
+      minSimilarity: parseFloat(params.get("similarity") || "0"),
+      maxRelations: parseInt(params.get("relations") || "10"),
+      maxArtists: parseInt(params.get("artists") || "50"),
+      algorithm: params.get("algo") || "simple",
     };
   };
 
   const urlParams = getInitialStateFromURL();
   const [urlArtistsToLoad, setUrlArtistsToLoad] = useState({
     from: urlParams.fromName,
-    to: urlParams.toName
+    to: urlParams.toName,
   });
 
   const [fromArtist, setFromArtist] = useState(null);
@@ -79,13 +79,20 @@ function App() {
   // Update URL when state changes
   useEffect(() => {
     updateURL();
-  }, [fromArtist, toArtist, minSimilarity, maxRelations, maxArtists, algorithm]);
+  }, [
+    fromArtist,
+    toArtist,
+    minSimilarity,
+    maxRelations,
+    maxArtists,
+    algorithm,
+  ]);
 
   // Load artists from URL names on mount
   useEffect(() => {
     const loadArtistFromName = async (name, setArtist) => {
       if (!name) return;
-      
+
       try {
         const results = await searchArtists(name);
         if (results.length > 0) {
@@ -94,7 +101,7 @@ function App() {
           setArtist({
             id: artist.id,
             name: artist.name,
-            url: artist.url
+            url: artist.url,
           });
         }
       } catch (error) {
@@ -106,7 +113,7 @@ function App() {
     if (urlArtistsToLoad.from || urlArtistsToLoad.to) {
       loadArtistFromName(urlArtistsToLoad.from, setFromArtist);
       loadArtistFromName(urlArtistsToLoad.to, setToArtist);
-      
+
       // Clear the URL artists to load so we don't keep trying
       setUrlArtistsToLoad({ from: null, to: null });
     }
@@ -169,26 +176,36 @@ function App() {
   };
 
   const handleFromHere = (artistData) => {
-    setFromArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
+    setFromArtist({
+      id: artistData.id,
+      name: artistData.name,
+      url: artistData.url,
+    });
   };
 
   const handleToHere = (artistData) => {
-    setToArtist({ id: artistData.id, name: artistData.name, url: artistData.url });
+    setToArtist({
+      id: artistData.id,
+      name: artistData.name,
+      url: artistData.url,
+    });
   };
 
   // Update URL when state changes
   const updateURL = () => {
     const params = new URLSearchParams();
-    
-    if (fromArtist?.name) params.set('from', fromArtist.name);
-    if (toArtist?.name) params.set('to', toArtist.name);
-    if (minSimilarity > 0) params.set('similarity', minSimilarity.toString());
-    if (maxRelations !== 10) params.set('relations', maxRelations.toString());
-    if (maxArtists !== 50) params.set('artists', maxArtists.toString());
-    if (algorithm !== 'simple') params.set('algo', algorithm);
-    
-    const newURL = params.toString() ? `?${params.toString()}` : window.location.pathname;
-    window.history.replaceState({}, '', newURL);
+
+    if (fromArtist?.name) params.set("from", fromArtist.name);
+    if (toArtist?.name) params.set("to", toArtist.name);
+    if (minSimilarity > 0) params.set("similarity", minSimilarity.toString());
+    if (maxRelations !== 10) params.set("relations", maxRelations.toString());
+    if (maxArtists !== 50) params.set("artists", maxArtists.toString());
+    if (algorithm !== "simple") params.set("algo", algorithm);
+
+    const newURL = params.toString()
+      ? `?${params.toString()}`
+      : window.location.pathname;
+    window.history.replaceState({}, "", newURL);
   };
 
   const renderVisualization = () => {
@@ -237,7 +254,14 @@ function App() {
       }
 
       // Show visualization
-      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleClickAway} selectedArtistId={selectedArtistId} />;
+      return (
+        <NetworkVisualization
+          data={networkData}
+          onArtistClick={handleArtistClick}
+          onClickAway={handleClickAway}
+          selectedArtistId={selectedArtistId}
+        />
+      );
     }
 
     // Only "to" artist set - suggest using swap button
@@ -404,6 +428,19 @@ function App() {
           <span className={`status-info ${isError ? "error" : ""}`}>
             {statusInfo}
           </span>
+          <div className="mobile-stats">
+            <div>total artists: {totalArtists.toLocaleString()}</div>
+            <div>
+              data from{" "}
+              <a
+                href="https://www.last.fm/home"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Last.fm
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className="footer-right">
