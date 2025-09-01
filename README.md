@@ -79,8 +79,13 @@ For running the web interface locally:
 git clone https://github.com/malbiruk/artistpath
 cd artistpath
 
-# Download binary data to data/ directory from releases
-# (coming soon!)
+# Download and extract binary data (required for web app)
+wget https://github.com/malbiruk/artistpath/releases/download/data/artistpath-data-850k-binary.tar.zst
+tar -I zstd -xvf artistpath-data-850k-binary.tar.zst -C data/
+
+# Setup environment
+cp .env.example .env
+# Edit .env and add your Last.fm API key (optional, for album art)
 
 # Start backend
 cd web/backend
@@ -92,17 +97,19 @@ npm install
 npm run dev
 ```
 
+Open http://localhost:3001 in your browser.
+
 ### Dataset Information
 
 **Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
-- **Binary format**: Optimized for performance
-- **NDJSON format**: For development/research use
+
+Available formats from [releases](https://github.com/malbiruk/artistpath/releases/tag/data):
+- **Binary format** (1.0GB compressed → 2.4GB extracted): Required for web/CLI apps - includes indexing and name lookup for fast performance
+- **NDJSON format** (1.2GB compressed → 6GB extracted): For research/analysis - human-readable JSON lines:
   - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
   - Metadata: `{"id": uuid, "name": "Artist Name", "url": "..."}`
 
-**In progress**: Full 3M+ artist dataset (including artists without MusicBrainz IDs)
-
-Releases will include separate zstd archives for binary files and NDJSON data.
+Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
 
 ### Build Your Own Dataset
 
