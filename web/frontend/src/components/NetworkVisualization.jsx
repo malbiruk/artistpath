@@ -1,8 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
-function NetworkVisualization({ data, onArtistClick, onClickAway }) {
+function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtistId }) {
   const svgRef = useRef(null);
+  const onArtistClickRef = useRef(onArtistClick);
+  const onClickAwayRef = useRef(onClickAway);
+  
+  // Update refs when props change
+  useEffect(() => {
+    onArtistClickRef.current = onArtistClick;
+    onClickAwayRef.current = onClickAway;
+  }, [onArtistClick, onClickAway]);
 
   useEffect(() => {
     if (!data || !data.nodes || !data.edges) return;
@@ -429,8 +437,8 @@ function NetworkVisualization({ data, onArtistClick, onClickAway }) {
         }
         
         // Close artist card on click away (desktop and mobile)
-        if (onClickAway) {
-          onClickAway();
+        if (onClickAwayRef.current) {
+          onClickAwayRef.current();
         }
       }
     });
@@ -484,14 +492,14 @@ function NetworkVisualization({ data, onArtistClick, onClickAway }) {
             clearTimeout(clickedNode.tapTimer);
             clickedNode.tapCount = 0;
             clearNodeHighlight();
-            if (onArtistClick) {
-              onArtistClick(clickedNode);
+            if (onArtistClickRef.current) {
+              onArtistClickRef.current(clickedNode);
             }
           }
         } else {
           // Desktop: open artist card on click
-          if (onArtistClick) {
-            onArtistClick(clickedNode);
+          if (onArtistClickRef.current) {
+            onArtistClickRef.current(clickedNode);
           }
         }
       });
@@ -536,6 +544,26 @@ function NetworkVisualization({ data, onArtistClick, onClickAway }) {
       simulation.stop();
     };
   }, [data]);
+
+  // Separate effect just for updating selection styling
+  useEffect(() => {
+    if (!svgRef.current) return;
+    
+    const svg = d3.select(svgRef.current);
+    const nodeGroups = svg.selectAll("g.node");
+    
+    // Update node rectangle colors
+    nodeGroups.select("rect")
+      .attr("fill", (d) => d.id === selectedArtistId ? "black" : "white");
+    
+    // Update text colors
+    nodeGroups.select("text")
+      .style("fill", (d) => {
+        if (d.id === selectedArtistId) return "white";
+        const isInPath = data && data.path && data.path.some((pathNode) => pathNode.id === d.id);
+        return (isInPath || d.layer === 0) ? "#0000cc" : "black";
+      });
+  }, [selectedArtistId, data]);
 
   return (
     <svg

@@ -237,7 +237,7 @@ function App() {
       }
 
       // Show visualization
-      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleClickAway} />;
+      return <NetworkVisualization data={networkData} onArtistClick={handleArtistClick} onClickAway={handleClickAway} selectedArtistId={selectedArtistId} />;
     }
 
     // Only "to" artist set - suggest using swap button
