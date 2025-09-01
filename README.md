@@ -80,7 +80,7 @@ git clone https://github.com/malbiruk/artistpath
 cd artistpath
 
 # Download and extract binary data (required for web app)
-wget https://github.com/malbiruk/artistpath/releases/download/data/artistpath-data-850k-binary.tar.zst
+wget https://github.com/malbiruk/artistpath/releases/download/data-v1.0.0/artistpath-data-850k-binary.tar.zst
 tar -I zstd -xvf artistpath-data-850k-binary.tar.zst -C data/
 
 # Setup environment
@@ -103,7 +103,7 @@ Open http://localhost:3001 in your browser.
 
 **Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
 
-Available formats from [releases](https://github.com/malbiruk/artistpath/releases/tag/data):
+Available formats from [releases](https://github.com/malbiruk/artistpath/releases/):
 - **Binary format** (1.0GB compressed → 2.4GB extracted): Required for web/CLI apps - includes indexing and name lookup for fast performance
 - **NDJSON format** (1.2GB compressed → 6GB extracted): For research/analysis - human-readable JSON lines:
   - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
