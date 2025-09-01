@@ -197,14 +197,16 @@ function ArtistCard({
           {/* Artist Header */}
           <div className="artist-header">
             <div className="artist-info">
-              <a
-                href={artistData.lastfm_data?.url || artistData.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="artist-name-link"
-              >
-                <h3>{artistData.name}</h3>
-              </a>
+              <h3>
+                <a
+                  href={artistData.lastfm_data?.url || artistData.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="artist-name-link"
+                >
+                  <span>{artistData.name}</span>
+                </a>
+              </h3>
               {artistData.lastfm_data && (
                 <div className="artist-stats-inline">
                   <span>

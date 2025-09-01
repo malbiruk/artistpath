@@ -2,8 +2,8 @@
     position: absolute;
     right: -400px;
     top: 20px;
-    bottom: 20px;
     width: 360px;
+    max-height: calc(100% - 40px);
     background: none;
     z-index: 1000;
     font-family: inherit;
@@ -134,7 +134,7 @@
     text-decoration: none;
 }
 
-.artist-name-link:hover {
+.artist-name-link span:hover {
     text-decoration: underline;
 }
 
