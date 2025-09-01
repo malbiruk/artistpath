@@ -28,21 +28,26 @@ pub fn filter_artists_by_query(
 ) -> Vec<ArtistSearchResult> {
     let normalized_query = clean_str(query);
 
-    name_lookup
-        .iter()
-        .filter(|(normalized_name, _)| normalized_name.contains(&normalized_query))
-        .flat_map(|(_, artist_ids)| {
-            artist_ids.iter().filter_map(|artist_id| {
-                artist_metadata
-                    .get(artist_id)
-                    .map(|artist| ArtistSearchResult {
-                        id: artist.id,
-                        name: artist.name.clone(),
-                        url: artist.url.clone(),
-                    })
-            })
-        })
-        .collect()
+    let mut results = Vec::new();
+    let mut seen_ids = std::collections::HashSet::new();
+
+    for (normalized_name, artist_ids) in name_lookup.iter() {
+        if normalized_name.contains(&normalized_query) {
+            for artist_id in artist_ids {
+                if seen_ids.insert(*artist_id) {
+                    if let Some(artist) = artist_metadata.get(artist_id) {
+                        results.push(ArtistSearchResult {
+                            id: artist.id,
+                            name: artist.name.clone(),
+                            url: artist.url.clone(),
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    results
 }
 
 pub fn sort_results_by_relevance(
