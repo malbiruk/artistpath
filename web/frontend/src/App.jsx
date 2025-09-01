@@ -6,6 +6,7 @@ import NumberInput from "./components/NumberInput";
 import NetworkVisualization from "./components/NetworkVisualization";
 import ArtistCard from "./components/ArtistCard";
 import { exploreArtist, findEnhancedPath, searchArtists } from "./utils/api";
+import { API_BASE_URL } from "./config";
 
 function App() {
   // Parse initial state from URL (names only)
@@ -62,7 +63,7 @@ function App() {
 
   // Fetch total artists on mount
   useEffect(() => {
-    fetch("/api/stats")
+    fetch(`${API_BASE_URL}/stats`)
       .then((res) => res.json())
       .then((data) => {
         setTotalArtists(data.total_artists);
@@ -127,9 +128,9 @@ function App() {
     const visited = data.timing?.visited_nodes || 0;
 
     if (isPathfinding) {
-      return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration}ms`;
+      return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration.toLocaleString()}ms`;
     }
-    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration}ms`;
+    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration.toLocaleString()}ms`;
   };
 
   const handleSearchSuccess = (data, isPathfinding = false) => {

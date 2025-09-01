@@ -1,4 +1,6 @@
-const API_BASE = "/api";
+import { API_BASE_URL } from "../config";
+
+const API_BASE = API_BASE_URL;
 
 export async function searchArtists(query) {
   if (!query || query.length < 2) return [];

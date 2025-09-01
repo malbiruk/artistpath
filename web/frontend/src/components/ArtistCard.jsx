@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ArtistCard.css";
+import { API_BASE_URL } from "../config";
 
 function ArtistCard({
   artistId,
@@ -44,7 +45,7 @@ function ArtistCard({
     setError(null);
 
     try {
-      const response = await fetch(`/api/artist/${artistId}`);
+      const response = await fetch(`${API_BASE_URL}/artist/${artistId}`);
       if (!response.ok) {
         throw new Error("artist not found");
       }
