@@ -3,6 +3,7 @@ mod args;
 mod colors;
 mod json_output;
 mod utils;
+mod download;
 
 use args::Args;
 use colors::ColorScheme;
@@ -10,7 +11,7 @@ use json_output::{create_json_output, print_json_output};
 use utils::format_number;
 use clap::Parser;
 use memmap2::Mmap;
-use std::{fs::File, path::Path};
+use std::{fs::File, path::{Path, PathBuf}};
 use uuid::Uuid;
 
 type NameLookup = rustc_hash::FxHashMap<String, Vec<Uuid>>;
@@ -18,20 +19,43 @@ type ArtistMetadata = rustc_hash::FxHashMap<Uuid, Artist>;
 type GraphIndex = rustc_hash::FxHashMap<Uuid, u64>;
 
 struct ArtistPathApp {
-    graph_path: &'static Path,
-    metadata_path: &'static Path,
+    graph_path: PathBuf,
+    metadata_path: PathBuf,
 }
 
 impl ArtistPathApp {
-    fn new() -> Self {
-        Self {
-            graph_path: Path::new("../data/graph.bin"),
-            metadata_path: Path::new("../data/metadata.bin"),
+    fn new(data_path: Option<String>) -> Result<Self, Box<dyn std::error::Error>> {
+        let data_dir = if let Some(path) = data_path {
+            // User specified a custom data path
+            let path = PathBuf::from(path);
+            if !path.exists() {
+                return Err(format!("Data path does not exist: {:?}", path).into());
+            }
+            path
+        } else {
+            // Use default path and auto-download if needed
+            download::ensure_data_downloaded()?
+        };
+        
+        let graph_path = data_dir.join("graph.bin");
+        let metadata_path = data_dir.join("metadata.bin");
+        
+        // Verify data files exist
+        if !graph_path.exists() || !metadata_path.exists() {
+            return Err(format!(
+                "Data files not found in {:?}. Expected graph.bin and metadata.bin", 
+                data_dir
+            ).into());
         }
+        
+        Ok(Self {
+            graph_path,
+            metadata_path,
+        })
     }
 
     fn load_data(&self) -> (NameLookup, ArtistMetadata, GraphIndex) {
-        parse_unified_metadata(self.metadata_path)
+        parse_unified_metadata(&self.metadata_path)
     }
 }
 
@@ -55,8 +79,15 @@ struct SearchResult {
 fn main() {
     let search_args = Args::parse();
     let json_mode = search_args.json;
+    let data_path = search_args.data_path.clone();
     let colors = ColorScheme::new(!search_args.no_color);
-    let app = ArtistPathApp::new();
+    let app = match ArtistPathApp::new(data_path) {
+        Ok(app) => app,
+        Err(e) => {
+            eprintln!("Failed to initialize: {}", e);
+            std::process::exit(1);
+        }
+    };
     let (name_lookup, artist_metadata, graph_index) = app.load_data();
 
     let search_request = match create_search_request(search_args, &name_lookup, &artist_metadata) {
@@ -80,7 +111,7 @@ fn main() {
         display_search_info(&search_request, &colors);
     }
 
-    let search_result = execute_pathfinding_search(search_request, app.graph_path, &graph_index);
+    let search_result = execute_pathfinding_search(search_request, &app.graph_path, &graph_index);
     
     if search_result.display_options.json {
         let json_output = create_json_output(

@@ -10,6 +10,10 @@ pub struct Args {
     /// Second artist name
     pub artist2: String,
 
+    /// Path to data directory (defaults to ~/.artistpath/, auto-downloads if not found)
+    #[arg(long, value_name = "PATH")]
+    pub data_path: Option<String>,
+
     /// Only use connections with similarity >= threshold (0.0-1.0)
     #[arg(short = 'm', long, value_name = "SIMILARITY", default_value = "0.0")]
     pub min_match: f32,

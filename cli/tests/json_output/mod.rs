@@ -41,6 +41,7 @@ fn test_json_output_with_path() {
     let args = Args {
         artist1: "Alice".to_string(),
         artist2: "Charlie".to_string(),
+        data_path: None,
         min_match: 0.5,
         top_related: 100,
         weighted: true,
@@ -96,6 +97,7 @@ fn test_json_output_no_path() {
     let args = Args {
         artist1: "Alice".to_string(),
         artist2: "Bob".to_string(),
+        data_path: None,
         min_match: 0.0,
         top_related: 80,
         weighted: false,
@@ -154,6 +156,7 @@ fn test_json_serialization() {
     let args = Args {
         artist1: "Alice".to_string(),
         artist2: "Bob".to_string(),
+        data_path: None,
         min_match: 0.0,
         top_related: 80,
         weighted: false,
