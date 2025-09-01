@@ -98,12 +98,12 @@ impl TestArtists {
         map
     }
 
-    pub fn as_name_lookup(&self) -> FxHashMap<String, Uuid> {
+    pub fn as_name_lookup(&self) -> FxHashMap<String, Vec<Uuid>> {
         let mut map = FxHashMap::default();
-        map.insert("taylor swift".to_string(), self.taylor.0);
-        map.insert("olivia rodrigo".to_string(), self.olivia.0);
-        map.insert("billie eilish".to_string(), self.billie.0);
-        map.insert("finneas".to_string(), self.finneas.0);
+        map.insert("taylor swift".to_string(), vec![self.taylor.0]);
+        map.insert("olivia rodrigo".to_string(), vec![self.olivia.0]);
+        map.insert("billie eilish".to_string(), vec![self.billie.0]);
+        map.insert("finneas".to_string(), vec![self.finneas.0]);
         map
     }
 }

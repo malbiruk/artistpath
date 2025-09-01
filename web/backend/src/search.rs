@@ -23,7 +23,7 @@ pub fn search_artists_in_state(
 
 pub fn filter_artists_by_query(
     query: &str,
-    name_lookup: &FxHashMap<String, Uuid>,
+    name_lookup: &FxHashMap<String, Vec<Uuid>>,
     artist_metadata: &FxHashMap<Uuid, Artist>,
 ) -> Vec<ArtistSearchResult> {
     let normalized_query = clean_str(query);
@@ -31,14 +31,16 @@ pub fn filter_artists_by_query(
     name_lookup
         .iter()
         .filter(|(normalized_name, _)| normalized_name.contains(&normalized_query))
-        .filter_map(|(_, artist_id)| {
-            artist_metadata
-                .get(artist_id)
-                .map(|artist| ArtistSearchResult {
-                    id: artist.id,
-                    name: artist.name.clone(),
-                    url: artist.url.clone(),
-                })
+        .flat_map(|(_, artist_ids)| {
+            artist_ids.iter().filter_map(|artist_id| {
+                artist_metadata
+                    .get(artist_id)
+                    .map(|artist| ArtistSearchResult {
+                        id: artist.id,
+                        name: artist.name.clone(),
+                        url: artist.url.clone(),
+                    })
+            })
         })
         .collect()
 }
@@ -48,11 +50,35 @@ pub fn sort_results_by_relevance(
     query: &str,
 ) -> Vec<ArtistSearchResult> {
     let normalized_query = clean_str(query);
+    let lowercase_query = query.to_lowercase();
 
     results.sort_by(|a, b| {
         let a_normalized = clean_str(&a.name);
         let b_normalized = clean_str(&b.name);
+        let a_lowercase = a.name.to_lowercase();
+        let b_lowercase = b.name.to_lowercase();
 
+        // First priority: exact match (case-insensitive)
+        let a_exact = a_lowercase == lowercase_query;
+        let b_exact = b_lowercase == lowercase_query;
+
+        match (a_exact, b_exact) {
+            (true, false) => return std::cmp::Ordering::Less,
+            (false, true) => return std::cmp::Ordering::Greater,
+            _ => {}
+        }
+
+        // Second priority: exact normalized match
+        let a_exact_normalized = a_normalized == normalized_query;
+        let b_exact_normalized = b_normalized == normalized_query;
+
+        match (a_exact_normalized, b_exact_normalized) {
+            (true, false) => return std::cmp::Ordering::Less,
+            (false, true) => return std::cmp::Ordering::Greater,
+            _ => {}
+        }
+
+        // Third priority: starts with query
         let a_starts = a_normalized.starts_with(&normalized_query);
         let b_starts = b_normalized.starts_with(&normalized_query);
 

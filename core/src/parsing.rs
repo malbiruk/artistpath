@@ -19,7 +19,7 @@ struct SectionOffsets {
     index: usize,
 }
 
-type NameLookup = FxHashMap<String, Uuid>;
+type NameLookup = FxHashMap<String, Vec<Uuid>>;
 type ArtistMetadata = FxHashMap<Uuid, Artist>;
 type GraphIndex = FxHashMap<Uuid, u64>;
 
@@ -55,8 +55,12 @@ fn parse_name_lookup_section(data: &[u8], offset: usize) -> NameLookup {
     
     for _ in 0..entry_count {
         let clean_name = read_length_prefixed_string(&mut cursor);
-        let artist_uuid = read_uuid(&mut cursor);
-        name_lookup.insert(clean_name, artist_uuid);
+        let uuid_count = cursor.read_u16::<LittleEndian>().expect("Should read UUID count") as usize;
+        let mut uuids = Vec::with_capacity(uuid_count);
+        for _ in 0..uuid_count {
+            uuids.push(read_uuid(&mut cursor));
+        }
+        name_lookup.insert(clean_name, uuids);
     }
     
     name_lookup
@@ -111,10 +115,10 @@ fn read_uuid(cursor: &mut Cursor<&[u8]>) -> Uuid {
     Uuid::from_bytes(uuid_bytes)
 }
 
-pub fn find_artist_id(name: &str, lookup: &FxHashMap<String, Uuid>) -> Result<Uuid, String> {
+pub fn find_artist_id(name: &str, lookup: &FxHashMap<String, Vec<Uuid>>) -> Result<Uuid, String> {
     let clean_name = clean_str(name);
     lookup
         .get(&clean_name)
-        .copied()
+        .and_then(|uuids| uuids.first().copied())
         .ok_or_else(|| format!("Artist '{}' not found in database", name))
 }

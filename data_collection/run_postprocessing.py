@@ -87,9 +87,11 @@ def build_lookup(metadata_file: Path | str) -> dict:
             mbid = entry["id"]
             name = entry["name"]
 
-            # Build clean name lookup
+            # Build clean name lookup - store lists of artists
             clean_name = clean_str(name)
-            lookup[clean_name] = mbid
+            if clean_name not in lookup:
+                lookup[clean_name] = []
+            lookup[clean_name].append(mbid)
 
     return lookup
 
@@ -116,15 +118,17 @@ def create_unified_metadata_binary(metadata_file: Path | str, lookup: dict, inde
         header_pos = f.tell()
         f.write(struct.pack("<III", 0, 0, 0))  # Placeholders for section offsets
 
-        # Section 1: Lookup (clean_name -> UUID)
+        # Section 1: Lookup (clean_name -> list of UUIDs)
         lookup_offset = f.tell()
         f.write(struct.pack("<I", len(lookup)))  # Number of entries
 
-        for clean_name, uuid_str in track(lookup.items(), description="[green]Writing lookup..."):
+        for clean_name, uuid_list in track(lookup.items(), description="[green]Writing lookup..."):
             name_bytes = clean_name.encode("utf-8")
             f.write(struct.pack("<H", len(name_bytes)))  # Name length (2 bytes)
             f.write(name_bytes)  # Name
-            f.write(UUID(uuid_str).bytes)  # UUID (16 bytes)
+            f.write(struct.pack("<H", len(uuid_list)))  # Number of UUIDs (2 bytes)
+            for uuid_str in uuid_list:
+                f.write(UUID(uuid_str).bytes)  # UUID (16 bytes)
 
         # Section 2: Metadata (UUID -> name + url)
         metadata_offset = f.tell()

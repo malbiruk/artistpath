@@ -1,4 +1,4 @@
-use artistpath_core::{Artist, find_artist_id, parse_unified_metadata, bfs_find_path, dijkstra_find_path, PathfindingConfig};
+use artistpath_core::{Artist, parse_unified_metadata, bfs_find_path, dijkstra_find_path, PathfindingConfig, string_normalization::clean_str};
 mod args;
 mod colors;
 mod json_output;
@@ -13,7 +13,7 @@ use memmap2::Mmap;
 use std::{fs::File, path::Path};
 use uuid::Uuid;
 
-type NameLookup = rustc_hash::FxHashMap<String, Uuid>;
+type NameLookup = rustc_hash::FxHashMap<String, Vec<Uuid>>;
 type ArtistMetadata = rustc_hash::FxHashMap<Uuid, Artist>;
 type GraphIndex = rustc_hash::FxHashMap<Uuid, u64>;
 
@@ -98,13 +98,48 @@ fn main() {
     }
 }
 
+fn find_best_artist_match(
+    name: &str,
+    name_lookup: &NameLookup,
+    artist_metadata: &ArtistMetadata,
+) -> Result<Uuid, String> {
+    let lowercase_query = name.to_lowercase();
+    let clean_query = clean_str(name);
+    
+    // Try to get all potential matches from the lookup
+    if let Some(artist_ids) = name_lookup.get(&clean_query) {
+        if artist_ids.is_empty() {
+            return Err(format!("Artist '{}' not found in database", name));
+        }
+        
+        // If only one match, return it
+        if artist_ids.len() == 1 {
+            return Ok(artist_ids[0]);
+        }
+        
+        // Multiple matches - prioritize exact match (case-insensitive)
+        for &artist_id in artist_ids {
+            if let Some(artist) = artist_metadata.get(&artist_id) {
+                if artist.name.to_lowercase() == lowercase_query {
+                    return Ok(artist_id);
+                }
+            }
+        }
+        
+        // No exact match found, return the first one
+        return Ok(artist_ids[0]);
+    }
+    
+    Err(format!("Artist '{}' not found in database", name))
+}
+
 fn create_search_request(
     args: Args,
     name_lookup: &NameLookup,
     artist_metadata: &ArtistMetadata,
 ) -> Result<SearchRequest, String> {
-    let from_artist_id = find_artist_id(&args.artist1, name_lookup)?;
-    let to_artist_id = find_artist_id(&args.artist2, name_lookup)?;
+    let from_artist_id = find_best_artist_match(&args.artist1, name_lookup, artist_metadata)?;
+    let to_artist_id = find_best_artist_match(&args.artist2, name_lookup, artist_metadata)?;
 
     let from_name = artist_metadata[&from_artist_id].name.clone();
     let to_name = artist_metadata[&to_artist_id].name.clone();

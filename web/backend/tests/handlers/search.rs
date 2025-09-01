@@ -108,7 +108,7 @@ async fn search_prioritizes_prefix_matches() {
     let artists = TestArtists::new();
     let swift_boat_id = Uuid::new_v4();
     let mut name_lookup = artists.as_name_lookup();
-    name_lookup.insert("swift boat".to_string(), swift_boat_id);
+    name_lookup.insert("swift boat".to_string(), vec![swift_boat_id]);
 
     let mut metadata = artists.as_metadata();
     metadata.insert(

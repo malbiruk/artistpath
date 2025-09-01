@@ -8,7 +8,7 @@ use crate::lastfm::LastFmClient;
 use crate::itunes::ITunesClient;
 
 pub struct AppState {
-    pub name_lookup: FxHashMap<String, Uuid>,
+    pub name_lookup: FxHashMap<String, Vec<Uuid>>,
     pub artist_metadata: FxHashMap<Uuid, Artist>,
     pub graph_index: FxHashMap<Uuid, u64>,
     pub graph_mmap: Mmap,
