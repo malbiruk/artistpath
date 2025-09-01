@@ -1,0 +1,43 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main, master] # Deploy when pushing to main or master branch
+
+jobs:
+  deploy:
+    name: Deploy to Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            echo "🚀 Starting deployment..."
+
+            # Navigate to repository directory
+            cd ~/artistpath-prod/artistpath || { echo "❌ Repository directory not found"; exit 1; }
+
+            # Pull latest changes
+            echo "📥 Pulling latest changes..."
+            git pull origin main || git pull origin master
+
+            # Build the backend
+            echo "🔨 Building backend..."
+            cd web/backend
+            cargo build --release
+
+            # Restart the service
+            echo "♻️  Restarting artistpath service..."
+            sudo systemctl restart artistpath
+
+            # Check service status
+            echo "✅ Checking service status..."
+            sudo systemctl is-active --quiet artistpath && echo "✅ Service is running" || echo "❌ Service failed to start"
+
+            echo "🎉 Deployment complete!"
