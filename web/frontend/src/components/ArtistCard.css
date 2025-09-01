@@ -306,31 +306,30 @@
     flex-shrink: 0;
 }
 
-.play-button {
-    background: white;
-    border: 1px solid black;
-    font-size: 11px;
-    padding: 0.25rem 0.375rem;
-    cursor: pointer;
-    color: black;
-    font-family: inherit;
-}
-
-.play-button:hover {
-    background: black;
-    color: white;
-}
-
+.play-button,
 .youtube-link {
     background: white;
     border: 1px solid black;
     font-size: 11px;
     padding: 0.25rem 0.375rem;
     color: black;
-    text-decoration: none;
     font-family: inherit;
+    height: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
+.play-button {
+    cursor: pointer;
+}
+
+.youtube-link {
+    text-decoration: none;
+}
+
+.play-button:hover,
 .youtube-link:hover {
     background: black;
     color: white;
