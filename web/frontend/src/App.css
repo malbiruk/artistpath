@@ -444,6 +444,8 @@ body {
     .status-info {
         font-size: 11px;
         margin-left: -1.5rem;
+        min-height: 14px;
+        min-width: calc(100vw - 4rem);
     }
 
     .stats div {
