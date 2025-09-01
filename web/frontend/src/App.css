@@ -52,6 +52,10 @@ body {
     text-decoration: none;
 }
 
+.header-left h1 a:hover {
+    text-decoration: underline;
+}
+
 .header-left p {
     font-size: clamp(11px, 1.2vw, 13px);
     color: gray;
@@ -184,6 +188,11 @@ body {
 .stats a {
     color: gray;
     text-decoration: none;
+}
+
+.stats a:hover {
+    color: gray;
+    text-decoration: underline;
 }
 
 .mobile-stats {
