@@ -386,7 +386,7 @@ function App() {
       </header>
 
       <main className="main">
-        <div className="visualization">
+        <div className="visualization" onClick={handleClickAway}>
           {renderVisualization()}
           <ArtistCard
             artistId={selectedArtistId}

@@ -154,7 +154,7 @@ function ArtistCard({
   if (!isOpen) return null;
 
   return (
-    <div className={`artist-card ${isOpen ? "open" : ""}`}>
+    <div className={`artist-card ${isOpen ? "open" : ""}`} onClick={(e) => e.stopPropagation()}>
       <div className="artist-card-header">
         <button className="close-button" onClick={handleClose}>
           ×

@@ -429,8 +429,8 @@ function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtist
 
     // Add click-away handler for both mobile and desktop
     svg.on("click", function (event) {
-      // Only handle if clicking on empty space (svg itself)
-      if (event.target === svgRef.current) {
+      // Only handle if clicking on empty space (not nodes or edges)
+      if (event.target === svgRef.current || event.target.tagName === 'svg') {
         if (isTouchDevice) {
           clearNodeHighlight();
           clearEdgeTooltip();
