@@ -18,8 +18,10 @@ pub struct AppState {
 
 impl AppState {
     pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
-        let metadata_path = Path::new("../../data/metadata.bin");
-        let graph_path = Path::new("../../data/graph.bin");
+        let metadata_path_str = std::env::var("METADATA_PATH").unwrap_or_else(|_| "../../data/metadata.bin".to_string());
+        let graph_path_str = std::env::var("GRAPH_PATH").unwrap_or_else(|_| "../../data/graph.bin".to_string());
+        let metadata_path = Path::new(&metadata_path_str);
+        let graph_path = Path::new(&graph_path_str);
         
         let (name_lookup, artist_metadata, graph_index) = 
             parse_unified_metadata(metadata_path);

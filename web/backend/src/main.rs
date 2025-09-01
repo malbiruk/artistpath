@@ -16,8 +16,10 @@ use state::AppState;
 
 #[tokio::main]
 async fn main() {
-    // Load environment variables from .env file
-    dotenvy::dotenv().ok();
+    // Load environment variables from .env file (try root level first)
+    dotenvy::from_filename("../../.env")
+        .or_else(|_| dotenvy::dotenv())
+        .ok();
     
     let app_state = match AppState::new() {
         Ok(state) => Arc::new(state),

@@ -13,7 +13,8 @@ from tenacity import (
     wait_exponential,
 )
 
-load_dotenv()
+load_dotenv("../.env")  # Try root level first
+load_dotenv()  # Fallback to current directory
 
 API_KEY = os.getenv("API_KEY")
 BASE_URL = "http://ws.audioscrobbler.com/2.0/"

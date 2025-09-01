@@ -1,0 +1,29 @@
+services:
+  artistpath-backend:
+    build:
+      context: .
+      dockerfile: ./web/backend/Dockerfile
+    container_name: artistpath-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount your data files
+      - "./data:/app/data:ro"
+      # Optional: mount logs directory
+      - "./logs:/app/logs"
+    environment:
+      - RUST_LOG=info
+      - API_KEY=${API_KEY}
+      - METADATA_PATH=/app/data/metadata.bin
+      - GRAPH_PATH=/app/data/graph.bin
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  default:
+    name: artistpath-network
