@@ -34,10 +34,10 @@ jobs:
 
             # Restart the service
             echo "♻️  Restarting artistpath service..."
-            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S systemctl restart artistpath
+            echo '${{ secrets.SERVER_PASSWORD }}' | sudo -S systemctl restart artistpath
 
             # Check service status
             echo "✅ Checking service status..."
-            sudo systemctl is-active --quiet artistpath && echo "✅ Service is running" || echo "❌ Service failed to start"
+            systemctl is-active --quiet artistpath && echo "✅ Service is running" || echo "❌ Service failed to start"
 
             echo "🎉 Deployment complete!"
