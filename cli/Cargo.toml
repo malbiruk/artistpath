@@ -6,7 +6,6 @@ authors = ["malbiruk"]
 description = "Find paths between music artists using Last.fm data"
 homepage = "https://github.com/malbiruk/artistpath"
 repository = "https://github.com/malbiruk/artistpath"
-readme = "README.md"
 keywords = ["music", "lastfm", "pathfinding", "artists", "graph"]
 categories = ["command-line-utilities"]
 license = "MIT"
