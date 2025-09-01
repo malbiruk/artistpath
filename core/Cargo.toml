@@ -2,6 +2,13 @@
 name = "artistpath-core"
 version = "0.1.0"
 edition = "2024"
+authors = ["malbiruk"]
+description = "Core pathfinding algorithms and data structures for artistpath"
+homepage = "https://github.com/malbiruk/artistpath"
+repository = "https://github.com/malbiruk/artistpath"
+license = "MIT"
+keywords = ["music", "pathfinding", "graph", "algorithms"]
+categories = ["algorithms", "data-structures"]
 
 [lib]
 name = "artistpath_core"
