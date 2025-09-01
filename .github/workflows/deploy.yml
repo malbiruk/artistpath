@@ -34,7 +34,7 @@ jobs:
 
             # Restart the service
             echo "♻️  Restarting artistpath service..."
-            sudo systemctl restart artistpath
+            echo "${{ secrets.SERVER_PASSWORD }}" | sudo -S systemctl restart artistpath
 
             # Check service status
             echo "✅ Checking service status..."
