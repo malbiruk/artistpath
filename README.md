@@ -63,7 +63,7 @@ For performance, I couldn't load the whole graph into RAM, so I skipped the fanc
 
 ## Installation
 
-### CLI Tool (Recommended)
+### Standalone CLI Tool
 
 ```bash
 cargo install artistpath
@@ -125,7 +125,7 @@ Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 
 The CLI version focuses on pathfinding between two specific artists.
 
-```bash
+```
 Usage: artistpath [OPTIONS] <ARTIST1> <ARTIST2>
 
 Arguments:
@@ -133,6 +133,7 @@ Arguments:
   <ARTIST2>  Second artist name
 
 Options:
+      --data-path <PATH>        Path to data directory (defaults to ~/.artistpath/, auto-downloads if not found)
   -m, --min-match <SIMILARITY>  Only use connections with similarity >= threshold (0.0-1.0) [default: 0.0]
   -t, --top-related <COUNT>     Limit to top N connections per artist [default: 80]
   -w, --weighted                Use weighted pathfinding for best similarity (default: shortest path)
@@ -160,22 +161,9 @@ $ artistpath "Taylor Swift" "Metallica"
 5. "Metallica" - https://www.last.fm/music/Metallica
 ```
 
-### CLI Algorithms
-
-**BFS (default)** - Finds the shortest path by number of hops:
-```
-"Taylor Swift" → "Halsey" → "Poppy" → "Slipknot" → "Metallica"
-```
-
-**Dijkstra (--weighted)** - Finds the path with best similarity scores:
-```
-"Taylor Swift" → "Olivia Rodrigo" → "Sabrina Carpenter" → ... → "Metallica"
-```
-(20 steps but smoother musical transitions)
-
 ### Try These Connections
 
-Explore some unexpected musical bridges (use `--weighted` for more gradual transitions):
+Explore some unexpected musical bridges (use `weighted` algorithm for more gradual transitions):
 - Classical to Hip-Hop: `"Johann Sebastian Bach" "Kendrick Lamar"`
 - Country to Electronic: `"Johnny Cash" "Aphex Twin"`
 - Jazz to Death Metal: `"Miles Davis" "Cannibal Corpse"`
