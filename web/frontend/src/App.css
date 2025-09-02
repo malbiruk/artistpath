@@ -74,13 +74,18 @@ body {
 }
 
 .artist-input {
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.5rem 0.3rem 0.5rem;
     border: 1px solid black;
     font-size: clamp(11px, 1.2vw, 13px);
     font-family: inherit;
     background: white;
-    width: clamp(120px, 18vw, 180px);
+    width: clamp(140px, 20vw, 200px);
     height: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
+    line-height: 1.2;
+}
+
+.artist-input-wrapper[data-has-action] .artist-input {
+    padding-right: 1.5rem;
 }
 
 .artist-input:focus {
@@ -204,6 +209,10 @@ body {
     display: none;
 }
 
+.mobile-footer-container {
+    display: none;
+}
+
 .footer {
     padding: 0.5rem 1rem;
     display: flex;
@@ -305,6 +314,28 @@ body {
     min-width: 0;
 }
 
+.input-action-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: gray;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.input-action-icon:hover {
+    color: black;
+}
+
 .suggestions {
     position: absolute;
     top: 100%;
@@ -371,9 +402,10 @@ body {
 
     .artist-input {
         font-size: 14px;
-        padding: 0.75rem;
+        padding: 0.8rem 0.75rem 0.7rem 0.75rem;
         min-width: 0;
         width: 100%;
+        line-height: 1.2;
     }
 
     .swap-button {
@@ -399,20 +431,26 @@ body {
     }
 
     .footer-left {
-        text-align: left;
-        order: 2;
+        display: none;
+    }
+
+    .mobile-footer-container {
+        display: block;
+        padding: 0.5rem;
+        padding-top: 0;
+    }
+
+    .mobile-status-stats {
         display: flex;
         flex-direction: column;
     }
 
     .mobile-stats {
-        /*margin-left: -1rem;*/
-        margin-right: -1.5rem;
         display: flex;
         justify-content: space-between;
         font-size: 11px;
         color: gray;
-        width: calc(100% + 4.5rem);
+        width: 100%;
     }
 
     .mobile-stats a {
@@ -453,7 +491,6 @@ body {
 
     .status-info {
         font-size: 11px;
-        margin-left: -1.5rem;
         min-height: 14px;
         min-width: calc(100vw - 4rem);
     }
@@ -465,5 +502,14 @@ body {
     .suggestion {
         padding: 1rem;
         font-size: 14px;
+    }
+
+    .input-action-icon {
+        font-size: 14px;
+        right: 0.5rem;
+    }
+
+    .artist-input-wrapper[data-has-action] .artist-input {
+        padding-right: 1.25rem;
     }
 }

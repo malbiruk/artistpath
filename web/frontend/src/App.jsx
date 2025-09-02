@@ -5,7 +5,12 @@ import ArtistInput from "./components/ArtistInput";
 import NumberInput from "./components/NumberInput";
 import NetworkVisualization from "./components/NetworkVisualization";
 import ArtistCard from "./components/ArtistCard";
-import { exploreArtist, findEnhancedPath, searchArtists } from "./utils/api";
+import {
+  exploreArtist,
+  findEnhancedPath,
+  searchArtists,
+  getRandomArtist,
+} from "./utils/api";
 import { API_BASE_URL } from "./config";
 
 function App() {
@@ -192,6 +197,32 @@ function App() {
     });
   };
 
+  const handleRandomToArtist = async () => {
+    try {
+      const randomArtist = await getRandomArtist();
+      setToArtist({
+        id: randomArtist.id,
+        name: randomArtist.name,
+        url: randomArtist.url,
+      });
+    } catch (error) {
+      console.error("Failed to get random artist:", error);
+    }
+  };
+
+  const handleRandomFromArtist = async () => {
+    try {
+      const randomArtist = await getRandomArtist();
+      setFromArtist({
+        id: randomArtist.id,
+        name: randomArtist.name,
+        url: randomArtist.url,
+      });
+    } catch (error) {
+      console.error("Failed to get random artist:", error);
+    }
+  };
+
   // Update URL when state changes
   const updateURL = () => {
     const params = new URLSearchParams();
@@ -376,12 +407,14 @@ function App() {
             value={fromArtist}
             onChange={setFromArtist}
             placeholder="from"
+            actionIcon="⚄"
+            onActionClick={handleRandomFromArtist}
           />
 
           <button
             onClick={swapArtists}
             className="swap-button"
-            title="Swap artists"
+            title="swap artists"
           >
             ⇄
           </button>
@@ -390,6 +423,8 @@ function App() {
             value={toArtist}
             onChange={setToArtist}
             placeholder="to"
+            actionIcon="⚄"
+            onActionClick={handleRandomToArtist}
           />
         </div>
 
@@ -493,6 +528,27 @@ function App() {
           </div>
         </div>
       </footer>
+
+      <div className="mobile-footer-container">
+        <div className="mobile-status-stats">
+          <span className={`status-info ${isError ? "error" : ""}`}>
+            {statusInfo}
+          </span>
+          <div className="mobile-stats">
+            <div>total artists: {totalArtists.toLocaleString()}</div>
+            <div>
+              data from{" "}
+              <a
+                href="https://www.last.fm/home"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Last.fm
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

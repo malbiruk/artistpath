@@ -101,3 +101,15 @@ export async function exploreArtist(
     throw error;
   }
 }
+
+export async function getRandomArtist() {
+  try {
+    const response = await fetch(`${API_BASE}/artist/random`);
+    if (!response.ok) throw new Error("Random artist failed");
+
+    return await response.json();
+  } catch (error) {
+    console.error("Random artist error:", error);
+    throw error;
+  }
+}
