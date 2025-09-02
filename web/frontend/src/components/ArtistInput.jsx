@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { searchArtists } from "../utils/api";
 
-function ArtistInput({ value, onChange, placeholder, actionIcon, onActionClick }) {
+function ArtistInput({
+  value,
+  onChange,
+  placeholder,
+  actionIcon,
+  onActionClick,
+}) {
   const [inputValue, setInputValue] = useState(value?.name || "");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -19,7 +25,7 @@ function ArtistInput({ value, onChange, placeholder, actionIcon, onActionClick }
       setSuggestions([]);
       return;
     }
-    
+
     if (inputValue.length < 2) {
       setSuggestions([]);
       return;
@@ -70,7 +76,10 @@ function ArtistInput({ value, onChange, placeholder, actionIcon, onActionClick }
   };
 
   return (
-    <div className="artist-input-wrapper" data-has-action={actionIcon ? "true" : undefined}>
+    <div
+      className="artist-input-wrapper"
+      data-has-action={actionIcon ? "true" : undefined}
+    >
       <input
         ref={inputRef}
         type="text"
@@ -93,7 +102,7 @@ function ArtistInput({ value, onChange, placeholder, actionIcon, onActionClick }
         <button
           className="input-action-icon"
           onClick={onActionClick}
-          title="Random artist"
+          title="random artist"
           type="button"
         >
           {actionIcon}
