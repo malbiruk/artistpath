@@ -3,7 +3,7 @@ import "./ArtistCard.css";
 import { API_BASE_URL } from "../config";
 
 function ArtistCard({
-  artistId,
+  artist,
   isOpen,
   onClose,
   onFromHere,
@@ -18,7 +18,7 @@ function ArtistCard({
   const [audio, setAudio] = useState(null);
 
   useEffect(() => {
-    if (artistId && isOpen) {
+    if (artist?.id && isOpen) {
       fetchArtistData();
       setShowFullBio(false); // Reset to summary when opening new artist
 
@@ -29,7 +29,7 @@ function ArtistCard({
         setCurrentlyPlaying(null);
       }
     }
-  }, [artistId, isOpen]);
+  }, [artist?.id, isOpen]);
 
   // Clean up audio when component unmounts
   useEffect(() => {
@@ -45,7 +45,7 @@ function ArtistCard({
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/artist/${artistId}`);
+      const response = await fetch(`${API_BASE_URL}/artist/${artist.id}`);
       if (!response.ok) {
         throw new Error("artist not found");
       }
@@ -59,7 +59,7 @@ function ArtistCard({
   };
 
   const handleFromHere = () => {
-    onFromHere(artistData);
+    onFromHere({ id: artist.id, name: artist.name });
     // Close the card on mobile devices to show the graph
     if (window.innerWidth <= 768) {
       onClose();
@@ -67,7 +67,7 @@ function ArtistCard({
   };
 
   const handleToHere = () => {
-    onToHere(artistData);
+    onToHere({ id: artist.id, name: artist.name });
     // Close the card on mobile devices to show the graph
     if (window.innerWidth <= 768) {
       onClose();
@@ -293,19 +293,17 @@ function ArtistCard({
       )}
 
       {/* Action buttons outside of scrollable content */}
-      {artistData && !loading && !error && (
-        <div className="artist-actions">
-          <button
-            className="action-button from-button"
-            onClick={handleFromHere}
-          >
-            from here
-          </button>
-          <button className="action-button to-button" onClick={handleToHere}>
-            to here
-          </button>
-        </div>
-      )}
+      <div className="artist-actions">
+        <button
+          className="action-button from-button"
+          onClick={handleFromHere}
+        >
+          from here
+        </button>
+        <button className="action-button to-button" onClick={handleToHere}>
+          to here
+        </button>
+      </div>
     </div>
   );
 }

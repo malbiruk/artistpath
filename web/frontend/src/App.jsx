@@ -40,7 +40,7 @@ function App() {
   const [networkData, setNetworkData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [algorithm, setAlgorithm] = useState(urlParams.algorithm);
-  const [selectedArtistId, setSelectedArtistId] = useState(null);
+  const [selectedArtist, setSelectedArtist] = useState(null);
   const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const isAudioPlayingRef = useRef(false);
@@ -151,7 +151,7 @@ function App() {
   };
 
   const handleArtistClick = (node) => {
-    setSelectedArtistId(node.id);
+    setSelectedArtist({ id: node.id, name: node.name });
     setIsArtistCardOpen(true);
   };
 
@@ -161,7 +161,7 @@ function App() {
       return;
     }
     setIsArtistCardOpen(false);
-    setSelectedArtistId(null);
+    setSelectedArtist(null);
     setIsAudioPlaying(false);
     isAudioPlayingRef.current = false; // Reset ref as well
   };
@@ -260,7 +260,7 @@ function App() {
           data={networkData}
           onArtistClick={handleArtistClick}
           onClickAway={handleClickAway}
-          selectedArtistId={selectedArtistId}
+          selectedArtistId={selectedArtist?.id}
         />
       );
     }
@@ -414,7 +414,7 @@ function App() {
         <div className="visualization" onClick={handleClickAway}>
           {renderVisualization()}
           <ArtistCard
-            artistId={selectedArtistId}
+            artist={selectedArtist}
             isOpen={isArtistCardOpen}
             onClose={handleArtistCardClose}
             onFromHere={handleFromHere}
