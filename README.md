@@ -181,6 +181,12 @@ You'll discover artists you never knew existed, sitting right at the crossroads 
 2. **Binary Storage**: Optimized format with memory-mapped access
 3. **Pathfinding**: BFS for shortest path, Dijkstra for best similarity (Rust)
 
+## Support
+
+If you find this project useful and want to support its development:
+
+[![Support on Boosty](https://img.shields.io/badge/Support%20on-Boosty-orange)](https://boosty.to/klimkostiuk/donate)
+
 ## License
 
 MIT
