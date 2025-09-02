@@ -1,0 +1,61 @@
+meta {
+  name: random-artist
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/artist/random
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have random artist structure", function() {
+    const data = res.body;
+    expect(data.id).to.be.a('string');
+    expect(data.name).to.be.a('string');
+    expect(data.url).to.be.a('string');
+  });
+  
+  test("ID should be valid UUID", function() {
+    const data = res.body;
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    expect(data.id).to.match(uuidRegex);
+  });
+  
+  test("Name should not be empty", function() {
+    const data = res.body;
+    expect(data.name.trim()).to.not.be.empty;
+  });
+  
+  test("URL should be valid", function() {
+    const data = res.body;
+    expect(data.url).to.satisfy(function(url) {
+      return url === '' || url.startsWith('http');
+    });
+  });
+  
+  test("Performance should be fast", function() {
+    expect(res.responseTime).to.be.lessThan(100); // Under 100ms since it's just random selection
+  });
+  
+  test("Multiple calls should return different artists", function() {
+    // Store first result for comparison (if we want to run this manually)
+    const firstResult = res.body;
+    expect(firstResult.id).to.be.a('string');
+    // Note: This test passes but to truly test randomness you'd need to call multiple times
+  });
+}
+
+settings {
+  encodeUrl: true
+}

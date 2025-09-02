@@ -183,15 +183,13 @@ pub async fn get_artist_details(
                     let client = &state.itunes_client;
                     let artist = artist_name.to_string();
                     let track_name = track.name.clone();
-                    async move {
-                        client.search_track(&artist, &track_name).await
-                    }
+                    async move { client.search_track(&artist, &track_name).await }
                 })
                 .collect();
-            
+
             // Wait for all iTunes searches to complete
             let itunes_results = futures::future::join_all(itunes_futures).await;
-            
+
             // Combine track data with iTunes preview URLs
             let track_data: Vec<LastFmTrackData> = tracks
                 .into_iter()
@@ -201,7 +199,7 @@ pub async fn get_artist_details(
                         Ok(Some(itunes_track)) => Some(itunes_track.preview_url),
                         _ => None,
                     };
-                    
+
                     LastFmTrackData {
                         name: track.name,
                         url: track.url,
@@ -211,7 +209,7 @@ pub async fn get_artist_details(
                     }
                 })
                 .collect();
-            
+
             Some(track_data)
         }
         Err(_) => None,
@@ -226,4 +224,29 @@ pub async fn get_artist_details(
     };
 
     Ok(Json(response))
+}
+
+pub async fn get_random_artist(
+    State(state): State<Arc<AppState>>,
+) -> Result<Json<serde_json::Value>, StatusCode> {
+    use rand::Rng;
+
+    // Get a random artist from the metadata collection
+    let artist_count = state.artist_metadata.len();
+    if artist_count == 0 {
+        return Err(StatusCode::NOT_FOUND);
+    }
+
+    let random_index = rand::rng().random_range(0..artist_count);
+
+    // Get the random artist (since HashMap doesn't have direct indexing)
+    if let Some((id, artist)) = state.artist_metadata.iter().nth(random_index) {
+        Ok(Json(serde_json::json!({
+            "id": id,
+            "name": artist.name,
+            "url": artist.url
+        })))
+    } else {
+        Err(StatusCode::INTERNAL_SERVER_ERROR)
+    }
 }

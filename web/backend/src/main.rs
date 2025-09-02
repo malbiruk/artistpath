@@ -36,6 +36,7 @@ async fn main() {
         .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
         .route("/api/stats", get(handlers::get_stats))
+        .route("/api/artist/random", get(handlers::get_random_artist))
         .route("/api/artist/:id", get(handlers::get_artist_details))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
