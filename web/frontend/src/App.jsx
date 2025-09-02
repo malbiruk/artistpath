@@ -130,7 +130,7 @@ function App() {
     if (isPathfinding) {
       return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration.toLocaleString()}ms`;
     }
-    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration.toLocaleString()}ms`;
+    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections`;
   };
 
   const handleSearchSuccess = (data, isPathfinding = false) => {

@@ -178,6 +178,11 @@ body {
     position: relative;
 }
 
+.visualization p {
+    max-width: 85%;
+    text-align: center;
+}
+
 .stats {
     font-size: 10px;
     color: gray;
@@ -401,13 +406,13 @@ body {
     }
 
     .mobile-stats {
-        margin-left: -1.5rem;
-        margin-right: -1rem;
+        /*margin-left: -1rem;*/
+        margin-right: -1.5rem;
         display: flex;
         justify-content: space-between;
         font-size: 11px;
         color: gray;
-        width: calc(100% + 2.5rem);
+        width: calc(100% + 4.5rem);
     }
 
     .mobile-stats a {
@@ -416,11 +421,12 @@ body {
     }
 
     .footer-right {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: max-content max-content;
         row-gap: 0.5rem;
+        justify-content: space-between;
         order: 1;
+        width: 100%;
     }
 
     .setting {
@@ -439,6 +445,10 @@ body {
         font-size: 12px;
         padding: 0.25rem;
         text-align: left;
+    }
+
+    .algorithm-toggle {
+        font-size: 12px;
     }
 
     .status-info {

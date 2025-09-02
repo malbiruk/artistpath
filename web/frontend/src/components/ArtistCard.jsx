@@ -60,10 +60,18 @@ function ArtistCard({
 
   const handleFromHere = () => {
     onFromHere(artistData);
+    // Close the card on mobile devices to show the graph
+    if (window.innerWidth <= 768) {
+      onClose();
+    }
   };
 
   const handleToHere = () => {
     onToHere(artistData);
+    // Close the card on mobile devices to show the graph
+    if (window.innerWidth <= 768) {
+      onClose();
+    }
   };
 
   const handleClose = () => {
