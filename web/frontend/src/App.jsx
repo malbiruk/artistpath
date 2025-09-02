@@ -117,8 +117,14 @@ function App() {
 
     // Only load from URL once on mount
     if (urlArtistsToLoad.from || urlArtistsToLoad.to) {
-      loadArtistFromName(urlArtistsToLoad.from, setFromArtist);
-      loadArtistFromName(urlArtistsToLoad.to, setToArtist);
+      const loadBothArtists = async () => {
+        await Promise.all([
+          loadArtistFromName(urlArtistsToLoad.from, setFromArtist),
+          loadArtistFromName(urlArtistsToLoad.to, setToArtist)
+        ]);
+      };
+      
+      loadBothArtists();
 
       // Clear the URL artists to load so we don't keep trying
       setUrlArtistsToLoad({ from: null, to: null });
@@ -145,7 +151,7 @@ function App() {
   };
 
   const handleSearchError = (errorMessage) => {
-    setStatusInfo(errorMessage);
+    setStatusInfo(`ERROR: ${errorMessage}`);
     setIsError(true);
   };
 
