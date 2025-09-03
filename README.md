@@ -45,7 +45,7 @@ The interactive web interface provides visual exploration and pathfinding with r
 - **Simple (BFS)**: Wide layer-by-layer exploration, discovers diverse/distant clusters
 - **Weighted (Dijkstra)**: Similarity-based exploration, finds tightly connected clusters and smoother musical transitions
 
-### Dataset Information
+## Dataset Information
 
 **Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
 
