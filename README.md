@@ -8,6 +8,11 @@ An interactive web application for exploring artist networks and finding paths b
 
 <img width="1920" height="1058" alt="image" src="https://github.com/user-attachments/assets/1d8deea9-946f-47cf-bd6e-af5341e7e4a5" />
 
+## Artist Discovery
+
+Ever wondered how indie folk connects to experimental electronic music? Or what bridges classic rock and modern trap? `artistpath` reveals these hidden connections and helps you discover new artists along unexpected musical journeys.
+
+Try exploring paths between artists from completely different genres — you might find amazing artists you've never heard of sitting right in the middle, acting as musical bridges between worlds.
 
 ## How connections work
 
@@ -40,11 +45,27 @@ The interactive web interface provides visual exploration and pathfinding with r
 - **Simple (BFS)**: Wide layer-by-layer exploration, discovers diverse/distant clusters
 - **Weighted (Dijkstra)**: Similarity-based exploration, finds tightly connected clusters and smoother musical transitions
 
-## Artist Discovery
+### Dataset Information
 
-Ever wondered how indie folk connects to experimental electronic music? Or what bridges classic rock and modern trap? `artistpath` reveals these hidden connections and helps you discover new artists along unexpected musical journeys.
+**Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
 
-Try exploring paths between artists from completely different genres — you might find amazing artists you've never heard of sitting right in the middle, acting as musical bridges between worlds.
+Available formats from [releases](https://github.com/malbiruk/artistpath/releases/):
+- **Binary format** (1.0GB compressed → 2.4GB extracted): Required for web/CLI apps - includes indexing and name lookup for fast performance
+- **NDJSON format** (1.2GB compressed → 6GB extracted): For research/analysis - human-readable JSON lines:
+  - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
+  - Metadata: `{"id": uuid, "name": "Artist Name", "url": "..."}`
+
+Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
+
+### Build Your Own Dataset
+
+1. Get a [Last.fm API key](https://www.last.fm/api/account/create)
+2. `cd data_collection && uv sync && echo "API_KEY=your_key" > .env`
+3. `uv run python run_collection.py` (takes several days!)
+4. `uv run python run_postprocessing.py`
+5. Build CLI: `cd cli && cargo build --release`
+
+Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 
 ## The Story
 
@@ -64,7 +85,13 @@ For performance, I couldn't load the whole graph into RAM, so I skipped the fanc
 
 *I'm a musician myself — check out [flowersinyoureyes.com](https://flowersinyoureyes.com) if you're curious about my band "flowers in your eyes".*
 
-## Installation
+## Support
+
+If you find this project useful and want to support its development:
+
+[![Support on Boosty](https://img.shields.io/badge/Support%20on-Boosty-orange)](https://boosty.to/klimkostiuk/donate)
+
+## Run Locally
 
 ### Standalone CLI Tool
 
@@ -102,28 +129,6 @@ npm run dev
 ```
 
 Open http://localhost:3001 in your browser.
-
-### Dataset Information
-
-**Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
-
-Available formats from [releases](https://github.com/malbiruk/artistpath/releases/):
-- **Binary format** (1.0GB compressed → 2.4GB extracted): Required for web/CLI apps - includes indexing and name lookup for fast performance
-- **NDJSON format** (1.2GB compressed → 6GB extracted): For research/analysis - human-readable JSON lines:
-  - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
-  - Metadata: `{"id": uuid, "name": "Artist Name", "url": "..."}`
-
-Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
-
-### Build Your Own Dataset
-
-1. Get a [Last.fm API key](https://www.last.fm/api/account/create)
-2. `cd data_collection && uv sync && echo "API_KEY=your_key" > .env`
-3. `uv run python run_collection.py` (takes several days!)
-4. `uv run python run_postprocessing.py`
-5. Build CLI: `cd cli && cargo build --release`
-
-Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 
 ## Command Line Usage
 
@@ -174,18 +179,6 @@ Explore some unexpected musical bridges (use `weighted` algorithm for more gradu
 - Folk to Trap: `"Bob Dylan" "Future"`
 
 You'll discover artists you never knew existed, sitting right at the crossroads of different musical worlds.
-
-## How It Works
-
-1. **Data Collection**: BFS crawl of Last.fm's similar artists API (Python)
-2. **Binary Storage**: Optimized format with memory-mapped access
-3. **Pathfinding**: BFS for shortest path, Dijkstra for best similarity (Rust)
-
-## Support
-
-If you find this project useful and want to support its development:
-
-[![Support on Boosty](https://img.shields.io/badge/Support%20on-Boosty-orange)](https://boosty.to/klimkostiuk/donate)
 
 ## License
 
