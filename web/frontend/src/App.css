@@ -423,6 +423,10 @@ body {
         font-size: 12px;
     }
 
+    .visualization p.help-message {
+        font-size: 11px;
+    }
+
     .footer {
         padding: 1rem 2rem;
         flex-direction: column;

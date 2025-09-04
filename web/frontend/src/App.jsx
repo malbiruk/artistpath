@@ -120,10 +120,10 @@ function App() {
       const loadBothArtists = async () => {
         await Promise.all([
           loadArtistFromName(urlArtistsToLoad.from, setFromArtist),
-          loadArtistFromName(urlArtistsToLoad.to, setToArtist)
+          loadArtistFromName(urlArtistsToLoad.to, setToArtist),
         ]);
       };
-      
+
       loadBothArtists();
 
       // Clear the URL artists to load so we don't keep trying
@@ -265,10 +265,21 @@ function App() {
 
     // No artists selected
     if (!fromArtist && !toArtist) {
+      const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
       return (
         <>
           <p>enter one artist to explore their network</p>
           <p>enter two artists to find the path between them</p>
+          {isTouchDevice && (
+            <p className="help-message">
+              <br />
+              <br />
+              tap to see connections
+              <br />
+              double-tap for artist card
+            </p>
+          )}
         </>
       );
     }
