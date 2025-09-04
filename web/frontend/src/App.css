@@ -85,7 +85,7 @@ body {
 }
 
 .artist-input-wrapper[data-has-action] .artist-input {
-    padding-right: 1.5rem;
+    padding-right: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
 }
 
 .artist-input:focus {
@@ -316,9 +316,10 @@ body {
 
 .input-action-icon {
     position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
     border: none;
     background: none;
     color: gray;
@@ -510,10 +511,5 @@ body {
 
     .input-action-icon {
         font-size: 14px;
-        right: 0.5rem;
-    }
-
-    .artist-input-wrapper[data-has-action] .artist-input {
-        padding-right: 1.25rem;
     }
 }
