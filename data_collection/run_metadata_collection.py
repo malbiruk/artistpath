@@ -403,7 +403,7 @@ def show_file_info() -> None:
 
 if __name__ == "__main__":
     import sys
-    
+
     if len(sys.argv) > 1 and sys.argv[1] == "check":
         # Just check the existing file without collecting
         show_file_info()
@@ -411,10 +411,10 @@ if __name__ == "__main__":
         # Show info BEFORE collection to see how stale the data is
         print("📊 Current metadata status:")
         show_file_info()
-        
+
         # Run collection
         asyncio.run(main())
-        
+
         # Show info AFTER collection
         print("\n📊 Updated metadata status:")
         show_file_info()
