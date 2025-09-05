@@ -167,6 +167,84 @@ def create_unified_metadata_binary(metadata_file: Path | str, lookup: dict, inde
     }
 
 
+def build_reverse_graph_binary(graph_file: Path) -> dict:
+    """Build reverse graph from forward graph and save as binary."""
+    reverse_binary_path = Path("../data/rev-graph.bin")
+    
+    # First pass: collect all reverse connections
+    reverse_connections = {}
+    total_connections = 0
+    
+    with graph_file.open() as f:
+        line_count = sum(1 for line in f if line.strip())
+    
+    with graph_file.open() as f:
+        for line in track(
+            f,
+            total=line_count,
+            description="[green]Building reverse graph..."
+        ):
+            line = line.strip()
+            if not line:
+                continue
+                
+            try:
+                data = json.loads(line)
+                source_id = data["id"]
+                
+                for target_id, similarity in data["connections"]:
+                    # Add reverse connection: target -> source  
+                    if target_id not in reverse_connections:
+                        reverse_connections[target_id] = []
+                    reverse_connections[target_id].append((source_id, similarity))
+                    total_connections += 1
+                    
+            except (json.JSONDecodeError, ValueError, KeyError) as e:
+                print(f"⚠️  Skipping malformed line in reverse graph build: {e}")
+                continue
+    
+    # Sort connections by similarity (highest first)
+    for connections in reverse_connections.values():
+        connections.sort(key=lambda x: x[1], reverse=True)
+    
+    # Second pass: write binary format (same as forward graph)
+    rev_index = {}
+    
+    with reverse_binary_path.open("wb") as outfile:
+        for artist_id_str, connections in track(
+            reverse_connections.items(),
+            description="[green]Writing reverse graph binary..."
+        ):
+            try:
+                artist_id = UUID(artist_id_str)
+                
+                # Store byte position for this artist in index
+                rev_index[artist_id_str] = outfile.tell()
+                
+                # Write binary format (same as forward graph):
+                # - UUID (16 bytes)  
+                # - Connection count (4 bytes, uint32)
+                # - Each connection: UUID (16 bytes) + weight (4 bytes, float32)
+                
+                outfile.write(artist_id.bytes)  # 16 bytes
+                outfile.write(struct.pack("<I", len(connections)))  # 4 bytes
+                
+                for conn_id, weight in connections:
+                    outfile.write(UUID(conn_id).bytes)  # 16 bytes
+                    outfile.write(struct.pack("<f", weight))  # 4 bytes
+                    
+            except (ValueError, KeyError) as e:
+                print(f"⚠️  Skipping invalid artist ID in reverse graph: {e}")
+                continue
+    
+    return {
+        "artists": len(reverse_connections),
+        "connections": total_connections,
+        "binary_size": reverse_binary_path.stat().st_size,
+        "index": rev_index,
+    }
+
+
 def main() -> None:
     graph_file = Path("../data/graph.ndjson")
     metadata_file = Path("../data/metadata.ndjson")
@@ -179,27 +257,36 @@ def main() -> None:
     print("\n📊 Step 1: Converting graph to binary format")
     graph_stats = convert_graph_to_binary(graph_file)
 
-    # Step 2: Build lookup
-    print("\n📊 Step 2: Building artist lookup")
+    # Step 2: Build reverse graph
+    print("\n📊 Step 2: Building reverse graph binary")
+    rev_graph_stats = build_reverse_graph_binary(graph_file)
+
+    # Step 3: Build lookup
+    print("\n📊 Step 3: Building artist lookup")
     lookup = build_lookup(metadata_file)
 
-    # Step 3: Create unified metadata binary
-    print("\n📊 Step 3: Creating unified metadata binary")
+    # Step 4: Create unified metadata binary
+    print("\n📊 Step 4: Creating unified metadata binary")
     metadata_stats = create_unified_metadata_binary(metadata_file, lookup, graph_stats["index"])
 
     # Summary
     print("\n✅ Post-processing complete!")
     print(f"🎵 Artists processed: {graph_stats['artists']:,}")
-    print(f"🔗 Total connections: {graph_stats['connections']:,}")
-    print(f"💾 Graph binary size: {graph_stats['binary_size'] / (1024**2):.1f} MB")
-    print(f"📇 Metadata binary size: {metadata_stats['binary_size'] / (1024**2):.1f} MB")
-    print(
-        f"📦 Total binary size: {(graph_stats['binary_size'] + metadata_stats['binary_size']) / (1024**2):.1f} MB",
+    print(f"🔗 Forward connections: {graph_stats['connections']:,}")
+    print(f"🔄 Reverse connections: {rev_graph_stats['connections']:,}")
+    print(f"💾 Forward graph: {graph_stats['binary_size'] / (1024**2):.1f} MB")
+    print(f"🔄 Reverse graph: {rev_graph_stats['binary_size'] / (1024**2):.1f} MB") 
+    print(f"📇 Metadata binary: {metadata_stats['binary_size'] / (1024**2):.1f} MB")
+    
+    total_binary_size = (
+        graph_stats["binary_size"] + 
+        rev_graph_stats["binary_size"] + 
+        metadata_stats["binary_size"]
     )
+    print(f"📦 Total binary size: {total_binary_size / (1024**2):.1f} MB")
 
     original_size = graph_file.stat().st_size + metadata_file.stat().st_size
-    binary_size = graph_stats["binary_size"] + metadata_stats["binary_size"]
-    savings = (original_size - binary_size) / original_size * 100
+    savings = (original_size - total_binary_size) / original_size * 100
     print(f"💰 Space savings: {savings:.1f}%")
     print("🎉 Done!")
 
