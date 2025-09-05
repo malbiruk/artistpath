@@ -41,7 +41,7 @@ impl From<String> for Algorithm {
 pub use exploration::{ExplorationResult, ExplorationStats, explore_bfs, explore_dijkstra};
 pub use parsing::{Artist, find_artist_id, parse_unified_metadata};
 pub use pathfinding::{
-    EnhancedPathResult, bfs_find_path, dijkstra_find_path, find_paths_with_exploration,
+    BiDirectionalGraphs, EnhancedPathResult, bfs_find_path, dijkstra_find_path, find_paths_with_exploration,
     get_artist_connections,
 };
 pub use pathfinding_config::PathfindingConfig;

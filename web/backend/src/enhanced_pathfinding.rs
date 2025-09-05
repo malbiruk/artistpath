@@ -1,6 +1,6 @@
 use crate::models::{EnhancedPathResponse, EnhancedPathData, EnhancedPathError, GraphNode, GraphEdge, PathArtist, SearchStats};
 use crate::state::AppState;
-use artistpath_core::{PathfindingConfig, find_paths_with_exploration, EnhancedPathResult, Algorithm};
+use artistpath_core::{PathfindingConfig, find_paths_with_exploration, EnhancedPathResult, Algorithm, BiDirectionalGraphs};
 use rustc_hash::FxHashSet;
 use uuid::Uuid;
 
@@ -15,13 +15,17 @@ pub fn find_enhanced_path_between_artists(
 ) -> EnhancedPathResponse {
     let config = PathfindingConfig::new(min_similarity, max_relations, algorithm == Algorithm::Dijkstra);
 
+    let graphs = BiDirectionalGraphs {
+        forward: (&state.graph_mmap, &state.graph_index),
+        reverse: (&state.reverse_graph_mmap, &state.reverse_graph_index),
+    };
+
     let core_result = find_paths_with_exploration(
         from_id,
         to_id,
         algorithm,
         budget,
-        &state.graph_mmap,
-        &state.graph_index,
+        graphs,
         &config,
     );
 

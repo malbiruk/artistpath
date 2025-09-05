@@ -35,6 +35,8 @@ pub fn execute_pathfinding(
             to_id,
             &state.graph_mmap,
             &state.graph_index,
+            &state.reverse_graph_mmap,
+            &state.reverse_graph_index,
             config,
         ),
         Algorithm::Bfs => bfs_find_path(
@@ -42,6 +44,8 @@ pub fn execute_pathfinding(
             to_id,
             &state.graph_mmap,
             &state.graph_index,
+            &state.reverse_graph_mmap,
+            &state.reverse_graph_index,
             config,
         ),
     };
