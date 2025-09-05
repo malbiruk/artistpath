@@ -23,7 +23,7 @@ Artist connections are based on Last.fm listener overlap — artists are similar
 The interactive web interface provides visual exploration and pathfinding with real-time network visualization.
 
 ### Features
-- **Artist Exploration**: Enter one artist to explore their network of similar artists
+- **Artist Exploration**: Enter one artist to explore their network of similar artists (use either "from" or "to" field -- will show relations with opposite directions)
 - **Path Finding**: Enter two artists to find connection paths between them
 - **Visual Network**: Interactive graph showing artists as nodes and similarities as edges
 - **Real-time Search**: Instant results as you type and adjust parameters
@@ -42,6 +42,7 @@ The interactive web interface provides visual exploration and pathfinding with r
 - **Adaptive text size**: Artist font size reflects their local importance (connection count relative to the current network)
 
 ### Algorithms
+Both algorithms use bidirectional search for improved performance:
 - **Simple (BFS)**: Wide layer-by-layer exploration, discovers diverse/distant clusters
 - **Weighted (Dijkstra)**: Similarity-based exploration, finds tightly connected clusters and smoother musical transitions
 
