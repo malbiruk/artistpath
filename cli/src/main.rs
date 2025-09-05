@@ -54,7 +54,7 @@ impl ArtistPathApp {
         })
     }
 
-    fn load_data(&self) -> (NameLookup, ArtistMetadata, GraphIndex) {
+    fn load_data(&self) -> (NameLookup, ArtistMetadata, GraphIndex, GraphIndex) {
         parse_unified_metadata(&self.metadata_path)
     }
 }
@@ -88,7 +88,7 @@ fn main() {
             std::process::exit(1);
         }
     };
-    let (name_lookup, artist_metadata, graph_index) = app.load_data();
+    let (name_lookup, artist_metadata, graph_index, _reverse_index) = app.load_data();
 
     let search_request = match create_search_request(search_args, &name_lookup, &artist_metadata) {
         Ok(request) => request,

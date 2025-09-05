@@ -16,22 +16,24 @@ pub struct Artist {
 struct SectionOffsets {
     lookup: usize,
     metadata: usize,
-    index: usize,
+    forward_index: usize,
+    reverse_index: usize,
 }
 
 type NameLookup = FxHashMap<String, Vec<Uuid>>;
 type ArtistMetadata = FxHashMap<Uuid, Artist>;
 type GraphIndex = FxHashMap<Uuid, u64>;
 
-pub fn parse_unified_metadata(metadata_path: &Path) -> (NameLookup, ArtistMetadata, GraphIndex) {
+pub fn parse_unified_metadata(metadata_path: &Path) -> (NameLookup, ArtistMetadata, GraphIndex, GraphIndex) {
     let binary_data = read_binary_file(metadata_path);
     let section_offsets = read_section_offsets(&binary_data);
     
     let name_lookup = parse_name_lookup_section(&binary_data, section_offsets.lookup);
     let artist_metadata = parse_artist_metadata_section(&binary_data, section_offsets.metadata);
-    let graph_index = parse_graph_index_section(&binary_data, section_offsets.index);
+    let forward_index = parse_graph_index_section(&binary_data, section_offsets.forward_index);
+    let reverse_index = parse_graph_index_section(&binary_data, section_offsets.reverse_index);
     
-    (name_lookup, artist_metadata, graph_index)
+    (name_lookup, artist_metadata, forward_index, reverse_index)
 }
 
 fn read_binary_file(file_path: &Path) -> Vec<u8> {
@@ -44,7 +46,8 @@ fn read_section_offsets(data: &[u8]) -> SectionOffsets {
     SectionOffsets {
         lookup: cursor.read_u32::<LittleEndian>().expect("Should read lookup offset") as usize,
         metadata: cursor.read_u32::<LittleEndian>().expect("Should read metadata offset") as usize,
-        index: cursor.read_u32::<LittleEndian>().expect("Should read index offset") as usize,
+        forward_index: cursor.read_u32::<LittleEndian>().expect("Should read forward index offset") as usize,
+        reverse_index: cursor.read_u32::<LittleEndian>().expect("Should read reverse index offset") as usize,
     }
 }
 

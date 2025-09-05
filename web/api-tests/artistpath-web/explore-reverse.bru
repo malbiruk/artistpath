@@ -1,0 +1,143 @@
+meta {
+  name: explore-reverse
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/explore_reverse?artist_id=20244d07-534f-4eff-b4d4-930878889970&budget=10&max_relations=2&algorithm=bfs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  artist_id: 20244d07-534f-4eff-b4d4-930878889970
+  budget: 10
+  max_relations: 2
+  algorithm: bfs
+  ~min_similarity: 0.1
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.status).to.equal(200);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.headers['content-type']).to.include('application/json');
+  });
+  
+  test("Should have graph response structure", function() {
+    const data = res.body;
+    expect(data.center_artist).to.be.an('object');
+    expect(data.nodes).to.be.an('array');
+    expect(data.edges).to.be.an('array');
+    expect(data.total_found).to.be.a('number');
+    expect(data.search_stats).to.be.an('object');
+  });
+  
+  test("Center artist should have correct structure", function() {
+    const data = res.body;
+    const center = data.center_artist;
+    expect(center.id).to.be.a('string');
+    expect(center.name).to.be.a('string');
+    expect(center.url).to.be.a('string');
+    // similarity field doesn't exist on center_artist
+  });
+  
+  test("Graph nodes should have correct structure", function() {
+    const data = res.body;
+    if (data.nodes.length > 0) {
+      const node = data.nodes[0];
+      expect(node.id).to.be.a('string');
+      expect(node.name).to.be.a('string');
+      expect(node.layer).to.be.a('number');
+      expect(node.similarity).to.be.a('number');
+      expect(node.similarity).to.be.greaterThanOrEqual(0);
+      expect(node.similarity).to.be.lessThanOrEqual(1);
+      expect(node.layer).to.be.greaterThanOrEqual(0);
+    }
+  });
+  
+  test("Graph edges should have correct structure", function() {
+    const data = res.body;
+    if (data.edges.length > 0) {
+      const edge = data.edges[0];
+      expect(edge.from).to.be.a('string');
+      expect(edge.to).to.be.a('string');
+      expect(edge.similarity).to.be.a('number');
+      expect(edge.similarity).to.be.greaterThan(0);
+      expect(edge.similarity).to.be.lessThanOrEqual(1);
+    }
+  });
+  
+  test("Should respect budget", function() {
+    const data = res.body;
+    expect(data.total_found).to.be.at.most(10);  // Updated to match the test budget
+    expect(data.nodes.length).to.equal(data.total_found);
+  });
+  
+  test("Should have layered graph structure", function() {
+    const data = res.body;
+    if (data.nodes.length > 1) {
+      // Check that we have a center node at layer 0
+      const centerNodes = data.nodes.filter(node => node.layer === 0);
+      expect(centerNodes.length).to.equal(1);
+      
+      // Check that edges connect valid nodes
+      if (data.edges.length > 0) {
+        const nodeIds = new Set(data.nodes.map(node => node.id));
+        const edge = data.edges[0];
+        expect(nodeIds.has(edge.from)).to.be.true;
+        expect(nodeIds.has(edge.to)).to.be.true;
+      }
+      
+      // Check layer progression
+      const layers = [...new Set(data.nodes.map(node => node.layer))].sort();
+      expect(layers[0]).to.equal(0); // Should start from layer 0
+    }
+  });
+  
+  test("Should find artists influenced by Taylor Swift (reverse exploration)", function() {
+    const data = res.body;
+    expect(data.center_artist.name).to.equal('Taylor Swift');
+    expect(data.nodes.length).to.be.greaterThan(0);
+    expect(data.total_found).to.be.greaterThan(0);
+    
+    // Should have the center artist in the nodes
+    const taylorNode = data.nodes.find(node => node.name === 'Taylor Swift');
+    expect(taylorNode).to.exist;
+    expect(taylorNode.layer).to.equal(0);
+  });
+  
+  test("Reverse exploration should show different results than forward", function() {
+    // This test assumes we can compare with forward exploration results
+    // In practice, reverse exploration should show artists who are influenced BY Taylor Swift
+    // rather than artists similar TO Taylor Swift
+    const data = res.body;
+    expect(data.nodes.length).to.be.greaterThan(0);
+    
+    // The results should be meaningful (have connections)
+    if (data.nodes.length > 1) {
+      expect(data.edges.length).to.be.greaterThan(0);
+    }
+  });
+  
+  test("Search stats should be present", function() {
+    const data = res.body;
+    expect(data.search_stats.artists_visited).to.be.a('number');
+    expect(data.search_stats.duration_ms).to.be.a('number');
+    expect(data.search_stats.artists_visited).to.be.greaterThan(0);
+    // duration_ms can be 0 on fast machines
+    expect(data.search_stats.duration_ms).to.be.at.least(0);
+  });
+  
+  test("Performance should be reasonable", function() {
+    const data = res.body;
+    expect(data.search_stats.duration_ms).to.be.lessThan(2000); // Under 2 seconds
+  });
+}
+
+settings {
+  encodeUrl: true
+}

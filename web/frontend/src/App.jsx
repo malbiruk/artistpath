@@ -7,6 +7,7 @@ import NetworkVisualization from "./components/NetworkVisualization";
 import ArtistCard from "./components/ArtistCard";
 import {
   exploreArtist,
+  exploreArtistReverse,
   findEnhancedPath,
   searchArtists,
   getRandomArtist,
@@ -313,20 +314,6 @@ function App() {
       );
     }
 
-    // Only "to" artist set - suggest using swap button
-    if (!fromArtist && toArtist) {
-      return (
-        <>
-          <p>exploration only works from the "from" field</p>
-          <p>
-            use the ⇄ button to move {toArtist.name} to "from" and start
-            exploring
-          </p>
-          <p>or fill in another "from" artist to get the path</p>
-        </>
-      );
-    }
-
     // No path found between two artists
     if (fromArtist && toArtist) {
       return (
@@ -349,11 +336,6 @@ function App() {
         return;
       }
 
-      // Also reset if we have only "to" artist (invalid state)
-      if (!fromArtist && toArtist) {
-        resetSearch();
-        return;
-      }
 
       setIsLoading(true);
       setIsError(false);
@@ -363,9 +345,19 @@ function App() {
 
       try {
         if (fromArtist && !toArtist) {
-          // Single artist - explore (only from "from" field)
+          // Single artist - forward exploration (from "from" field)
           const data = await exploreArtist(
             fromArtist.id,
+            maxArtists,
+            maxRelations,
+            minSimilarity,
+            backendAlgorithm,
+          );
+          handleSearchSuccess(data, false);
+        } else if (!fromArtist && toArtist) {
+          // Single artist - reverse exploration (from "to" field)
+          const data = await exploreArtistReverse(
+            toArtist.id,
             maxArtists,
             maxRelations,
             minSimilarity,

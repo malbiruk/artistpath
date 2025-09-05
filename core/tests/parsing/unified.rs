@@ -9,11 +9,12 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
     let alice_id = Uuid::new_v4();
     let bob_id = Uuid::new_v4();
 
-    // Header: 3 uint32 offsets (placeholders for now)
+    // Header: 4 uint32 offsets (placeholders for now)
     let header_pos = file.stream_position().unwrap();
     file.write_u32::<LittleEndian>(0).unwrap(); // lookup_offset placeholder
     file.write_u32::<LittleEndian>(0).unwrap(); // metadata_offset placeholder
-    file.write_u32::<LittleEndian>(0).unwrap(); // index_offset placeholder
+    file.write_u32::<LittleEndian>(0).unwrap(); // forward_index_offset placeholder
+    file.write_u32::<LittleEndian>(0).unwrap(); // reverse_index_offset placeholder
 
     // Section 1: Lookup
     let lookup_offset = file.stream_position().unwrap();
@@ -61,8 +62,8 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
         .unwrap();
     file.write_all(bob_url).unwrap();
 
-    // Section 3: Index
-    let index_offset = file.stream_position().unwrap();
+    // Section 3: Forward Index
+    let forward_index_offset = file.stream_position().unwrap();
     file.write_u32::<LittleEndian>(2).unwrap(); // 2 entries
 
     // Entry 1: alice_id -> position 0
@@ -73,6 +74,18 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
     file.write_all(&bob_id.into_bytes()).unwrap();
     file.write_u64::<LittleEndian>(100).unwrap();
 
+    // Section 4: Reverse Index (same structure for testing)
+    let reverse_index_offset = file.stream_position().unwrap();
+    file.write_u32::<LittleEndian>(2).unwrap(); // 2 entries
+
+    // Entry 1: alice_id -> position 200
+    file.write_all(&alice_id.into_bytes()).unwrap();
+    file.write_u64::<LittleEndian>(200).unwrap();
+
+    // Entry 2: bob_id -> position 300
+    file.write_all(&bob_id.into_bytes()).unwrap();
+    file.write_u64::<LittleEndian>(300).unwrap();
+
     // Update header with actual offsets
     let end_pos = file.stream_position().unwrap();
     file.seek(std::io::SeekFrom::Start(header_pos)).unwrap();
@@ -80,7 +93,10 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
         .unwrap();
     file.write_u32::<LittleEndian>(metadata_offset as u32)
         .unwrap();
-    file.write_u32::<LittleEndian>(index_offset as u32).unwrap();
+    file.write_u32::<LittleEndian>(forward_index_offset as u32)
+        .unwrap();
+    file.write_u32::<LittleEndian>(reverse_index_offset as u32)
+        .unwrap();
     file.seek(std::io::SeekFrom::Start(end_pos)).unwrap();
 
     file.flush().unwrap();
@@ -92,7 +108,7 @@ fn create_test_unified_binary() -> (NamedTempFile, Uuid, Uuid) {
 fn test_parse_unified_metadata() {
     let (file, alice_id, bob_id) = create_test_unified_binary();
 
-    let (lookup, metadata, index) = parse_unified_metadata(file.path());
+    let (lookup, metadata, forward_index, reverse_index) = parse_unified_metadata(file.path());
 
     // Test lookup
     assert_eq!(lookup.len(), 2);
@@ -109,16 +125,21 @@ fn test_parse_unified_metadata() {
     assert_eq!(bob_artist.name, "Bob");
     assert_eq!(bob_artist.url, "https://example.com/bob");
 
-    // Test index
-    assert_eq!(index.len(), 2);
-    assert_eq!(index.get(&alice_id), Some(&0));
-    assert_eq!(index.get(&bob_id), Some(&100));
+    // Test forward index
+    assert_eq!(forward_index.len(), 2);
+    assert_eq!(forward_index.get(&alice_id), Some(&0));
+    assert_eq!(forward_index.get(&bob_id), Some(&100));
+
+    // Test reverse index
+    assert_eq!(reverse_index.len(), 2);
+    assert_eq!(reverse_index.get(&alice_id), Some(&200));
+    assert_eq!(reverse_index.get(&bob_id), Some(&300));
 }
 
 #[test]
 fn test_find_artist_id_with_unified() {
     let (file, alice_id, _bob_id) = create_test_unified_binary();
-    let (lookup, _metadata, _index) = parse_unified_metadata(file.path());
+    let (lookup, _metadata, _forward_index, _reverse_index) = parse_unified_metadata(file.path());
 
     // Test successful lookup
     let result = find_artist_id("alice", &lookup);
@@ -139,20 +160,23 @@ fn test_parse_unified_empty() {
     let mut file = NamedTempFile::new().unwrap();
 
     // Header with offsets pointing to empty sections
-    file.write_u32::<LittleEndian>(12).unwrap(); // lookup_offset
-    file.write_u32::<LittleEndian>(16).unwrap(); // metadata_offset
-    file.write_u32::<LittleEndian>(20).unwrap(); // index_offset
+    file.write_u32::<LittleEndian>(16).unwrap(); // lookup_offset
+    file.write_u32::<LittleEndian>(20).unwrap(); // metadata_offset
+    file.write_u32::<LittleEndian>(24).unwrap(); // forward_index_offset
+    file.write_u32::<LittleEndian>(28).unwrap(); // reverse_index_offset
 
     // Empty sections
     file.write_u32::<LittleEndian>(0).unwrap(); // 0 lookup entries
     file.write_u32::<LittleEndian>(0).unwrap(); // 0 metadata entries
-    file.write_u32::<LittleEndian>(0).unwrap(); // 0 index entries
+    file.write_u32::<LittleEndian>(0).unwrap(); // 0 forward index entries
+    file.write_u32::<LittleEndian>(0).unwrap(); // 0 reverse index entries
 
     file.flush().unwrap();
 
-    let (lookup, metadata, index) = parse_unified_metadata(file.path());
+    let (lookup, metadata, forward_index, reverse_index) = parse_unified_metadata(file.path());
 
     assert!(lookup.is_empty());
     assert!(metadata.is_empty());
-    assert!(index.is_empty());
+    assert!(forward_index.is_empty());
+    assert!(reverse_index.is_empty());
 }

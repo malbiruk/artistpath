@@ -13,7 +13,9 @@ pub struct AppState {
     pub name_lookup: FxHashMap<String, Vec<Uuid>>,
     pub artist_metadata: FxHashMap<Uuid, Artist>,
     pub graph_index: FxHashMap<Uuid, u64>,
+    pub reverse_graph_index: FxHashMap<Uuid, u64>,
     pub graph_mmap: Mmap,
+    pub reverse_graph_mmap: Mmap,
     pub lastfm_client: LastFmClient,
     pub itunes_client: ITunesClient,
     pub cached_metadata: FxHashMap<Uuid, CachedArtistMetadata>,
@@ -25,17 +27,23 @@ impl AppState {
             .unwrap_or_else(|_| "../../data/metadata.bin".to_string());
         let graph_path_str =
             std::env::var("GRAPH_PATH").unwrap_or_else(|_| "../../data/graph.bin".to_string());
+        let reverse_graph_path_str = std::env::var("REVERSE_GRAPH_PATH")
+            .unwrap_or_else(|_| "../../data/rev-graph.bin".to_string());
         let cached_metadata_path_str = std::env::var("CACHED_METADATA_PATH")
             .unwrap_or_else(|_| "../../data/artist_metadata.ndjson".to_string());
 
         let metadata_path = Path::new(&metadata_path_str);
         let graph_path = Path::new(&graph_path_str);
+        let reverse_graph_path = Path::new(&reverse_graph_path_str);
         let cached_metadata_path = Path::new(&cached_metadata_path_str);
 
-        let (name_lookup, artist_metadata, graph_index) = parse_unified_metadata(metadata_path);
+        let (name_lookup, artist_metadata, graph_index, reverse_graph_index) = parse_unified_metadata(metadata_path);
 
         let graph_file = File::open(graph_path)?;
         let graph_mmap = unsafe { Mmap::map(&graph_file)? };
+        
+        let reverse_graph_file = File::open(reverse_graph_path)?;
+        let reverse_graph_mmap = unsafe { Mmap::map(&reverse_graph_file)? };
 
         // Load cached metadata if available
         let mut cached_metadata = FxHashMap::default();
@@ -75,13 +83,16 @@ impl AppState {
         let itunes_client = ITunesClient::new();
 
         println!("Loaded {} artists", artist_metadata.len());
-        println!("Graph file: {} MB", graph_mmap.len() / 1_000_000);
+        println!("Forward graph file: {} MB", graph_mmap.len() / 1_000_000);
+        println!("Reverse graph file: {} MB", reverse_graph_mmap.len() / 1_000_000);
 
         Ok(Self {
             name_lookup,
             artist_metadata,
             graph_index,
+            reverse_graph_index,
             graph_mmap,
+            reverse_graph_mmap,
             lastfm_client,
             itunes_client,
             cached_metadata,

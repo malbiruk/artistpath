@@ -1,6 +1,6 @@
 use crate::artist_details::{build_response_from_cache, fetch_live_artist_data};
 use crate::enhanced_pathfinding::find_enhanced_path_between_artists;
-use crate::exploration::explore_artist_network_graph;
+use crate::exploration::{explore_artist_network_graph, explore_artist_network_reverse_graph};
 use crate::models::{
     ArtistDetailsResponse, EnhancedPathQuery, EnhancedPathResponse, ExploreQuery,
     GraphExploreResponse, HealthResponse, PathQuery, PathResponse, SearchQuery, SearchResponse,
@@ -65,6 +65,22 @@ pub async fn explore_artist(
     Query(params): Query<ExploreQuery>,
 ) -> Json<GraphExploreResponse> {
     let response = explore_artist_network_graph(
+        params.artist_id,
+        params.algorithm,
+        params.budget,
+        params.max_relations,
+        params.min_similarity,
+        &state,
+    );
+
+    Json(response)
+}
+
+pub async fn explore_artist_reverse(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<ExploreQuery>,
+) -> Json<GraphExploreResponse> {
+    let response = explore_artist_network_reverse_graph(
         params.artist_id,
         params.algorithm,
         params.budget,

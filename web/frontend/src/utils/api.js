@@ -102,6 +102,32 @@ export async function exploreArtist(
   }
 }
 
+export async function exploreArtistReverse(
+  artistId,
+  budget,
+  maxRelations,
+  minSimilarity,
+  algorithm = "bfs",
+) {
+  try {
+    const params = new URLSearchParams({
+      artist_id: artistId,
+      budget: budget,
+      max_relations: maxRelations,
+      min_similarity: minSimilarity,
+      algorithm: algorithm,
+    });
+
+    const response = await fetch(`${API_BASE}/explore_reverse?${params}`);
+    if (!response.ok) throw new Error("Reverse exploration failed");
+
+    return await response.json();
+  } catch (error) {
+    console.error("Reverse exploration error:", error);
+    throw error;
+  }
+}
+
 export async function getRandomArtist() {
   try {
     const response = await fetch(`${API_BASE}/artist/random`);

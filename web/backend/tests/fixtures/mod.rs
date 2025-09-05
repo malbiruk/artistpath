@@ -176,7 +176,9 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         name_lookup: test_artists.as_name_lookup(),
         artist_metadata: test_artists.as_metadata(),
         graph_index,
+        reverse_graph_index: FxHashMap::default(),
         graph_mmap: unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
+        reverse_graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
         cached_metadata: create_empty_cached_metadata(),
@@ -188,6 +190,7 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         .route("/api/path", get(handlers::find_path))
         .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
+        .route("/api/explore_reverse", get(handlers::explore_artist_reverse))
         .route("/api/stats", get(handlers::get_stats))
         .route("/api/artist/random", get(handlers::get_random_artist))
         .route("/api/artist/:id", get(handlers::get_artist_details))

@@ -3,11 +3,64 @@ import struct
 from pathlib import Path
 from uuid import UUID
 
+import psutil
 from normalization import clean_str
 from rich.progress import track
 
 
-def convert_graph_to_binary(graph_file: Path | str) -> dict:
+def _build_binary_entry(artist_id_str: str, connections: list) -> tuple[bytearray | None, int, str]:
+    """Build binary entry for a single artist. Returns (entry_data, valid_connections, artist_id_str)."""
+    try:
+        artist_uuid = UUID(artist_id_str)
+        artist_bytes = artist_uuid.bytes
+    except ValueError:
+        return None, 0, artist_id_str
+
+    entry_data = bytearray()
+    entry_data.extend(artist_bytes)  # 16 bytes
+    entry_data.extend(struct.pack("<I", len(connections)))  # 4 bytes (will be updated if needed)
+
+    # Process connections with minimal UUID parsing
+    valid_connections = 0
+    for conn_id, weight in connections:
+        try:
+            conn_uuid_bytes = UUID(conn_id).bytes
+            entry_data.extend(conn_uuid_bytes)  # 16 bytes
+            entry_data.extend(struct.pack("<f", weight))  # 4 bytes
+            valid_connections += 1
+        except ValueError:
+            continue  # Skip invalid UUIDs
+
+    # Update connection count if some UUIDs were invalid
+    if valid_connections != len(connections):
+        struct.pack_into("<I", entry_data, 16, valid_connections)
+
+    return entry_data, valid_connections, artist_id_str
+
+
+def _flush_buffer_if_needed(
+    write_buffer: bytearray,
+    outfile,
+    position: int,
+    buffer_size: int,
+    processed_lines: int,
+) -> int:
+    """Flush write buffer if it's full and return new position."""
+    if len(write_buffer) >= buffer_size:
+        outfile.write(write_buffer)
+        new_position = position + len(write_buffer)
+        write_buffer.clear()
+
+        # Memory check
+        memory_mb = psutil.Process().memory_info().rss / (1024 * 1024)
+        if processed_lines % 100000 == 0:
+            print(f"   Memory: {memory_mb:.0f}MB, processed {processed_lines:,} lines")
+
+        return new_position
+    return position
+
+
+def convert_graph_to_binary(graph_file: Path | str, line_count: int | None = None) -> dict:
     """Convert NDJSON graph to binary format with index for faster loading."""
     graph_path = Path(graph_file)
     binary_path = Path("../data/graph.bin")
@@ -16,12 +69,20 @@ def convert_graph_to_binary(graph_file: Path | str) -> dict:
     total_artists = 0
     total_connections = 0
 
-    # Count lines for progress tracking
-    with graph_path.open() as f:
-        line_count = sum(1 for line in f if line.strip())
+    # Buffer for batched writes
+    write_buffer = bytearray()
+    buffer_size = 8 * 1024 * 1024  # 8MB buffer
+
+    # Count lines only if not provided
+    if line_count is None:
+        print(f"📊 Counting lines in {graph_path.name}...")
+        with graph_path.open() as f:
+            line_count = sum(1 for line in f if line.strip())
+        print(f"   Found {line_count:,} lines to process")
 
     with graph_path.open() as infile, binary_path.open("wb") as outfile:
         position = 0
+        processed_lines = 0
 
         for line_ in track(
             infile,
@@ -34,31 +95,41 @@ def convert_graph_to_binary(graph_file: Path | str) -> dict:
 
             try:
                 data = json.loads(line)
-                artist_id = UUID(data["id"])
+                artist_id_str = data["id"]
                 connections = data["connections"]
 
+                # Build binary entry
+                entry_data, valid_connections, _ = _build_binary_entry(artist_id_str, connections)
+                if entry_data is None:
+                    print(f"⚠️  Invalid UUID: {artist_id_str}")
+                    continue
+
                 # Store byte position for this artist in index
-                index[str(artist_id)] = position
+                index[artist_id_str] = position + len(write_buffer)
 
-                # Write binary format:
-                # - UUID (16 bytes)
-                # - Connection count (4 bytes, uint32)
-                # - Each connection: UUID (16 bytes) + weight (4 bytes, float32)
-
-                outfile.write(artist_id.bytes)  # 16 bytes
-                outfile.write(struct.pack("<I", len(connections)))  # 4 bytes
-
-                for conn_id, weight in connections:
-                    outfile.write(UUID(conn_id).bytes)  # 16 bytes
-                    outfile.write(struct.pack("<f", weight))  # 4 bytes
-
-                position = outfile.tell()
+                # Add to buffer
+                write_buffer.extend(entry_data)
                 total_artists += 1
-                total_connections += len(connections)
+                total_connections += valid_connections
 
-            except (json.JSONDecodeError, ValueError, KeyError) as e:
+                # Flush buffer if needed
+                position = _flush_buffer_if_needed(
+                    write_buffer,
+                    outfile,
+                    position,
+                    buffer_size,
+                    processed_lines,
+                )
+
+            except (json.JSONDecodeError, KeyError) as e:
                 print(f"⚠️  Skipping malformed line: {e}")
                 continue
+
+            processed_lines += 1
+
+        # Write final buffer
+        if write_buffer:
+            outfile.write(write_buffer)
 
     return {
         "artists": total_artists,
@@ -96,8 +167,13 @@ def build_lookup(metadata_file: Path | str) -> dict:
     return lookup
 
 
-def create_unified_metadata_binary(metadata_file: Path | str, lookup: dict, index: dict) -> dict:
-    """Create a single binary file with lookup, metadata, and index."""
+def create_unified_metadata_binary(
+    metadata_file: Path | str,
+    lookup: dict,
+    forward_index: dict,
+    reverse_index: dict | None = None,
+) -> dict:
+    """Create a single binary file with lookup, metadata, forward index, and reverse index."""
     metadata_path = Path(metadata_file)
     binary_path = Path("../data/metadata.bin")
 
@@ -113,10 +189,14 @@ def create_unified_metadata_binary(metadata_file: Path | str, lookup: dict, inde
             entry = json.loads(line)
             metadata[entry["id"]] = {"name": entry["name"], "url": entry["url"]}
 
+    # Use empty dict if no reverse index provided
+    if reverse_index is None:
+        reverse_index = {}
+
     with binary_path.open("wb") as f:
-        # Header: 3 uint32 values for section offsets
+        # Header: 4 uint32 values for section offsets
         header_pos = f.tell()
-        f.write(struct.pack("<III", 0, 0, 0))  # Placeholders for section offsets
+        f.write(struct.pack("<IIII", 0, 0, 0, 0))  # Placeholders for section offsets
 
         # Section 1: Lookup (clean_name -> list of UUIDs)
         lookup_offset = f.tell()
@@ -145,104 +225,165 @@ def create_unified_metadata_binary(metadata_file: Path | str, lookup: dict, inde
             f.write(struct.pack("<H", len(url_bytes)))  # URL length (2 bytes)
             f.write(url_bytes)  # URL
 
-        # Section 3: Graph index (UUID -> file position)
-        index_offset = f.tell()
-        f.write(struct.pack("<I", len(index)))  # Number of entries
+        # Section 3: Forward graph index (passUUID -> file position in graph.bin)
+        forward_index_offset = f.tell()
+        f.write(struct.pack("<I", len(forward_index)))  # Number of entries
 
-        for uuid_str, position in track(index.items(), description="[green]Writing index..."):
+        for uuid_str, position in track(
+            forward_index.items(),
+            description="[green]Writing forward index...",
+        ):
+            f.write(UUID(uuid_str).bytes)  # UUID (16 bytes)
+            f.write(struct.pack("<Q", position))  # Position (8 bytes, uint64)
+
+        # Section 4: Reverse graph index (UUID -> file position in rev-graph.bin)
+        reverse_index_offset = f.tell()
+        f.write(struct.pack("<I", len(reverse_index)))  # Number of entries
+
+        for uuid_str, position in track(
+            reverse_index.items(),
+            description="[green]Writing reverse index...",
+        ):
             f.write(UUID(uuid_str).bytes)  # UUID (16 bytes)
             f.write(struct.pack("<Q", position))  # Position (8 bytes, uint64)
 
         # Update header with section offsets
         end_pos = f.tell()
         f.seek(header_pos)
-        f.write(struct.pack("<III", lookup_offset, metadata_offset, index_offset))
+        f.write(
+            struct.pack(
+                "<IIII",
+                lookup_offset,
+                metadata_offset,
+                forward_index_offset,
+                reverse_index_offset,
+            ),
+        )
         f.seek(end_pos)
 
     return {
         "lookup_entries": len(lookup),
         "metadata_entries": len(metadata),
-        "index_entries": len(index),
+        "forward_index_entries": len(forward_index),
+        "reverse_index_entries": len(reverse_index),
         "binary_size": binary_path.stat().st_size,
     }
 
 
-def build_reverse_graph_binary(graph_file: Path) -> dict:
-    """Build reverse graph from forward graph and save as binary."""
+def _process_graph_line_for_reverse(line: str, reverse_connections: dict) -> int:
+    """Process a single graph line and add reverse connections. Returns number of connections added."""
+    connections_added = 0
+
+    try:
+        data = json.loads(line)
+        source_id = data["id"]
+
+        for target_id, similarity in data["connections"]:
+            # Always add to current chunk (don't skip processed artists here!)
+            if target_id not in reverse_connections:
+                reverse_connections[target_id] = []
+            reverse_connections[target_id].append((source_id, similarity))
+            connections_added += 1
+
+    except (json.JSONDecodeError, ValueError, KeyError) as e:
+        print(f"⚠️  Skipping malformed line: {e}")
+
+    return connections_added
+
+
+# Removed chunking functions - now using simpler collect-all-then-write approach
+
+
+def build_reverse_graph_binary(graph_file: Path, line_count: int | None = None) -> dict:
+    """Build reverse graph from forward graph - collect ALL connections then write."""
     reverse_binary_path = Path("../data/rev-graph.bin")
-    
-    # First pass: collect all reverse connections
-    reverse_connections = {}
+
+    # Collect ALL reverse connections in memory first
+    reverse_connections = {}  # target_id -> list of (source_id, similarity)
     total_connections = 0
-    
+
+    # Count lines only if not provided
+    if line_count is None:
+        print(f"📊 Counting lines in {graph_file.name}...")
+        with graph_file.open() as f:
+            line_count = sum(1 for line in f if line.strip())
+        print(f"   Found {line_count:,} lines to process")
+
+    print("📊 Building complete reverse graph in memory...")
+
     with graph_file.open() as f:
-        line_count = sum(1 for line in f if line.strip())
-    
-    with graph_file.open() as f:
-        for line in track(
+        processed_lines = 0
+
+        for line_ in track(
             f,
             total=line_count,
-            description="[green]Building reverse graph..."
+            description="[green]Collecting reverse connections...",
         ):
-            line = line.strip()
+            line = line_.strip()
             if not line:
                 continue
-                
-            try:
-                data = json.loads(line)
-                source_id = data["id"]
-                
-                for target_id, similarity in data["connections"]:
-                    # Add reverse connection: target -> source  
-                    if target_id not in reverse_connections:
-                        reverse_connections[target_id] = []
-                    reverse_connections[target_id].append((source_id, similarity))
-                    total_connections += 1
-                    
-            except (json.JSONDecodeError, ValueError, KeyError) as e:
-                print(f"⚠️  Skipping malformed line in reverse graph build: {e}")
-                continue
-    
-    # Sort connections by similarity (highest first)
-    for connections in reverse_connections.values():
-        connections.sort(key=lambda x: x[1], reverse=True)
-    
-    # Second pass: write binary format (same as forward graph)
+
+            # Process this line
+            connections_added = _process_graph_line_for_reverse(line, reverse_connections)
+            total_connections += connections_added
+
+            processed_lines += 1
+            if processed_lines % 200000 == 0:
+                print(f"   Processed {processed_lines:,} lines, {total_connections:,} connections")
+                print(f"   Unique reverse artists so far: {len(reverse_connections):,}")
+
+                # Memory check
+                memory_mb = psutil.Process().memory_info().rss / (1024 * 1024)
+                print(f"   Memory usage: {memory_mb:.0f}MB")
+
+    print(f"📊 Writing {len(reverse_connections):,} artists to binary...")
+
+    # Write everything to binary
     rev_index = {}
-    
     with reverse_binary_path.open("wb") as outfile:
-        for artist_id_str, connections in track(
+        for target_id, connections in track(
             reverse_connections.items(),
-            description="[green]Writing reverse graph binary..."
+            description="[green]Writing reverse graph binary...",
         ):
             try:
-                artist_id = UUID(artist_id_str)
-                
+                artist_id = UUID(target_id)
+
+                # Sort by similarity (highest first)
+                connections.sort(key=lambda x: x[1], reverse=True)
+
                 # Store byte position for this artist in index
-                rev_index[artist_id_str] = outfile.tell()
-                
-                # Write binary format (same as forward graph):
-                # - UUID (16 bytes)  
-                # - Connection count (4 bytes, uint32)
-                # - Each connection: UUID (16 bytes) + weight (4 bytes, float32)
-                
+                rev_index[target_id] = outfile.tell()
+
+                # Write binary format
                 outfile.write(artist_id.bytes)  # 16 bytes
                 outfile.write(struct.pack("<I", len(connections)))  # 4 bytes
-                
-                for conn_id, weight in connections:
-                    outfile.write(UUID(conn_id).bytes)  # 16 bytes
+
+                for source_id, weight in connections:
+                    outfile.write(UUID(source_id).bytes)  # 16 bytes
                     outfile.write(struct.pack("<f", weight))  # 4 bytes
-                    
+
             except (ValueError, KeyError) as e:
-                print(f"⚠️  Skipping invalid artist ID in reverse graph: {e}")
+                print(f"⚠️  Skipping invalid artist ID: {e}")
                 continue
-    
+
+    unique_artists = len(reverse_connections)
+    print(
+        f"✅ Reverse graph complete: {unique_artists:,} artists, {total_connections:,} connections",
+    )
+
     return {
-        "artists": len(reverse_connections),
+        "artists": unique_artists,
         "connections": total_connections,
         "binary_size": reverse_binary_path.stat().st_size,
         "index": rev_index,
     }
+
+
+# Removed _write_reverse_chunk - now writing directly in main function
+
+
+MB = 1024**2
+GB = 1024**3
 
 
 def main() -> None:
@@ -250,40 +391,59 @@ def main() -> None:
     metadata_file = Path("../data/metadata.ndjson")
 
     print("🔄 Starting post-processing...")
-    print(f"📏 Graph input size: {graph_file.stat().st_size / (1024**3):.1f} GB")
-    print(f"📏 Metadata input size: {metadata_file.stat().st_size / (1024**2):.1f} MB")
+    print(f"📏 Graph input size: {graph_file.stat().st_size / GB:.1f} GB")
+    print(f"📏 Metadata input size: {metadata_file.stat().st_size / MB:.1f} MB")
 
-    # Step 1: Convert graph to binary
-    print("\n📊 Step 1: Converting graph to binary format")
-    graph_stats = convert_graph_to_binary(graph_file)
+    # Count graph lines once for both steps 1 and 2
+    print(f"\n📊 Counting lines in {graph_file.name}...")
+    with graph_file.open() as f:
+        graph_line_count = sum(1 for line in f if line.strip())
+    print(f"   Found {graph_line_count:,} lines to process")
 
-    # Step 2: Build reverse graph
+    # Step 1: Convert forward graph to binary
+    print("\n📊 Step 1: Converting forward graph to binary format")
+    graph_stats = convert_graph_to_binary(graph_file, graph_line_count)
+    print(f"✅ Forward graph: {graph_stats['binary_size'] / MB:.1f} MB")
+
+    # Step 2: Build reverse graph binary
     print("\n📊 Step 2: Building reverse graph binary")
-    rev_graph_stats = build_reverse_graph_binary(graph_file)
+    rev_graph_stats = build_reverse_graph_binary(graph_file, graph_line_count)
+    print(f"✅ Reverse graph: {rev_graph_stats['binary_size'] / MB:.1f} MB")
 
-    # Step 3: Build lookup
-    print("\n📊 Step 3: Building artist lookup")
+    # Step 3: Create unified metadata binary with lookup and both indexes
+    print("\n📊 Step 3: Creating unified metadata binary")
+    print("   Building artist lookup...")
     lookup = build_lookup(metadata_file)
+    print(f"   ✅ Lookup built with {len(lookup):,} clean names")
 
-    # Step 4: Create unified metadata binary
-    print("\n📊 Step 4: Creating unified metadata binary")
-    metadata_stats = create_unified_metadata_binary(metadata_file, lookup, graph_stats["index"])
+    forward_index = graph_stats["index"]
+    reverse_index = rev_graph_stats["index"]
+
+    metadata_stats = create_unified_metadata_binary(
+        metadata_file,
+        lookup,
+        forward_index,
+        reverse_index,
+    )
+    print(f"✅ Metadata binary: {metadata_stats['binary_size'] / MB:.1f} MB")
+    print(f"   Lookup entries: {metadata_stats['lookup_entries']:,}")
+    print(f"   Metadata entries: {metadata_stats['metadata_entries']:,}")
+    print(f"   Forward index: {metadata_stats['forward_index_entries']:,} entries")
+    print(f"   Reverse index: {metadata_stats['reverse_index_entries']:,} entries")
 
     # Summary
     print("\n✅ Post-processing complete!")
     print(f"🎵 Artists processed: {graph_stats['artists']:,}")
     print(f"🔗 Forward connections: {graph_stats['connections']:,}")
     print(f"🔄 Reverse connections: {rev_graph_stats['connections']:,}")
-    print(f"💾 Forward graph: {graph_stats['binary_size'] / (1024**2):.1f} MB")
-    print(f"🔄 Reverse graph: {rev_graph_stats['binary_size'] / (1024**2):.1f} MB") 
-    print(f"📇 Metadata binary: {metadata_stats['binary_size'] / (1024**2):.1f} MB")
-    
+    print(f"💾 Forward graph: {graph_stats['binary_size'] / MB:.1f} MB")
+    print(f"🔄 Reverse graph: {rev_graph_stats['binary_size'] / MB:.1f} MB")
+    print(f"📇 Metadata binary: {metadata_stats['binary_size'] / MB:.1f} MB")
+
     total_binary_size = (
-        graph_stats["binary_size"] + 
-        rev_graph_stats["binary_size"] + 
-        metadata_stats["binary_size"]
+        graph_stats["binary_size"] + rev_graph_stats["binary_size"] + metadata_stats["binary_size"]
     )
-    print(f"📦 Total binary size: {total_binary_size / (1024**2):.1f} MB")
+    print(f"📦 Total binary size: {total_binary_size / MB:.1f} MB")
 
     original_size = graph_file.stat().st_size + metadata_file.stat().st_size
     savings = (original_size - total_binary_size) / original_size * 100
