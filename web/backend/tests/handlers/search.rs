@@ -1,4 +1,4 @@
-use crate::fixtures::{TestArtists, create_empty_mmap};
+use crate::fixtures::{TestArtists, create_empty_mmap, create_empty_cached_metadata};
 use artistpath_web::{handlers::search_artists, models::SearchQuery, state::AppState};
 use axum::extract::{Query, State};
 use std::sync::Arc;
@@ -14,6 +14,7 @@ async fn search_returns_empty_for_empty_query() {
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     let params = SearchQuery {
@@ -39,6 +40,7 @@ async fn search_finds_exact_match() {
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     let params = SearchQuery {
@@ -64,6 +66,7 @@ async fn search_finds_partial_match() {
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     let params = SearchQuery {
@@ -88,6 +91,7 @@ async fn search_respects_limit() {
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     // Search for something that matches multiple artists
@@ -127,6 +131,7 @@ async fn search_prioritizes_prefix_matches() {
         graph_mmap: create_empty_mmap(),
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     let params = SearchQuery {

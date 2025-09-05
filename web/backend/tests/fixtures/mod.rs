@@ -1,5 +1,6 @@
 use artistpath_core::Artist;
 use artistpath_web::handlers;
+use artistpath_web::models::CachedArtistMetadata;
 use artistpath_web::state::AppState;
 use axum::{Router, routing::get};
 use byteorder::{LittleEndian, WriteBytesExt};
@@ -163,6 +164,10 @@ pub fn create_empty_mmap() -> Mmap {
     unsafe { MmapOptions::new().map(&file).unwrap() }
 }
 
+pub fn create_empty_cached_metadata() -> FxHashMap<Uuid, CachedArtistMetadata> {
+    FxHashMap::default()
+}
+
 pub async fn create_test_app_state() -> (Router, TestArtists) {
     let test_artists = TestArtists::new();
     let (graph_file, graph_index) = create_test_graph();
@@ -174,6 +179,7 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         graph_mmap: unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
         lastfm_client: artistpath_web::lastfm::LastFmClient::new("test_api_key".to_string()),
         itunes_client: artistpath_web::itunes::ITunesClient::new(),
+        cached_metadata: create_empty_cached_metadata(),
     });
 
     let app = Router::new()
@@ -183,6 +189,8 @@ pub async fn create_test_app_state() -> (Router, TestArtists) {
         .route("/api/enhanced_path", get(handlers::find_enhanced_path))
         .route("/api/explore", get(handlers::explore_artist))
         .route("/api/stats", get(handlers::get_stats))
+        .route("/api/artist/random", get(handlers::get_random_artist))
+        .route("/api/artist/:id", get(handlers::get_artist_details))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 

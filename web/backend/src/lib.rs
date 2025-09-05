@@ -1,3 +1,4 @@
+pub mod artist_details;
 pub mod enhanced_pathfinding;
 pub mod exploration;
 pub mod handlers;

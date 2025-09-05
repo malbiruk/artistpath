@@ -2,6 +2,7 @@ use axum::{Router, routing::get};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
+mod artist_details;
 mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
