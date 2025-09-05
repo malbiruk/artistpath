@@ -5,17 +5,18 @@ use std::{
     path::PathBuf,
 };
 
-const RELEASE_URL: &str = "https://github.com/malbiruk/artistpath/releases/download/data-v1.0.0/artistpath-data-850k-binary.tar.zst";
+const RELEASE_URL: &str = "https://github.com/malbiruk/artistpath/releases/download/data-v1.1.0/artistpath-data-850k-binary-v1.1.0.tar.zst";
 
 pub fn ensure_data_downloaded() -> Result<PathBuf, Box<dyn std::error::Error>> {
     let home_dir = dirs::home_dir().ok_or("Could not find home directory")?;
     let data_dir = home_dir.join(".artistpath");
 
-    // Check if data already exists
+    // Check if data already exists (including new reverse graph)
     let metadata_path = data_dir.join("metadata.bin");
     let graph_path = data_dir.join("graph.bin");
+    let reverse_graph_path = data_dir.join("rev-graph.bin");
 
-    if metadata_path.exists() && graph_path.exists() {
+    if metadata_path.exists() && graph_path.exists() && reverse_graph_path.exists() {
         return Ok(data_dir);
     }
 

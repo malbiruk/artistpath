@@ -51,8 +51,8 @@ Both algorithms use bidirectional search for improved performance:
 **Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
 
 Available formats from [releases](https://github.com/malbiruk/artistpath/releases/):
-- **Binary format** (1.0GB compressed → 2.4GB extracted): Required for web/CLI apps - includes indexing and name lookup for fast performance
-- **NDJSON format** (1.2GB compressed → 6GB extracted): For research/analysis - human-readable JSON lines:
+- **Binary format**: Required for web/CLI apps - includes indexing and name lookup for fast performance
+- **NDJSON format**: For research/analysis - human-readable JSON lines:
   - Graph: `{"id": uuid, "connections": [[uuid, similarity], ...]}`
   - Metadata: `{"id": uuid, "name": "Artist Name", "url": "..."}`
 
@@ -64,7 +64,6 @@ Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
 2. `cd data_collection && uv sync && echo "API_KEY=your_key" > .env`
 3. `uv run python run_collection.py` (takes several days!)
 4. `uv run python run_postprocessing.py`
-5. Build CLI: `cd cli && cargo build --release`
 
 Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
 

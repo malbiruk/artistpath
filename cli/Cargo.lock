@@ -69,7 +69,7 @@ dependencies = [
 
 [[package]]
 name = "artistpath"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "artistpath-core",
  "clap",
@@ -88,6 +88,8 @@ dependencies = [
 [[package]]
 name = "artistpath-core"
 version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c04881a69b4673a637f5d70c5ac953c2be7be3aa26e3c15dab0fcb5ce49281e8"
 dependencies = [
  "byteorder",
  "memmap2",
