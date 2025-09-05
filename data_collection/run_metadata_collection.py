@@ -4,7 +4,7 @@ import asyncio
 import json
 import time
 from collections import deque
-from datetime import UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 import aiohttp
@@ -39,6 +39,56 @@ class MetadataCollector:
             "failed": 0,
             "api_errors": 0,
         }
+        self.completed_artists = set()  # Track completed artist IDs
+        self.state_file = self.output_dir / "metadata_collection_state.json"
+
+    def save_state(self) -> None:
+        """Save collection progress to allow resumption."""
+        state = {
+            "completed_artists": list(self.completed_artists),
+            "stats": self.stats.copy(),
+            "timestamp": time.time(),
+            "total_artists": self.stats["total"],
+        }
+
+        with self.state_file.open("w") as f:
+            json.dump(state, f, indent=2)
+
+    def load_state(self) -> bool:
+        """Load previous collection state. Returns True if resuming."""
+        if not self.state_file.exists():
+            return False
+
+        try:
+            with self.state_file.open() as f:
+                state = json.load(f)
+
+            self.completed_artists = set(state.get("completed_artists", []))
+            saved_stats = state.get("stats", {})
+
+            # Restore stats but reset counts that will be recalculated
+            self.stats.update(saved_stats)
+            self.stats["successful"] = len(self.completed_artists)
+
+            print("🔄 Resuming collection...")
+            print(f"   Already completed: {len(self.completed_artists):,} artists")
+            print(
+                f"   Last save: {datetime.fromtimestamp(state['timestamp'], tz=UTC).strftime('%Y-%m-%d %H:%M:%S')} UTC",
+            )
+
+        except Exception as e:
+            print(f"⚠️  Error loading state: {e}")
+            print("   Starting fresh collection...")
+            return False
+
+        else:
+            return True
+
+    def cleanup_state(self) -> None:
+        """Clean up state file after successful completion."""
+        if self.state_file.exists():
+            self.state_file.unlink()
+            print("🧹 Cleaned up state file")
 
     @retry(
         stop=stop_after_attempt(3),
@@ -235,10 +285,12 @@ class MetadataCollector:
 
         return result
 
-    async def collect_metadata(  # noqa: C901, PLR0912
+    async def collect_metadata(  # noqa: C901, PLR0912, PLR0915
         self,
         batch_size: int = 10,
         rate_limit_delay: float = 0.2,
+        *,
+        resume: bool = True,
     ) -> dict:
         """Collect metadata for all artists."""
         metadata_file = self.output_dir / "metadata.ndjson"
@@ -248,19 +300,27 @@ class MetadataCollector:
         if not metadata_file.exists():
             return {"error": "metadata.ndjson not found"}
 
+        # Load previous state if resuming
+        resuming = self.load_state() if resume else False
+
         # Count total artists
         with metadata_file.open() as f:
             total_artists = sum(1 for line in f if line.strip())
 
         self.stats["total"] = total_artists
         print(f"📊 Found {total_artists:,} artists to process")
+        if resuming:
+            remaining = total_artists - len(self.completed_artists)
+            print(f"🎯 Remaining to process: {remaining:,} artists")
         print(f"🔑 API Key: {self.api_key[:8]}..." if self.api_key else "⚠️  No API key!")
         print(f"📦 Batch size: {batch_size}")
         print(f"⏱  Rate limit delay: {rate_limit_delay}s between batches")
         print(f"💾 Output: {output_file}")
 
         async with aiohttp.ClientSession() as session:
-            with metadata_file.open() as infile, temp_file.open("w") as outfile:
+            # Open temp file in append mode if resuming
+            mode = "a" if resuming and temp_file.exists() else "w"
+            with metadata_file.open() as infile, temp_file.open(mode) as outfile:
                 batch = deque(maxlen=batch_size)
                 processed = 0
 
@@ -271,6 +331,13 @@ class MetadataCollector:
 
                     try:
                         artist = json.loads(line)
+                        artist_id = artist["id"]
+
+                        # Skip if already completed (resuming)
+                        if artist_id in self.completed_artists:
+                            processed += 1
+                            continue
+
                         batch.append((artist["id"], artist["name"], artist["url"]))
 
                         if len(batch) >= batch_size:
@@ -281,16 +348,23 @@ class MetadataCollector:
                             ]
                             results = await asyncio.gather(*tasks)
 
-                            for result in results:
+                            for (aid, _, _), result in zip(batch, results):
                                 if result:
                                     outfile.write(json.dumps(result) + "\n")
+                                    outfile.flush()  # Ensure data is written
                                     self.stats["successful"] += 1
+                                    self.completed_artists.add(aid)
                                 else:
                                     self.stats["failed"] += 1
 
                             processed += len(batch)
                             if processed % 100 == 0:
                                 print(f"  Processed {processed:,}/{total_artists:,} artists...")
+
+                            # Save state every 1000 artists
+                            if processed % 1000 == 0:
+                                self.save_state()
+                                print(f"  💾 Progress saved at {processed:,} artists")
 
                             batch.clear()
 
@@ -309,15 +383,23 @@ class MetadataCollector:
                     ]
                     results = await asyncio.gather(*tasks)
 
-                    for result in results:
+                    for (aid, _, _), result in zip(batch, results):
                         if result:
                             outfile.write(json.dumps(result) + "\n")
                             self.stats["successful"] += 1
+                            self.completed_artists.add(aid)
                         else:
                             self.stats["failed"] += 1
 
+        # Final state save
+        self.save_state()
+
         # Atomic rename
         temp_file.replace(output_file)
+
+        # Cleanup state file on successful completion
+        if self.stats["successful"] + self.stats["failed"] >= self.stats["total"]:
+            self.cleanup_state()
 
         return {
             "total": self.stats["total"],
@@ -401,6 +483,48 @@ def show_file_info() -> None:
             print("  ⚠️  Some data is over 30 days old - consider re-running collection")
 
 
+async def main_with_args() -> None:
+    """Main function that handles command line arguments."""
+    # Configuration
+    config = {
+        "batch_size": 10,
+        "rate_limit_delay": 0.2,  # 200ms between batches
+        "resume": True,  # Default to resume
+    }
+
+    # Parse simple command line args
+    import sys
+
+    for arg in sys.argv[1:]:
+        if arg == "--no-resume":
+            config["resume"] = False
+        elif arg == "--fast":
+            config["rate_limit_delay"] = 0.1
+            config["batch_size"] = 20
+
+    # Create collector
+    collector = MetadataCollector(output_dir="../data")
+
+    print("🚀 Starting artist metadata collection...")
+    if not config["resume"]:
+        print("🔄 Fresh collection (not resuming)")
+    print("=" * 60)
+
+    # Collect metadata
+    result = await collector.collect_metadata(**config)
+
+    if "error" not in result:
+        print("\n✅ Metadata collection finished successfully!")
+        print(f"✓ Processed: {result['successful']:,}/{result['total']:,} artists")
+        if result["failed"] > 0:
+            print(f"⚠️  Failed: {result['failed']:,} artists")
+        if result["api_errors"] > 0:
+            print(f"⚠️  API errors: {result['api_errors']:,}")
+        print(f"💾 Output: {result['output_file']} ({result['file_size_mb']:.1f} MB)")
+    else:
+        print(f"❌ Collection failed: {result['error']}")
+
+
 if __name__ == "__main__":
     import sys
 
@@ -413,7 +537,7 @@ if __name__ == "__main__":
         show_file_info()
 
         # Run collection
-        asyncio.run(main())
+        asyncio.run(main_with_args())
 
         # Show info AFTER collection
         print("\n📊 Updated metadata status:")

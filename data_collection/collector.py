@@ -6,6 +6,7 @@ from collections import deque
 from pathlib import Path
 
 import aiohttp
+
 from api_client import (
     get_artist_info_by_name,
     get_similar_artists,
@@ -88,6 +89,7 @@ class StreamingCollector:
             print(f"  Using MBID: {artist_id}")
         elif info.get("url"):
             import uuid
+
             # Generate deterministic UUID from Last.fm URL for artists without MBID
             artist_id = str(uuid.uuid5(uuid.NAMESPACE_URL, info["url"]))
             print(f"  Generated UUID5 from URL: {artist_id}")
@@ -107,7 +109,7 @@ class StreamingCollector:
         metadata_path = self.output_dir / "metadata.ndjson"
         if not metadata_path.exists():
             return None
-            
+
         # For efficiency, we could cache this, but for now just search
         try:
             with metadata_path.open() as f:
@@ -117,11 +119,11 @@ class StreamingCollector:
                     entry = json.loads(line)
                     if entry.get("id") == artist_id:
                         return entry.get("name")
-        except Exception:
+        except Exception:  # noqa: S110
             pass
         return None
 
-    async def process_single_artist(
+    async def process_single_artist(  # noqa: C901, PLR0912
         self,
         session: aiohttp.ClientSession,
         artist_id: str,
@@ -135,7 +137,7 @@ class StreamingCollector:
 
         # Get similar artists using hybrid approach
         similar_artists = []
-        
+
         if is_real_mbid(artist_id):
             # Try MBID first for real MBIDs
             similar_artists = await get_similar_artists(session, artist_id, similar_per_artist)
@@ -143,12 +145,20 @@ class StreamingCollector:
                 # MBID failed, try to get name and fall back
                 artist_name = self.get_artist_name_from_metadata(artist_id)
                 if artist_name:
-                    similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
+                    similar_artists = await get_similar_artists_by_name(
+                        session,
+                        artist_name,
+                        similar_per_artist,
+                    )
         else:
             # UUID5 artist, get name and search by name
             artist_name = self.get_artist_name_from_metadata(artist_id)
             if artist_name:
-                similar_artists = await get_similar_artists_by_name(session, artist_name, similar_per_artist)
+                similar_artists = await get_similar_artists_by_name(
+                    session,
+                    artist_name,
+                    similar_per_artist,
+                )
             else:
                 print(f"  ❌ Could not find name for UUID5 artist: {artist_id}")
                 return 0
@@ -163,6 +173,7 @@ class StreamingCollector:
                 similar_id = similar["mbid"]
             elif similar.get("url"):
                 import uuid
+
                 similar_id = str(uuid.uuid5(uuid.NAMESPACE_URL, similar["url"]))
             else:
                 continue  # Skip artists without MBID or URL
