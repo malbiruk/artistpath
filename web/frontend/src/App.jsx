@@ -276,7 +276,7 @@ function App() {
             <p className="help-message">
               <br />
               <br />
-              tap an artist to see connections
+              tap an artist to see their connections
               <br />
               double-tap for artist card
             </p>
