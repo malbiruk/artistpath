@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import aiohttp
+
 from api_client import get_artist_info_by_name
 from data_storage import append_to_metadata
 

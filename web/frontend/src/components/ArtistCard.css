@@ -30,7 +30,7 @@
     border: 1px solid black;
     font-family: inherit;
     font-size: 16px;
-    padding: 0.25rem 0.5rem 0.1rem 0.5rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     cursor: pointer;
     line-height: 1;
 }

@@ -207,8 +207,7 @@ pub struct ITunesTrack {
     pub track_id: u64,
 }
 
-// Cached metadata structures (from artist_metadata.ndjson)
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct CachedArtistMetadata {
     pub id: String,
     pub name: String,
@@ -219,7 +218,7 @@ pub struct CachedArtistMetadata {
     pub tracks: Option<Vec<CachedTrackData>>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct CachedLastFmData {
     pub url: Option<String>,
     pub image_url: Option<String>,
@@ -230,7 +229,7 @@ pub struct CachedLastFmData {
     pub bio_full: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct CachedTrackData {
     pub name: String,
     pub url: String,

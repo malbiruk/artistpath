@@ -1,9 +1,9 @@
-pub mod artist_details;
 pub mod enhanced_pathfinding;
 pub mod exploration;
 pub mod handlers;
 pub mod itunes;
 pub mod lastfm;
+pub mod metadata_cache;
 pub mod models;
 pub mod pathfinding;
 pub mod search;

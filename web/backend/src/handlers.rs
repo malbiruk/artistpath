@@ -1,4 +1,3 @@
-use crate::artist_details::{build_response_from_cache, fetch_live_artist_data};
 use crate::enhanced_pathfinding::find_enhanced_path_between_artists;
 use crate::exploration::{explore_artist_network_graph, explore_artist_network_reverse_graph};
 use crate::models::{
@@ -118,13 +117,16 @@ pub async fn get_artist_details(
         .get(&artist_id)
         .ok_or(StatusCode::NOT_FOUND)?;
 
-    if let Some(cached) = state.cached_metadata.get(&artist_id) {
-        let response =
-            build_response_from_cache(artist_id, artist.name.clone(), artist.url.clone(), cached);
-        return Ok(Json(response));
-    }
-
-    let (lastfm_data, top_tracks) = fetch_live_artist_data(&state, &artist.name).await;
+    // Use the new metadata cache
+    let lastfm_data = state.metadata_cache
+        .get_artist_metadata(artist_id, &artist.name, &artist.url)
+        .await
+        .unwrap_or(None);
+    
+    let top_tracks = state.metadata_cache
+        .get_artist_tracks(artist_id, &artist.name)
+        .await
+        .unwrap_or(None);
 
     let response = ArtistDetailsResponse {
         id: artist_id,

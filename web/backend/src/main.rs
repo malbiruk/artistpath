@@ -2,12 +2,12 @@ use axum::{Router, routing::get};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
-mod artist_details;
 mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
 mod itunes;
 mod lastfm;
+mod metadata_cache;
 mod models;
 mod pathfinding;
 mod search;
@@ -22,7 +22,7 @@ async fn main() {
         .or_else(|_| dotenvy::dotenv())
         .ok();
 
-    let app_state = match AppState::new() {
+    let app_state = match AppState::new().await {
         Ok(state) => Arc::new(state),
         Err(e) => {
             eprintln!("Failed to initialize app state: {}", e);
