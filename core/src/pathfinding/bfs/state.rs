@@ -44,16 +44,24 @@ impl BfsState {
         let start = self.queue[0]; // Get start from our initial queue
         forward_queue.push_back(start);
         reverse_queue.push_back(target);
-        forward_visited.insert(start);
-        reverse_visited.insert(target);
+        // Don't mark as visited yet - let the main loop handle it
+        // This ensures proper parent map construction
         
         // Track total visited for compatibility
-        self.visited.insert(start);
-        self.visited.insert(target);
+        self.visited.clear(); // Clear any previous state
         
         while !forward_queue.is_empty() || !reverse_queue.is_empty() {
             // Expand from forward direction
             if let Some(current) = forward_queue.pop_front() {
+                // Skip if already processed
+                if forward_visited.contains(&current) {
+                    continue;
+                }
+                
+                // Mark as visited NOW, before checking intersection
+                forward_visited.insert(current);
+                self.visited.insert(current);
+                
                 // Check if we've met the reverse search
                 if reverse_visited.contains(&current) {
                     return Some(self.reconstruct_bidirectional_path(
@@ -63,17 +71,24 @@ impl BfsState {
                 
                 let connections = get_artist_connections(current, forward_graph_data, forward_graph_index, config);
                 for (neighbor, similarity) in connections {
-                    if !forward_visited.contains(&neighbor) {
-                        forward_visited.insert(neighbor);
+                    if !forward_visited.contains(&neighbor) && !forward_queue.contains(&neighbor) {
                         forward_parent.insert(neighbor, (current, similarity));
                         forward_queue.push_back(neighbor);
-                        self.visited.insert(neighbor);
                     }
                 }
             }
             
             // Expand from reverse direction
             if let Some(current) = reverse_queue.pop_front() {
+                // Skip if already processed
+                if reverse_visited.contains(&current) {
+                    continue;
+                }
+                
+                // Mark as visited NOW, before checking intersection
+                reverse_visited.insert(current);
+                self.visited.insert(current);
+                
                 // Check if we've met the forward search
                 if forward_visited.contains(&current) {
                     return Some(self.reconstruct_bidirectional_path(
@@ -83,11 +98,9 @@ impl BfsState {
                 
                 let connections = get_artist_connections(current, reverse_graph_data, reverse_graph_index, config);
                 for (neighbor, similarity) in connections {
-                    if !reverse_visited.contains(&neighbor) {
-                        reverse_visited.insert(neighbor);
+                    if !reverse_visited.contains(&neighbor) && !reverse_queue.contains(&neighbor) {
                         reverse_parent.insert(neighbor, (current, similarity));
                         reverse_queue.push_back(neighbor);
-                        self.visited.insert(neighbor);
                     }
                 }
             }
@@ -120,28 +133,33 @@ impl BfsState {
         }
         path_to_start.push((start, 0.0));
         
-        // Step 2: Traverse back from meeting point to target using reverse parent map  
+        // Step 2: Build path from meeting point to target using reverse parent map
+        // reverse_parent[X] = (Y, sim) means in the reverse search, Y -> X with similarity sim
+        // Since reverse search starts from target and goes backwards, 
+        // following parents from meeting point should lead us to target
         let mut current = meeting_point;
         let mut path_to_target = Vec::new();
         
         while current != target {
             if let Some(&(parent, similarity)) = reverse_parent.get(&current) {
-                path_to_target.push((current, similarity));
+                // In reverse search, parent reached current, so the edge is parent -> current
+                // Since we're going from meeting to target, we follow the parents
+                path_to_target.push((parent, similarity));
                 current = parent;
             } else {
+                // No parent means current was a starting point
                 break;
             }
         }
-        path_to_target.push((target, 0.0));
         
         // Step 3: Create unified path from start to target
         // Reverse path_to_start to get start -> meeting_point
         path_to_start.reverse();
         path.extend(path_to_start);
         
-        // Add path_to_target as is (meeting_point -> target), but skip meeting_point to avoid duplication
-        if path_to_target.len() > 1 {
-            path.extend(path_to_target.into_iter().skip(1));
+        // Add path_to_target
+        if !path_to_target.is_empty() {
+            path.extend(path_to_target);
         }
         
         path

@@ -62,8 +62,10 @@ pub fn find_paths_with_exploration(
             path,
             budget,
             artists_visited,
-            forward_data,
-            forward_index,
+            BiDirectionalGraphs {
+                forward: (forward_data, forward_index),
+                reverse: (reverse_data, reverse_index),
+            },
             config,
             search_timer,
         ),
@@ -78,8 +80,7 @@ fn handle_successful_path_generic(
     path: Vec<(Uuid, f32)>,
     budget: usize,
     artists_visited: usize,
-    graph_data: &memmap2::Mmap,
-    graph_index: &FxHashMap<Uuid, u64>,
+    graphs: BiDirectionalGraphs,
     config: &PathfindingConfig,
     start_time: Instant,
 ) -> utils::EnhancedPathResult {
@@ -95,7 +96,7 @@ fn handle_successful_path_generic(
         }
     } else {
         let (related_artists, connections) =
-            explore_path_neighborhood(&path, budget, graph_data, graph_index, config);
+            explore_path_neighborhood(&path, budget, graphs, config);
 
         utils::EnhancedPathResult::Success {
             primary_path: path,

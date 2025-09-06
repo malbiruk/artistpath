@@ -1,4 +1,5 @@
 use super::super::utils::get_artist_connections;
+use super::super::BiDirectionalGraphs;
 use crate::pathfinding_config::PathfindingConfig;
 use rustc_hash::{FxHashMap, FxHashSet};
 use uuid::Uuid;
@@ -14,8 +15,7 @@ pub type ArtistConnections = FxHashMap<Uuid, Vec<(Uuid, f32)>>;
 pub fn explore_path_neighborhood(
     path: &[(Uuid, f32)],
     budget: usize,
-    graph_data: &memmap2::Mmap,
-    graph_index: &FxHashMap<Uuid, u64>,
+    graphs: BiDirectionalGraphs,
     config: &PathfindingConfig,
 ) -> (DiscoveredArtists, ArtistConnections) {
     let mut discovered_artists = FxHashMap::default();
@@ -25,8 +25,8 @@ pub fn explore_path_neighborhood(
         discovered_artists.insert(artist_id, (similarity, idx));
     }
 
-    // Collect all connections for path artists
-    let mut all_connections = collect_path_connections(path, graph_data, graph_index, config);
+    // Collect all connections for path artists using both graphs
+    let mut all_connections = collect_path_connections(path, &graphs, config);
 
     let remaining_budget = budget.saturating_sub(path.len());
     if remaining_budget == 0 {
@@ -39,8 +39,7 @@ pub fn explore_path_neighborhood(
 
     // Add neighbors up to budget
     let context = NeighborContext {
-        graph_data,
-        graph_index,
+        graphs,
         config,
         budget,
         path_length: path.len(),
@@ -58,15 +57,29 @@ pub fn explore_path_neighborhood(
 
 fn collect_path_connections(
     path: &[(Uuid, f32)],
-    graph_data: &memmap2::Mmap,
-    graph_index: &FxHashMap<Uuid, u64>,
+    graphs: &BiDirectionalGraphs,
     config: &PathfindingConfig,
 ) -> ArtistConnections {
     let mut connections = FxHashMap::default();
 
     for &(artist_id, _) in path {
-        let artist_connections = get_artist_connections(artist_id, graph_data, graph_index, config);
-        connections.insert(artist_id, artist_connections);
+        // Get connections from both forward and reverse graphs
+        let mut forward_connections = get_artist_connections(artist_id, graphs.forward.0, graphs.forward.1, config);
+        let reverse_connections = get_artist_connections(artist_id, graphs.reverse.0, graphs.reverse.1, config);
+        
+        // Combine connections, avoiding duplicates and keeping highest similarity
+        for (reverse_artist, reverse_sim) in reverse_connections {
+            if let Some(existing_pos) = forward_connections.iter().position(|(id, _)| *id == reverse_artist) {
+                // Keep the higher similarity
+                if reverse_sim > forward_connections[existing_pos].1 {
+                    forward_connections[existing_pos].1 = reverse_sim;
+                }
+            } else {
+                forward_connections.push((reverse_artist, reverse_sim));
+            }
+        }
+        
+        connections.insert(artist_id, forward_connections);
     }
 
     connections
@@ -111,8 +124,7 @@ fn prioritize_neighbors(neighbor_info: FxHashMap<Uuid, NeighborInfo>) -> Vec<(Uu
 }
 
 struct NeighborContext<'a> {
-    graph_data: &'a memmap2::Mmap,
-    graph_index: &'a FxHashMap<Uuid, u64>,
+    graphs: BiDirectionalGraphs<'a>,
     config: &'a PathfindingConfig,
     budget: usize,
     path_length: usize,
@@ -132,13 +144,32 @@ fn add_neighbors_to_discovered(
         if let std::collections::hash_map::Entry::Vacant(e) = discovered_artists.entry(neighbor) {
             e.insert((similarity, context.path_length));
 
-            let connections = get_artist_connections(
+            // Get connections from both graphs for new neighbors too
+            let mut forward_connections = get_artist_connections(
                 neighbor,
-                context.graph_data,
-                context.graph_index,
+                context.graphs.forward.0,
+                context.graphs.forward.1,
                 context.config,
             );
-            all_connections.insert(neighbor, connections);
+            let reverse_connections = get_artist_connections(
+                neighbor,
+                context.graphs.reverse.0,
+                context.graphs.reverse.1,
+                context.config,
+            );
+            
+            // Combine connections
+            for (reverse_artist, reverse_sim) in reverse_connections {
+                if let Some(existing_pos) = forward_connections.iter().position(|(id, _)| *id == reverse_artist) {
+                    if reverse_sim > forward_connections[existing_pos].1 {
+                        forward_connections[existing_pos].1 = reverse_sim;
+                    }
+                } else {
+                    forward_connections.push((reverse_artist, reverse_sim));
+                }
+            }
+            
+            all_connections.insert(neighbor, forward_connections);
         }
     }
 }

@@ -46,7 +46,7 @@ fn build_enhanced_path_response(
         } => {
             let path_artists = convert_path_to_artists(&primary_path, state);
             let nodes = build_graph_nodes(&related_artists, state);
-            let edges = build_graph_edges(&connections);
+            let edges = build_graph_edges(&connections, &primary_path);
 
             EnhancedPathResponse {
                 status: "success".to_string(),
@@ -147,18 +147,39 @@ fn build_graph_nodes(
 
 fn build_graph_edges(
     connections: &rustc_hash::FxHashMap<Uuid, Vec<(Uuid, f32)>>,
+    primary_path: &[(Uuid, f32)],
 ) -> Vec<GraphEdge> {
     let mut edges = Vec::new();
     let discovered_ids: FxHashSet<Uuid> = connections.keys().copied().collect();
 
+    // Add edges from the primary path first - these are guaranteed to be connected
+    for window in primary_path.windows(2) {
+        if let [from, to] = window {
+            edges.push(GraphEdge {
+                from: from.0,
+                to: to.0,
+                similarity: to.1, // Similarity of the edge leading TO the target
+            });
+        }
+    }
+
+    // Add neighborhood connections
     for (&from_id, artist_connections) in connections {
         for &(to_id, similarity) in artist_connections {
             if discovered_ids.contains(&to_id) && from_id != to_id {
-                edges.push(GraphEdge {
-                    from: from_id,
-                    to: to_id,
-                    similarity,
-                });
+                // Avoid duplicating path edges
+                let already_exists = edges.iter().any(|edge| 
+                    (edge.from == from_id && edge.to == to_id) ||
+                    (edge.from == to_id && edge.to == from_id)
+                );
+                
+                if !already_exists {
+                    edges.push(GraphEdge {
+                        from: from_id,
+                        to: to_id,
+                        similarity,
+                    });
+                }
             }
         }
     }

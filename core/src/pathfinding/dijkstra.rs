@@ -207,13 +207,12 @@ fn reconstruct_bidirectional_dijkstra_path(
     
     while current != target {
         if let Some(&(parent, similarity)) = reverse_parent.get(&current) {
-            path_to_target.push((current, similarity));
+            path_to_target.push((parent, similarity));
             current = parent;
         } else {
             break;
         }
     }
-    path_to_target.push((target, 0.0));
     
     // Step 3: Create unified path from start to target
     // Reverse path_to_start to get start -> meeting_point
