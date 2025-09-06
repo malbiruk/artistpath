@@ -1,4 +1,4 @@
-use crate::metadata_cache::MetadataCache;
+use crate::cache::MetadataCache;
 use artistpath_core::{Artist, parse_unified_metadata};
 use memmap2::Mmap;
 use rustc_hash::FxHashMap;

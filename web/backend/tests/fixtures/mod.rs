@@ -163,8 +163,8 @@ pub fn create_empty_mmap() -> Mmap {
     unsafe { MmapOptions::new().map(&file).unwrap() }
 }
 
-pub async fn create_test_metadata_cache() -> artistpath_web::metadata_cache::MetadataCache {
-    artistpath_web::metadata_cache::MetadataCache::new("test_api_key".to_string()).await.unwrap()
+pub async fn create_test_metadata_cache() -> artistpath_web::cache::MetadataCache {
+    artistpath_web::cache::MetadataCache::new("test_api_key".to_string()).await.unwrap()
 }
 
 pub async fn create_test_app_state() -> (Router, TestArtists) {

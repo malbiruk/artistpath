@@ -68,6 +68,7 @@ pub struct LastFmTrack {
     pub listeners: String,
 }
 
+#[derive(Clone)]
 pub struct LastFmClient {
     client: Client,
     api_key: String,

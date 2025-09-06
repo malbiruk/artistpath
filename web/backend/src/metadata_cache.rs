@@ -4,23 +4,24 @@ use crate::models::{CachedArtistMetadata, LastFmArtistData, LastFmTrackData};
 use rustc_hash::FxHashMap;
 use std::path::PathBuf;
 use std::time::{SystemTime, UNIX_EPOCH};
-use tokio::fs::{File, OpenOptions};
-use tokio::io::{AsyncBufReadExt, AsyncSeekExt, AsyncWriteExt, BufReader, SeekFrom};
 use tokio::sync::RwLock;
+use tokio::time::{Duration, interval};
 use uuid::Uuid;
 
 const CACHE_TTL_SECONDS: i64 = 90 * 24 * 60 * 60; // 90 days
 
+#[derive(Clone)]
 pub struct MetadataCache {
     cache_file_path: PathBuf,
-    index: RwLock<FxHashMap<Uuid, u64>>, // UUID -> file position
+    cache: std::sync::Arc<RwLock<FxHashMap<Uuid, CachedArtistMetadata>>>, // UUID -> metadata
     lastfm: LastFmClient,
     itunes: ITunesClient,
+    dirty: std::sync::Arc<RwLock<bool>>, // Track if cache needs to be written
 }
 
 impl MetadataCache {
     pub async fn new(lastfm_api_key: String) -> tokio::io::Result<Self> {
-        let cache_file_path = PathBuf::from("../../data/artist_metadata.ndjson");
+        let cache_file_path = PathBuf::from("../../data/artist_metadata.bin");
 
         // Ensure data directory exists
         if let Some(parent) = cache_file_path.parent() {
@@ -28,40 +29,82 @@ impl MetadataCache {
         }
 
         let cache = Self {
-            cache_file_path,
-            index: RwLock::new(FxHashMap::default()),
+            cache_file_path: cache_file_path.clone(),
+            cache: std::sync::Arc::new(RwLock::new(FxHashMap::default())),
             lastfm: LastFmClient::new(lastfm_api_key),
             itunes: ITunesClient::new(),
+            dirty: std::sync::Arc::new(RwLock::new(false)),
         };
 
-        // Build index from existing cache file
-        cache.build_index().await?;
+        // Load existing cache from binary file
+        cache.load_cache().await?;
+
+        // Start periodic write task
+        let cache_clone = cache.clone();
+        tokio::spawn(async move {
+            cache_clone.periodic_write_task().await;
+        });
 
         Ok(cache)
     }
 
-    async fn build_index(&self) -> tokio::io::Result<()> {
+    async fn load_cache(&self) -> tokio::io::Result<()> {
         if !self.cache_file_path.exists() {
+            println!("No existing cache file found, starting with empty cache");
             return Ok(());
         }
 
-        let file = File::open(&self.cache_file_path).await?;
-        let mut reader = BufReader::new(file);
-        let mut line = String::new();
-        let mut position = 0u64;
-        let mut index = self.index.write().await;
+        println!("Loading metadata cache from {:?}...", self.cache_file_path);
 
-        while reader.read_line(&mut line).await? > 0 {
-            if let Ok(metadata) = serde_json::from_str::<CachedArtistMetadata>(&line) {
-                if let Ok(uuid) = Uuid::parse_str(&metadata.id) {
-                    index.insert(uuid, position);
+        let file_contents = tokio::fs::read(&self.cache_file_path).await?;
+
+        match bincode::deserialize::<FxHashMap<Uuid, CachedArtistMetadata>>(&file_contents) {
+            Ok(loaded_cache) => {
+                let mut cache = self.cache.write().await;
+                *cache = loaded_cache;
+                // println!("Loaded {} metadata entries from cache", cache.len());
+                Ok(())
+            }
+            Err(e) => {
+                println!("Failed to deserialize cache (will start fresh): {}", e);
+                Ok(())
+            }
+        }
+    }
+
+    async fn periodic_write_task(&self) {
+        let mut interval = interval(Duration::from_secs(30)); // Write every 30 seconds if dirty
+
+        loop {
+            interval.tick().await;
+
+            let is_dirty = {
+                let dirty = self.dirty.read().await;
+                *dirty
+            };
+
+            if is_dirty {
+                if let Err(e) = self.write_cache_to_disk().await {
+                    eprintln!("Failed to write cache to disk: {}", e);
+                } else {
+                    let mut dirty = self.dirty.write().await;
+                    *dirty = false;
                 }
             }
-            position += line.len() as u64;
-            line.clear();
         }
+    }
 
-        println!("Built cache index with {} entries", index.len());
+    async fn write_cache_to_disk(&self) -> tokio::io::Result<()> {
+        let cache = self.cache.read().await;
+        let serialized = bincode::serialize(&*cache)
+            .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e))?;
+
+        // Write to temp file first, then atomic rename
+        let temp_path = self.cache_file_path.with_extension("bin.tmp");
+        tokio::fs::write(&temp_path, serialized).await?;
+        tokio::fs::rename(&temp_path, &self.cache_file_path).await?;
+
+        // println!("Wrote {} metadata entries to cache", cache.len());
         Ok(())
     }
 
@@ -72,17 +115,21 @@ impl MetadataCache {
         artist_url: &str,
     ) -> Result<Option<LastFmArtistData>, Box<dyn std::error::Error + Send + Sync>> {
         // Check cache first
-        if let Some(cached_data) = self.get_cached_if_valid(artist_id).await {
-            if let Some(lastfm_data) = cached_data.lastfm {
-                return Ok(Some(convert_cached_to_response(
-                    &lastfm_data,
-                    artist_name,
-                    artist_url,
-                )));
+        let cache = self.cache.read().await;
+        if let Some(cached_data) = cache.get(&artist_id) {
+            if is_cache_valid(cached_data.last_fetched) {
+                if let Some(ref lastfm_data) = cached_data.lastfm {
+                    return Ok(Some(convert_cached_to_response(
+                        lastfm_data,
+                        artist_name,
+                        artist_url,
+                    )));
+                }
             }
         }
+        drop(cache);
 
-        // Cache miss - fetch fresh data
+        // Cache miss or expired - fetch fresh data
         self.fetch_and_cache_artist_data(artist_id, artist_name, artist_url)
             .await
     }
@@ -93,54 +140,26 @@ impl MetadataCache {
         artist_name: &str,
     ) -> Result<Option<Vec<LastFmTrackData>>, Box<dyn std::error::Error + Send + Sync>> {
         // Check cache first
-        if let Some(cached_data) = self.get_cached_if_valid(artist_id).await {
-            if let Some(ref tracks) = cached_data.tracks {
-                // Check if tracks have iTunes preview URLs
-                let has_preview_urls = tracks.iter().any(|track| track.preview_url.is_some());
+        let cache = self.cache.read().await;
+        if let Some(cached_data) = cache.get(&artist_id) {
+            if is_cache_valid(cached_data.last_fetched) {
+                if let Some(ref tracks) = cached_data.tracks {
+                    // Check if tracks have iTunes preview URLs
+                    let has_preview_urls = tracks.iter().any(|track| track.preview_url.is_some());
 
-                if has_preview_urls {
-                    // Cache has iTunes URLs, return it
-                    return Ok(Some(convert_cached_tracks_to_response(tracks)));
+                    if has_preview_urls {
+                        // Cache has iTunes URLs, return it
+                        return Ok(Some(convert_cached_tracks_to_response(tracks)));
+                    }
+                    // Cache exists but no iTunes URLs - fall through to fetch them
                 }
-                // Cache exists but no iTunes URLs - fall through to fetch them
             }
         }
+        drop(cache);
 
         // Cache miss or missing iTunes URLs - fetch with iTunes previews
         self.fetch_and_cache_tracks_with_previews(artist_id, artist_name)
             .await
-    }
-
-    async fn get_cached_if_valid(&self, artist_id: Uuid) -> Option<CachedArtistMetadata> {
-        let index = self.index.read().await;
-        let position = *index.get(&artist_id)?;
-        drop(index);
-
-        // Read from file at specific position
-        match self.read_from_position(position).await {
-            Ok(Some(metadata)) if is_cache_valid(metadata.last_fetched) => Some(metadata),
-            _ => None,
-        }
-    }
-
-    async fn read_from_position(
-        &self,
-        position: u64,
-    ) -> tokio::io::Result<Option<CachedArtistMetadata>> {
-        let mut file = File::open(&self.cache_file_path).await?;
-        file.seek(SeekFrom::Start(position)).await?;
-
-        let mut reader = BufReader::new(file);
-        let mut line = String::new();
-
-        if reader.read_line(&mut line).await? > 0 {
-            match serde_json::from_str::<CachedArtistMetadata>(&line) {
-                Ok(metadata) => Ok(Some(metadata)),
-                Err(_) => Ok(None),
-            }
-        } else {
-            Ok(None)
-        }
     }
 
     async fn fetch_and_cache_artist_data(
@@ -184,7 +203,7 @@ impl MetadataCache {
                 .map(|tracks| convert_lastfm_tracks_to_cached(tracks, &preview_map)),
         };
 
-        self.store_to_cache(artist_id, &cached).await.ok();
+        self.store_to_cache(artist_id, cached).await;
 
         // Convert and return
         Ok(lastfm_artist
@@ -198,8 +217,9 @@ impl MetadataCache {
     ) -> Result<Option<Vec<LastFmTrackData>>, Box<dyn std::error::Error + Send + Sync>> {
         // Get existing cached data to preserve iTunes URLs
         let existing_previews = {
-            match self.get_cached_if_valid(artist_id).await {
-                Some(cached) => cached
+            let cache = self.cache.read().await;
+            match cache.get(&artist_id) {
+                Some(cached) if is_cache_valid(cached.last_fetched) => cached
                     .tracks
                     .as_ref()
                     .map(|tracks| {
@@ -209,7 +229,7 @@ impl MetadataCache {
                             .collect::<FxHashMap<_, _>>()
                     })
                     .unwrap_or_default(),
-                None => FxHashMap::default(),
+                _ => FxHashMap::default(),
             }
         };
 
@@ -235,17 +255,23 @@ impl MetadataCache {
             .collect::<Vec<_>>();
 
         // Update cache - merge with existing data
-        let existing = self.get_cached_if_valid(artist_id).await;
+        let existing_lastfm = {
+            let cache = self.cache.read().await;
+            cache
+                .get(&artist_id)
+                .and_then(|cached| cached.lastfm.clone())
+        };
+
         let cached = CachedArtistMetadata {
             id: artist_id.to_string(),
             name: artist_name.to_string(),
             url: format!("https://last.fm/music/{}", urlencoding::encode(artist_name)),
             last_fetched: current_timestamp(),
-            lastfm: existing.and_then(|e| e.lastfm), // Preserve existing lastfm data
+            lastfm: existing_lastfm, // Preserve existing lastfm data
             tracks: Some(tracks_with_previews.clone()),
         };
 
-        self.store_to_cache(artist_id, &cached).await.ok();
+        self.store_to_cache(artist_id, cached).await;
 
         Ok(Some(convert_cached_tracks_to_response(
             &tracks_with_previews,
@@ -281,31 +307,18 @@ impl MetadataCache {
         preview_urls
     }
 
-    async fn store_to_cache(
-        &self,
-        artist_id: Uuid,
-        metadata: &CachedArtistMetadata,
-    ) -> tokio::io::Result<()> {
-        // Serialize to JSON line
-        let json_line = serde_json::to_string(metadata)?;
+    async fn store_to_cache(&self, artist_id: Uuid, metadata: CachedArtistMetadata) {
+        // Update in-memory cache
+        {
+            let mut cache = self.cache.write().await;
+            cache.insert(artist_id, metadata);
+        }
 
-        // Append to cache file
-        let mut file = OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&self.cache_file_path)
-            .await?;
-
-        let position = file.metadata().await?.len();
-        file.write_all(json_line.as_bytes()).await?;
-        file.write_all(b"\n").await?;
-        file.flush().await?;
-
-        // Update index
-        let mut index = self.index.write().await;
-        index.insert(artist_id, position);
-
-        Ok(())
+        // Mark as dirty for periodic write
+        {
+            let mut dirty = self.dirty.write().await;
+            *dirty = true;
+        }
     }
 }
 

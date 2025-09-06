@@ -2,12 +2,12 @@ use axum::{Router, routing::get};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
+mod cache;
 mod enhanced_pathfinding;
 mod exploration;
 mod handlers;
 mod itunes;
 mod lastfm;
-mod metadata_cache;
 mod models;
 mod pathfinding;
 mod search;

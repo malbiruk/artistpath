@@ -1,12 +1,14 @@
 use crate::models::{ITunesSearchResponse, ITunesTrack};
 use reqwest::Client;
 use std::collections::HashMap;
+use std::sync::Arc;
 use std::time::{Duration, Instant};
 use tokio::sync::Mutex;
 
+#[derive(Clone)]
 pub struct ITunesClient {
     client: Client,
-    cache: Mutex<HashMap<String, (ITunesSearchResponse, Instant)>>,
+    cache: Arc<Mutex<HashMap<String, (ITunesSearchResponse, Instant)>>>,
     cache_duration: Duration,
 }
 
@@ -14,7 +16,7 @@ impl ITunesClient {
     pub fn new() -> Self {
         Self {
             client: Client::new(),
-            cache: Mutex::new(HashMap::new()),
+            cache: Arc::new(Mutex::new(HashMap::new())),
             cache_duration: Duration::from_secs(24 * 60 * 60), // 24 hours
         }
     }
