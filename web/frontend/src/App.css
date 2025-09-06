@@ -188,6 +188,7 @@ body {
 .visualization p {
     max-width: 90%;
     text-align: center;
+    color: black;
 }
 
 .stats {

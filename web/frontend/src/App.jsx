@@ -272,13 +272,21 @@ function App() {
         <>
           <p>enter one artist to explore their network</p>
           <p>enter two artists to find the path between them</p>
-          {isTouchDevice && (
+          {(isTouchDevice && (
             <p className="help-message">
               <br />
               <br />
               tap an artist to see their connections
               <br />
               double-tap for artist card
+              <br />
+              <br />
+              you can also tweak parameters 🡫
+            </p>
+          )) || (
+            <p className="help-message">
+              <br />
+              you can also tweak parameters 🡮
             </p>
           )}
         </>
