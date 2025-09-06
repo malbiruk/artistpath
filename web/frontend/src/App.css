@@ -528,6 +528,11 @@ body {
         width: 65px;
     }
 
+    .algorithm-toggle:hover {
+        background: white;
+        color: black;
+    }
+
     .status-info {
         font-size: 11px;
         min-height: 14px;
