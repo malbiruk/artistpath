@@ -34,7 +34,7 @@ pub fn explore_path_neighborhood(
     }
 
     // Analyze and prioritize neighbors
-    let neighbor_info = analyze_neighbor_connectivity(path, &all_connections);
+    let neighbor_info = analyze_neighbor_connectivity(path, &all_connections, &graphs, config);
     let prioritized_neighbors = prioritize_neighbors(neighbor_info);
 
     // Add neighbors up to budget
@@ -88,21 +88,58 @@ fn collect_path_connections(
 fn analyze_neighbor_connectivity(
     path: &[(Uuid, f32)],
     path_connections: &ArtistConnections,
+    graphs: &BiDirectionalGraphs,
+    config: &PathfindingConfig,
 ) -> FxHashMap<Uuid, NeighborInfo> {
     let path_set: FxHashSet<Uuid> = path.iter().map(|(id, _)| *id).collect();
     let mut neighbor_info = FxHashMap::default();
-
+    
+    // First, collect all unique neighbors from path connections
+    let mut all_neighbors = FxHashSet::default();
     for connections in path_connections.values() {
-        for &(neighbor, similarity) in connections {
+        for &(neighbor, _) in connections {
             if !path_set.contains(&neighbor) {
-                let entry = neighbor_info.entry(neighbor).or_insert(NeighborInfo {
-                    similarity: 0.0,
-                    path_connections: 0,
-                });
-                entry.similarity = entry.similarity.max(similarity);
-                entry.path_connections += 1;
+                all_neighbors.insert(neighbor);
             }
         }
+    }
+    
+    // For each neighbor, count how many path nodes it connects to (in either direction)
+    for &neighbor in &all_neighbors {
+        let mut connected_path_nodes = FxHashSet::default();
+        let mut max_similarity = 0.0f32;
+        
+        // Check connections FROM path nodes TO this neighbor (already in path_connections)
+        for (&path_artist, connections) in path_connections {
+            if let Some((_, sim)) = connections.iter().find(|(id, _)| *id == neighbor) {
+                connected_path_nodes.insert(path_artist);
+                max_similarity = max_similarity.max(*sim);
+            }
+        }
+        
+        // Check connections FROM this neighbor TO path nodes (need to load neighbor's connections)
+        // Get neighbor's forward connections
+        let neighbor_forward = get_artist_connections(neighbor, graphs.forward.0, graphs.forward.1, config);
+        for &(target, sim) in &neighbor_forward {
+            if path_set.contains(&target) {
+                connected_path_nodes.insert(target);
+                max_similarity = max_similarity.max(sim);
+            }
+        }
+        
+        // Get neighbor's reverse connections (to check if path nodes point to it in reverse graph)
+        let neighbor_reverse = get_artist_connections(neighbor, graphs.reverse.0, graphs.reverse.1, config);
+        for &(target, sim) in &neighbor_reverse {
+            if path_set.contains(&target) {
+                connected_path_nodes.insert(target);
+                max_similarity = max_similarity.max(sim);
+            }
+        }
+        
+        neighbor_info.insert(neighbor, NeighborInfo {
+            similarity: max_similarity,
+            path_connections: connected_path_nodes.len(),
+        });
     }
 
     neighbor_info
