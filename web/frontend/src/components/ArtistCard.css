@@ -43,7 +43,7 @@
 .artist-card-loading {
     padding: 0 1rem 1rem 1rem;
     text-align: center;
-    color: gray;
+    color: black;
     border: 1px solid black;
     background: white;
     height: 25vh;
@@ -93,7 +93,7 @@
 }
 
 .fallback-info a {
-    color: gray;
+    color: black;
     text-decoration: none;
     font-size: 11px;
 }
@@ -152,7 +152,7 @@
     flex-direction: column;
     gap: 0.125rem;
     font-size: 11px;
-    color: gray;
+    color: dimgray;
 }
 
 .artist-stats {
@@ -173,7 +173,7 @@
 
 .stat-label {
     font-size: 11px;
-    color: gray;
+    color: black;
     margin-bottom: 0.25rem;
 }
 
@@ -231,7 +231,7 @@
 .bio-toggle {
     background: none;
     border: 1px solid black;
-    color: gray;
+    color: black;
     font-family: inherit;
     font-size: 11px;
     padding: 0.25rem 0.5rem;
@@ -296,7 +296,7 @@
 
 .track-stats {
     font-size: 11px;
-    color: gray;
+    color: dimgray;
 }
 
 .track-actions {

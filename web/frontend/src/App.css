@@ -60,7 +60,7 @@ body {
 
 .header-left p {
     font-size: clamp(11px, 1.2vw, 13px);
-    color: gray;
+    color: black;
     margin: 0;
 }
 
@@ -81,13 +81,13 @@ body {
     font-size: clamp(11px, 1.2vw, 13px);
     font-family: inherit;
     background: white;
-    width: clamp(140px, 20vw, 200px);
-    height: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
+    width: 281px;
+    height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
     line-height: 1.2;
 }
 
 .artist-input-wrapper[data-has-action] .artist-input {
-    padding-right: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
+    padding-right: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
 }
 
 .artist-input:focus {
@@ -102,7 +102,7 @@ body {
     font-family: inherit;
     background: white;
     box-sizing: border-box;
-    height: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
+    height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,17 +122,18 @@ body {
 .setting label {
     font-size: 11px;
     white-space: nowrap;
-    color: gray;
+    color: black;
 }
 
 .setting-input {
     width: auto;
     padding: 0rem 0.125rem;
-    border: 1px solid white;
+    border: 1px solid black;
     font-size: 11px;
+    width: 36px;
     font-family: inherit;
     background: white;
-    text-align: left;
+    text-align: center;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
@@ -151,8 +152,9 @@ body {
 
 .algorithm-toggle {
     padding: 0rem 0.125rem;
-    border: 1px solid white;
+    border: 1px solid black;
     font-size: 11px;
+    width: 59px;
     font-family: inherit;
     background: white;
     color: black;
@@ -161,8 +163,29 @@ body {
     -webkit-appearance: none;
 }
 
+.algorithm-toggle:hover {
+    background: black;
+    color: white;
+}
+
 .algorithm-toggle:focus {
     outline: none;
+}
+
+.settings-overlay {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
+    z-index: 10;
+    background: white;
+    border: 1px solid black;
+    border-top: none;
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
 .main {
@@ -181,7 +204,7 @@ body {
     align-items: center;
     font-size: clamp(10px, 1.1vw, 12px);
     line-height: 1.5;
-    color: gray;
+    color: dimgray;
     position: relative;
 }
 
@@ -193,18 +216,18 @@ body {
 
 .stats {
     font-size: 10px;
-    color: gray;
+    color: black;
     text-align: left;
     line-height: 1.5;
 }
 
 .stats a {
-    color: gray;
+    color: black;
     text-decoration: none;
 }
 
 .stats a:hover {
-    color: gray;
+    color: black;
     text-decoration: underline;
 }
 
@@ -218,6 +241,7 @@ body {
 
 .footer {
     padding: 0.5rem 1rem;
+    padding-top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -236,7 +260,7 @@ body {
 
 .status-info {
     font-size: 10px;
-    color: gray;
+    color: black;
 }
 
 .status-info.error {
@@ -244,7 +268,7 @@ body {
 }
 
 .loading {
-    color: gray;
+    color: black;
 }
 
 .loading-dots span {
@@ -325,7 +349,7 @@ body {
     width: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
     border: none;
     background: none;
-    color: gray;
+    color: black;
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
@@ -421,6 +445,7 @@ body {
 
     .main {
         padding: 0.5rem;
+        padding-top: 0;
     }
 
     .visualization {
@@ -432,10 +457,7 @@ body {
     }
 
     .footer {
-        padding: 1rem 2rem;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
+        display: none;
     }
 
     .footer-left {
@@ -457,30 +479,24 @@ body {
         display: flex;
         justify-content: space-between;
         font-size: 11px;
-        color: gray;
+        color: black;
         width: 100%;
     }
 
     .mobile-stats a {
-        color: gray;
-        /*text-decoration: none;*/
+        color: black;
     }
 
-    .footer-right {
-        display: grid;
-        grid-template-columns: max-content max-content;
-        row-gap: 0.5rem;
-        justify-content: space-between;
-        order: 1;
+    .settings-overlay {
         width: 100%;
-    }
-
-    .setting {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 0.1rem;
+        border: none;
+        border-bottom: 1px solid black;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        row-gap: 0.5rem;
+        column-gap: 1rem;
     }
 
     .setting label {
@@ -489,8 +505,6 @@ body {
 
     .setting-input {
         font-size: 12px;
-        padding: 0.25rem;
-        text-align: left;
     }
 
     .algorithm-toggle {

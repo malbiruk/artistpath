@@ -136,13 +136,15 @@ function App() {
   const formatStatusMessage = (data, isPathfinding = false) => {
     const nodeCount = data.nodes?.length || 0;
     const edgeCount = data.edges?.length || 0;
-    const duration = data.timing?.duration_ms || 0;
-    const visited = data.timing?.visited_nodes || 0;
+    const duration =
+      data.timing?.duration_ms || data.search_stats?.duration_ms || 0;
+    const visited =
+      data.timing?.visited_nodes || data.search_stats?.artists_visited || 0;
 
     if (isPathfinding) {
       return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored ${visited.toLocaleString()} artists in ${duration.toLocaleString()}ms`;
     }
-    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections`;
+    return `showing ${nodeCount.toLocaleString()} artists, ${edgeCount.toLocaleString()} connections, explored in ${duration.toLocaleString()}ms`;
   };
 
   const handleSearchSuccess = (data, isPathfinding = false) => {
@@ -272,21 +274,13 @@ function App() {
         <>
           <p>enter one artist to explore their network</p>
           <p>enter two artists to find the path between them</p>
-          {(isTouchDevice && (
+          {isTouchDevice && (
             <p className="help-message">
               <br />
               <br />
               tap an artist to see their connections
               <br />
               double-tap for artist card
-              <br />
-              <br />
-              you can also tweak parameters 🡫
-            </p>
-          )) || (
-            <p className="help-message">
-              <br />
-              you can also tweak parameters 🡮
             </p>
           )}
         </>
@@ -463,6 +457,54 @@ function App() {
 
       <main className="main">
         <div className="visualization" onClick={handleClickAway}>
+          <div className="settings-overlay">
+            <div className="setting">
+              <label>algorithm:</label>
+              <button
+                onClick={() =>
+                  setAlgorithm(algorithm === "simple" ? "weighted" : "simple")
+                }
+                className="algorithm-toggle"
+              >
+                {algorithm}
+              </button>
+            </div>
+
+            <div className="setting">
+              <label>max relations:</label>
+              <NumberInput
+                min={1}
+                max={250}
+                value={maxRelations}
+                onChange={(value) => setMaxRelations(value)}
+                className="setting-input"
+              />
+            </div>
+
+            <div className="setting">
+              <label>min similarity:</label>
+              <NumberInput
+                min={0}
+                max={1}
+                step={0.01}
+                decimals={2}
+                value={minSimilarity}
+                onChange={(value) => setMinSimilarity(value)}
+                className="setting-input"
+              />
+            </div>
+
+            <div className="setting">
+              <label>max artists:</label>
+              <NumberInput
+                min={10}
+                max={500}
+                value={maxArtists}
+                onChange={(value) => setMaxArtists(value)}
+                className="setting-input"
+              />
+            </div>
+          </div>
           {renderVisualization()}
           <ArtistCard
             artist={selectedArtist}
@@ -492,55 +534,6 @@ function App() {
                 Last.fm
               </a>
             </div>
-          </div>
-        </div>
-
-        <div className="footer-right">
-          <div className="setting">
-            <label>algorithm:</label>
-            <button
-              onClick={() =>
-                setAlgorithm(algorithm === "simple" ? "weighted" : "simple")
-              }
-              className="algorithm-toggle"
-            >
-              {algorithm}
-            </button>
-          </div>
-
-          <div className="setting">
-            <label>max relations:</label>
-            <NumberInput
-              min={1}
-              max={250}
-              value={maxRelations}
-              onChange={(value) => setMaxRelations(value)}
-              className="setting-input"
-            />
-          </div>
-
-          <div className="setting">
-            <label>min similarity:</label>
-            <NumberInput
-              min={0}
-              max={1}
-              step={0.01}
-              decimals={2}
-              value={minSimilarity}
-              onChange={(value) => setMinSimilarity(value)}
-              className="setting-input"
-            />
-          </div>
-
-          <div className="setting">
-            <label>max artists:</label>
-            <NumberInput
-              min={10}
-              max={500}
-              value={maxArtists}
-              onChange={(value) => setMaxArtists(value)}
-              className="setting-input"
-            />
           </div>
         </div>
       </footer>
