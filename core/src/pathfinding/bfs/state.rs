@@ -37,13 +37,17 @@ impl BfsState {
         let mut reverse_queue = VecDeque::new();
         let mut forward_visited = FxHashSet::default();
         let mut reverse_visited = FxHashSet::default();
+        let mut forward_queued = FxHashSet::default();  // Track what's in queue
+        let mut reverse_queued = FxHashSet::default();  // Track what's in queue
         let mut forward_parent = FxHashMap::default();
         let mut reverse_parent = FxHashMap::default();
         
         // Initialize both searches
         let start = self.queue[0]; // Get start from our initial queue
         forward_queue.push_back(start);
+        forward_queued.insert(start);
         reverse_queue.push_back(target);
+        reverse_queued.insert(target);
         // Don't mark as visited yet - let the main loop handle it
         // This ensures proper parent map construction
         
@@ -60,6 +64,7 @@ impl BfsState {
                 
                 // Mark as visited NOW, before checking intersection
                 forward_visited.insert(current);
+                forward_queued.remove(&current);  // Remove from queued set
                 self.visited.insert(current);
                 
                 // Check if we've met the reverse search
@@ -71,9 +76,10 @@ impl BfsState {
                 
                 let connections = get_artist_connections(current, forward_graph_data, forward_graph_index, config);
                 for (neighbor, similarity) in connections {
-                    if !forward_visited.contains(&neighbor) && !forward_queue.contains(&neighbor) {
+                    if !forward_visited.contains(&neighbor) && !forward_queued.contains(&neighbor) {
                         forward_parent.insert(neighbor, (current, similarity));
                         forward_queue.push_back(neighbor);
+                        forward_queued.insert(neighbor);  // Track that it's queued
                     }
                 }
             }
@@ -87,6 +93,7 @@ impl BfsState {
                 
                 // Mark as visited NOW, before checking intersection
                 reverse_visited.insert(current);
+                reverse_queued.remove(&current);  // Remove from queued set
                 self.visited.insert(current);
                 
                 // Check if we've met the forward search
@@ -98,9 +105,10 @@ impl BfsState {
                 
                 let connections = get_artist_connections(current, reverse_graph_data, reverse_graph_index, config);
                 for (neighbor, similarity) in connections {
-                    if !reverse_visited.contains(&neighbor) && !reverse_queue.contains(&neighbor) {
+                    if !reverse_visited.contains(&neighbor) && !reverse_queued.contains(&neighbor) {
                         reverse_parent.insert(neighbor, (current, similarity));
                         reverse_queue.push_back(neighbor);
+                        reverse_queued.insert(neighbor);  // Track that it's queued
                     }
                 }
             }

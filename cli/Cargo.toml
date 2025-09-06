@@ -1,6 +1,6 @@
 [package]
 name = "artistpath"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2024"
 authors = ["malbiruk"]
 description = "Find paths between music artists using Last.fm data"
@@ -15,7 +15,7 @@ name = "artistpath"
 path = "src/main.rs"
 
 [dependencies]
-artistpath-core = "0.2.1"
+artistpath-core = "0.2.2"
 clap = { version = "4.5.45", features = ["derive"] }
 colored = "3.0.0"
 memmap2 = "0.9"
