@@ -2,12 +2,13 @@ import { API_BASE_URL } from "../config";
 
 const API_BASE = API_BASE_URL;
 
-export async function searchArtists(query) {
+export async function searchArtists(query, signal = null) {
   if (!query || query.length < 2) return [];
 
   try {
     const response = await fetch(
       `${API_BASE}/artists/search?q=${encodeURIComponent(query)}&limit=5`,
+      { signal }
     );
     if (!response.ok) throw new Error("Search failed");
 
@@ -26,6 +27,7 @@ export async function findEnhancedPath(
   maxRelations,
   budget,
   algorithm = "bfs",
+  signal = null,
 ) {
   try {
     const params = new URLSearchParams({
@@ -39,7 +41,7 @@ export async function findEnhancedPath(
 
     const url = `${API_BASE}/enhanced_path?${params}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
 
     if (!response.ok)
       throw new Error(`Path finding failed: ${response.status}`);
@@ -82,6 +84,7 @@ export async function exploreArtist(
   maxRelations,
   minSimilarity,
   algorithm = "bfs",
+  signal = null,
 ) {
   try {
     const params = new URLSearchParams({
@@ -92,7 +95,7 @@ export async function exploreArtist(
       algorithm: algorithm,
     });
 
-    const response = await fetch(`${API_BASE}/explore?${params}`);
+    const response = await fetch(`${API_BASE}/explore?${params}`, { signal });
     if (!response.ok) throw new Error("Exploration failed");
 
     return await response.json();
@@ -108,6 +111,7 @@ export async function exploreArtistReverse(
   maxRelations,
   minSimilarity,
   algorithm = "bfs",
+  signal = null,
 ) {
   try {
     const params = new URLSearchParams({
@@ -118,7 +122,7 @@ export async function exploreArtistReverse(
       algorithm: algorithm,
     });
 
-    const response = await fetch(`${API_BASE}/explore_reverse?${params}`);
+    const response = await fetch(`${API_BASE}/explore_reverse?${params}`, { signal });
     if (!response.ok) throw new Error("Reverse exploration failed");
 
     return await response.json();

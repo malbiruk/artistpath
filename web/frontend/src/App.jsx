@@ -332,6 +332,8 @@ function App() {
 
   // Trigger exploration/pathfinding when artists change
   useEffect(() => {
+    const abortController = new AbortController();
+    
     const performSearch = async () => {
       if (!fromArtist && !toArtist) {
         resetSearch();
@@ -345,48 +347,65 @@ function App() {
       const backendAlgorithm = algorithm === "weighted" ? "dijkstra" : "bfs";
 
       try {
+        let data;
         if (fromArtist && !toArtist) {
           // Single artist - forward exploration (from "from" field)
-          const data = await exploreArtist(
+          data = await exploreArtist(
             fromArtist.id,
             maxArtists,
             maxRelations,
             minSimilarity,
             backendAlgorithm,
+            abortController.signal
           );
-          handleSearchSuccess(data, false);
         } else if (!fromArtist && toArtist) {
           // Single artist - reverse exploration (from "to" field)
-          const data = await exploreArtistReverse(
+          data = await exploreArtistReverse(
             toArtist.id,
             maxArtists,
             maxRelations,
             minSimilarity,
             backendAlgorithm,
+            abortController.signal
           );
-          handleSearchSuccess(data, false);
         } else if (fromArtist && toArtist) {
           // Two artists - find path
-          const data = await findEnhancedPath(
+          data = await findEnhancedPath(
             fromArtist.id,
             toArtist.id,
             minSimilarity,
             maxRelations,
             maxArtists,
             backendAlgorithm,
+            abortController.signal
           );
-          handleSearchSuccess(data, true);
+        }
+
+        // Only update state if request wasn't cancelled
+        if (!abortController.signal.aborted) {
+          handleSearchSuccess(data, fromArtist && toArtist);
         }
       } catch (error) {
-        const errorMessage =
-          fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
-        handleSearchError(errorMessage);
+        // Don't show error if request was cancelled
+        if (!abortController.signal.aborted) {
+          const errorMessage =
+            fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
+          handleSearchError(errorMessage);
+        }
       } finally {
-        setIsLoading(false);
+        // Only update loading state if request wasn't cancelled
+        if (!abortController.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     };
 
     performSearch();
+
+    // Cleanup function to cancel the request when dependencies change
+    return () => {
+      abortController.abort();
+    };
   }, [
     fromArtist,
     toArtist,

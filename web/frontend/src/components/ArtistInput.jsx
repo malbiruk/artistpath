@@ -14,6 +14,7 @@ function ArtistInput({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const debounceTimer = useRef(null);
   const inputRef = useRef(null);
+  const abortController = useRef(null);
 
   useEffect(() => {
     setInputValue(value?.name || "");
@@ -31,19 +32,42 @@ function ArtistInput({
       return;
     }
 
+    // Cancel any pending request
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
     debounceTimer.current = setTimeout(async () => {
-      const results = await searchArtists(inputValue);
-      setSuggestions(results);
-      setShowSuggestions(true);
+      // Create new abort controller for this request
+      abortController.current = new AbortController();
+      
+      try {
+        const results = await searchArtists(inputValue, abortController.current.signal);
+        
+        // Only update state if request wasn't cancelled
+        if (!abortController.current.signal.aborted) {
+          setSuggestions(results);
+          setShowSuggestions(true);
+        }
+      } catch (error) {
+        // Don't show error if request was cancelled
+        if (!abortController.current.signal.aborted) {
+          console.error("Search error:", error);
+          setSuggestions([]);
+        }
+      }
     }, 150);
 
     return () => {
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);
+      }
+      if (abortController.current) {
+        abortController.current.abort();
       }
     };
   }, [inputValue, value]);
