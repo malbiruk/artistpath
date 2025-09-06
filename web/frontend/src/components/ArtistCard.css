@@ -1,11 +1,11 @@
 .artist-card {
     position: absolute;
-    right: -400px;
-    top: 20px;
+    /*right: -400px;*/
+    top: 1rem;
     width: 360px;
-    max-height: calc(100% - 40px);
+    max-height: calc(100% - 2rem);
     background: none;
-    z-index: 1000;
+    z-index: 5;
     font-family: inherit;
     font-size: clamp(11px, 1.2vw, 13px);
     display: flex;
@@ -13,7 +13,7 @@
 }
 
 .artist-card.open {
-    right: 20px;
+    right: 1rem;
 }
 
 .artist-card-header {
@@ -370,6 +370,7 @@
         padding: 0.5rem;
         background: white;
         max-height: 100%;
+        z-index: 1000;
     }
 
     .artist-card-loading {

@@ -81,7 +81,7 @@ body {
     font-size: clamp(11px, 1.2vw, 13px);
     font-family: inherit;
     background: white;
-    width: 281px;
+    width: 266px;
     height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
     line-height: 1.2;
 }
@@ -178,11 +178,12 @@ body {
     left: 50%;
     transform: translateX(-50%);
     height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
+    width: 573.833px;
     z-index: 10;
     background: white;
     border: 1px solid black;
     border-top: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     display: flex;
     gap: 20px;
     align-items: center;
@@ -346,7 +347,7 @@ body {
     right: 0;
     top: 0;
     bottom: 0;
-    width: calc(clamp(11px, 1.2vw, 13px) + 0.65rem + 2px);
+    width: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
     border: none;
     background: none;
     color: black;
@@ -401,6 +402,7 @@ body {
         gap: 1rem;
         height: auto;
         align-items: stretch;
+        padding: 0.5rem;
     }
 
     .header-left {
@@ -434,6 +436,7 @@ body {
         min-width: 0;
         width: 100%;
         line-height: 1.2;
+        height: 2rem;
     }
 
     .swap-button {
@@ -441,6 +444,7 @@ body {
         padding: 0.75rem;
         width: auto;
         aspect-ratio: 1;
+        height: 2rem;
     }
 
     .main {
@@ -488,6 +492,7 @@ body {
     }
 
     .settings-overlay {
+        padding: 0.5rem 1rem;
         width: 100%;
         border: none;
         border-bottom: 1px solid black;
@@ -495,8 +500,15 @@ body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
-        row-gap: 0.5rem;
-        column-gap: 1rem;
+        row-gap: 1rem;
+        column-gap: 3rem;
+    }
+
+    .settings-overlay .setting {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
     }
 
     .setting label {
@@ -505,10 +517,14 @@ body {
 
     .setting-input {
         font-size: 12px;
+        height: 1.5rem;
+        min-width: 40px;
     }
 
     .algorithm-toggle {
         font-size: 12px;
+        height: 1.5rem;
+        width: 65px;
     }
 
     .status-info {
