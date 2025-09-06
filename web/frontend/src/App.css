@@ -8,12 +8,14 @@ body {
     font-family: "Lucida Console", monospace;
     background: white;
     min-height: 100vh;
+    min-height: 100dvh;
     color: black;
     font-size: clamp(11px, 1.2vw, 14px);
 }
 
 .app {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     /*padding: 1rem 0.5rem;*/

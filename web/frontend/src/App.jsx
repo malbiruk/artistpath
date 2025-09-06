@@ -276,7 +276,7 @@ function App() {
             <p className="help-message">
               <br />
               <br />
-              tap to see connections
+              tap an artists to see connections
               <br />
               double-tap for artist card
             </p>
@@ -335,7 +335,6 @@ function App() {
         resetSearch();
         return;
       }
-
 
       setIsLoading(true);
       setIsError(false);
