@@ -270,7 +270,6 @@ impl MetadataCache {
                 match self.itunes.search_track(artist_name, &track.name).await {
                     Ok(Some(itunes_track)) => {
                         preview_urls.push(Some(itunes_track.preview_url));
-                        println!("✓ Found iTunes preview: {} - {}", artist_name, track.name);
                     }
                     _ => {
                         preview_urls.push(None);
