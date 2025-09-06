@@ -94,12 +94,19 @@ impl MetadataCache {
     ) -> Result<Option<Vec<LastFmTrackData>>, Box<dyn std::error::Error + Send + Sync>> {
         // Check cache first
         if let Some(cached_data) = self.get_cached_if_valid(artist_id).await {
-            if let Some(tracks) = cached_data.tracks {
-                return Ok(Some(convert_cached_tracks_to_response(&tracks)));
+            if let Some(ref tracks) = cached_data.tracks {
+                // Check if tracks have iTunes preview URLs
+                let has_preview_urls = tracks.iter().any(|track| track.preview_url.is_some());
+
+                if has_preview_urls {
+                    // Cache has iTunes URLs, return it
+                    return Ok(Some(convert_cached_tracks_to_response(tracks)));
+                }
+                // Cache exists but no iTunes URLs - fall through to fetch them
             }
         }
 
-        // Cache miss - fetch with iTunes previews
+        // Cache miss or missing iTunes URLs - fetch with iTunes previews
         self.fetch_and_cache_tracks_with_previews(artist_id, artist_name)
             .await
     }
@@ -142,11 +149,30 @@ impl MetadataCache {
         artist_name: &str,
         artist_url: &str,
     ) -> Result<Option<LastFmArtistData>, Box<dyn std::error::Error + Send + Sync>> {
-        // Fetch Last.fm artist info
+        // Fetch Last.fm artist info and top tracks
         let lastfm_artist = self.lastfm.get_artist_info(artist_name).await.ok();
         let lastfm_tracks = self.lastfm.get_top_tracks(artist_name, 5).await.ok();
 
-        // Cache the result
+        // Fetch iTunes preview URLs for tracks
+        let preview_urls = if let Some(ref tracks) = lastfm_tracks {
+            self.fetch_missing_itunes_previews(artist_name, tracks, &FxHashMap::default())
+                .await
+        } else {
+            Vec::new()
+        };
+
+        let preview_map: FxHashMap<String, Option<String>> = lastfm_tracks
+            .as_ref()
+            .map(|tracks| {
+                tracks
+                    .iter()
+                    .zip(preview_urls.iter())
+                    .map(|(track, url)| (track.name.clone(), url.clone()))
+                    .collect()
+            })
+            .unwrap_or_default();
+
+        // Cache the result WITH iTunes URLs
         let cached = CachedArtistMetadata {
             id: artist_id.to_string(),
             name: artist_name.to_string(),
@@ -155,7 +181,7 @@ impl MetadataCache {
             lastfm: lastfm_artist.as_ref().map(convert_lastfm_to_cached),
             tracks: lastfm_tracks
                 .as_ref()
-                .map(|tracks| convert_lastfm_tracks_to_cached(tracks, &FxHashMap::default())),
+                .map(|tracks| convert_lastfm_tracks_to_cached(tracks, &preview_map)),
         };
 
         self.store_to_cache(artist_id, &cached).await.ok();
