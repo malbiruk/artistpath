@@ -1,15 +1,22 @@
 .artist-card {
     position: absolute;
     /*right: -400px;*/
-    top: 1rem;
+    top: calc(31px + 1rem);
     width: 360px;
-    max-height: calc(100% - 2rem);
+    max-height: calc(100% - 2rem - 31px);
     background: none;
     z-index: 5;
     font-family: inherit;
     font-size: clamp(11px, 1.2vw, 13px);
     display: flex;
     flex-direction: column;
+}
+
+@media (min-width: calc(6rem + 1318px)) {
+    .artist-card {
+        top: 1rem;
+        max-height: calc(100% - 2rem);
+    }
 }
 
 .artist-card.open {

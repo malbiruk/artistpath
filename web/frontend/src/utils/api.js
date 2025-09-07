@@ -15,7 +15,10 @@ export async function searchArtists(query, signal = null) {
     const data = await response.json();
     return data.results || [];
   } catch (error) {
-    console.error("Search error:", error);
+    // Don't log abort errors - they're expected behavior
+    if (error.name !== 'AbortError') {
+      console.error("Search error:", error);
+    }
     return [];
   }
 }
@@ -73,7 +76,10 @@ export async function findEnhancedPath(
       },
     };
   } catch (error) {
-    console.error("Path finding error:", error);
+    // Don't log abort errors - they're expected behavior
+    if (error.name !== 'AbortError') {
+      console.error("Path finding error:", error);
+    }
     throw error;
   }
 }
@@ -100,7 +106,10 @@ export async function exploreArtist(
 
     return await response.json();
   } catch (error) {
-    console.error("Exploration error:", error);
+    // Don't log abort errors - they're expected behavior
+    if (error.name !== 'AbortError') {
+      console.error("Exploration error:", error);
+    }
     throw error;
   }
 }
@@ -127,7 +136,10 @@ export async function exploreArtistReverse(
 
     return await response.json();
   } catch (error) {
-    console.error("Reverse exploration error:", error);
+    // Don't log abort errors - they're expected behavior
+    if (error.name !== 'AbortError') {
+      console.error("Reverse exploration error:", error);
+    }
     throw error;
   }
 }

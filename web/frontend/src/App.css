@@ -68,6 +68,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0 1rem;
 }
 
 .header-right {
@@ -81,7 +82,7 @@ body {
     font-size: clamp(11px, 1.2vw, 13px);
     font-family: inherit;
     background: white;
-    width: 266px;
+    width: 275.5px;
     height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
     line-height: 1.2;
 }
@@ -131,7 +132,8 @@ body {
     padding: 0rem 0.125rem;
     border: 1px solid black;
     font-size: 11px;
-    width: 36px;
+    min-width: 36px;
+    max-width: 36px;
     font-family: inherit;
     background: white;
     text-align: center;
@@ -179,7 +181,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     height: calc(clamp(11px, 1.2vw, 13px) + 1rem + 2px);
-    width: 579px;
+    width: 598px;
     z-index: 10;
     background: white;
     border: 1px solid black;
