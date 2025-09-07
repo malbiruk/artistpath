@@ -496,7 +496,7 @@ body {
     }
 
     .settings-overlay {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0.75rem;
         width: 100%;
         border: none;
         border-bottom: 1px solid black;
