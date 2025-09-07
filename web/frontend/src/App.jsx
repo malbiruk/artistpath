@@ -476,7 +476,7 @@ function App() {
 
       <main className="main">
         <div className="visualization" onClick={handleClickAway}>
-          <div className="settings-overlay">
+          <div className="settings-overlay" onClick={(e) => e.stopPropagation()}>
             <div className="setting">
               <label>algorithm:</label>
               <button
