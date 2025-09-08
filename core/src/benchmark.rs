@@ -73,7 +73,7 @@ impl PathfindingBenchmark {
 
         let config = PathfindingConfig {
             min_match: 0.0,
-            top_related: 50,
+            top_related: 10,
             weighted: false,
         };
 
