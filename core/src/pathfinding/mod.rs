@@ -2,6 +2,8 @@ pub mod bfs;
 pub mod dijkstra;
 pub mod utils;
 
+pub mod profiled_bfs;
+
 use crate::{Algorithm, pathfinding_config::PathfindingConfig};
 use bfs::neighborhood::explore_path_neighborhood;
 use rustc_hash::FxHashMap;
