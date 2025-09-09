@@ -451,6 +451,11 @@ body {
         height: 2rem;
     }
 
+    .swap-button:hover {
+        background: white;
+        color: black;
+    }
+
     .main {
         padding: 0.5rem;
         padding-top: 0;

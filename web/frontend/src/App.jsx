@@ -342,6 +342,7 @@ function App() {
 
       setIsLoading(true);
       setIsError(false);
+      setStatusInfo("");  // Clear status during search
 
       // Convert frontend algorithm to backend algorithm
       const backendAlgorithm = algorithm === "weighted" ? "dijkstra" : "bfs";
