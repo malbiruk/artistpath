@@ -1,11 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 
-function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtistId }) {
+function NetworkVisualization({
+  data,
+  onArtistClick,
+  onClickAway,
+  selectedArtistId,
+}) {
   const svgRef = useRef(null);
   const onArtistClickRef = useRef(onArtistClick);
   const onClickAwayRef = useRef(onClickAway);
-  
+
   // Update refs when props change
   useEffect(() => {
     onArtistClickRef.current = onArtistClick;
@@ -42,7 +47,7 @@ function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtist
     // Add zoom behavior
     const zoom = d3
       .zoom()
-      .scaleExtent([0.1, 3])
+      .scaleExtent([0.05, 3])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
       });
@@ -430,12 +435,12 @@ function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtist
     // Add click-away handler for both mobile and desktop
     svg.on("click", function (event) {
       // Only handle if clicking on empty space (not nodes or edges)
-      if (event.target === svgRef.current || event.target.tagName === 'svg') {
+      if (event.target === svgRef.current || event.target.tagName === "svg") {
         if (isTouchDevice) {
           clearNodeHighlight();
           clearEdgeTooltip();
         }
-        
+
         // Close artist card on click away (desktop and mobile)
         if (onClickAwayRef.current) {
           onClickAwayRef.current();
@@ -482,7 +487,7 @@ function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtist
               activeNode = clickedNode.id;
               showNodeConnections(clickedNode);
             }
-            
+
             // Start timer to reset tap count
             clickedNode.tapTimer = setTimeout(() => {
               clickedNode.tapCount = 0;
@@ -548,21 +553,22 @@ function NetworkVisualization({ data, onArtistClick, onClickAway, selectedArtist
   // Separate effect just for updating selection styling
   useEffect(() => {
     if (!svgRef.current) return;
-    
+
     const svg = d3.select(svgRef.current);
     const nodeGroups = svg.selectAll("g.node");
-    
+
     // Update node rectangle colors
-    nodeGroups.select("rect")
-      .attr("fill", (d) => d.id === selectedArtistId ? "black" : "white");
-    
+    nodeGroups
+      .select("rect")
+      .attr("fill", (d) => (d.id === selectedArtistId ? "black" : "white"));
+
     // Update text colors
-    nodeGroups.select("text")
-      .style("fill", (d) => {
-        if (d.id === selectedArtistId) return "white";
-        const isInPath = data && data.path && data.path.some((pathNode) => pathNode.id === d.id);
-        return (isInPath || d.layer === 0) ? "#0000cc" : "black";
-      });
+    nodeGroups.select("text").style("fill", (d) => {
+      if (d.id === selectedArtistId) return "white";
+      const isInPath =
+        data && data.path && data.path.some((pathNode) => pathNode.id === d.id);
+      return isInPath || d.layer === 0 ? "#0000cc" : "black";
+    });
   }, [selectedArtistId, data]);
 
   return (
