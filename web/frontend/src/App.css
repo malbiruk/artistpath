@@ -279,26 +279,17 @@ body {
     visibility: hidden;
 }
 
-.loading-dots {
-    animation: dot-cycle 1.2s steps(3) infinite;
-}
-
-@keyframes dot-cycle {
-    0% {
-    }
-}
-
 .loading-dots:nth-child(1) {
     animation-delay: 0s;
 }
 .loading-dots .dot-1 {
-    animation: show-dot-1 1.2s steps(3) infinite;
+    animation: show-dot-1 3s steps(3) infinite;
 }
 .loading-dots .dot-2 {
-    animation: show-dot-2 1.2s steps(3) infinite;
+    animation: show-dot-2 3s steps(3) infinite;
 }
 .loading-dots .dot-3 {
-    animation: show-dot-3 1.2s steps(3) infinite;
+    animation: show-dot-3 3s steps(3) infinite;
 }
 
 @keyframes show-dot-1 {
@@ -307,8 +298,12 @@ body {
         visibility: visible;
     }
     33.34%,
+    66.66% {
+        visibility: visible;
+    }
+    66.67%,
     100% {
-        visibility: hidden;
+        visibility: visible;
     }
 }
 
@@ -323,12 +318,16 @@ body {
     }
     66.67%,
     100% {
-        visibility: hidden;
+        visibility: visible;
     }
 }
 
 @keyframes show-dot-3 {
     0%,
+    33.33% {
+        visibility: hidden;
+    }
+    33.34%,
     66.66% {
         visibility: hidden;
     }
