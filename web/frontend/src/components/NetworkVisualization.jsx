@@ -44,10 +44,13 @@ function NetworkVisualization({
 
     const g = svg.append("g");
 
+    // Calculate zoom extent based on node count
+    const minZoom = Math.max(0.005, Math.min(0.5, 2 / Math.sqrt(nodes.length)));
+
     // Add zoom behavior
     const zoom = d3
       .zoom()
-      .scaleExtent([0.05, 3])
+      .scaleExtent([minZoom, 3])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
       });
