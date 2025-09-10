@@ -218,6 +218,25 @@ body {
     color: black;
 }
 
+.force-render-button {
+    color: #cc0000;
+    font-size: clamp(10px, 1.1vw, 12px);
+    padding: 0.05rem 0.2rem;
+    font-family: inherit;
+    background: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.force-render-button:hover {
+    background: #cc0000;
+    color: white;
+}
+
+.mobile-break {
+    display: none;
+}
+
 .stats {
     font-size: 10px;
     color: black;
@@ -466,6 +485,14 @@ body {
 
     .visualization p.help-message {
         font-size: 11px;
+    }
+
+    .force-render-button {
+        font-size: 12px;
+    }
+
+    .mobile-break {
+        display: inline;
     }
 
     .footer {

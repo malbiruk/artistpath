@@ -50,6 +50,7 @@ function App() {
   const [isArtistCardOpen, setIsArtistCardOpen] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const isAudioPlayingRef = useRef(false);
+  const [forceRender, setForceRender] = useState(false);
 
   const swapArtists = () => {
     const tempFrom = fromArtist;
@@ -162,6 +163,21 @@ function App() {
     setNetworkData(null);
     setCurrentlyShown(0);
     setStatusInfo("");
+  };
+
+  // Helper to determine if we should show status info
+  const shouldShowStatusInfo = () => {
+    if (!networkData?.nodes?.length) return true; // Always show for no data
+
+    const nodeCount = networkData.nodes.length;
+    const edgeCount = networkData.edges.length;
+
+    // If network is large and not force rendered, don't show status
+    if ((nodeCount > 500 || edgeCount > 2000) && !forceRender) {
+      return false;
+    }
+
+    return true; // Show status in all other cases
   };
 
   const handleArtistClick = (node) => {
@@ -292,15 +308,26 @@ function App() {
       const nodeCount = networkData.nodes.length;
       const edgeCount = networkData.edges.length;
 
-      // Network too large
-      if (nodeCount > 500 || edgeCount > 2000) {
+      // Network too large (unless forced)
+      if ((nodeCount > 500 || edgeCount > 2000) && !forceRender) {
         return (
           <>
             <p>
-              network too large to display ({nodeCount.toLocaleString()}{" "}
+              network too large to display
+              <br className="mobile-break" /> ({nodeCount.toLocaleString()}{" "}
               artists, {edgeCount.toLocaleString()} connections)
             </p>
-            <p>reduce parameters to avoid tab crash</p>
+            <p>
+              <br className="mobile-break" />
+              reduce parameters or{" "}
+              <button
+                onClick={() => setForceRender(true)}
+                className="force-render-button"
+              >
+                force render
+              </button>
+              <br className="mobile-break" /> (may crash tab)
+            </p>
           </>
         );
       }
@@ -333,7 +360,7 @@ function App() {
   // Trigger exploration/pathfinding when artists change
   useEffect(() => {
     const abortController = new AbortController();
-    
+
     const performSearch = async () => {
       if (!fromArtist && !toArtist) {
         resetSearch();
@@ -342,7 +369,8 @@ function App() {
 
       setIsLoading(true);
       setIsError(false);
-      setStatusInfo("");  // Clear status during search
+      setStatusInfo(""); // Clear status during search
+      setForceRender(false); // Reset force render on new search
 
       // Convert frontend algorithm to backend algorithm
       const backendAlgorithm = algorithm === "weighted" ? "dijkstra" : "bfs";
@@ -357,7 +385,7 @@ function App() {
             maxRelations,
             minSimilarity,
             backendAlgorithm,
-            abortController.signal
+            abortController.signal,
           );
         } else if (!fromArtist && toArtist) {
           // Single artist - reverse exploration (from "to" field)
@@ -367,7 +395,7 @@ function App() {
             maxRelations,
             minSimilarity,
             backendAlgorithm,
-            abortController.signal
+            abortController.signal,
           );
         } else if (fromArtist && toArtist) {
           // Two artists - find path
@@ -378,7 +406,7 @@ function App() {
             maxRelations,
             maxArtists,
             backendAlgorithm,
-            abortController.signal
+            abortController.signal,
           );
         }
 
@@ -390,7 +418,9 @@ function App() {
         // Don't show error if request was cancelled
         if (!abortController.signal.aborted) {
           const errorMessage =
-            fromArtist && toArtist ? "pathfinding failed" : "exploration failed";
+            fromArtist && toArtist
+              ? "pathfinding failed"
+              : "exploration failed";
           handleSearchError(errorMessage);
         }
       } finally {
@@ -477,7 +507,10 @@ function App() {
 
       <main className="main">
         <div className="visualization" onClick={handleClickAway}>
-          <div className="settings-overlay" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="settings-overlay"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="setting">
               <label>algorithm:</label>
               <button
@@ -540,7 +573,7 @@ function App() {
       <footer className="footer">
         <div className="footer-left">
           <span className={`status-info ${isError ? "error" : ""}`}>
-            {statusInfo}
+            {shouldShowStatusInfo() ? statusInfo : ""}
           </span>
           <div className="mobile-stats">
             <div>total artists: {totalArtists.toLocaleString()}</div>
@@ -561,7 +594,7 @@ function App() {
       <div className="mobile-footer-container">
         <div className="mobile-status-stats">
           <span className={`status-info ${isError ? "error" : ""}`}>
-            {statusInfo}
+            {shouldShowStatusInfo() ? statusInfo : ""}
           </span>
           <div className="mobile-stats">
             <div>total artists: {totalArtists.toLocaleString()}</div>
