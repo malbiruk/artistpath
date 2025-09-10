@@ -550,8 +550,8 @@ function App() {
             <div className="setting">
               <label>max artists:</label>
               <NumberInput
-                min={10}
-                max={500}
+                min={5}
+                max={9999}
                 value={maxArtists}
                 onChange={(value) => setMaxArtists(value)}
                 className="setting-input"
