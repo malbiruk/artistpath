@@ -1,0 +1,13 @@
+[project]
+name = "experiments"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter>=1.1.1",
+    "numpy>=2.3.3",
+    "pandas>=2.3.2",
+    "plotly>=6.3.0",
+    "psutil>=7.1.0",
+    "rich>=14.1.0",
+    "scipy>=1.16.2",
+]

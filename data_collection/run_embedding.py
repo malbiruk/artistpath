@@ -314,7 +314,7 @@ def apply_pacmap_2d(embeddings_128d):
     # PaCMAP with memory-efficient settings
     reducer = pacmap.PaCMAP(
         n_components=2,
-        # n_neighbors=10,      # Lower than UMAP default (15)
+        # n_neighbors=10,
         # MN_ratio=0.5,        # Controls global vs local structure balance
         # FP_ratio=2.0,        # Further pair ratio
         random_state=RANDOM_STATE,
