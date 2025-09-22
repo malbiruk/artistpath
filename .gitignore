@@ -5,6 +5,7 @@ data/*
 !data/.gitkeep
 __pycache__
 .claude
+graph_analysis_report_files
 
 # Frontend
 node_modules/

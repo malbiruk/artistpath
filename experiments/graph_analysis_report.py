@@ -4,35 +4,25 @@
 title: Last.fm Artist Similarity Graph Analysis
 subtitle: Network Structure and Distribution Analysis
 author: Klim Kostiuk
-date: 21/09/2025
+date: 09/23/2025
 format:
   html:
     code-fold: true
-    code-summary: "Show code"
-    toc: true
-    toc-depth: 3
-    toc-float: true
-    number-sections: true
-    theme: cosmo
-    fig-width: 10
-    fig-height: 6
-    fig-align: center
-  pdf:
-    documentclass: article
-    geometry: margin=1in
-    fig-format: png
-    fig-dpi: 300
-    toc: true
-execute:
-  warning: false
-  message: false
+    self-contained: true
 jupyter: python3
 ---
+
+<style>
+#tbl-network-metrics caption,
+.quarto-figure-center > figcaption,
+.table caption {
+  text-align: left;
+}
+</style>
 """
 
 # %%
 # | label: setup
-# | include: false
 import gzip
 import json
 import pickle
@@ -42,7 +32,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from IPython.display import HTML, display
+from IPython.display import HTML, Markdown, display
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
 
@@ -88,89 +78,34 @@ This report analyzes the structure of a large-scale music artist similarity grap
 
 # %%
 # | label: basic-stats
-# | fig-cap: "Basic graph statistics"
+# | tbl-cap: "Basic graph statistics"
 
-# Create overview cards
-fig = go.Figure()
+# Create DataFrame for basic statistics
+stats_data = {
+    "Metric": [
+        "Total Nodes",
+        "Total Edges",
+        "Source Nodes",
+        "Graph Density",
+        "Reciprocity",
+        "Average Degree",
+    ],
+    "Value": [
+        f"{dataset_info['nodes']:,}",
+        f"{dataset_info['edges']:,}",
+        f"{dataset_info['source_nodes']:,}",
+        f"{basic_metrics['density']:.2e}",
+        f"{basic_metrics['reciprocity']:.1%}",
+        f"{degree_stats['out_degree']['mean']:.1f}",
+    ],
+}
 
-# Create text annotations for key metrics
-annotations = [
-    dict(
-        text=f"<b>Total Nodes</b><br>{dataset_info['nodes']:,}",
-        x=0.2,
-        y=0.7,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-    dict(
-        text=f"<b>Total Edges</b><br>{dataset_info['edges']:,}",
-        x=0.5,
-        y=0.7,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-    dict(
-        text=f"<b>Source Nodes</b><br>{dataset_info['source_nodes']:,}",
-        x=0.8,
-        y=0.7,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-    dict(
-        text=f"<b>Graph Density</b><br>{basic_metrics['density']:.2e}",
-        x=0.2,
-        y=0.3,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-    dict(
-        text=f"<b>Reciprocity</b><br>{basic_metrics['reciprocity']:.1%}",
-        x=0.5,
-        y=0.3,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-    dict(
-        text=f"<b>Avg Degree</b><br>{degree_stats['out_degree']['mean']:.1f}",
-        x=0.8,
-        y=0.3,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font=dict(size=18),
-        align="center",
-    ),
-]
-
-fig.update_layout(
-    annotations=annotations,
-    showlegend=False,
-    height=300,
-    title="Graph Statistics Overview",
-    xaxis=dict(visible=False),
-    yaxis=dict(visible=False),
-)
-
-fig.show()
+stats_df = pd.DataFrame(stats_data)
+display(HTML(stats_df.to_html(index=False)))
 
 # %% [markdown]
-f"""
-The graph contains **{dataset_info["nodes"]:,} nodes** (unique artists) connected by **{dataset_info["edges"]:,} edges** (similarity relationships). With a density of **{basic_metrics["density"]:.2e}**, this is an extremely sparse network, typical of real-world graphs.
+"""
+This is an extremely sparse network, typical of real-world graphs.
 
 ## Degree Distributions
 
@@ -181,7 +116,6 @@ The out-degree represents how many similar artists each node references.
 
 # %%
 # | label: out-degree-dist
-# | fig-cap: "Out-degree distribution with histogram, KDE, and rug plot"
 
 out_degrees = np.array(distributions["out_degrees"])
 
@@ -194,14 +128,14 @@ fig.add_trace(
         x=out_degrees,
         nbinsx=50,
         name="Histogram",
-        opacity=0.7,
+        opacity=0.5,
         histnorm="probability density",
         marker_color="lightseagreen",
     ),
 )
 
 # KDE
-kde = gaussian_kde(out_degrees, bw_method=0.3)
+kde = gaussian_kde(out_degrees, bw_method=0.1)
 x_range = np.linspace(out_degrees.min(), out_degrees.max(), 500)
 kde_values = kde(x_range)
 
@@ -215,57 +149,38 @@ fig.add_trace(
     ),
 )
 
-# Add rug plot
-sample_for_rug = np.random.choice(out_degrees, min(1000, len(out_degrees)), replace=False)
-fig.add_trace(
-    go.Scatter(
-        x=sample_for_rug,
-        y=np.zeros_like(sample_for_rug),
-        mode="markers",
-        name="Data points",
-        marker=dict(symbol="line-ns", size=8, color="steelblue", opacity=0.3),
-        yaxis="y2",
-    ),
-)
-
 fig.update_layout(
-    title=f"Out-Degree Distribution (μ={degree_stats['out_degree']['mean']:.1f}, σ={degree_stats['out_degree']['std']:.1f})",
     xaxis_title="Out-degree",
     yaxis_title="Density",
-    yaxis2=dict(
-        overlaying="y",
-        side="right",
-        range=[-0.01, 0.01],
-        showticklabels=False,
-        showgrid=False,
-    ),
     height=500,
-    showlegend=True,
+    showlegend=False,
+    yaxis=dict(range=[0, None]),
+    margin=dict(t=30),
 )
 
-# Add statistics annotation
+
+# Add statistics
 stats_text = f"Mean: {degree_stats['out_degree']['mean']:.1f}<br>"
 stats_text += f"Median: {degree_stats['out_degree']['median']:.0f}<br>"
-stats_text += f"Std: {degree_stats['out_degree']['std']:.1f}<br>"
+stats_text += f"Min: {degree_stats['out_degree']['min']:.0f}<br>"
+stats_text += f"Max: {degree_stats['out_degree']['max']:,}<br>"
 stats_text += f"Gini: {degree_stats['out_degree']['gini']:.3f}"
 
 fig.add_annotation(
     text=stats_text,
     xref="paper",
     yref="paper",
-    x=0.98,
-    y=0.98,
+    x=1.1,
+    y=1,
     showarrow=False,
-    bgcolor="rgba(255, 255, 255, 0.8)",
-    bordercolor="gray",
-    borderwidth=1,
     font=dict(size=12),
-    align="left",
+    align="right",
     xanchor="right",
     yanchor="top",
 )
 
 fig.show()
+
 
 # %% [markdown]
 """
@@ -276,31 +191,27 @@ The in-degree shows how many times each artist is referenced as similar by other
 
 # %%
 # | label: in-degree-dist
-# | fig-cap: "In-degree distribution with histogram, KDE, and rug plot"
 
 in_degrees = np.array(distributions["in_degrees"])
 
 # Create figure
 fig = go.Figure()
 
-# Limit display for better visualization (log scale will handle the full range)
-in_degrees_clipped = np.clip(in_degrees, 0, 1000)
-
 # Histogram
 fig.add_trace(
     go.Histogram(
-        x=in_degrees_clipped,
+        x=in_degrees,
         nbinsx=100,
         name="Histogram",
-        opacity=0.7,
+        opacity=0.5,
         histnorm="probability density",
         marker_color="plum",
     ),
 )
 
 # KDE
-kde = gaussian_kde(in_degrees_clipped, bw_method=0.3)
-x_range = np.linspace(in_degrees_clipped.min(), in_degrees_clipped.max(), 500)
+kde = gaussian_kde(in_degrees, bw_method=0.1)
+x_range = np.linspace(in_degrees.min(), in_degrees.max(), 500)
 kde_values = kde(x_range)
 
 fig.add_trace(
@@ -309,45 +220,23 @@ fig.add_trace(
         y=kde_values,
         mode="lines",
         name="KDE",
-        line=dict(color="lightcoral", width=3),
-    ),
-)
-
-# Add rug plot
-sample_for_rug = np.random.choice(
-    in_degrees_clipped,
-    min(1000, len(in_degrees_clipped)),
-    replace=False,
-)
-fig.add_trace(
-    go.Scatter(
-        x=sample_for_rug,
-        y=np.zeros_like(sample_for_rug),
-        mode="markers",
-        name="Data points",
-        marker=dict(symbol="line-ns", size=8, color="darkseagreen", opacity=0.3),
-        yaxis="y2",
+        line=dict(color="darksalmon", width=3),
     ),
 )
 
 fig.update_layout(
-    title=f"In-Degree Distribution (μ={degree_stats['in_degree']['mean']:.1f}, σ={degree_stats['in_degree']['std']:.1f})",
-    xaxis_title="In-degree (clipped at 1000 for visualization)",
+    xaxis_title="In-degree",
     yaxis_title="Density",
-    yaxis2=dict(
-        overlaying="y",
-        side="right",
-        range=[-0.001, 0.001],
-        showticklabels=False,
-        showgrid=False,
-    ),
     height=500,
-    showlegend=True,
+    showlegend=False,
+    yaxis=dict(range=[0, None]),
+    margin=dict(t=30),
 )
 
 # Add statistics
 stats_text = f"Mean: {degree_stats['in_degree']['mean']:.1f}<br>"
 stats_text += f"Median: {degree_stats['in_degree']['median']:.0f}<br>"
+stats_text += f"Min: {degree_stats['in_degree']['min']:,}<br>"
 stats_text += f"Max: {degree_stats['in_degree']['max']:,}<br>"
 stats_text += f"Gini: {degree_stats['in_degree']['gini']:.3f}"
 
@@ -355,14 +244,11 @@ fig.add_annotation(
     text=stats_text,
     xref="paper",
     yref="paper",
-    x=0.98,
-    y=0.98,
+    x=1.1,
+    y=1,
     showarrow=False,
-    bgcolor="rgba(255, 255, 255, 0.8)",
-    bordercolor="gray",
-    borderwidth=1,
     font=dict(size=12),
-    align="left",
+    align="right",
     xanchor="right",
     yanchor="top",
 )
@@ -378,14 +264,12 @@ Scale-free networks follow a power law distribution: P(k) ~ k^(-α)
 
 # %%
 # | label: power-law-fits
-# | fig-cap: "Power law fits for degree distributions (log-log scale)"
 
 # Create subplots
 fig = make_subplots(
     rows=1,
     cols=2,
     subplot_titles=("Out-Degree Power Law", "In-Degree Power Law"),
-    horizontal_spacing=0.12,
 )
 
 # Out-degree power law
@@ -409,7 +293,7 @@ if "out_degree_fit" in power_law_fits:
             y=counts_out,
             mode="markers",
             name="Actual",
-            marker=dict(color="lightseagreen", size=8, opacity=0.6),
+            marker=dict(color="lightseagreen", size=8, opacity=0.5),
         ),
         row=1,
         col=1,
@@ -425,23 +309,26 @@ if "out_degree_fit" in power_law_fits:
             y=y_fit,
             mode="lines",
             name=f"Fit (α={fit['alpha']:.3f})",
-            line=dict(color="red", width=2, dash="dash"),
+            line=dict(color="darksalmon", width=3, dash="dash"),
         ),
         row=1,
         col=1,
     )
 
-    # Add R² annotation
+    # Add annotations
+    annotation_text = f"R² = {fit['r_squared']:.4f}<br>"
+    annotation_text += f"α = {fit['alpha']:.4f}"
+
     fig.add_annotation(
-        text=f"R² = {fit['r_squared']:.4f}",
-        xref="x",
-        yref="y",
-        x=fit["fit_range"][1] * 0.1,
-        y=counts_out.max() * 0.1 if len(counts_out) > 0 else 1,
+        text=annotation_text,
+        xref="x domain",
+        yref="y domain",
+        x=0.3,
+        y=0.98,
+        bgcolor="#fafafa",
         showarrow=False,
-        bgcolor="white",
-        row=1,
-        col=1,
+        xanchor="right",
+        yanchor="top",
     )
 
 # In-degree power law
@@ -465,7 +352,7 @@ if "in_degree_fit" in power_law_fits:
             y=counts_in,
             mode="markers",
             name="Actual",
-            marker=dict(color="plum", size=8, opacity=0.6),
+            marker=dict(color="plum", size=8, opacity=0.5),
             showlegend=False,
         ),
         row=1,
@@ -482,24 +369,27 @@ if "in_degree_fit" in power_law_fits:
             y=y_fit,
             mode="lines",
             name=f"Fit (α={fit['alpha']:.3f})",
-            line=dict(color="red", width=2, dash="dash"),
+            line=dict(color="darksalmon", width=3, dash="dash"),
             showlegend=False,
         ),
         row=1,
         col=2,
     )
 
-    # Add R² annotation
+    # Add annotations
+    annotation_text = f"R² = {fit['r_squared']:.4f}<br>"
+    annotation_text += f"α = {fit['alpha']:.4f}"
+
     fig.add_annotation(
-        text=f"R² = {fit['r_squared']:.4f}",
-        xref="x2",
-        yref="y2",
-        x=fit["fit_range"][1] * 0.1,
-        y=counts_in.max() * 0.1 if len(counts_in) > 0 else 1,
+        text=annotation_text,
+        xref="x2 domain",
+        yref="y2 domain",
+        x=0.3,
+        y=0.98,
         showarrow=False,
-        bgcolor="white",
-        row=1,
-        col=2,
+        bgcolor="#fafafa",
+        xanchor="right",
+        yanchor="top",
     )
 
 # Update axes to log scale
@@ -508,7 +398,7 @@ fig.update_xaxes(type="log", title="Degree (k)", row=1, col=2)
 fig.update_yaxes(type="log", title="Frequency P(k)", row=1, col=1)
 fig.update_yaxes(type="log", title="Frequency P(k)", row=1, col=2)
 
-fig.update_layout(height=500, title_text="Power Law Distribution Analysis", showlegend=True)
+fig.update_layout(height=500, showlegend=False, margin=dict(t=40))
 
 fig.show()
 
@@ -519,7 +409,6 @@ fig.show()
 
 # %%
 # | label: weight-dist
-# | fig-cap: "Distribution of edge weights (similarity scores)"
 
 weights = np.array(distributions["weights"])
 
@@ -532,7 +421,7 @@ fig.add_trace(
         x=weights,
         nbinsx=100,
         name="Histogram",
-        opacity=0.7,
+        opacity=0.5,
         histnorm="probability density",
         marker_color="skyblue",
     ),
@@ -549,119 +438,42 @@ fig.add_trace(
         y=kde_values,
         mode="lines",
         name="KDE",
-        line=dict(color="darkgray", width=3),
+        line=dict(color="darksalmon", width=3),
     ),
 )
-
-# Add rug plot
-sample_for_rug = np.random.choice(weights, min(1000, len(weights)), replace=False)
-fig.add_trace(
-    go.Scatter(
-        x=sample_for_rug,
-        y=np.zeros_like(sample_for_rug),
-        mode="markers",
-        name="Data points",
-        marker=dict(symbol="line-ns", size=8, color="mediumturquoise", opacity=0.3),
-        yaxis="y2",
-    ),
-)
-
-# Add quartile lines
-quartiles = [0.25, 0.5, 0.75]
-colors = ["green", "orange", "red"]
-for q, color in zip(quartiles, colors):
-    q_value = np.percentile(weights, q * 100)
-    fig.add_vline(
-        x=q_value,
-        line_dash="dot",
-        line_color=color,
-        annotation_text=f"Q{int(q * 100)}: {q_value:.3f}",
-        annotation_position="top",
-    )
 
 fig.update_layout(
-    title=f"Edge Weight Distribution (n={len(weights):,} sampled edges)",
-    xaxis_title="Weight (Similarity Score)",
+    xaxis_title="Similarity Score (1 - Weight)",
     yaxis_title="Density",
-    yaxis2=dict(
-        overlaying="y",
-        side="right",
-        range=[-0.5, 0.5],
-        showticklabels=False,
-        showgrid=False,
-    ),
     height=500,
-    showlegend=True,
+    showlegend=False,
+    yaxis=dict(range=[0, None]),
+    margin=dict(t=30),
 )
 
 # Add statistics
 stats_text = f"Mean: {weight_stats['mean']:.3f}<br>"
 stats_text += f"Median: {weight_stats['median']:.3f}<br>"
 stats_text += f"Std: {weight_stats['std']:.3f}<br>"
-stats_text += f"Range: [{weight_stats['min']:.4f}, {weight_stats['max']:.3f}]"
+stats_text += f"Min: {weight_stats['min']:.4f}<br>"
+stats_text += f"Max: {weight_stats['max']:.4f}<br>"
+
 
 fig.add_annotation(
     text=stats_text,
     xref="paper",
     yref="paper",
-    x=0.98,
-    y=0.98,
+    x=1.1,
+    y=1,
     showarrow=False,
-    bgcolor="rgba(255, 255, 255, 0.8)",
-    bordercolor="gray",
-    borderwidth=1,
     font=dict(size=12),
-    align="left",
+    align="right",
     xanchor="right",
     yanchor="top",
 )
 
 fig.show()
 
-# %% [markdown]
-"""
-## Reciprocity Analysis
-"""
-
-# %%
-# | label: reciprocity-viz
-# | fig-cap: "Edge reciprocity in the graph"
-
-# Create pie chart for reciprocity
-# Calculate from percentage
-reciprocity_rate = basic_metrics["reciprocity"]
-total_edges = dataset_info["edges"]
-reciprocal_edges = int(total_edges * reciprocity_rate)
-non_reciprocal = total_edges - reciprocal_edges
-
-fig = go.Figure(
-    data=[
-        go.Pie(
-            labels=["Reciprocal Edges", "Non-reciprocal Edges"],
-            values=[reciprocal_edges, non_reciprocal],
-            hole=0.3,
-            marker_colors=["lightcoral", "lightsteelblue"],
-            textinfo="label+percent",
-            textposition="auto",
-        ),
-    ],
-)
-
-fig.update_layout(
-    title=f"Edge Reciprocity: {basic_metrics['reciprocity']:.1%} of edges are bidirectional",
-    height=400,
-    annotations=[
-        dict(
-            text=f"{basic_metrics['reciprocity']:.1%}<br>Reciprocal",
-            x=0.5,
-            y=0.5,
-            font_size=20,
-            showarrow=False,
-        ),
-    ],
-)
-
-fig.show()
 
 # %% [markdown]
 """
@@ -670,11 +482,10 @@ fig.show()
 
 # %%
 # | label: top-nodes-table
-# | tbl-cap: "Most connected artists in the network"
 
 # Create DataFrame for top nodes
 top_in = pd.DataFrame(
-    metrics["top_nodes"]["top_by_in_degree"][:10],
+    metrics["top_nodes"]["top_by_in_degree"][1:11],
     columns=["Artist", "In-Degree"],
 )
 top_out = pd.DataFrame(
@@ -686,11 +497,11 @@ top_out = pd.DataFrame(
 html = f"""
 <div style="display: flex; justify-content: space-around;">
     <div style="width: 45%;">
-        <h4>Top by In-Degree (Most Referenced)</h4>
+        <p style="font-size: .9rem; color: #5a6570; padding-top: .5rem; margin-bottom: -.2rem;">Top by In-Degree (Most Referenced)</p>
         {top_in.to_html(index=False)}
     </div>
     <div style="width: 45%;">
-        <h4>Top by Out-Degree (Most Connections Listed)</h4>
+        <p style="font-size: .9rem; color: #5a6570; padding-top: .5rem; margin-bottom: -.2rem;">Top by Out-Degree (Most Connections Listed)</p>
         {top_out.to_html(index=False)}
     </div>
 </div>
@@ -698,8 +509,12 @@ html = f"""
 
 display(HTML(html))
 
-# %% [markdown]
-f"""
+# %%
+# | label: key-insights
+# | echo: false
+
+display(
+    Markdown(f"""
 ## Key Insights
 
 ### Network Type
@@ -719,4 +534,5 @@ f"""
 ## Methodology
 
 Data collected from Last.fm API for {dataset_info["nodes"]:,} artists. Analysis performed using streaming algorithms to handle the large graph size with memory constraints. Distributions sampled at 10% for weight analysis.
-"""
+"""),
+)
