@@ -1,0 +1,254 @@
+{
+  "dataset_size": {
+    "full": {
+      "nodes": 850742,
+      "edges": 114295148,
+      "source_nodes": 850263,
+      "max_edges_per_node": 250
+    },
+    "subgraph": {
+      "nodes": 170052,
+      "edges": 26650666,
+      "source_nodes": 170933,
+      "max_edges_per_node": 250
+    },
+    "ratios": {
+      "nodes": 0.19988668715074606,
+      "edges": 0.23317408014555438
+    }
+  },
+  "degree_stats": {
+    "out_degree": {
+      "full": {
+        "mean": 134.55,
+        "median": 146.0,
+        "std": 64.45927784268142,
+        "min": 1,
+        "max": 250,
+        "q25": 91.0,
+        "q75": 187.0,
+        "gini": 0.27187976480564835,
+        "sample_size": 100000
+      },
+      "subgraph": {
+        "mean": 155.77107,
+        "median": 161.0,
+        "std": 52.863284243935325,
+        "min": 1,
+        "max": 249,
+        "q25": 118.0,
+        "q75": 199.0,
+        "gini": 0.19335566523296,
+        "sample_size": 100000
+      },
+      "differences": {
+        "mean": 15.771884057971011,
+        "median": 10.273972602739725,
+        "std": 17.989642432928186,
+        "gini": 28.881921252514264
+      }
+    },
+    "in_degree": {
+      "full": {
+        "mean": 134.3476024458649,
+        "median": 51.0,
+        "std": 213.15655588365948,
+        "min": 1,
+        "max": 4970,
+        "q25": 12.0,
+        "q75": 157.0,
+        "gini": 0.670920801243815,
+        "full_count": 850742
+      },
+      "subgraph": {
+        "mean": 156.72068543739562,
+        "median": 109.0,
+        "std": 152.4842676478875,
+        "min": 1,
+        "max": 1856,
+        "q25": 51.0,
+        "q75": 210.0,
+        "gini": 0.48092944858457876,
+        "full_count": 170052
+      },
+      "differences": {
+        "mean": 16.65313156633807,
+        "median": 113.72549019607843,
+        "std": 28.463721410889576,
+        "gini": 28.318000024296868
+      }
+    }
+  },
+  "statistical_tests": {
+    "out_degrees": {
+      "ks_test": {
+        "statistic": 0.1286,
+        "p_value": 1.9138732205494598e-72,
+        "significant": true,
+        "interpretation": "Distributions differ"
+      },
+      "mann_whitney": {
+        "statistic": 41042182.5,
+        "p_value": 1.0364409001186301e-106,
+        "significant": true,
+        "interpretation": "Central tendencies differ"
+      },
+      "levene": {
+        "statistic": 390.29242380750566,
+        "p_value": 4.729623275257222e-86,
+        "significant": true,
+        "interpretation": "Variances differ"
+      },
+      "effect_size": {
+        "cohens_d": 0.37495320125830284,
+        "interpretation": "Small"
+      }
+    },
+    "in_degrees": {
+      "ks_test": {
+        "statistic": 0.2673,
+        "p_value": 1.628707587e-314,
+        "significant": true,
+        "interpretation": "Distributions differ"
+      },
+      "mann_whitney": {
+        "statistic": 35140127.0,
+        "p_value": 4.393399568777829e-290,
+        "significant": true,
+        "interpretation": "Central tendencies differ"
+      },
+      "levene": {
+        "statistic": 21.3013989380201,
+        "p_value": 3.948824324902156e-06,
+        "significant": true,
+        "interpretation": "Variances differ"
+      },
+      "effect_size": {
+        "cohens_d": 0.13968951697307688,
+        "interpretation": "Negligible"
+      }
+    },
+    "weights": {
+      "ks_test": {
+        "statistic": 0.1808,
+        "p_value": 3.6270435318977934e-143,
+        "significant": true,
+        "interpretation": "Distributions differ"
+      },
+      "mann_whitney": {
+        "statistic": 41497846.0,
+        "p_value": 2.546850789543601e-96,
+        "significant": true,
+        "interpretation": "Central tendencies differ"
+      },
+      "levene": {
+        "statistic": 22.936572185605232,
+        "p_value": 1.6863475409487308e-06,
+        "significant": true,
+        "interpretation": "Variances differ"
+      },
+      "effect_size": {
+        "cohens_d": 0.09495942264729146,
+        "interpretation": "Negligible"
+      }
+    }
+  },
+  "power_law_fits": {
+    "full": {
+      "out_degree_fit": {
+        "alpha": -0.03450589747708896,
+        "intercept": 2.4673436743202033,
+        "r_squared": 0.001991186105874314,
+        "fit_range": [
+          1.0,
+          250.0
+        ],
+        "n_points": 249
+      },
+      "in_degree_fit": {
+        "alpha": 2.173977669808196,
+        "intercept": 7.777799645365795,
+        "r_squared": 0.8573897338378603,
+        "fit_range": [
+          1.0,
+          4970.0
+        ],
+        "n_points": 2113
+      }
+    },
+    "subgraph": {
+      "out_degree_fit": {
+        "alpha": -1.0034237583403312,
+        "intercept": 0.46738209536154907,
+        "r_squared": 0.7290558301810555,
+        "fit_range": [
+          1.0,
+          249.0
+        ],
+        "n_points": 249
+      },
+      "in_degree_fit": {
+        "alpha": 1.8625988454212103,
+        "intercept": 6.327944291627635,
+        "r_squared": 0.7524240884754847,
+        "fit_range": [
+          1.0,
+          1856.0
+        ],
+        "n_points": 1164
+      }
+    },
+    "differences": {
+      "out_degree_fit": {
+        "alpha": 2807.977568201433,
+        "r_squared": 36514.14812157565
+      },
+      "in_degree_fit": {
+        "alpha": 14.323000126052701,
+        "r_squared": 12.242465849518268
+      }
+    }
+  },
+  "basic_metrics": {
+    "full": {
+      "density": 0.0001579183352464086,
+      "reciprocity": 0.7071,
+      "reciprocity_sample_size": 1000000
+    },
+    "subgraph": {
+      "density": 0.00092160990195527,
+      "reciprocity": 0.71301,
+      "reciprocity_sample_size": 1000000
+    },
+    "differences": {
+      "density": 483.59904853178176,
+      "reciprocity": 0.8358082308018784
+    }
+  },
+  "assessment": {
+    "details": [
+      {
+        "metric": "degree_mean",
+        "difference": 15.771884057971011,
+        "status": "warning"
+      },
+      {
+        "metric": "degree_std",
+        "difference": 17.989642432928186,
+        "status": "warning"
+      },
+      {
+        "metric": "degree_gini",
+        "difference": 28.881921252514264,
+        "status": "poor"
+      },
+      {
+        "metric": "reciprocity",
+        "difference": 0.8358082308018784,
+        "status": "good"
+      }
+    ],
+    "average_difference": 15.869813993553835,
+    "overall": "good"
+  }
+}

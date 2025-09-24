@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 
 import numpy as np
+import numpy.typing as npt
 import psutil
 from rich.console import Console
 from rich.panel import Panel
@@ -34,15 +35,15 @@ MAX_EDGES_PER_NODE = 250
 class ChunkedFastRP:
     """Out-of-core FastRP implementation using chunked matrix operations."""
 
-    def __init__(self, dim=FASTRP_DIM, projection_method=FASTRP_PROJECTION):
-        self.dim = dim
-        self.projection_method = projection_method
-        self.transformer = None
-        self.node_to_idx = {}
-        self.idx_to_node = {}
-        self.n_nodes = 0
+    def __init__(self, dim: int = FASTRP_DIM, projection_method: str = FASTRP_PROJECTION) -> None:
+        self.dim: int = dim
+        self.projection_method: str = projection_method
+        self.transformer: random_projection.SparseRandomProjection | None = None
+        self.node_to_idx: dict[str, int] = {}
+        self.idx_to_node: dict[int, str] = {}
+        self.n_nodes: int = 0
 
-    def build_graph_index(self, graph_path: Path):
+    def build_graph_index(self, graph_path: Path) -> None:
         """First pass: build node index without loading full graph."""
         console.print("[cyan]Building node index...")
 
@@ -74,7 +75,12 @@ class ChunkedFastRP:
         self.idx_to_node = {idx: node_id for node_id, idx in self.node_to_idx.items()}
         console.print(f"[green]✓ Indexed {self.n_nodes:,} unique nodes")
 
-    def load_graph_chunk(self, graph_path: Path, start_idx: int, chunk_size: int):
+    def load_graph_chunk(
+        self,
+        graph_path: Path,
+        start_idx: int,
+        chunk_size: int,
+    ) -> tuple[coo_matrix | None, list[int]]:
         """Load a chunk of the graph as sparse matrix."""
         edges = []
         weights = []
@@ -117,7 +123,7 @@ class ChunkedFastRP:
 
         return None, []
 
-    def initialize_projection(self, sample_matrix):
+    def initialize_projection(self, sample_matrix: coo_matrix) -> None:
         """Initialize and fit the random projection transformer."""
         console.print("[cyan]Initializing random projection...")
 
@@ -136,7 +142,11 @@ class ChunkedFastRP:
         self.transformer.fit(sample_matrix)
         console.print(f"[green]✓ Projection initialized with {self.dim} dimensions")
 
-    def compute_embeddings_chunked(self, graph_path: Path, chunk_size: int = 50000):  # noqa: C901, PLR0912
+    def compute_embeddings_chunked(
+        self,
+        graph_path: Path,
+        chunk_size: int = 50000,
+    ) -> npt.NDArray[np.float32]:
         """Compute FastRP embeddings using chunked processing."""
 
         # Memory-mapped array for storing embeddings
@@ -264,7 +274,7 @@ class ChunkedFastRP:
         console.print("[cyan]Merging embeddings from different powers...")
         return self.merge_embeddings(u_list)
 
-    def merge_embeddings(self, u_list):
+    def merge_embeddings(self, u_list: list[npt.NDArray[np.float32]]) -> npt.NDArray[np.float32]:
         """Merge embeddings from different matrix powers."""
         # Apply normalization if requested
         if FASTRP_NORMALIZE:
@@ -281,7 +291,7 @@ class ChunkedFastRP:
         return scale(u_final)
 
 
-def apply_pacmap_2d(embeddings_128d):
+def apply_pacmap_2d(embeddings_128d: npt.NDArray[np.float32]) -> npt.NDArray[np.float32]:
     """Apply PCA then PaCMAP to reduce embeddings to 2D."""
 
     # First apply PCA to reduce dimensionality for PaCMAP memory efficiency
@@ -327,11 +337,11 @@ def apply_pacmap_2d(embeddings_128d):
 
 
 def save_embeddings(
-    embeddings_128d,
-    embeddings_2d,
-    node_names,
+    embeddings_128d: npt.NDArray[np.float32],
+    embeddings_2d: npt.NDArray[np.float32],
+    node_names: list[str],
     output_dir: Path,
-):
+) -> None:
     """Save both 128D and 2D embeddings."""
     output_dir.mkdir(exist_ok=True)
 
@@ -371,7 +381,7 @@ def save_embeddings(
     console.print(f"  Binary: {binary_path}")
 
 
-def main():
+def main() -> None:
     """Main chunked FastRP pipeline."""
 
     data_dir = Path("../data")

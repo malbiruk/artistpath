@@ -9,8 +9,10 @@ import random
 import time
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 import numpy as np
+import numpy.typing as npt
 import psutil
 from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
@@ -25,12 +27,12 @@ RESERVOIR_SIZE = 100000  # Max samples to keep in memory
 class ReservoirSampler:
     """Reservoir sampling for memory-bounded distribution collection."""
 
-    def __init__(self, size=RESERVOIR_SIZE):
+    def __init__(self, size: int = RESERVOIR_SIZE) -> None:
         self.size = size
         self.reservoir = []
         self.n = 0
 
-    def add(self, item):
+    def add(self, item: object) -> None:
         """Add item using reservoir sampling algorithm."""
         self.n += 1
         if len(self.reservoir) < self.size:
@@ -41,7 +43,7 @@ class ReservoirSampler:
             if j < self.size:
                 self.reservoir[j] = item
 
-    def get_samples(self):
+    def get_samples(self) -> list[object]:
         """Get collected samples."""
         return self.reservoir
 
@@ -49,31 +51,35 @@ class ReservoirSampler:
 class StreamingGraphMetrics:
     """Memory-efficient streaming graph metrics with reservoir sampling."""
 
-    def __init__(self, graph_path: Path, metadata_path: Path):
-        self.graph_path = graph_path
-        self.metadata_path = metadata_path
+    def __init__(self, graph_path: Path, metadata_path: Path | None) -> None:
+        self.graph_path: Path = graph_path
+        self.metadata_path: Path | None = metadata_path
 
         # Reservoir samplers for distributions
-        self.out_degree_sampler = ReservoirSampler(RESERVOIR_SIZE)
-        self.in_degree_counter = defaultdict(int)  # Need full counter for accurate top nodes
-        self.weight_sampler = ReservoirSampler(RESERVOIR_SIZE)  # Same size as other samplers
+        self.out_degree_sampler: ReservoirSampler = ReservoirSampler(RESERVOIR_SIZE)
+        self.in_degree_counter: dict[str, int] = defaultdict(
+            int,
+        )  # Need full counter for accurate top nodes
+        self.weight_sampler: ReservoirSampler = ReservoirSampler(
+            RESERVOIR_SIZE,
+        )  # Same size as other samplers
 
         # For reciprocity - we'll do a second pass on a sample
-        self.edges_for_reciprocity = []  # Sample of edges to check
-        self.reciprocity_sample_size = min(1000000, RESERVOIR_SIZE * 10)  # 1M edges to check
+        self.edges_for_reciprocity: list[tuple[str, str]] = []  # Sample of edges to check
+        self.reciprocity_sample_size: int = min(1000000, RESERVOIR_SIZE * 10)  # 1M edges to check
 
         # Basic counters
-        self.num_edges = 0
-        self.num_source_nodes = 0
-        self.nodes_seen = set()
+        self.num_edges: int = 0
+        self.num_source_nodes: int = 0
+        self.nodes_seen: set[str] = set()
 
         # Top node tracking
-        self.top_out_degrees = []  # [(degree, node_id)]
-        self.top_k = 100
+        self.top_out_degrees: list[tuple[int, str]] = []  # [(degree, node_id)]
+        self.top_k: int = 100
 
         random.seed(42)
 
-    def process_graph(self):
+    def process_graph(self) -> None:
         """Single streaming pass through graph."""
         console.print("[cyan]Processing graph with reservoir sampling...")
 
@@ -145,7 +151,7 @@ class StreamingGraphMetrics:
             f"[green]✓ Processed {len(self.nodes_seen):,} nodes, {self.num_edges:,} edges",
         )
 
-    def calculate_reciprocity(self):
+    def calculate_reciprocity(self) -> float:
         """Second pass to calculate reciprocity from edge sample."""
         console.print("\n[cyan]Calculating reciprocity from edge sample...")
 
@@ -193,9 +199,9 @@ class StreamingGraphMetrics:
         )
         return reciprocity
 
-    def calculate_power_law_fits(self):
+    def calculate_power_law_fits(self) -> dict[str, dict[str, Any]]:
         """Calculate power law fits from sampled distributions."""
-        results = {}
+        results: dict[str, dict[str, Any]] = {}
 
         # Out-degree power law from samples
         out_degrees = np.array(self.out_degree_sampler.get_samples())
@@ -261,7 +267,7 @@ class StreamingGraphMetrics:
 
         return results
 
-    def get_basic_stats(self, reciprocity):
+    def get_basic_stats(self, reciprocity: float) -> dict[str, Any]:
         """Calculate basic statistics from samples."""
         out_degrees = np.array(self.out_degree_sampler.get_samples())
         in_degrees = np.array(list(self.in_degree_counter.values()))
@@ -317,10 +323,8 @@ class StreamingGraphMetrics:
             },
         }
 
-    def get_top_nodes(self, n=20):
+    def get_top_nodes(self, n: int = 20) -> dict[str, list[tuple[str, int]]]:
         """Get top nodes by degree with names."""
-        console.print("\n[cyan]Loading metadata for top nodes...")
-
         # Get top by in-degree
         top_in_items = sorted(self.in_degree_counter.items(), key=lambda x: x[1], reverse=True)[:n]
         top_in_ids = [node_id for node_id, _ in top_in_items]
@@ -328,17 +332,19 @@ class StreamingGraphMetrics:
         # Get top by out-degree
         top_out_ids = [node_id for _, node_id in self.top_out_degrees[:n]]
 
-        # Load names for top nodes
+        # Load names for top nodes if metadata exists
         node_names = {}
-        all_top_ids = set(top_in_ids + top_out_ids)
+        if self.metadata_path and self.metadata_path.exists():
+            console.print("\n[cyan]Loading metadata for top nodes...")
+            all_top_ids = set(top_in_ids + top_out_ids)
 
-        with self.metadata_path.open() as f:
-            for line in f:
-                if not line.strip():
-                    continue
-                data = json.loads(line)
-                if data["id"] in all_top_ids:
-                    node_names[data["id"]] = data["name"]
+            with self.metadata_path.open() as f:
+                for line in f:
+                    if not line.strip():
+                        continue
+                    data = json.loads(line)
+                    if data["id"] in all_top_ids:
+                        node_names[data["id"]] = data["name"]
 
         return {
             "top_by_in_degree": [(node_names.get(nid, nid), deg) for nid, deg in top_in_items],
@@ -347,7 +353,12 @@ class StreamingGraphMetrics:
             ],
         }
 
-    def save_distributions(self, output_dir: Path, reciprocity):
+    def save_distributions(
+        self,
+        output_dir: Path,
+        reciprocity: float,
+        output_name: str = "graph",
+    ) -> None:
         """Save sampled distribution data for visualization."""
         output_dir.mkdir(exist_ok=True, parents=True)
 
@@ -376,7 +387,7 @@ class StreamingGraphMetrics:
         }
 
         # Save as compressed pickle
-        dist_path = output_dir / "distributions.pkl.gz"
+        dist_path = output_dir / f"{output_name}_distributions.pkl.gz"
         with gzip.open(dist_path, "wb") as f:
             pickle.dump(distributions, f, protocol=pickle.HIGHEST_PROTOCOL)
         console.print(f"[green]✓ Saved distributions: {dist_path}")
@@ -384,7 +395,7 @@ class StreamingGraphMetrics:
         # Save representative sample as JSON for Quarto
         max_json_samples = 5000
 
-        def sample_if_needed(data, max_size):
+        def sample_if_needed(data: list[Any], max_size: int) -> list[Any]:
             if len(data) <= max_size:
                 return data
             # Random sample for representative subset
@@ -397,13 +408,13 @@ class StreamingGraphMetrics:
             "reciprocity_info": distributions["reciprocity_info"],
         }
 
-        json_path = output_dir / "distributions_sample.json"
+        json_path = output_dir / f"{output_name}_distributions_sample.json"
         with json_path.open("w") as f:
             json.dump(json_sample, f, indent=2)
         console.print(f"[green]✓ Saved JSON sample: {json_path}")
 
 
-def calculate_gini(values):
+def calculate_gini(values: npt.NDArray[np.float64]) -> float:
     """Calculate Gini coefficient."""
     sorted_values = np.sort(values)
     n = len(values)
@@ -411,12 +422,38 @@ def calculate_gini(values):
     return (2 * np.sum((np.arange(1, n + 1)) * sorted_values)) / (n * cumsum[-1]) - (n + 1) / n
 
 
-def main():
+def main() -> None:  # noqa: PLR0915
     """Main entry point for streaming graph metrics calculation."""
-    data_dir = Path("../data")
-    graph_path = data_dir / "graph.ndjson"
-    metadata_path = data_dir / "metadata.ndjson"
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Calculate graph metrics")
+    parser.add_argument(
+        "--input",
+        type=str,
+        help="Input graph file (default: ../data/graph.ndjson)",
+    )
+    parser.add_argument(
+        "--output-prefix",
+        type=str,
+        help="Output name prefix (default: graph)",
+    )
+    args = parser.parse_args()
+
+    # Determine paths based on arguments
+    if args.input:
+        graph_path = Path(args.input)
+        # For subgraph, metadata might not exist
+        if "subgraph" in str(graph_path):
+            metadata_path = None  # No metadata for subgraph
+        else:
+            metadata_path = graph_path.parent / "metadata.ndjson"
+    else:
+        data_dir = Path("../data")
+        graph_path = data_dir / "graph.ndjson"
+        metadata_path = data_dir / "metadata.ndjson"
+
     output_dir = Path("metrics")
+    output_prefix = args.output_prefix if args.output_prefix else "graph"
 
     if not graph_path.exists():
         console.print(f"[red]Error: Graph file not found: {graph_path}")
@@ -445,7 +482,7 @@ def main():
 
     # Save distributions
     console.print("\n[cyan]Saving distributions...")
-    metrics.save_distributions(output_dir, reciprocity)
+    metrics.save_distributions(output_dir, reciprocity, output_prefix)
 
     # Combine all metrics
     all_metrics = {
@@ -457,7 +494,7 @@ def main():
 
     # Save metrics
     output_dir.mkdir(exist_ok=True)
-    metrics_path = output_dir / "graph_metrics.json"
+    metrics_path = output_dir / f"{output_prefix}_metrics.json"
     with metrics_path.open("w") as f:
         json.dump(all_metrics, f, indent=2)
 

@@ -43,20 +43,20 @@ warnings.filterwarnings("ignore")
 setup_custom_template()
 
 # Load data
-metrics_path = Path("metrics/graph_metrics.json")
-dist_path = Path("metrics/distributions.pkl.gz")
-sample_path = Path("metrics/distributions_sample.json")
+METRICS_PATH = Path("metrics/graph_metrics.json")
+DIST_PATH = Path("metrics/graph_distributions.pkl.gz")
+SAMPLE_PATH = Path("metrics/graph_distributions_sample.json")
 
 # Load metrics
-with metrics_path.open() as f:
+with METRICS_PATH.open() as f:
     metrics = json.load(f)
 
 # Load distributions (try pickle first, fall back to JSON)
 try:
-    with gzip.open(dist_path, "rb") as f:
+    with gzip.open(DIST_PATH, "rb") as f:
         distributions = pickle.load(f)
 except Exception:
-    with sample_path.open() as f:
+    with SAMPLE_PATH.open() as f:
         distributions = json.load(f)
 
 # Extract data - new structure has everything at top level
