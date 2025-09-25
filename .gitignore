@@ -2,6 +2,7 @@ target
 .venv
 .env
 data
+metrics
 !data/.gitkeep
 __pycache__
 .claude

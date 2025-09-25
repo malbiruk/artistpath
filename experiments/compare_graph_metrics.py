@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare metrics between full graph and subgraph with statistical tests."""
 
+import argparse
 import gzip
 import json
 import pickle
@@ -431,8 +432,6 @@ def compare_metrics(
 
 def main() -> None:
     """Main entry point."""
-    import argparse
-
     parser = argparse.ArgumentParser(description="Compare full graph and subgraph metrics")
     parser.add_argument(
         "--full-metrics",

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Create a representative subgraph for hyperparameter optimization using streaming approach."""
 
+import argparse
 import json
 import random
 import struct
@@ -348,8 +349,6 @@ class StreamingSubgraphSampler:
 
 def main() -> None:
     """Main entry point."""
-    import argparse
-
     parser = argparse.ArgumentParser(
         description="Create representative subgraph for hyperparameter optimization",
     )

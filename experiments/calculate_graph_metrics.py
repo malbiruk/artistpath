@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Calculate comprehensive graph metrics using streaming with reservoir sampling for distributions."""
 
+import argparse
 import gc
 import gzip
 import json
@@ -16,6 +17,7 @@ import numpy.typing as npt
 import psutil
 from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
+from rich.table import Table
 from scipy import stats
 
 console = Console()
@@ -424,8 +426,6 @@ def calculate_gini(values: npt.NDArray[np.float64]) -> float:
 
 def main() -> None:  # noqa: PLR0915
     """Main entry point for streaming graph metrics calculation."""
-    import argparse
-
     parser = argparse.ArgumentParser(description="Calculate graph metrics")
     parser.add_argument(
         "--input",
@@ -507,8 +507,6 @@ def main() -> None:  # noqa: PLR0915
     console.print(f"[cyan]Peak memory usage: {memory_mb:.0f} MB")
 
     # Summary table
-    from rich.table import Table
-
     table = Table(title="Graph Summary")
     table.add_column("Metric", style="cyan")
     table.add_column("Value", style="green")
