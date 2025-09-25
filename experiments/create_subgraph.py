@@ -16,7 +16,7 @@ console = Console()
 
 # Target 20% of nodes for HPO following literature
 SUBGRAPH_RATIO = 0.2
-RANDOM_SEED = 42
+DEFAULT_SEED = 456
 MAX_EDGES_PER_NODE = 250
 MAX_SEED_NODES = 1000  # Start with top 1000 nodes as potential seeds
 
@@ -24,16 +24,24 @@ MAX_SEED_NODES = 1000  # Start with top 1000 nodes as potential seeds
 class StreamingSubgraphSampler:
     """Create representative subgraph using streaming random walks."""
 
-    def __init__(self, graph_path: Path, target_ratio: float = SUBGRAPH_RATIO) -> None:
+    def __init__(
+        self,
+        graph_path: Path,
+        target_ratio: float = SUBGRAPH_RATIO,
+        seed: int | None = None,
+        output_suffix: str = "",
+    ) -> None:
         self.graph_path = graph_path
         self.target_ratio = target_ratio
+        self.seed = seed if seed is not None else DEFAULT_SEED
+        self.output_suffix = output_suffix
         self.node_index = {}  # node_id -> file offset for quick lookups
         self.node_degrees = {}  # Only for seed selection
         self.total_nodes = 0
         self.target_nodes = 0
         self.sampled_nodes = set()
-        random.seed(RANDOM_SEED)
-        np.random.seed(RANDOM_SEED)
+        random.seed(self.seed)
+        np.random.seed(self.seed)
 
     def build_index_and_find_seeds(self) -> list[str]:
         """First pass: Build node index and identify high-degree seed nodes."""
@@ -229,8 +237,8 @@ class StreamingSubgraphSampler:
         output_dir.mkdir(exist_ok=True, parents=True)
 
         # Open output files
-        ndjson_path = output_dir / "subgraph.ndjson"
-        bin_path = output_dir / "subgraph.bin"
+        ndjson_path = output_dir / f"subgraph{self.output_suffix}.ndjson"
+        bin_path = output_dir / f"subgraph{self.output_suffix}.bin"
 
         subgraph_size = 0
         total_edges_original = 0
@@ -310,12 +318,12 @@ class StreamingSubgraphSampler:
             "target_ratio": self.target_ratio,
             "edge_preservation_rate": edge_preservation,
             "average_degree_subgraph": avg_degree,
-            "seed": RANDOM_SEED,
+            "seed": self.seed,
             "method": "streaming_random_walk",
             "max_edges_per_node": MAX_EDGES_PER_NODE,
         }
 
-        metadata_path = output_dir / "subgraph_metadata.json"
+        metadata_path = output_dir / f"subgraph{self.output_suffix}_metadata.json"
         with metadata_path.open("w") as f:
             json.dump(metadata, f, indent=2)
 
@@ -340,6 +348,25 @@ class StreamingSubgraphSampler:
 
 def main() -> None:
     """Main entry point."""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Create representative subgraph for hyperparameter optimization",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=DEFAULT_SEED,
+        help=f"Random seed for sampling (default: {DEFAULT_SEED})",
+    )
+    parser.add_argument(
+        "--output-suffix",
+        type=str,
+        default="",
+        help="Suffix for output files (e.g., '_seed42' produces 'subgraph_seed42.ndjson')",
+    )
+    args = parser.parse_args()
+
     # Paths
     data_dir = Path("../data")
     graph_path = data_dir / "graph.ndjson"
@@ -349,12 +376,18 @@ def main() -> None:
         return
 
     console.print("[bold cyan]Streaming Subgraph Creator")
+    console.print(f"Random seed: {args.seed}")
     console.print("Following KGTuner methodology: 20% multi-start random walk sampling")
     console.print("[yellow]Memory-efficient: Uses file seeking instead of loading graph")
     console.print("")
 
     # Create sampler
-    sampler = StreamingSubgraphSampler(graph_path, target_ratio=SUBGRAPH_RATIO)
+    sampler = StreamingSubgraphSampler(
+        graph_path,
+        target_ratio=SUBGRAPH_RATIO,
+        seed=args.seed,
+        output_suffix=args.output_suffix,
+    )
 
     # Build index and find seed nodes
     seed_nodes = sampler.build_index_and_find_seeds()

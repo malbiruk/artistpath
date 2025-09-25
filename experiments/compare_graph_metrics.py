@@ -431,17 +431,38 @@ def compare_metrics(
 
 def main() -> None:
     """Main entry point."""
-    metrics_dir = Path("metrics")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Compare full graph and subgraph metrics")
+    parser.add_argument(
+        "--full-metrics",
+        type=Path,
+        default=Path("metrics/graph_metrics.json"),
+        help="Path to full graph metrics JSON (default: metrics/graph_metrics.json)",
+    )
+    parser.add_argument(
+        "--sub-metrics",
+        type=Path,
+        default=Path("metrics/subgraph_metrics.json"),
+        help="Path to subgraph metrics JSON (default: metrics/subgraph_metrics.json)",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("metrics/graph_comparison.json"),
+        help="Output path for comparison results (default: metrics/graph_comparison.json)",
+    )
+    args = parser.parse_args()
 
     # Load full graph metrics
-    full_metrics_path = metrics_dir / "graph_metrics.json"
+    full_metrics_path = args.full_metrics
     if not full_metrics_path.exists():
         console.print(f"[red]Full graph metrics not found: {full_metrics_path}")
         console.print("[yellow]Run: python calculate_graph_metrics.py")
         return
 
     # Load subgraph metrics
-    sub_metrics_path = metrics_dir / "subgraph_metrics.json"
+    sub_metrics_path = args.sub_metrics
     if not sub_metrics_path.exists():
         console.print(f"[red]Subgraph metrics not found: {sub_metrics_path}")
         console.print(
@@ -454,8 +475,24 @@ def main() -> None:
 
     # Try to load distribution data for statistical tests
     statistical_tests = {}
-    full_dist_path = metrics_dir / "graph_distributions.pkl.gz"
-    sub_dist_path = metrics_dir / "subgraph_distributions.pkl.gz"
+    # Derive distribution paths from metrics paths
+    full_dist_path = full_metrics_path.parent / full_metrics_path.stem.replace(
+        "_metrics",
+        "_distributions",
+    ).replace("graph", "graph_distributions")
+    if not full_dist_path.with_suffix(".pkl.gz").exists():
+        full_dist_path = full_metrics_path.parent / "graph_distributions.pkl.gz"
+    else:
+        full_dist_path = full_dist_path.with_suffix(".pkl.gz")
+
+    sub_dist_path = sub_metrics_path.parent / sub_metrics_path.stem.replace(
+        "_metrics",
+        "_distributions",
+    )
+    if not sub_dist_path.with_suffix(".pkl.gz").exists():
+        sub_dist_path = sub_metrics_path.parent / "subgraph_distributions.pkl.gz"
+    else:
+        sub_dist_path = sub_dist_path.with_suffix(".pkl.gz")
 
     if full_dist_path.exists() and sub_dist_path.exists():
         console.print("[cyan]Loading distribution data for statistical tests...")
@@ -471,7 +508,8 @@ def main() -> None:
     comparison_results = compare_metrics(full_metrics, sub_metrics, statistical_tests)
 
     # Save comparison results
-    output_path = metrics_dir / "graph_comparison.json"
+    output_path = args.output
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w") as f:
         json.dump(comparison_results, f, indent=2)
 
