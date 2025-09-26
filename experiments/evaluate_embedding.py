@@ -179,7 +179,7 @@ class MemoryEfficientEvaluator:
         for node_id, connections in sampled:
             self.sampled_graph[node_id] = connections
             embedding = self.get_embedding(node_id)
-            if embedding:
+            if embedding is not None:
                 self.sampled_embeddings[node_id] = embedding
                 self.node_list.append(node_id)
 
