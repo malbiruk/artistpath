@@ -484,13 +484,14 @@ def generate_embedding(
         console.print(f"Description: {config['description']}")
 
     # Setup paths - data is one level up from experiments
-    paths = all_configs.get("paths", {})
+    data_dir = Path(__file__).parent / "data"  # Always define data_dir
     if graph_path:
         # Use provided graph path
         graph_path = Path(graph_path)
+        # Extract data_dir from the provided path
+        data_dir = graph_path.parent
     else:
         # Use graph path from config or default to subgraph
-        data_dir = Path(__file__).parent / "data"
         graph_path = data_dir / "subgraph.ndjson"
 
     # Memory check and chunk size
