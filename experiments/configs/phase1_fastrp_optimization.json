@@ -2,6 +2,48 @@
   "description": "Phase 1: Find optimal FastRP parameters (dimension and q) without reduction",
   "configs": [
     {
+      "name": "fastrp_2_q2",
+      "description": "FastRP 2D with q=2",
+      "fastrp": {
+        "dim": 2,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q2"
+    },
+    {
+      "name": "fastrp_2_q3",
+      "description": "FastRP 2D with q=3",
+      "fastrp": {
+        "dim": 2,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q3"
+    },
+    {
+      "name": "fastrp_2_q4",
+      "description": "FastRP 2D with q=4",
+      "fastrp": {
+        "dim": 2,
+        "q": 4,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q4"
+    },
+    {
       "name": "fastrp_16_q2",
       "description": "FastRP 16D with q=2",
       "fastrp": {
