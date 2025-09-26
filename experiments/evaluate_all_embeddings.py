@@ -38,7 +38,8 @@ def create_comparison_table(results: dict[str, dict]) -> Table:
     # Sort by name
     for name in sorted(results.keys()):
         r = results[name]
-        knn = r.get("knn_preservation", {})
+        # Fix: Use correct keys from actual JSON structure
+        neighborhood = r.get("neighborhood_preservation", {})
         corr = r.get("distance_correlation", {})
         comm = r.get("community_preservation", {})
 
@@ -47,10 +48,10 @@ def create_comparison_table(results: dict[str, dict]) -> Table:
 
         table.add_row(
             config_str,
-            f"{knn.get('k=10', 0):.3f}",
-            f"{knn.get('k=50', 0):.3f}",
-            f"{corr.get('spearman_r_squared', 0):.3f}",
-            f"{corr.get('pearson_r_squared', 0):.3f}",
+            f"{neighborhood.get('10', {}).get('mean', 0):.3f}",
+            f"{neighborhood.get('50', {}).get('mean', 0):.3f}",
+            f"{corr.get('spearman_r2', 0):.3f}",
+            f"{corr.get('pearson_r2', 0):.3f}",
             f"{comm.get('nmi', 0):.3f}",
             f"{comm.get('ari', 0):.3f}",
         )
@@ -64,10 +65,10 @@ def find_best_configs(results: dict[str, dict]) -> None:
         return
 
     metrics = {
-        "k-NN@10": lambda r: r.get("knn_preservation", {}).get("k=10", 0),
-        "k-NN@50": lambda r: r.get("knn_preservation", {}).get("k=50", 0),
-        "Spearman R²": lambda r: r.get("distance_correlation", {}).get("spearman_r_squared", 0),
-        "Pearson R²": lambda r: r.get("distance_correlation", {}).get("pearson_r_squared", 0),
+        "k-NN@10": lambda r: r.get("neighborhood_preservation", {}).get("10", {}).get("mean", 0),
+        "k-NN@50": lambda r: r.get("neighborhood_preservation", {}).get("50", {}).get("mean", 0),
+        "Spearman R²": lambda r: r.get("distance_correlation", {}).get("spearman_r2", 0),
+        "Pearson R²": lambda r: r.get("distance_correlation", {}).get("pearson_r2", 0),
         "NMI": lambda r: r.get("community_preservation", {}).get("nmi", 0),
         "ARI": lambda r: r.get("community_preservation", {}).get("ari", 0),
     }
