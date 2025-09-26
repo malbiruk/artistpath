@@ -90,8 +90,13 @@ def find_best_configs(results: dict[str, dict]) -> None:
     console.print(f"\n[bold green]Best Overall: {best_overall.replace('embeddings_', '')}")
 
 
-def main(*, compare_only: bool = False) -> None:
-    """Main evaluation function."""
+def main(*, compare_only: bool = False, graph_path: str | None = None) -> None:
+    """Main evaluation function.
+
+    Args:
+        compare_only: Only compare existing results, don't run new evaluations
+        graph_path: Path to graph binary file (default: data/subgraph.bin)
+    """
     # Load config
     config_path = Path(__file__).parent / "configs" / "evaluation_config.json"
     if not config_path.exists():
@@ -109,12 +114,16 @@ def main(*, compare_only: bool = False) -> None:
     results_dir = Path(__file__).parent / paths.get("results_dir", "results")
     results_dir.mkdir(exist_ok=True)
 
-    # Graph data from main data directory
-    data_dir = Path(__file__).parent.parent / paths.get("data_dir", "data")
-    graph_path = data_dir / paths.get("graph_binary", "graph.bin")
+    # Graph path
+    if graph_path:
+        graph_path = Path(graph_path)
+    else:
+        # Default to subgraph.bin in experiments/data
+        graph_path = Path(__file__).parent / "data" / "subgraph.bin"
 
     if not graph_path.exists():
         console.print(f"[red]Graph not found: {graph_path}")
+        console.print("[yellow]Make sure to generate the binary graph file first")
         return
 
     if not compare_only:
@@ -167,5 +176,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Only compare existing results, don't run new evaluations",
     )
+    parser.add_argument(
+        "--graph",
+        type=str,
+        default="data/subgraph.bin",
+        help="Path to graph binary file (default: data/subgraph.bin)",
+    )
     args = parser.parse_args()
-    main(compare_only=args.compare_only)
+    main(compare_only=args.compare_only, graph_path=args.graph)

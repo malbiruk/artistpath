@@ -35,11 +35,13 @@ def load_config_names(config_file: str) -> list[str]:
 
 def main(
     configs: list[str] | None = None,
+    *,
     skip_existing: bool = False,
     config_file: str = "phase1_fastrp_optimization.json",
     seeds: list[int] | None = None,
     single_seed: bool = False,
-):
+    graph_path: str | None = None,
+) -> None:
     """Generate embeddings for specified configs.
 
     Args:
@@ -48,6 +50,7 @@ def main(
         config_file: Config file to use
         seeds: List of random seeds to use
         single_seed: Use only first seed (for quick testing)
+        graph_path: Path to graph file (default: data/subgraph.ndjson)
     """
     # Load available configs
     available_configs = load_config_names(config_file)
@@ -123,6 +126,7 @@ def main(
                 config_file=config_file,
                 verbose=True,
                 seed=seed,
+                graph_path=graph_path,
             )
 
             if success:
@@ -185,6 +189,19 @@ if __name__ == "__main__":
         action="store_true",
         help="Use only first seed for quick testing",
     )
+    parser.add_argument(
+        "--graph",
+        type=str,
+        default="data/subgraph.ndjson",
+        help="Path to graph file (default: data/subgraph.ndjson)",
+    )
 
     args = parser.parse_args()
-    main(args.configs, args.skip_existing, args.config_file, args.seeds, args.single_seed)
+    main(
+        configs=args.configs,
+        skip_existing=args.skip_existing,
+        config_file=args.config_file,
+        seeds=args.seeds,
+        single_seed=args.single_seed,
+        graph_path=args.graph,
+    )

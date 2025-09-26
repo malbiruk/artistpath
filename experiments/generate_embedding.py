@@ -428,6 +428,7 @@ def generate_embedding(
     *,
     verbose: bool = True,
     seed: int = DEFAULT_SEED,
+    graph_path: str | None = None,
 ) -> tuple[Path | None, bool]:
     """Generate embeddings for a specific config.
 
@@ -436,6 +437,7 @@ def generate_embedding(
         config_file: Path to config file
         verbose: Whether to print progress
         seed: Random seed for reproducibility
+        graph_path: Path to graph file (if None, uses path from config)
 
     Returns:
         tuple: (output_path, success) where output_path is the generated embedding file
@@ -483,8 +485,13 @@ def generate_embedding(
 
     # Setup paths - data is one level up from experiments
     paths = all_configs.get("paths", {})
-    data_dir = Path(__file__).parent.parent / paths.get("data_dir", "data")
-    graph_path = data_dir / paths.get("graph_file", "graph.ndjson")
+    if graph_path:
+        # Use provided graph path
+        graph_path = Path(graph_path)
+    else:
+        # Use graph path from config or default to subgraph
+        data_dir = Path(__file__).parent / "data"
+        graph_path = data_dir / "subgraph.ndjson"
 
     # Memory check and chunk size
     total_ram_gb = psutil.virtual_memory().total / (1024**3)
