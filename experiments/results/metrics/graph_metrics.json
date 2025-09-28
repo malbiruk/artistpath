@@ -1,0 +1,236 @@
+{
+  "dataset_info": {
+    "nodes": 850742,
+    "edges": 114295148,
+    "source_nodes": 850263,
+    "max_edges_per_node": 250
+  },
+  "basic_metrics": {
+    "density": 0.0001579183352464086,
+    "reciprocity": 0.7071,
+    "reciprocity_sample_size": 1000000
+  },
+  "degree_stats": {
+    "out_degree": {
+      "mean": 134.55,
+      "median": 146.0,
+      "std": 64.45927784268142,
+      "min": 1,
+      "max": 250,
+      "q25": 91.0,
+      "q75": 187.0,
+      "gini": 0.27187976480564835,
+      "sample_size": 100000
+    },
+    "in_degree": {
+      "mean": 134.3476024458649,
+      "median": 51.0,
+      "std": 213.15655588365948,
+      "min": 1,
+      "max": 4970,
+      "q25": 12.0,
+      "q75": 157.0,
+      "gini": 0.670920801243815,
+      "full_count": 850742
+    }
+  },
+  "weight_stats": {
+    "mean": 0.16082526693,
+    "median": 0.0768455,
+    "std": 0.208481146307339,
+    "min": 6.8e-05,
+    "max": 1.0,
+    "q25": 0.0241265,
+    "q75": 0.208116,
+    "sample_size": 100000
+  },
+  "power_law_fits": {
+    "out_degree_fit": {
+      "alpha": -0.03450589747708896,
+      "intercept": 2.4673436743202033,
+      "r_squared": 0.001991186105874314,
+      "fit_range": [
+        1.0,
+        250.0
+      ],
+      "n_points": 249
+    },
+    "in_degree_fit": {
+      "alpha": 2.173977669808196,
+      "intercept": 7.777799645365795,
+      "r_squared": 0.8573897338378603,
+      "fit_range": [
+        1.0,
+        4970.0
+      ],
+      "n_points": 2113
+    }
+  },
+  "top_nodes": {
+    "top_by_in_degree": [
+      [
+        "[unknown]",
+        4970
+      ],
+      [
+        "Maetrik",
+        2994
+      ],
+      [
+        "Lazy Hammock",
+        2937
+      ],
+      [
+        "86 Mentality",
+        2854
+      ],
+      [
+        "Don Gorda Project",
+        2831
+      ],
+      [
+        "Mikko Alatalo",
+        2817
+      ],
+      [
+        "Vargsang",
+        2801
+      ],
+      [
+        "Rene Hell",
+        2746
+      ],
+      [
+        "Pepe Willberg",
+        2730
+      ],
+      [
+        "Epheles",
+        2714
+      ],
+      [
+        "Noise Boyz",
+        2689
+      ],
+      [
+        "Ravencult",
+        2664
+      ],
+      [
+        "Shlomi Aber",
+        2659
+      ],
+      [
+        "Giuseppe Ielasi",
+        2636
+      ],
+      [
+        "Burning Star Core",
+        2627
+      ],
+      [
+        "Wizack Twizack",
+        2616
+      ],
+      [
+        "Dalhous",
+        2592
+      ],
+      [
+        "Arrojas",
+        2585
+      ],
+      [
+        "Stielas Storhett",
+        2516
+      ],
+      [
+        "Isvind",
+        2511
+      ]
+    ],
+    "top_by_out_degree": [
+      [
+        "Olivia Rodrigo",
+        250
+      ],
+      [
+        "Taylor Swift",
+        250
+      ],
+      [
+        "Canaan Cox",
+        249
+      ],
+      [
+        "Canaan Cox",
+        249
+      ],
+      [
+        "Master",
+        249
+      ],
+      [
+        "Morgan Evans",
+        249
+      ],
+      [
+        "Morgan Evans",
+        249
+      ],
+      [
+        "Hannah Ellis",
+        248
+      ],
+      [
+        "Hannah Ellis",
+        248
+      ],
+      [
+        "Massacra",
+        248
+      ],
+      [
+        "Gone West",
+        248
+      ],
+      [
+        "Gone West",
+        248
+      ],
+      [
+        "Kassi Ashton",
+        248
+      ],
+      [
+        "Kassi Ashton",
+        248
+      ],
+      [
+        "Alana Springsteen",
+        248
+      ],
+      [
+        "Alana Springsteen",
+        248
+      ],
+      [
+        "Alana Springsteen",
+        248
+      ],
+      [
+        "Lair of the Minotaur",
+        248
+      ],
+      [
+        "Erin Kinsey",
+        248
+      ],
+      [
+        "Erin Kinsey",
+        248
+      ]
+    ]
+  },
+  "computation_time": 219.46946215629578
+}

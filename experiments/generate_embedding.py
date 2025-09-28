@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate graph embeddings using out-of-core FastRP with chunked processing."""
 
+import argparse
 import gc
 import json
 import struct
@@ -42,12 +43,18 @@ class ChunkedFastRP:
         *,
         normalize: bool = FASTRP_NORMALIZE,
         random_state: int = DEFAULT_SEED,
+        weight_transform: str | None = None,
+        weight_threshold: float = 0.2,
     ) -> None:
         self.dim: int = dim
         self.projection_method: str = projection_method
         self.q: int = q
         self.normalize: bool = normalize
         self.random_state: int = random_state
+        self.weight_transform: str | None = (
+            weight_transform  # 'log', 'sqrt', 'square', 'threshold', or None
+        )
+        self.weight_threshold: float = weight_threshold  # For threshold transform
         self.transformer: random_projection.SparseRandomProjection | None = None
         self.node_to_idx: dict[str, int] = {}
         self.idx_to_node: dict[int, str] = {}
@@ -115,7 +122,23 @@ class ChunkedFastRP:
                 for conn_id, weight in data["connections"][:MAX_EDGES_PER_NODE]:
                     target_idx = self.node_to_idx[conn_id]
                     edges.append((source_idx, target_idx))
-                    weights.append(float(weight))
+
+                    # Apply weight transformation if specified
+                    w = float(weight)
+                    if self.weight_transform == "log":
+                        # Log transform: log(1 + weight) to handle weights close to 0
+                        # This spreads out low values while preserving 0
+                        w = np.log1p(w)
+                    elif self.weight_transform == "sqrt":
+                        # Square root transform: less aggressive than log
+                        w = np.sqrt(w)
+                    elif self.weight_transform == "square":
+                        # Square transform: amplify differences
+                        w = w * w
+                    elif self.weight_transform == "threshold":
+                        # Threshold: zero out weak edges
+                        w = w if w >= self.weight_threshold else 0.0
+                    weights.append(w)
 
                 nodes_processed += 1
                 if nodes_processed >= chunk_size:
@@ -528,6 +551,10 @@ def generate_embedding(
             ),
         )
 
+    # Get preprocessing params
+    preprocessing_cfg = config.get("preprocessing", {})
+    weight_transform = preprocessing_cfg.get("weight_transform", None)
+
     # Initialize FastRP
     fastrp = ChunkedFastRP(
         dim=dim,
@@ -535,6 +562,7 @@ def generate_embedding(
         q=q,
         normalize=normalize,
         random_state=random_state,
+        weight_transform=weight_transform,
     )
 
     # Build node index
@@ -600,18 +628,3 @@ def generate_embedding(
         console.print(Panel.fit("[bold green]✨ Chunked embedding complete!", title="Success"))
 
     return output_path, True
-
-
-def main(config_name: str | None = None, config_file: str | None = None) -> None:
-    """Main entry point for command line."""
-    generate_embedding(config_name, config_file, verbose=True)
-
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Generate graph embeddings")
-    parser.add_argument("--config", type=str, help="Config name from config file")
-    parser.add_argument("--config-file", type=str, help="Config file to use")
-    args = parser.parse_args()
-    main(args.config, args.config_file)

@@ -3,7 +3,6 @@ target
 .env
 
 data
-experiments/results/metrics
 experiments/results/embeddings
 experiments/results/embeddings_evaluation
 !data/.gitkeep
