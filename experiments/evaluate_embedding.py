@@ -556,9 +556,11 @@ def evaluate_single_embedding(
     if verbose:
         evaluator.print_results(results)
 
-    # Save results with embedding-specific name
+    # Save results with embedding-specific name in embeddings_evaluation subdirectory
     embedding_name = embedding_path.stem
-    results_path = results_dir / f"evaluation_{embedding_name}.json"
+    evaluation_dir = results_dir / "embeddings_evaluation"
+    evaluation_dir.mkdir(parents=True, exist_ok=True)
+    results_path = evaluation_dir / f"evaluation_{embedding_name}.json"
 
     with results_path.open("w") as f:
         json.dump(results, f, indent=2)
@@ -581,8 +583,8 @@ def main(embedding_suffix: str | None = None) -> None:
         all_configs = json.load(f)
 
     paths = all_configs.get("paths", {})
-    # Look for experimental embeddings in experiments/embeddings/
-    embeddings_dir = Path(__file__).parent / "embeddings"
+    # Look for experimental embeddings in experiments/results/embeddings/
+    embeddings_dir = Path(__file__).parent / "results" / "embeddings"
     # Graph data is still in main data directory
     data_dir = Path(__file__).parent.parent / paths.get("data_dir", "data")
 

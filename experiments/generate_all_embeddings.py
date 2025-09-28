@@ -83,8 +83,8 @@ def main(
         console.print(f"[cyan]Using seeds: {seeds_to_use}")
 
     # Check existing embeddings
-    embeddings_dir = Path(__file__).parent / "embeddings"
-    embeddings_dir.mkdir(exist_ok=True)
+    embeddings_dir = Path(__file__).parent / "results" / "embeddings"
+    embeddings_dir.mkdir(parents=True, exist_ok=True)
 
     # Build list of (config, seed) pairs to run
     tasks_to_run = []

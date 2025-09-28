@@ -160,8 +160,8 @@ class ChunkedFastRP:
         """Compute FastRP embeddings using chunked processing."""
 
         # Memory-mapped array for storing embeddings
-        temp_dir = Path(__file__).parent / "embeddings"
-        temp_dir.mkdir(exist_ok=True)
+        temp_dir = Path(__file__).parent / "results" / "embeddings"
+        temp_dir.mkdir(parents=True, exist_ok=True)
         embeddings_file = temp_dir / "embeddings_temp.npy"
         u_current = np.memmap(
             embeddings_file,
@@ -236,7 +236,7 @@ class ChunkedFastRP:
             console.print(f"[cyan]Computing power {power}/{self.q}...")
 
             # Create new memmap for next power
-            temp_dir = Path(__file__).parent / "embeddings"
+            temp_dir = Path(__file__).parent / "results" / "embeddings"
             u_next = np.memmap(
                 temp_dir / f"embeddings_temp_{power}.npy",
                 dtype="float32",
@@ -390,9 +390,11 @@ def save_embeddings(
     suffix: str = "fastrp",
     seed: int | None = None,
 ) -> Path:
-    """Save embeddings in binary format to experiments/embeddings/."""
-    output_dir = Path(__file__).parent / "embeddings"  # Always save to experiments/embeddings/
-    output_dir.mkdir(exist_ok=True)
+    """Save embeddings in binary format to experiments/results/embeddings/."""
+    output_dir = (
+        Path(__file__).parent / "results" / "embeddings"
+    )  # Always save to experiments/results/embeddings/
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     # Save embeddings in binary format (works for any dimensionality)
     seed_suffix = f"_seed{seed}" if seed is not None else ""
@@ -576,7 +578,7 @@ def generate_embedding(
     # Clean up temp files
     if verbose:
         console.print("[cyan]Cleaning up temporary files...")
-    temp_dir = Path(__file__).parent / "embeddings"
+    temp_dir = Path(__file__).parent / "results" / "embeddings"
     for temp_file in temp_dir.glob("embeddings_temp*.npy"):
         temp_file.unlink()
 

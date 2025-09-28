@@ -452,7 +452,7 @@ def main() -> None:  # noqa: PLR0915
         graph_path = data_dir / "graph.ndjson"
         metadata_path = data_dir / "metadata.ndjson"
 
-    output_dir = Path("metrics")
+    output_dir = Path(__file__).parent / "results" / "metrics"
     output_prefix = args.output_prefix if args.output_prefix else "graph"
 
     if not graph_path.exists():
@@ -493,7 +493,7 @@ def main() -> None:  # noqa: PLR0915
     }
 
     # Save metrics
-    output_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     metrics_path = output_dir / f"{output_prefix}_metrics.json"
     with metrics_path.open("w") as f:
         json.dump(all_metrics, f, indent=2)

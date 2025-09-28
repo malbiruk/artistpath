@@ -15,10 +15,12 @@ console = Console()
 def load_existing_results(results_dir: Path) -> dict[str, dict]:
     """Load all existing evaluation results."""
     results = {}
-    for result_file in results_dir.glob("evaluation_*.json"):
-        embedding_name = result_file.stem.replace("evaluation_", "")
-        with result_file.open() as f:
-            results[embedding_name] = json.load(f)
+    evaluation_dir = results_dir / "embeddings_evaluation"
+    if evaluation_dir.exists():
+        for result_file in evaluation_dir.glob("evaluation_*.json"):
+            embedding_name = result_file.stem.replace("evaluation_", "")
+            with result_file.open() as f:
+                results[embedding_name] = json.load(f)
     return results
 
 
@@ -111,16 +113,12 @@ def main(*, compare_only: bool = False, graph_path: str | None = None) -> None:
     eval_cfg = all_configs.get("evaluation_params", {})
 
     # Directories
-    embeddings_dir = Path(__file__).parent / "embeddings"
+    embeddings_dir = Path(__file__).parent / "results" / "embeddings"
     results_dir = Path(__file__).parent / paths.get("results_dir", "results")
-    results_dir.mkdir(exist_ok=True)
+    results_dir.mkdir(parents=True, exist_ok=True)
 
     # Graph path
-    if graph_path:
-        graph_path = Path(graph_path)
-    else:
-        # Default to subgraph.bin in experiments/data
-        graph_path = Path(__file__).parent / "data" / "subgraph.bin"
+    graph_path = Path(graph_path) if graph_path else Path(__file__).parent / "data" / "subgraph.bin"
 
     if not graph_path.exists():
         console.print(f"[red]Graph not found: {graph_path}")
@@ -142,7 +140,7 @@ def main(*, compare_only: bool = False, graph_path: str | None = None) -> None:
         for embedding_path in sorted(embeddings):
             # Check if already evaluated
             embedding_name = embedding_path.stem
-            result_path = results_dir / f"evaluation_{embedding_name}.json"
+            result_path = results_dir / f"embeddings_evaluation/evaluation_{embedding_name}.json"
 
             if result_path.exists():
                 console.print(f"[yellow]Skipping {embedding_name} (already evaluated)")
