@@ -1,0 +1,211 @@
+{
+  "description": "Phase 1: Find optimal FastRP parameters (dimension and q) without reduction",
+  "configs": [
+    {
+      "name": "fastrp_2_q2",
+      "description": "FastRP 2D with q=2",
+      "fastrp": {
+        "dim": 2,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q2"
+    },
+    {
+      "name": "fastrp_2_q3",
+      "description": "FastRP 2D with q=3",
+      "fastrp": {
+        "dim": 2,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q3"
+    },
+    {
+      "name": "fastrp_2_q4",
+      "description": "FastRP 2D with q=4",
+      "fastrp": {
+        "dim": 2,
+        "q": 4,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_2_q4"
+    },
+    {
+      "name": "fastrp_16_q2",
+      "description": "FastRP 16D with q=2",
+      "fastrp": {
+        "dim": 16,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_16_q2"
+    },
+    {
+      "name": "fastrp_16_q3",
+      "description": "FastRP 16D with q=3",
+      "fastrp": {
+        "dim": 16,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_16_q3"
+    },
+    {
+      "name": "fastrp_64_q2",
+      "description": "FastRP 64D with q=2",
+      "fastrp": {
+        "dim": 64,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_64_q2"
+    },
+    {
+      "name": "fastrp_64_q3",
+      "description": "FastRP 64D with q=3",
+      "fastrp": {
+        "dim": 64,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_64_q3"
+    },
+    {
+      "name": "fastrp_64_q4",
+      "description": "FastRP 64D with q=4",
+      "fastrp": {
+        "dim": 64,
+        "q": 4,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_64_q4"
+    },
+    {
+      "name": "fastrp_128_q2",
+      "description": "FastRP 128D with q=2",
+      "fastrp": {
+        "dim": 128,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_128_q2"
+    },
+    {
+      "name": "fastrp_128_q3",
+      "description": "FastRP 128D with q=3",
+      "fastrp": {
+        "dim": 128,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_128_q3"
+    },
+    {
+      "name": "fastrp_128_q4",
+      "description": "FastRP 128D with q=4",
+      "fastrp": {
+        "dim": 128,
+        "q": 4,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_128_q4"
+    },
+    {
+      "name": "fastrp_256_q2",
+      "description": "FastRP 256D with q=2",
+      "fastrp": {
+        "dim": 256,
+        "q": 2,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_256_q2"
+    },
+    {
+      "name": "fastrp_256_q3",
+      "description": "FastRP 256D with q=3",
+      "fastrp": {
+        "dim": 256,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_256_q3"
+    },
+    {
+      "name": "fastrp_256_q4",
+      "description": "FastRP 256D with q=4",
+      "fastrp": {
+        "dim": 256,
+        "q": 4,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fastrp_256_q4"
+    }
+  ],
+  "paths": {
+    "data_dir": "data",
+    "graph_file": "graph.ndjson",
+    "graph_binary": "graph.bin"
+  },
+  "memory": {
+    "chunk_size_8gb": 30000,
+    "chunk_size_16gb": 50000,
+    "chunk_size_32gb": 80000
+  }
+}

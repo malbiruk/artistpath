@@ -1,0 +1,19 @@
+{
+  "configs": [
+    {
+      "name": "fullgraph_128_q3_square",
+      "description": "FastRP with squared weights to amplify differences",
+      "method": "fastrp",
+      "fastrp": {
+        "dim": 128,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true,
+        "weights": [1.0, 1.0, 1.0]
+      },
+      "preprocessing": {
+        "weight_transform": "square"
+      }
+    }
+  ]
+}

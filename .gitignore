@@ -3,8 +3,9 @@ target
 .env
 
 data
-experiments/results/embeddings
-experiments/results/embeddings_evaluation
+experiments/data
+experiments/embeddings/results/embeddings
+experiments/graph_analysis/results/metrics
 !data/.gitkeep
 
 __pycache__

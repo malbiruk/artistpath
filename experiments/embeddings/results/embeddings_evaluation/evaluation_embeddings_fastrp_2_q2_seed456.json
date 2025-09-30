@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "graph_path": "data/subgraph.bin",
+    "embedding_path": "/home/family/artistpath-dev/artistpath/experiments/embeddings/embeddings_fastrp_2_q2_seed456.bin",
+    "n_nodes_evaluated": 50000,
+    "sample_size": 50000
+  },
+  "neighborhood_preservation": {
+    "5": {
+      "mean": 0.00228,
+      "std": 0.021972746755924717,
+      "median": 0.0
+    },
+    "10": {
+      "mean": 0.0041,
+      "std": 0.02247643210120325,
+      "median": 0.0
+    },
+    "20": {
+      "mean": 0.006116666666666667,
+      "std": 0.02177097328503661,
+      "median": 0.0
+    },
+    "50": {
+      "mean": 0.009217420252080277,
+      "std": 0.021412153249582046,
+      "median": 0.0
+    }
+  },
+  "distance_correlation": {
+    "spearman_r": 0.0835397098971448,
+    "spearman_r2": 0.006978883129699114,
+    "spearman_p": 4.9424034927874246e-06,
+    "pearson_r": 0.07967068254947662,
+    "pearson_r2": 0.0063474178314208984,
+    "pearson_p": 1.3306622743711415e-05,
+    "n_pairs": 2981
+  },
+  "community_preservation": {
+    "nmi": 0.021186909048259896,
+    "ari": -0.021666317506783044,
+    "n_clusters": 20,
+    "n_nodes": 10000
+  },
+  "runtime_seconds": 152.46236085891724
+}

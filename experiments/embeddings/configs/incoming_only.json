@@ -1,0 +1,21 @@
+{
+  "description": "FastRP on incoming-only graph to test high-variance in-degree structure",
+  "configs": [
+    {
+      "name": "incoming_128_q3_seed25",
+      "description": "FastRP 128D on incoming-only graph (Gini=0.67 variance)",
+      "method": "fastrp",
+      "fastrp": {
+        "dim": 128,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true,
+        "weights": [1.0, 1.0, 1.0]
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "incoming_128_q3"
+    }
+  ]
+}

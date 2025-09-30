@@ -1,0 +1,19 @@
+{
+  "description": "Test FastRP 128D q=3 on full graph",
+  "configs": [
+    {
+      "name": "fullgraph_128_q3",
+      "description": "FastRP 128D with q=3 on full graph",
+      "fastrp": {
+        "dim": 128,
+        "q": 3,
+        "projection": "sparse",
+        "normalize": true
+      },
+      "reduction": {
+        "method": "none"
+      },
+      "output_suffix": "fullgraph_128_q3"
+    }
+  ]
+}

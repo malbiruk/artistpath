@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "graph_path": "/home/klim/Documents/work/scripts/artistpath/data/graph.bin",
+    "embedding_path": "/home/klim/Documents/work/scripts/artistpath/experiments/results/embeddings/embeddings_fullgraph_128_q3_squared_seed25.bin",
+    "n_nodes_evaluated": 50000,
+    "sample_size": 50000
+  },
+  "neighborhood_preservation": {
+    "5": {
+      "mean": 0.03275620496397118,
+      "std": 0.08547651372773964,
+      "median": 0.0
+    },
+    "10": {
+      "mean": 0.031343964060137,
+      "std": 0.06491373624819159,
+      "median": 0.0
+    },
+    "20": {
+      "mean": 0.03059213808685677,
+      "std": 0.05341751671883098,
+      "median": 0.0
+    },
+    "50": {
+      "mean": 0.025562869111923583,
+      "std": 0.03949522423378865,
+      "median": 0.0
+    }
+  },
+  "distance_correlation": {
+    "spearman_r": 0.200559238979272,
+    "spearman_r2": 0.04022400833994474,
+    "spearman_p": 1.476895072069035e-25,
+    "pearson_r": 0.07055362313985825,
+    "pearson_r2": 0.004977813921868801,
+    "pearson_p": 0.00026946143192106285,
+    "n_pairs": 2662
+  },
+  "community_preservation": {
+    "nmi": 0.011258260076556658,
+    "ari": -0.038509623036983076,
+    "n_clusters": 20,
+    "n_nodes": 10000
+  },
+  "runtime_seconds": 88.22677087783813
+}
