@@ -152,6 +152,14 @@ fn build_graph_edges(
     let mut edges = Vec::new();
     let discovered_ids: FxHashSet<Uuid> = connections.keys().copied().collect();
 
+    // Build a set of path edges (as directed pairs) for quick lookup
+    let mut path_edges = FxHashSet::default();
+    for window in primary_path.windows(2) {
+        if let [from, to] = window {
+            path_edges.insert((from.0, to.0));
+        }
+    }
+
     // Add edges from the primary path first - these are guaranteed to be connected
     for window in primary_path.windows(2) {
         if let [from, to] = window {
@@ -167,13 +175,15 @@ fn build_graph_edges(
     for (&from_id, artist_connections) in connections {
         for &(to_id, similarity) in artist_connections {
             if discovered_ids.contains(&to_id) && from_id != to_id {
-                // Avoid duplicating path edges
-                let already_exists = edges.iter().any(|edge| 
-                    (edge.from == from_id && edge.to == to_id) ||
-                    (edge.from == to_id && edge.to == from_id)
+                // Check if this edge already exists
+                let already_exists = edges.iter().any(|edge|
+                    edge.from == from_id && edge.to == to_id
                 );
-                
-                if !already_exists {
+
+                // Check if this would be the reverse of a path edge
+                let is_reverse_of_path = path_edges.contains(&(to_id, from_id));
+
+                if !already_exists && !is_reverse_of_path {
                     edges.push(GraphEdge {
                         from: from_id,
                         to: to_id,

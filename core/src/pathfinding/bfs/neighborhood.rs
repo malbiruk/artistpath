@@ -66,19 +66,10 @@ fn collect_path_connections(
         // Get connections from both forward and reverse graphs
         let mut forward_connections = get_artist_connections(artist_id, graphs.forward.0, graphs.forward.1, config);
         let reverse_connections = get_artist_connections(artist_id, graphs.reverse.0, graphs.reverse.1, config);
-        
-        // Combine connections, avoiding duplicates and keeping highest similarity
-        for (reverse_artist, reverse_sim) in reverse_connections {
-            if let Some(existing_pos) = forward_connections.iter().position(|(id, _)| *id == reverse_artist) {
-                // Keep the higher similarity
-                if reverse_sim > forward_connections[existing_pos].1 {
-                    forward_connections[existing_pos].1 = reverse_sim;
-                }
-            } else {
-                forward_connections.push((reverse_artist, reverse_sim));
-            }
-        }
-        
+
+        // Combine connections, keeping both directions
+        forward_connections.extend(reverse_connections);
+
         connections.insert(artist_id, forward_connections);
     }
 
@@ -194,18 +185,10 @@ fn add_neighbors_to_discovered(
                 context.graphs.reverse.1,
                 context.config,
             );
-            
-            // Combine connections
-            for (reverse_artist, reverse_sim) in reverse_connections {
-                if let Some(existing_pos) = forward_connections.iter().position(|(id, _)| *id == reverse_artist) {
-                    if reverse_sim > forward_connections[existing_pos].1 {
-                        forward_connections[existing_pos].1 = reverse_sim;
-                    }
-                } else {
-                    forward_connections.push((reverse_artist, reverse_sim));
-                }
-            }
-            
+
+            // Combine connections, keeping both directions
+            forward_connections.extend(reverse_connections);
+
             all_connections.insert(neighbor, forward_connections);
         }
     }

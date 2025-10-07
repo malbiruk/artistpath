@@ -1,10 +1,17 @@
 target
 .venv
 .env
-data/*
+
+data
+experiments/data
+experiments/embeddings/results/embeddings
+experiments/graph_analysis/results/metrics
 !data/.gitkeep
+
 __pycache__
 .claude
+graph_analysis_report_files
+*.pkl.gz
 
 # Frontend
 node_modules/
