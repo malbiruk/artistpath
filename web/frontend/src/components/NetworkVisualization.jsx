@@ -55,7 +55,8 @@ function NetworkVisualization({
         g.attr("transform", event.transform);
       });
 
-    svg.call(zoom);
+    // Disable double-tap zoom to avoid conflict with double-tap on nodes
+    svg.call(zoom).on("dblclick.zoom", null);
 
     // Create node map for D3 linking
     const nodeMap = new Map();
