@@ -21,7 +21,7 @@ function App() {
     return {
       fromName: params.get("from"),
       toName: params.get("to"),
-      minSimilarity: parseFloat(params.get("similarity") || "0"),
+      minSimilarity: parseFloat(params.get("similarity") || "0.1"),
       maxRelations: parseInt(params.get("relations") || "10"),
       maxArtists: parseInt(params.get("artists") || "50"),
       algorithm: params.get("algo") || "simple",
@@ -254,7 +254,8 @@ function App() {
 
     if (fromArtist?.name) params.set("from", fromArtist.name);
     if (toArtist?.name) params.set("to", toArtist.name);
-    if (minSimilarity > 0) params.set("similarity", minSimilarity.toString());
+    if (minSimilarity !== 0.1)
+      params.set("similarity", minSimilarity.toString());
     if (maxRelations !== 10) params.set("relations", maxRelations.toString());
     if (maxArtists !== 50) params.set("artists", maxArtists.toString());
     if (algorithm !== "simple") params.set("algo", algorithm);
