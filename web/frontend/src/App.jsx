@@ -513,7 +513,9 @@ function App() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="setting">
-              <label>algorithm:</label>
+              <label title="simple: unweighted search, weighted: considers similarity scores">
+                algorithm:
+              </label>
               <button
                 onClick={() =>
                   setAlgorithm(algorithm === "simple" ? "weighted" : "simple")
@@ -525,7 +527,9 @@ function App() {
             </div>
 
             <div className="setting">
-              <label>max relations:</label>
+              <label title="maximum connections per artist to explore">
+                max relations:
+              </label>
               <NumberInput
                 min={1}
                 max={250}
@@ -536,7 +540,9 @@ function App() {
             </div>
 
             <div className="setting">
-              <label>min similarity:</label>
+              <label title="filter out connections below this similarity threshold">
+                min similarity:
+              </label>
               <NumberInput
                 min={0}
                 max={1}
@@ -549,7 +555,9 @@ function App() {
             </div>
 
             <div className="setting">
-              <label>max artists:</label>
+              <label title="maximum number of artists to show in results">
+                max artists:
+              </label>
               <NumberInput
                 min={5}
                 max={9999}
