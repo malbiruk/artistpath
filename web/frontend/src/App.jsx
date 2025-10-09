@@ -598,6 +598,17 @@ function App() {
             </div>
           </div>
         </div>
+        <div className="footer-right">
+          <div className="graph-stats-link">
+            <a
+              href="https://artistpath-graph-stats.pages.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              graph stats
+            </a>
+          </div>
+        </div>
       </footer>
 
       <div className="mobile-footer-container">

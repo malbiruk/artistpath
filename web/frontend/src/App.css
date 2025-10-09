@@ -254,6 +254,22 @@ body {
     text-decoration: underline;
 }
 
+.graph-stats-link {
+    font-size: 10px;
+    color: black;
+    text-align: right;
+    line-height: 1.5;
+}
+
+.graph-stats-link a {
+    color: black;
+    text-decoration: none;
+}
+
+.graph-stats-link a:hover {
+    text-decoration: underline;
+}
+
 .mobile-stats {
     display: none;
 }

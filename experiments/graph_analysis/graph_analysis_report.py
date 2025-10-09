@@ -488,7 +488,7 @@ fig.show()
 
 # Create DataFrame for top nodes
 top_in = pd.DataFrame(
-    metrics["top_nodes"]["top_by_in_degree"][1:11],
+    metrics["top_nodes"]["top_by_in_degree"][:10],
     columns=["Artist", "In-Degree"],
 )
 top_out = pd.DataFrame(
