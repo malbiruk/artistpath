@@ -184,4 +184,5 @@ You'll discover artists you never knew existed, sitting right at the crossroads 
 
 ## License
 
-MIT
+- **Code**: [GNU General Public License v3.0](LICENSE-CODE)
+- **Dataset**: [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE-DATA)
