@@ -6,7 +6,6 @@ from pathlib import Path
 
 
 def load_existing_data(output_dir: str = "../data") -> tuple[dict, dict, set, deque]:
-    """Load existing data from NDJSON files."""
     graph = {}
     artist_metadata = {}
     processed_mbids = set()
@@ -16,19 +15,17 @@ def load_existing_data(output_dir: str = "../data") -> tuple[dict, dict, set, de
     metadata_path = Path(output_dir) / "metadata.ndjson"
     state_path = Path(output_dir) / "collection_state.json"
 
-    # Load graph
     if graph_path.exists():
         print(f"Loading existing graph from {graph_path}")
-        with Path(graph_path).open() as f:
+        with graph_path.open() as f:
             for line in f:
                 if line.strip():
                     entry = json.loads(line)
                     graph[entry["id"]] = entry["connections"]
 
-    # Load metadata
     if metadata_path.exists():
         print(f"Loading existing metadata from {metadata_path}")
-        with Path(metadata_path).open() as f:
+        with metadata_path.open() as f:
             for line in f:
                 if line.strip():
                     entry = json.loads(line)
@@ -37,10 +34,9 @@ def load_existing_data(output_dir: str = "../data") -> tuple[dict, dict, set, de
                         "url": entry["url"],
                     }
 
-    # Load state (processed artists and queue)
     if state_path.exists():
         print(f"Loading state from {state_path}")
-        with Path(state_path).open() as f:
+        with state_path.open() as f:
             state = json.load(f)
             processed_mbids = set(state.get("processed_mbids", []))
             queue = deque(state.get("queue", []))
@@ -52,27 +48,24 @@ def load_existing_data(output_dir: str = "../data") -> tuple[dict, dict, set, de
 
 
 def save_state(processed_mbids: set, queue: deque, output_dir: str = "../data") -> None:
-    """Save current state for resume capability."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     state_path = Path(output_dir) / "collection_state.json"
     state = {"processed_mbids": list(processed_mbids), "queue": list(queue)}
-    with Path(state_path).open("w") as f:
+    with state_path.open("w") as f:
         json.dump(state, f, indent=2)
 
 
 def append_to_graph(node_id: str, connections: list, output_dir: str = "../data") -> None:
-    """Append a node to the graph NDJSON file."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     graph_path = Path(output_dir) / "graph.ndjson"
     entry = {"id": node_id, "connections": connections}
-    with Path(graph_path).open("a") as f:
+    with graph_path.open("a") as f:
         f.write(json.dumps(entry) + "\n")
 
 
 def append_to_metadata(node_id: str, name: str, url: str, output_dir: str = "../data") -> None:
-    """Append metadata to the NDJSON file."""
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     metadata_path = Path(output_dir) / "metadata.ndjson"
     entry = {"id": node_id, "name": name, "url": url}
-    with Path(metadata_path).open("a") as f:
+    with metadata_path.open("a") as f:
         f.write(json.dumps(entry) + "\n")
