@@ -67,7 +67,7 @@ Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
 3. `uv run python run_collection.py` (takes several days!)
 4. `uv run python run_postprocessing.py`
 
-Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv) and Rust 1.70+.
+Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv).
 
 ## The Story
 
@@ -81,7 +81,7 @@ So I switched to Last.fm instead — actually turned out better since they have 
 
 The data collection took a couple of days because of API rate limits, ended up with 5.5GB of data and **850,658 unique artists**.
 
-Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding. I even use a Rust function from within Python even though it's totally unnecessary, just because I could 😄
+Coming from a Python background but wanting to learn Rust, I thought this would be perfect for experimenting with both — Python for data collection, Rust for the actual pathfinding.
 
 For performance, I couldn't load the whole graph into RAM, so I skipped the fancy graph libraries and implemented BFS and Dijkstra manually with binary files and memory mapping. Now most searches run in under a second!
 
