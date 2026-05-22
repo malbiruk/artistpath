@@ -1,0 +1,8 @@
+[Unit]
+Description=Artistpath Binary Refresh Check
+
+[Service]
+Type=oneshot
+WorkingDirectory=/var/home/klimasos/Services/artistpath
+ExecStart=/var/home/klimasos/Services/artistpath/scripts/check_and_refresh.sh
+EnvironmentFile=/var/home/klimasos/Services/artistpath/.env

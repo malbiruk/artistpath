@@ -1,0 +1,12 @@
+# Copy to ~/.cloudflared/config.yml after running:
+#   podman run -it --rm -v ~/.cloudflared:/home/nonroot/.cloudflared cloudflare/cloudflared tunnel login
+#   podman run -it --rm -v ~/.cloudflared:/home/nonroot/.cloudflared cloudflare/cloudflared tunnel create artistpath
+#   podman run -it --rm -v ~/.cloudflared:/home/nonroot/.cloudflared cloudflare/cloudflared tunnel route dns artistpath api.artistpath.cc
+
+tunnel: <TUNNEL_UUID>
+credentials-file: /home/nonroot/.cloudflared/<TUNNEL_UUID>.json
+
+ingress:
+  - hostname: api.artistpath.cc
+    service: http://localhost:3050
+  - service: http_status:404

@@ -1,0 +1,15 @@
+[Unit]
+Description=Artistpath Data Collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/home/klimasos/Services/artistpath/data_collection
+ExecStart=/home/klimasos/.local/bin/uv run python run_collection.py
+EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+Restart=on-failure
+RestartSec=3600
+
+[Install]
+WantedBy=default.target

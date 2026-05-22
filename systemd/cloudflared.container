@@ -1,0 +1,17 @@
+[Unit]
+Description=Cloudflare Tunnel for Artistpath
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:latest
+Exec=tunnel run artistpath
+Volume=%h/.cloudflared:/home/nonroot/.cloudflared:ro
+Network=host
+
+[Service]
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

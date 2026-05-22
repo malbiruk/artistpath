@@ -1,0 +1,16 @@
+[Unit]
+Description=Artistpath Backend API Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/home/klimasos/Services/artistpath
+ExecStart=/var/home/klimasos/Services/artistpath/web/backend/target/release/artistpath-web
+EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target

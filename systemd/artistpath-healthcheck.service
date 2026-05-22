@@ -1,0 +1,7 @@
+[Unit]
+Description=Artistpath Backend Health Check
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'curl -fsS -m 10 http://localhost:3050/health && curl -fsS -m 10 --retry 3 https://hc-ping.com/${HC_BACKEND_UUID}'
+EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
