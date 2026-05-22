@@ -27,11 +27,20 @@ pub async fn search_artists(
     State(state): State<Arc<AppState>>,
     Query(params): Query<SearchQuery>,
 ) -> Json<SearchResponse> {
-    let query = params.q.trim();
-    let (results, count) = search_artists_in_state(&state, query, params.limit);
+    let query = params.q.trim().to_string();
+    let query_for_search = query.clone();
+    let limit = params.limit;
+
+    // Trigram intersection + substring check is CPU-bound; keep it off the
+    // async runtime so health checks and other requests stay responsive.
+    let (results, count) = tokio::task::spawn_blocking(move || {
+        search_artists_in_state(&state, &query_for_search, limit)
+    })
+    .await
+    .expect("search task panicked");
 
     Json(SearchResponse {
-        query: query.to_string(),
+        query,
         results,
         count,
     })
@@ -41,14 +50,18 @@ pub async fn find_path(
     State(state): State<Arc<AppState>>,
     Query(params): Query<PathQuery>,
 ) -> Json<PathResponse> {
-    let response = find_path_between_artists(
-        params.from_id,
-        params.to_id,
-        params.algorithm,
-        params.min_similarity,
-        params.max_relations,
-        &state,
-    );
+    let response = tokio::task::spawn_blocking(move || {
+        find_path_between_artists(
+            params.from_id,
+            params.to_id,
+            params.algorithm,
+            params.min_similarity,
+            params.max_relations,
+            &state,
+        )
+    })
+    .await
+    .expect("pathfinding task panicked");
 
     Json(response)
 }
@@ -63,14 +76,18 @@ pub async fn explore_artist(
     State(state): State<Arc<AppState>>,
     Query(params): Query<ExploreQuery>,
 ) -> Json<GraphExploreResponse> {
-    let response = explore_artist_network_graph(
-        params.artist_id,
-        params.algorithm,
-        params.budget,
-        params.max_relations,
-        params.min_similarity,
-        &state,
-    );
+    let response = tokio::task::spawn_blocking(move || {
+        explore_artist_network_graph(
+            params.artist_id,
+            params.algorithm,
+            params.budget,
+            params.max_relations,
+            params.min_similarity,
+            &state,
+        )
+    })
+    .await
+    .expect("exploration task panicked");
 
     Json(response)
 }
@@ -79,14 +96,18 @@ pub async fn explore_artist_reverse(
     State(state): State<Arc<AppState>>,
     Query(params): Query<ExploreQuery>,
 ) -> Json<GraphExploreResponse> {
-    let response = explore_artist_network_reverse_graph(
-        params.artist_id,
-        params.algorithm,
-        params.budget,
-        params.max_relations,
-        params.min_similarity,
-        &state,
-    );
+    let response = tokio::task::spawn_blocking(move || {
+        explore_artist_network_reverse_graph(
+            params.artist_id,
+            params.algorithm,
+            params.budget,
+            params.max_relations,
+            params.min_similarity,
+            &state,
+        )
+    })
+    .await
+    .expect("reverse exploration task panicked");
 
     Json(response)
 }
@@ -95,15 +116,19 @@ pub async fn find_enhanced_path(
     State(state): State<Arc<AppState>>,
     Query(params): Query<EnhancedPathQuery>,
 ) -> Json<EnhancedPathResponse> {
-    let response = find_enhanced_path_between_artists(
-        params.from_id,
-        params.to_id,
-        params.algorithm,
-        params.min_similarity,
-        params.max_relations,
-        params.budget,
-        &state,
-    );
+    let response = tokio::task::spawn_blocking(move || {
+        find_enhanced_path_between_artists(
+            params.from_id,
+            params.to_id,
+            params.algorithm,
+            params.min_similarity,
+            params.max_relations,
+            params.budget,
+            &state,
+        )
+    })
+    .await
+    .expect("enhanced pathfinding task panicked");
 
     Json(response)
 }
@@ -117,13 +142,14 @@ pub async fn get_artist_details(
         .get(&artist_id)
         .ok_or(StatusCode::NOT_FOUND)?;
 
-    // Use the new metadata cache
-    let lastfm_data = state.metadata_cache
+    let lastfm_data = state
+        .metadata_cache
         .get_artist_metadata(artist_id, &artist.name, &artist.url)
         .await
         .unwrap_or(None);
-    
-    let top_tracks = state.metadata_cache
+
+    let top_tracks = state
+        .metadata_cache
         .get_artist_tracks(artist_id, &artist.name)
         .await
         .unwrap_or(None);
@@ -144,22 +170,22 @@ pub async fn get_random_artist(
 ) -> Result<Json<serde_json::Value>, StatusCode> {
     use rand::Rng;
 
-    // Get a random artist from the metadata collection
-    let artist_count = state.artist_metadata.len();
-    if artist_count == 0 {
+    if state.artist_ids.is_empty() {
         return Err(StatusCode::NOT_FOUND);
     }
 
-    let random_index = rand::rng().random_range(0..artist_count);
+    // O(1) lookup via Vec — the old code iterated the HashMap, which was
+    // O(n) and degraded badly at 5M artists.
+    let random_index = rand::rng().random_range(0..state.artist_ids.len());
+    let id = state.artist_ids[random_index];
+    let artist = state
+        .artist_metadata
+        .get(&id)
+        .ok_or(StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    // Get the random artist (since HashMap doesn't have direct indexing)
-    if let Some((id, artist)) = state.artist_metadata.iter().nth(random_index) {
-        Ok(Json(serde_json::json!({
-            "id": id,
-            "name": artist.name,
-            "url": artist.url
-        })))
-    } else {
-        Err(StatusCode::INTERNAL_SERVER_ERROR)
-    }
+    Ok(Json(serde_json::json!({
+        "id": id,
+        "name": artist.name,
+        "url": artist.url
+    })))
 }
