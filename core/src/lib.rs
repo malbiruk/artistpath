@@ -47,7 +47,3 @@ pub use pathfinding::{
     find_paths_with_exploration, get_artist_connections,
 };
 pub use pathfinding_config::PathfindingConfig;
-
-// Re-export PyO3 module when python feature is enabled
-#[cfg(feature = "python")]
-pub use string_normalization::normalization;
