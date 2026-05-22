@@ -1,4 +1,6 @@
-use axum::{Router, routing::get};
+use axum::{Router, middleware, routing::get};
+use axum::http::{Request, header};
+use axum::response::Response;
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 
@@ -15,9 +17,29 @@ mod state;
 
 use state::AppState;
 
+async fn cache_control_middleware(req: Request<axum::body::Body>, next: middleware::Next) -> Response {
+    let path = req.uri().path().to_owned();
+    let mut response = next.run(req).await;
+
+    let cache_value = if path == "/api/artist/random" || path == "/health" {
+        "no-cache, no-store"
+    } else if path == "/api/stats" {
+        "public, max-age=86400"
+    } else if path.starts_with("/api/") {
+        "public, max-age=86400"
+    } else {
+        return response;
+    };
+
+    response.headers_mut().insert(
+        header::CACHE_CONTROL,
+        cache_value.parse().unwrap(),
+    );
+    response
+}
+
 #[tokio::main]
 async fn main() {
-    // Load environment variables from .env file (try root level first)
     dotenvy::from_filename("../../.env")
         .or_else(|_| dotenvy::dotenv())
         .ok();
@@ -40,6 +62,7 @@ async fn main() {
         .route("/api/stats", get(handlers::get_stats))
         .route("/api/artist/random", get(handlers::get_random_artist))
         .route("/api/artist/:id", get(handlers::get_artist_details))
+        .layer(middleware::from_fn(cache_control_middleware))
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
