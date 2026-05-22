@@ -22,12 +22,8 @@ serde = { version = "1.0.219", features = ["derive"] }
 unidecode = "0.3.0"
 uuid = { version = "1.18.0", features = ["serde", "v4"] }
 
-# PyO3 optional for Python integration (data_collection)
-pyo3 = { version = "0.25.1", features = ["extension-module"], optional = true }
-
 [features]
 default = []
-python = ["pyo3"]
 
 [dev-dependencies]
 tempfile = "3.0"
