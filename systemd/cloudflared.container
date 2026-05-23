@@ -6,7 +6,9 @@ Wants=network-online.target
 [Container]
 Image=docker.io/cloudflare/cloudflared:latest
 Exec=tunnel run artistpath
-Volume=%h/.cloudflared:/home/nonroot/.cloudflared:ro
+User=0
+Environment=HOME=/home/nonroot
+Volume=%h/.cloudflared:/home/nonroot/.cloudflared:ro,Z
 Network=host
 
 [Service]
