@@ -8,6 +8,8 @@ graph_analysis/results/metrics
 
 __pycache__
 .claude
+graph_analysis/graph_analysis_report.html
+graph_analysis/*.quarto_ipynb
 graph_analysis_report_files
 *.pkl.gz
 
