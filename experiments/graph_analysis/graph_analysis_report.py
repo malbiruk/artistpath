@@ -4,7 +4,7 @@
 title: Last.fm Artist Similarity Graph Analysis
 subtitle: Network Structure and Distribution Analysis
 author: Klim Kostiuk
-date: 09/23/2025
+date: 2026-05-24
 format:
   html:
     code-fold: true
@@ -450,6 +450,7 @@ fig.update_layout(
     yaxis_title="Density",
     height=500,
     showlegend=False,
+    xaxis=dict(range=[0, 1]),
     yaxis=dict(range=[0, None]),
     margin=dict(t=30),
 )
@@ -486,26 +487,22 @@ fig.show()
 # %%
 # | label: top-nodes-table
 
-# Create DataFrame for top nodes
-top_in = pd.DataFrame(
-    metrics["top_nodes"]["top_by_in_degree"][:10],
-    columns=["Artist", "In-Degree"],
-)
-top_out = pd.DataFrame(
-    metrics["top_nodes"]["top_by_out_degree"][:10],
-    columns=["Artist", "Out-Degree"],
-)
+# Top by out-degree is uninformative since most popular artists hit the
+# MAX_EDGES_PER_NODE=250 cap; the ordering at the top is then arbitrary.
+# Show top 20 by in-degree, split across two columns to keep the table from
+# stretching wide.
+top_in_all = metrics["top_nodes"]["top_by_in_degree"][:20]
+top_in_left = pd.DataFrame(top_in_all[:10], columns=["Artist", "In-Degree"])
+top_in_right = pd.DataFrame(top_in_all[10:20], columns=["Artist", "In-Degree"])
 
-# Create side-by-side display
 html = f"""
+<p style="font-size: .9rem; color: #5a6570; padding-top: .5rem; margin-bottom: -.2rem;">Top by In-Degree (Most Referenced)</p>
 <div style="display: flex; justify-content: space-around;">
     <div style="width: 45%;">
-        <p style="font-size: .9rem; color: #5a6570; padding-top: .5rem; margin-bottom: -.2rem;">Top by In-Degree (Most Referenced)</p>
-        {top_in.to_html(index=False)}
+        {top_in_left.to_html(index=False)}
     </div>
     <div style="width: 45%;">
-        <p style="font-size: .9rem; color: #5a6570; padding-top: .5rem; margin-bottom: -.2rem;">Top by Out-Degree (Most Connections Listed)</p>
-        {top_out.to_html(index=False)}
+        {top_in_right.to_html(index=False)}
     </div>
 </div>
 """
