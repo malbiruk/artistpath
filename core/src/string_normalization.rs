@@ -39,6 +39,25 @@ pub fn extract_trigrams(s: &str) -> impl Iterator<Item = [u8; 3]> + '_ {
     (0..bytes.len().saturating_sub(2)).map(move |i| [bytes[i], bytes[i + 1], bytes[i + 2]])
 }
 
+/// Markers that strongly indicate a collaboration entry rather than a
+/// canonical artist. Leading/trailing spaces avoid matching inside words
+/// (e.g. "feathers", "drift"). Extend with " x ", " vs ", " with " etc.
+/// only if false-positive risk is acceptable for your data.
+const COLLAB_MARKERS: &[&str] = &[
+    " feat. ",
+    " feat ",
+    " ft. ",
+    " ft ",
+    " featuring ",
+];
+
+/// Returns true if `normalized_name` (already lowercased via `clean_str`)
+/// looks like a feat/ft/featuring collaboration entry. Used to demote these
+/// in search ranking; entries remain in the dataset and graph.
+pub fn is_collab_entry(normalized_name: &str) -> bool {
+    COLLAB_MARKERS.iter().any(|m| normalized_name.contains(m))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -77,5 +96,23 @@ mod tests {
         assert_eq!(extract_trigrams("").count(), 0);
         assert_eq!(extract_trigrams("ab").count(), 0);
         assert_eq!(extract_trigrams("abc").count(), 1);
+    }
+
+    #[test]
+    fn detects_collab_entries() {
+        assert!(is_collab_entry("drake feat. future"));
+        assert!(is_collab_entry("drake feat future"));
+        assert!(is_collab_entry("drake ft. future"));
+        assert!(is_collab_entry("drake ft future"));
+        assert!(is_collab_entry("drake featuring future"));
+    }
+
+    #[test]
+    fn keeps_canonical_artists() {
+        assert!(!is_collab_entry("drake"));
+        assert!(!is_collab_entry("the beatles"));
+        // " feat" at end or start with no trailing space is not a marker
+        assert!(!is_collab_entry("feathers"));
+        assert!(!is_collab_entry("ft island"));
     }
 }
