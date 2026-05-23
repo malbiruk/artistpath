@@ -7,9 +7,9 @@ QUADLET_DIR="$HOME/.config/containers/systemd"
 
 mkdir -p "$SYSTEMD_DIR" "$QUADLET_DIR"
 
-echo "Installing from $REPO_DIR/systemd/"
+echo "Installing from $REPO_DIR/ops/"
 
-for unit in "$REPO_DIR"/systemd/*; do
+for unit in "$REPO_DIR"/ops/*; do
     name="$(basename "$unit")"
     case "$name" in
         *.container)
