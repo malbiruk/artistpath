@@ -91,7 +91,10 @@ function NetworkVisualization({
       );
     });
 
-    const maxConnections = Math.max(...connectionCounts.values());
+    // Floor at 1 so a lone node (0 edges) doesn't trigger a 0/0 NaN in
+    // getNodeFontSize, which would propagate to NaN dimensions and hide
+    // the rect entirely.
+    const maxConnections = Math.max(1, ...connectionCounts.values());
 
     // Add connection count to nodes
     nodes.forEach((node) => {
