@@ -1,5 +1,6 @@
 """Sentinel name filter for postprocessing."""
 
+import unicodedata
 from pathlib import Path
 
 import orjson
@@ -13,8 +14,18 @@ BLOCKLISTED_NAMES: set[str] = {
 }
 
 
+def _has_no_visible_content(name: str) -> bool:
+    """True if every character is whitespace, control, or format (so the name
+    renders as nothing — e.g. a lone U+200E left-to-right mark)."""
+    for c in name:
+        if unicodedata.category(c)[0] not in ("C", "Z"):
+            return False
+    return True
+
+
 def identify_blocklisted_uuids(metadata_file: Path) -> set[str]:
-    """Pre-scan metadata.ndjson and return UUIDs whose name is in BLOCKLISTED_NAMES."""
+    """Pre-scan metadata.ndjson and return UUIDs to drop: exact-match against
+    BLOCKLISTED_NAMES, plus any name with no visible content."""
     blocked: set[str] = set()
     with metadata_file.open("rb") as f, Progress() as progress:
         task = progress.add_task("[yellow]Scanning for blocklisted names...", total=None)
@@ -25,7 +36,8 @@ def identify_blocklisted_uuids(metadata_file: Path) -> set[str]:
                 continue
             try:
                 entry = orjson.loads(line)
-                if entry["name"] in BLOCKLISTED_NAMES:
+                name = entry["name"]
+                if name in BLOCKLISTED_NAMES or _has_no_visible_content(name):
                     blocked.add(entry["id"])
             except (orjson.JSONDecodeError, KeyError):
                 continue
