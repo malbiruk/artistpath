@@ -447,7 +447,7 @@ fig.add_trace(
 )
 
 fig.update_layout(
-    xaxis_title="Similarity Score (1 - Weight)",
+    xaxis_title="Edge Weight (Similarity Score)",
     yaxis_title="Density",
     height=500,
     showlegend=False,
@@ -510,6 +510,14 @@ html = f"""
 
 display(HTML(html))
 
+display(
+    Markdown(
+        "*Last.fm tags reflect what users scrobble, not a curated music catalog. "
+        "Entries include YouTubers, podcasters, and TV/radio channels whose audio "
+        "users scrobbled alongside music — they're not filtered out here.*"
+    ),
+)
+
 # %%
 # | label: key-insights
 # | echo: false
@@ -520,7 +528,7 @@ display(
 
 ### Network Type
 - **Scale-free network** with power-law in-degree distribution (α = {power_law_fits.get("in_degree_fit", {}).get("alpha", 0):.2f})
-- High **reciprocity** ({basic_metrics["reciprocity"]:.1%}) indicating symmetric similarity relationships
+- **Moderate reciprocity** ({basic_metrics["reciprocity"]:.1%}) — well above random; top-250 cap on out-edges prevents full symmetry
 - **Clustering coefficient** = {metrics.get("clustering", {}).get("clustering_coefficient", 0):.4f} (proportion of closed triangles)
 - **Extremely sparse** (density = {basic_metrics["density"]:.2e}) yet well-connected
 
@@ -535,6 +543,6 @@ display(
 
 ## Methodology
 
-Data collected from Last.fm API for {dataset_info["nodes"]:,} artists. Analysis performed using streaming algorithms to handle the large graph size with memory constraints. Distributions sampled at 10% for weight analysis.
+Data collected from Last.fm API for {dataset_info["nodes"]:,} artists. Graph loaded as a scipy.sparse CSR matrix from binary format; all metrics computed exactly. Distribution plots sample 200,000 values for tractable rendering.
 """),
 )
