@@ -4,7 +4,7 @@ Explore music artist networks and discover connections using Last.fm's related a
 
 ## What is this?
 
-An interactive web application for exploring artist networks and finding paths between artists. Visualize how artists are connected through musical similarity and discover related artists around any musician or along connection paths. Available as both a web interface and command-line tool covering more than 850k artists.
+An interactive web application for exploring artist networks and finding paths between artists. Visualize how artists are connected through musical similarity and discover related artists around any musician or along connection paths. Available as both a web interface and command-line tool covering more than 5.5M artists.
 
 <img width="1920" height="1053" alt="image" src="https://github.com/user-attachments/assets/21dd33cf-a293-4208-8f6d-44f47eaefc19" />
 
