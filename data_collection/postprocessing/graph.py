@@ -36,7 +36,7 @@ def _find_chunk_boundaries(path: Path, n_chunks: int) -> list[int]:
 
 
 def _process_forward_chunk(
-    path: str, start: int, end: int
+    path: str, start: int, end: int, blocklist: frozenset[str]
 ) -> tuple[bytes, list[tuple[str, int]]]:
     """Worker: build forward graph binary from a byte range. No reverse data."""
     forward_buf = bytearray()
@@ -57,6 +57,9 @@ def _process_forward_chunk(
             artist_id = data["id"]
             connections = data["connections"]
 
+            if artist_id in blocklist:
+                continue
+
             try:
                 artist_bytes = _uuid_bytes(artist_id)
             except ValueError:
@@ -67,6 +70,8 @@ def _process_forward_chunk(
             conn_data = bytearray()
 
             for conn_id, weight in connections:
+                if conn_id in blocklist:
+                    continue
                 try:
                     conn_bytes = _uuid_bytes(conn_id)
                 except ValueError:
@@ -84,7 +89,9 @@ def _process_forward_chunk(
     return bytes(forward_buf), forward_ids
 
 
-def process_graph(graph_file: Path, data_dir: Path) -> dict:
+def process_graph(
+    graph_file: Path, data_dir: Path, blocklist: set[str] | None = None
+) -> dict:
     """Convert graph.ndjson to graph.bin and rev-graph.bin."""
     graph_bin = data_dir / "graph.bin"
     rev_graph_bin = data_dir / "rev-graph.bin"
@@ -92,6 +99,7 @@ def process_graph(graph_file: Path, data_dir: Path) -> dict:
     n_workers = min(os.cpu_count() or 1, 24)
     print(f"  {line_count:,} lines, {n_workers} workers")
 
+    blocklist_fs: frozenset[str] = frozenset(blocklist or set())
     boundaries = _find_chunk_boundaries(graph_file, n_workers)
 
     # Phase 1: Forward graph (parallel, low memory)
@@ -100,7 +108,7 @@ def process_graph(graph_file: Path, data_dir: Path) -> dict:
 
     results = Parallel(n_jobs=n_workers, return_as="generator")(
         delayed(_process_forward_chunk)(
-            str(graph_file), boundaries[i], boundaries[i + 1]
+            str(graph_file), boundaries[i], boundaries[i + 1], blocklist_fs
         )
         for i in range(n_workers)
     )
@@ -138,12 +146,17 @@ def process_graph(graph_file: Path, data_dir: Path) -> dict:
             except orjson.JSONDecodeError:
                 continue
 
+            if data["id"] in blocklist_fs:
+                continue
+
             try:
                 artist_bytes = _uuid_bytes(data["id"])
             except ValueError:
                 continue
 
             for conn_id, weight in data["connections"]:
+                if conn_id in blocklist_fs:
+                    continue
                 try:
                     _uuid_bytes(conn_id)
                 except ValueError:

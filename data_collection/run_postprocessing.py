@@ -3,7 +3,11 @@
 import time
 from pathlib import Path
 
-from postprocessing import process_graph, process_metadata
+from postprocessing import (
+    identify_blocklisted_uuids,
+    process_graph,
+    process_metadata,
+)
 
 MB = 1024**2
 GB = 1024**3
@@ -20,8 +24,12 @@ def main() -> None:
 
     t0 = time.perf_counter()
 
+    print("\n🚫 Step 0: Identifying blocklisted sentinel UUIDs")
+    blocklist = identify_blocklisted_uuids(metadata_file)
+    print(f"✅ Blocklist: {len(blocklist):,} UUID(s) will be excluded")
+
     print("\n📊 Step 1: Converting graph to binary format")
-    graph_stats = process_graph(graph_file, data_dir)
+    graph_stats = process_graph(graph_file, data_dir, blocklist=blocklist)
     print(f"✅ Forward graph: {graph_stats['graph_bin_size'] / MB:.1f} MB")
     print(f"✅ Reverse graph: {graph_stats['rev_graph_bin_size'] / MB:.1f} MB")
 
@@ -31,6 +39,7 @@ def main() -> None:
         data_dir,
         graph_stats["forward_index"],
         graph_stats["reverse_index"],
+        blocklist=blocklist,
     )
     print(f"✅ Metadata binary: {metadata_stats['binary_size'] / MB:.1f} MB")
 

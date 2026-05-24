@@ -28,12 +28,14 @@ def process_metadata(
     data_dir: Path,
     forward_index: dict[str, int],
     reverse_index: dict[str, int],
+    blocklist: set[str] | None = None,
 ) -> dict:
     """Build lookup and metadata from metadata.ndjson, write metadata.bin."""
     binary_path = data_dir / "metadata.bin"
     line_count = _count_lines(metadata_file)
     print(f"  {line_count:,} metadata entries to process")
 
+    blocklist = blocklist or set()
     lookup: dict[str, list[str]] = {}
     metadata: dict[str, dict[str, str]] = {}
 
@@ -52,6 +54,9 @@ def process_metadata(
                 name = entry["name"]
                 url = entry["url"]
             except (orjson.JSONDecodeError, KeyError):
+                continue
+
+            if mbid in blocklist:
                 continue
 
             metadata[mbid] = {"name": name, "url": url}

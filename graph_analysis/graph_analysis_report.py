@@ -33,9 +33,10 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from IPython.display import HTML, Markdown, display
-from plot_template import setup_custom_template
 from plotly.subplots import make_subplots
 from scipy.stats import gaussian_kde
+
+from plot_template import setup_custom_template
 
 warnings.filterwarnings("ignore")
 

@@ -427,13 +427,19 @@ def save_distributions(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Calculate graph metrics (exact, scipy.sparse)")
-    parser.add_argument("--graph", type=str, help="Path to graph.bin (default: ../../data/graph.bin)")
-    parser.add_argument("--metadata-bin", type=str, help="Path to metadata.bin (default: ../../data/metadata.bin)")
-    parser.add_argument("--metadata-ndjson", type=str, help="Path to metadata.ndjson for top-node names (default: ../../data/metadata.ndjson)")
+    parser.add_argument("--graph", type=str, help="Path to graph.bin (default: ../data/graph.bin)")
+    parser.add_argument(
+        "--metadata-bin", type=str, help="Path to metadata.bin (default: ../data/metadata.bin)"
+    )
+    parser.add_argument(
+        "--metadata-ndjson",
+        type=str,
+        help="Path to metadata.ndjson for top-node names (default: ../data/metadata.ndjson)",
+    )
     parser.add_argument("--output-prefix", type=str, help="Output name prefix (default: graph)")
     args = parser.parse_args()
 
-    data_dir = Path("../../data")
+    data_dir = Path("../data")
     graph_path = Path(args.graph) if args.graph else data_dir / "graph.bin"
     metadata_bin_path = Path(args.metadata_bin) if args.metadata_bin else data_dir / "metadata.bin"
     metadata_ndjson_path = (
