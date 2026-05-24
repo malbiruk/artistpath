@@ -601,7 +601,7 @@ function App() {
         <div className="footer-right">
           <div className="graph-stats-link">
             <a
-              href="https://artistpath-graph-stats.pages.dev/"
+              href="https://stats.artistpath.cc/"
               target="_blank"
               rel="noopener noreferrer"
             >
