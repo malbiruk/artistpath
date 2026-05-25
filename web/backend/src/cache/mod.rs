@@ -19,9 +19,7 @@ pub struct MetadataCache {
 }
 
 impl MetadataCache {
-    pub async fn new(lastfm_api_key: String) -> tokio::io::Result<Self> {
-        let cache_file_path = PathBuf::from("../../data/artist_metadata.bin");
-
+    pub async fn new(lastfm_api_key: String, cache_file_path: PathBuf) -> tokio::io::Result<Self> {
         // Ensure data directory exists
         if let Some(parent) = cache_file_path.parent() {
             tokio::fs::create_dir_all(parent).await?;

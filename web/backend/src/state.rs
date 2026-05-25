@@ -3,7 +3,7 @@ use artistpath_core::{Artist, parse_unified_metadata, string_normalization::extr
 use memmap2::Mmap;
 use rustc_hash::{FxHashMap, FxHashSet};
 use std::fs::File;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::time::Instant;
 use uuid::Uuid;
 
@@ -54,10 +54,13 @@ impl AppState {
         let reverse_graph_mmap = unsafe { Mmap::map(&reverse_graph_file)? };
 
         let api_key = std::env::var("LASTFM_API_KEY")
-            .or_else(|_| std::env::var("API_KEY"))
-            .expect("LASTFM_API_KEY or API_KEY environment variable must be set");
+            .expect("LASTFM_API_KEY environment variable must be set");
 
-        let metadata_cache = MetadataCache::new(api_key).await?;
+        let cache_path_str = std::env::var("LASTFM_CACHE_PATH")
+            .unwrap_or_else(|_| "../../data/artist_metadata.bin".to_string());
+        let cache_path = PathBuf::from(cache_path_str);
+
+        let metadata_cache = MetadataCache::new(api_key, cache_path).await?;
 
         println!("Loaded {} artists", artist_metadata.len());
         println!("Lookup entries: {}", lookup_entries.len());

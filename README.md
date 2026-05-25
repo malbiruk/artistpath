@@ -63,7 +63,7 @@ Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
 ### Build Your Own Dataset
 
 1. Get a [Last.fm API key](https://www.last.fm/api/account/create)
-2. `cd data_collection && uv sync && echo "API_KEY=your_key" > .env`
+2. `cd data_collection && uv sync && echo "LASTFM_COLLECTOR_API_KEY=your_key" > .env`
 3. `uv run python run_collection.py` (takes several days!)
 4. `uv run python run_postprocessing.py`
 
