@@ -85,7 +85,7 @@ impl AppState {
 /// Build a trigram → entry-indices postings list, deduplicating trigrams
 /// per entry. Postings lists are kept sorted so search-time intersection
 /// can use a linear merge.
-fn build_trigram_index(entries: &[(String, Vec<Uuid>)]) -> FxHashMap<[u8; 3], Vec<u32>> {
+pub fn build_trigram_index(entries: &[(String, Vec<Uuid>)]) -> FxHashMap<[u8; 3], Vec<u32>> {
     let t0 = Instant::now();
     let mut index: FxHashMap<[u8; 3], Vec<u32>> = FxHashMap::default();
     let mut per_entry_seen: FxHashSet<[u8; 3]> = FxHashSet::default();

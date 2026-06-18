@@ -261,3 +261,36 @@ async fn test_enhanced_path_graph_structure() {
         }
     }
 }
+
+/// Absurdly large budget and max_relations are clamped server-side; the
+/// request must complete and return a valid response.
+#[tokio::test]
+async fn test_enhanced_path_absurd_budget_and_max_relations_are_clamped() {
+    let (app, test_artists) = create_test_app_state().await;
+
+    let response = app
+        .oneshot(
+            Request::builder()
+                .uri(format!(
+                    "/api/enhanced_path?from_id={}&to_id={}&budget=100000000&max_relations=100000",
+                    test_artists.taylor.0, test_artists.billie.0
+                ))
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::OK);
+
+    let body = to_bytes(response.into_body(), usize::MAX).await.unwrap();
+    let enhanced_response: EnhancedPathResponse = serde_json::from_slice(&body).unwrap();
+
+    // Result is bounded by the actual graph size, not the absurd params.
+    // The key assertion is that the handler completes and returns a valid status.
+    assert!(
+        enhanced_response.status == "success"
+            || enhanced_response.status == "no_path"
+            || enhanced_response.status == "path_too_long"
+    );
+}

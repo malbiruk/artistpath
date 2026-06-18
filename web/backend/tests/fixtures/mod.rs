@@ -1,6 +1,6 @@
 use artistpath_core::Artist;
 use artistpath_web::handlers;
-use artistpath_web::state::AppState;
+use artistpath_web::state::{AppState, build_trigram_index};
 use axum::{Router, routing::get};
 use byteorder::{LittleEndian, WriteBytesExt};
 use memmap2::{Mmap, MmapOptions};
@@ -164,22 +164,60 @@ pub fn create_empty_mmap() -> Mmap {
 }
 
 pub async fn create_test_metadata_cache() -> artistpath_web::cache::MetadataCache {
-    artistpath_web::cache::MetadataCache::new("test_api_key".to_string()).await.unwrap()
+    let tmp = NamedTempFile::new().unwrap();
+    artistpath_web::cache::MetadataCache::new(
+        "test_api_key".to_string(),
+        tmp.path().to_path_buf(),
+    )
+    .await
+    .unwrap()
+}
+
+/// Build an `Arc<AppState>` from a name-lookup map and metadata map.
+///
+/// `lookup_entries` and `trigram_index` are derived automatically so the test
+/// index is always in sync with the production `build_trigram_index` logic.
+/// `graph_index` / `reverse_graph_index` / mmaps are passed in so callers that
+/// need a real graph (explore, path tests) can supply one.
+pub async fn build_app_state(
+    name_lookup: FxHashMap<String, Vec<Uuid>>,
+    artist_metadata: FxHashMap<Uuid, Artist>,
+    graph_index: FxHashMap<Uuid, u64>,
+    reverse_graph_index: FxHashMap<Uuid, u64>,
+    graph_mmap: Mmap,
+    reverse_graph_mmap: Mmap,
+) -> Arc<AppState> {
+    let lookup_entries: Vec<(String, Vec<Uuid>)> = name_lookup.into_iter().collect();
+    let trigram_index = build_trigram_index(&lookup_entries);
+    let artist_ids: Vec<Uuid> = artist_metadata.keys().copied().collect();
+    let metadata_cache = create_test_metadata_cache().await;
+
+    Arc::new(AppState {
+        lookup_entries,
+        trigram_index,
+        artist_metadata,
+        artist_ids,
+        graph_index,
+        reverse_graph_index,
+        graph_mmap,
+        reverse_graph_mmap,
+        metadata_cache,
+    })
 }
 
 pub async fn create_test_app_state() -> (Router, TestArtists) {
     let test_artists = TestArtists::new();
     let (graph_file, graph_index) = create_test_graph();
 
-    let app_state = Arc::new(AppState {
-        name_lookup: test_artists.as_name_lookup(),
-        artist_metadata: test_artists.as_metadata(),
+    let app_state = build_app_state(
+        test_artists.as_name_lookup(),
+        test_artists.as_metadata(),
         graph_index,
-        reverse_graph_index: FxHashMap::default(),
-        graph_mmap: unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
-        reverse_graph_mmap: create_empty_mmap(),
-        metadata_cache: create_test_metadata_cache().await,
-    });
+        FxHashMap::default(),
+        unsafe { MmapOptions::new().map(graph_file.as_file()).unwrap() },
+        create_empty_mmap(),
+    )
+    .await;
 
     let app = Router::new()
         .route("/health", get(handlers::health_check))

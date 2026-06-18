@@ -333,3 +333,32 @@ async fn test_explore_performance() {
         "Should visit some artists"
     );
 }
+
+/// An absurdly large budget and max_relations are clamped server-side;
+/// the request must complete successfully and return a bounded result.
+#[tokio::test]
+async fn test_explore_absurd_budget_and_max_relations_are_clamped() {
+    let (app, test_artists) = create_test_app_state().await;
+
+    let response = app
+        .oneshot(
+            Request::builder()
+                .uri(format!(
+                    "/api/explore?artist_id={}&budget=100000000&max_relations=100000",
+                    test_artists.taylor.0
+                ))
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::OK);
+
+    let body = to_bytes(response.into_body(), usize::MAX).await.unwrap();
+    let explore_response: GraphExploreResponse = serde_json::from_slice(&body).unwrap();
+
+    // With only 4 artists in the graph the result is bounded by graph size,
+    // not by the absurd params — the key assertion is that it completes at all.
+    assert_eq!(explore_response.total_found, explore_response.nodes.len());
+}
