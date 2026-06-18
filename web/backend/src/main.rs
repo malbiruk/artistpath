@@ -66,9 +66,11 @@ async fn main() {
         .layer(CorsLayer::permissive())
         .with_state(app_state);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3050").await.unwrap();
+    // Loopback only: the Cloudflare tunnel reaches us via localhost, so this
+    // keeps the API off the LAN even if the host firewall is misconfigured.
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3050").await.unwrap();
 
-    println!("Server running on http://0.0.0.0:3050");
+    println!("Server running on http://127.0.0.1:3050");
 
     axum::serve(listener, app).await.unwrap();
 }

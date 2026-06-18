@@ -25,8 +25,9 @@ pub async fn health_check() -> Json<HealthResponse> {
 
 pub async fn search_artists(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<SearchQuery>,
+    Query(mut params): Query<SearchQuery>,
 ) -> Json<SearchResponse> {
+    params.clamp_to_limits();
     let query = params.q.trim().to_string();
     let query_for_search = query.clone();
     let limit = params.limit;
@@ -48,8 +49,9 @@ pub async fn search_artists(
 
 pub async fn find_path(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<PathQuery>,
+    Query(mut params): Query<PathQuery>,
 ) -> Json<PathResponse> {
+    params.clamp_to_limits();
     let response = tokio::task::spawn_blocking(move || {
         find_path_between_artists(
             params.from_id,
@@ -74,8 +76,9 @@ pub async fn get_stats(State(state): State<Arc<AppState>>) -> Json<StatsResponse
 
 pub async fn explore_artist(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<ExploreQuery>,
+    Query(mut params): Query<ExploreQuery>,
 ) -> Json<GraphExploreResponse> {
+    params.clamp_to_limits();
     let response = tokio::task::spawn_blocking(move || {
         explore_artist_network_graph(
             params.artist_id,
@@ -94,8 +97,9 @@ pub async fn explore_artist(
 
 pub async fn explore_artist_reverse(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<ExploreQuery>,
+    Query(mut params): Query<ExploreQuery>,
 ) -> Json<GraphExploreResponse> {
+    params.clamp_to_limits();
     let response = tokio::task::spawn_blocking(move || {
         explore_artist_network_reverse_graph(
             params.artist_id,
@@ -114,8 +118,9 @@ pub async fn explore_artist_reverse(
 
 pub async fn find_enhanced_path(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<EnhancedPathQuery>,
+    Query(mut params): Query<EnhancedPathQuery>,
 ) -> Json<EnhancedPathResponse> {
+    params.clamp_to_limits();
     let response = tokio::task::spawn_blocking(move || {
         find_enhanced_path_between_artists(
             params.from_id,

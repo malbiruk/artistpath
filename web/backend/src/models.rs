@@ -2,6 +2,13 @@ use artistpath_core::Algorithm;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+// Server-side caps on the cost-driving query params: the API is public with no
+// rate limit, so an untrusted caller could otherwise request unbounded work.
+// Set to the widest range the frontend allows, so no legitimate request hits them.
+const MAX_SEARCH_LIMIT: usize = 100;
+const MAX_RELATIONS: usize = 250;
+const MAX_BUDGET: usize = 10_000;
+
 #[derive(Serialize)]
 pub struct HealthResponse {
     pub status: String,
@@ -133,6 +140,33 @@ pub struct EnhancedPathQuery {
     pub max_relations: usize,
     #[serde(default = "default_budget")]
     pub budget: usize,
+}
+
+// Clamping kept together so the limit policy is auditable in one place.
+impl SearchQuery {
+    pub fn clamp_to_limits(&mut self) {
+        self.limit = self.limit.min(MAX_SEARCH_LIMIT);
+    }
+}
+
+impl PathQuery {
+    pub fn clamp_to_limits(&mut self) {
+        self.max_relations = self.max_relations.min(MAX_RELATIONS);
+    }
+}
+
+impl ExploreQuery {
+    pub fn clamp_to_limits(&mut self) {
+        self.max_relations = self.max_relations.min(MAX_RELATIONS);
+        self.budget = self.budget.min(MAX_BUDGET);
+    }
+}
+
+impl EnhancedPathQuery {
+    pub fn clamp_to_limits(&mut self) {
+        self.max_relations = self.max_relations.min(MAX_RELATIONS);
+        self.budget = self.budget.min(MAX_BUDGET);
+    }
 }
 
 #[derive(Serialize, Deserialize)]
