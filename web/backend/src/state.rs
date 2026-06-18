@@ -40,8 +40,11 @@ impl AppState {
         let (name_lookup, artist_metadata, graph_index, reverse_graph_index) =
             parse_unified_metadata(metadata_path);
 
-        // Convert HashMap to ordered Vec so we can reference entries by index.
-        let lookup_entries: Vec<(String, Vec<Uuid>)> = name_lookup.into_iter().collect();
+        // Vec sorted by name so short (<3 char) queries can prefix-match via
+        // binary search. Must precede the trigram build, which references
+        // positions in this Vec.
+        let mut lookup_entries: Vec<(String, Vec<Uuid>)> = name_lookup.into_iter().collect();
+        lookup_entries.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 
         let trigram_index = build_trigram_index(&lookup_entries);
 

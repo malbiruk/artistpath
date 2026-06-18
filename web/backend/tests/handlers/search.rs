@@ -89,6 +89,47 @@ async fn search_finds_partial_match() {
 
 #[tokio::test]
 async fn search_respects_limit() {
+    // Two artists match "swift"; limit 1 must truncate to a single result.
+    let artists = TestArtists::new();
+    let swift_boat_id = Uuid::new_v4();
+    let mut name_lookup = artists.as_name_lookup();
+    name_lookup.insert("swift boat".to_string(), vec![swift_boat_id]);
+
+    let mut metadata = artists.as_metadata();
+    metadata.insert(
+        swift_boat_id,
+        artistpath_core::Artist {
+            id: swift_boat_id,
+            name: "Swift Boat".to_string(),
+            url: "".to_string(),
+        },
+    );
+
+    let state = build_app_state(
+        name_lookup,
+        metadata,
+        Default::default(),
+        Default::default(),
+        create_empty_mmap(),
+        create_empty_mmap(),
+    )
+    .await;
+
+    let params = SearchQuery {
+        q: "swift".to_string(),
+        limit: 1,
+    };
+
+    let response = search_artists(State(state), Query(params)).await;
+    let data = response.0;
+
+    assert_eq!(data.results.len(), 1);
+    assert_eq!(data.count, 1);
+}
+
+#[tokio::test]
+async fn search_short_query_matches_by_prefix() {
+    // Sub-3-char queries prefix-match rather than substring-match.
     let artists = TestArtists::new();
     let state = build_app_state(
         artists.as_name_lookup(),
@@ -100,17 +141,22 @@ async fn search_respects_limit() {
     )
     .await;
 
-    // Search for something that matches multiple artists
+    // "fi" is a prefix of "finneas" -> match.
     let params = SearchQuery {
-        q: "i".to_string(), // matches Olivia, Billie
-        limit: 1,
+        q: "fi".to_string(),
+        limit: 10,
     };
-
-    let response = search_artists(State(state), Query(params)).await;
-    let data = response.0;
-
+    let data = search_artists(State(state.clone()), Query(params)).await.0;
     assert_eq!(data.results.len(), 1);
-    assert_eq!(data.count, 1);
+    assert_eq!(data.results[0].name, "FINNEAS");
+
+    // "il" occurs inside "billie eilish" but is not a prefix -> no match.
+    let params = SearchQuery {
+        q: "il".to_string(),
+        limit: 10,
+    };
+    let data = search_artists(State(state.clone()), Query(params)).await.0;
+    assert_eq!(data.results.len(), 0);
 }
 
 #[tokio::test]
@@ -165,9 +211,8 @@ async fn search_with_huge_limit_does_not_error() {
     let response = app
         .oneshot(
             Request::builder()
-                // "a" is a 1-char query so it triggers the full-scan path and
-                // matches all four artists (all names contain 'a').
-                .uri("/api/artists/search?q=a&limit=999999999")
+                // "billie" matches one fixture artist.
+                .uri("/api/artists/search?q=billie&limit=999999999")
                 .body(Body::empty())
                 .unwrap(),
         )

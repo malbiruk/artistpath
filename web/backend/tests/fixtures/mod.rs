@@ -187,7 +187,8 @@ pub async fn build_app_state(
     graph_mmap: Mmap,
     reverse_graph_mmap: Mmap,
 ) -> Arc<AppState> {
-    let lookup_entries: Vec<(String, Vec<Uuid>)> = name_lookup.into_iter().collect();
+    let mut lookup_entries: Vec<(String, Vec<Uuid>)> = name_lookup.into_iter().collect();
+    lookup_entries.sort_unstable_by(|a, b| a.0.cmp(&b.0));
     let trigram_index = build_trigram_index(&lookup_entries);
     let artist_ids: Vec<Uuid> = artist_metadata.keys().copied().collect();
     let metadata_cache = create_test_metadata_cache().await;

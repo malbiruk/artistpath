@@ -21,30 +21,33 @@ pub fn search_artists_in_state(
     (results, count)
 }
 
+/// Cap on prefix matches a <3-char query collects, keeping it O(log n + cap)
+/// instead of an unbounded scan.
+const PREFIX_SCAN_CAP: usize = 1000;
+
 fn filter_artists_by_query(query: &str, state: &AppState) -> Vec<ArtistSearchResult> {
     let normalized_query = clean_str(query);
     if normalized_query.is_empty() {
         return Vec::new();
     }
 
-    // For queries ≥ 3 chars we use the trigram index to shrink the candidate
-    // set from ~5M to typically a few hundred or thousand. For shorter
-    // queries trigrams aren't available, so we fall back to a full scan —
-    // which is the rare case (users almost always type ≥ 3 chars).
-    let candidates: Box<dyn Iterator<Item = u32>> = if normalized_query.len() >= 3 {
+    // ≥3 chars use the trigram index (substring search). Shorter queries can't
+    // form a trigram and instead prefix-match the name-sorted entries via binary
+    // search — bounded, so a 1-2 char query can't full-scan every name (a ~25s
+    // DoS lever on the full dataset).
+    let candidates: Vec<u32> = if normalized_query.len() >= 3 {
         let trigrams: Vec<[u8; 3]> = extract_trigrams(&normalized_query).collect();
         let mut postings: Vec<&Vec<u32>> = Vec::with_capacity(trigrams.len());
         for t in &trigrams {
             match state.trigram_index.get(t) {
                 Some(list) => postings.push(list),
-                // A trigram absent from the index means no name contains it,
-                // so no name can contain the full query.
+                // A trigram absent from the index means no name contains it.
                 None => return Vec::new(),
             }
         }
-        Box::new(intersect_sorted_postings(postings).into_iter())
+        intersect_sorted_postings(postings)
     } else {
-        Box::new(0..state.lookup_entries.len() as u32)
+        prefix_candidates(&normalized_query, state)
     };
 
     let mut results = Vec::new();
@@ -52,9 +55,9 @@ fn filter_artists_by_query(query: &str, state: &AppState) -> Vec<ArtistSearchRes
 
     for idx in candidates {
         let (name, artist_ids) = &state.lookup_entries[idx as usize];
-        // Trigram presence is necessary but not sufficient: verify with the
-        // actual substring check (false positives are e.g. "abc" trigrams
-        // appearing in "abXc..." style fragments interleaved across the name).
+        // Trigram membership is necessary but not sufficient (e.g. "abc"
+        // trigrams interleaved across the name), so verify the substring.
+        // Prefix candidates already satisfy this.
         if !name.contains(&normalized_query) {
             continue;
         }
@@ -72,6 +75,26 @@ fn filter_artists_by_query(query: &str, state: &AppState) -> Vec<ArtistSearchRes
     }
 
     results
+}
+
+/// Indices of name-sorted entries whose name starts with `prefix`, capped at
+/// [`PREFIX_SCAN_CAP`] so a broad prefix stays bounded.
+fn prefix_candidates(prefix: &str, state: &AppState) -> Vec<u32> {
+    let start = state
+        .lookup_entries
+        .partition_point(|(name, _)| name.as_str() < prefix);
+
+    let mut candidates = Vec::new();
+    for idx in start..state.lookup_entries.len() {
+        if !state.lookup_entries[idx].0.starts_with(prefix) {
+            break;
+        }
+        candidates.push(idx as u32);
+        if candidates.len() >= PREFIX_SCAN_CAP {
+            break;
+        }
+    }
+    candidates
 }
 
 /// Linear merge intersection over sorted postings lists.
