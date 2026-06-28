@@ -72,6 +72,8 @@ power_law_fits = metrics.get("power_law_fits", {})
 
 This report analyzes the structure of a large-scale music artist similarity graph derived from Last.fm data. The network exhibits scale-free properties with distinct patterns in connectivity and similarity distributions.
 
+> Metrics are computed over the **cleaned** served graph (`graph.bin` / `metadata.bin`): transliteration/spelling duplicate nodes and collaboration/feature credit nodes are removed during postprocessing (see the README "Data Cleaning" section). The raw NDJSON retains every node.
+
 ## Graph Overview
 
 """

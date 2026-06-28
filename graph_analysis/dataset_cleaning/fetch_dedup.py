@@ -4,6 +4,7 @@ artist. Reads results/dedup_sample.csv, writes results/dedup_label_input.json.""
 import csv
 import json
 import re
+import sys
 import time
 import urllib.parse
 import urllib.request
@@ -63,6 +64,7 @@ def work(row: dict) -> dict:
     time.sleep(0.05)
     return {
         "kind": row["kind"],
+        "ratio": row.get("ratio"),
         "variant": row["variant"], "canonical": row["canonical"],
         "variant_in": row["variant_in"], "canonical_in": row["canonical_in"],
         "variant_lfm": v, "canonical_lfm": c,
@@ -70,12 +72,12 @@ def work(row: dict) -> dict:
 
 
 def main() -> None:
-    rows = list(csv.DictReader((Path("results") / "dedup_sample.csv").open()))
+    in_csv = sys.argv[1] if len(sys.argv) > 1 else "results/dedup_sample.csv"
+    out_json = sys.argv[2] if len(sys.argv) > 2 else "results/dedup_label_input.json"
+    rows = list(csv.DictReader(Path(in_csv).open()))
     with ThreadPoolExecutor(max_workers=4) as ex:
         out = list(ex.map(work, rows))
-    Path("results/dedup_label_input.json").write_bytes(
-        json.dumps(out, ensure_ascii=False, indent=2).encode()
-    )
+    Path(out_json).write_bytes(json.dumps(out, ensure_ascii=False, indent=2).encode())
     both = sum(1 for o in out if o["variant_lfm"]["found"] and o["canonical_lfm"]["found"])
     print(f"fetched {len(out)} pairs ({both} with both sides found); wrote dedup_label_input.json")
 

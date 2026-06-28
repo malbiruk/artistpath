@@ -50,7 +50,7 @@ Both algorithms use bidirectional search for improved performance:
 
 ## Dataset Information
 
-**Current dataset**: 850k+ artists with MusicBrainz IDs and similarity connections
+**Current dataset**: 5.4M+ artists with similarity connections. Each artist is keyed by its MusicBrainz ID when Last.fm provides one, otherwise a UUID derived from its Last.fm URL. The served binary graph is cleaned (see [Data Cleaning](#data-cleaning)); the NDJSON retains every collected artist.
 
 Available formats from [releases](https://github.com/malbiruk/artistpath/releases/):
 - **Binary format**: Required for web/CLI apps - includes indexing and name lookup for fast performance
@@ -68,6 +68,15 @@ Requires `zstd` for decompression (`apt install zstd` or `brew install zstd`).
 4. `uv run python run_postprocessing.py`
 
 Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv).
+
+### Data Cleaning
+
+`run_postprocessing.py` removes two classes of noise when building the binary graph. It is **delete-only** — nodes are dropped, never merged, and no edges are rewritten — and the raw NDJSON is never modified (it's kept for incremental collection):
+
+- **Duplicates** — the same artist written differently (accents, punctuation, zero-width/stylization junk, homoglyph spoofs). Nodes that share a visual "skeleton" collapse to the highest in-degree spelling; byte-identical names are kept, so genuine same-name-different-artist cases survive.
+- **Collaboration / feature credits** — `A feat. B`, `A & B`, `A, B, C` entries that aren't standalone artists. A name that splits on `feat`/`ft` or `, & / +` into ≥2 known artists and is far less connected than its members gets removed.
+
+Both rules are graph-aware (they use each node's in-degree). Cleaning is on by default; set `ARTISTPATH_CLEANING=0` to disable it.
 
 ## The Story
 
