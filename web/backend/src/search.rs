@@ -1,8 +1,6 @@
 use crate::models::ArtistSearchResult;
 use crate::state::AppState;
-use artistpath_core::string_normalization::{
-    clean_str, extract_trigrams, is_collab_entry, strip_leading_article,
-};
+use artistpath_core::string_normalization::{clean_str, extract_trigrams, strip_leading_article};
 use rustc_hash::FxHashSet;
 
 pub fn search_artists_in_state(
@@ -143,8 +141,6 @@ fn sort_results_by_relevance(results: &mut Vec<ArtistSearchResult>, query: &str)
         let b_lowercase = b.name.to_lowercase();
 
         // 1. Exact match (case-insensitive on the raw display name).
-        //    Honored before collab demotion so a literal feat-name query
-        //    still surfaces that entry first.
         let a_exact = a_lowercase == lowercase_query;
         let b_exact = b_lowercase == lowercase_query;
         match (a_exact, b_exact) {
@@ -153,16 +149,7 @@ fn sort_results_by_relevance(results: &mut Vec<ArtistSearchResult>, query: &str)
             _ => {}
         }
 
-        // 2. Canonical entries beat collabs (feat./ft./featuring).
-        let a_collab = is_collab_entry(&a_normalized);
-        let b_collab = is_collab_entry(&b_normalized);
-        match (a_collab, b_collab) {
-            (false, true) => return std::cmp::Ordering::Less,
-            (true, false) => return std::cmp::Ordering::Greater,
-            _ => {}
-        }
-
-        // 3. Exact normalized match (e.g. "Björk" == "bjork").
+        // 2. Exact normalized match (e.g. "Björk" == "bjork").
         let a_exact_norm = a_normalized == normalized_query;
         let b_exact_norm = b_normalized == normalized_query;
         match (a_exact_norm, b_exact_norm) {
@@ -171,7 +158,7 @@ fn sort_results_by_relevance(results: &mut Vec<ArtistSearchResult>, query: &str)
             _ => {}
         }
 
-        // 4. Article-stripped exact match: query "beatles" surfaces "The Beatles".
+        // 3. Article-stripped exact match: query "beatles" surfaces "The Beatles".
         let a_stripped = strip_leading_article(&a_normalized);
         let b_stripped = strip_leading_article(&b_normalized);
         let a_art = a_stripped == stripped_query;
@@ -182,7 +169,7 @@ fn sort_results_by_relevance(results: &mut Vec<ArtistSearchResult>, query: &str)
             _ => {}
         }
 
-        // 5. Starts-with, then shorter name wins on the tail.
+        // 4. Starts-with, then shorter name wins on the tail.
         let a_starts = a_normalized.starts_with(&normalized_query);
         let b_starts = b_normalized.starts_with(&normalized_query);
         match (a_starts, b_starts) {

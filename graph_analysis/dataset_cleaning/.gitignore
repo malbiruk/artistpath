@@ -1,0 +1,7 @@
+# EDA outputs — regenerable from the scripts, can be large
+results/
+*.log
+
+# uv / python
+.venv/
+__pycache__/

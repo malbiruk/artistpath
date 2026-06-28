@@ -1,10 +1,12 @@
 """Convert NDJSON data files to optimized binary format."""
 
+import os
 import time
 from pathlib import Path
 
 from postprocessing import (
     identify_blocklisted_uuids,
+    identify_cleaning_uuids,
     process_graph,
     process_metadata,
 )
@@ -26,7 +28,20 @@ def main() -> None:
 
     print("\n🚫 Step 0: Identifying blocklisted sentinel UUIDs")
     blocklist = identify_blocklisted_uuids(metadata_file)
-    print(f"✅ Blocklist: {len(blocklist):,} UUID(s) will be excluded")
+    print(f"✅ Sentinels: {len(blocklist):,} UUID(s)")
+
+    # Graph-aware cleaning (duplicates + collab/feature credits) removes ~25% of
+    # nodes. On by default; kill-switch is ARTISTPATH_CLEANING=0.
+    if os.getenv("ARTISTPATH_CLEANING", "1") != "0":
+        print("\n🧹 Step 0b: Identifying duplicate + collab/feature UUIDs")
+        dup_uuids, collab_uuids = identify_cleaning_uuids(
+            graph_file, metadata_file, skip=blocklist
+        )
+        print(f"✅ Duplicates: {len(dup_uuids):,}  |  Collabs/features: {len(collab_uuids):,}")
+        blocklist |= dup_uuids | collab_uuids
+        print(f"✅ Blocklist total: {len(blocklist):,} UUID(s) will be excluded")
+    else:
+        print("\n⏭️  Step 0b: graph-aware cleaning DISABLED (ARTISTPATH_CLEANING=0)")
 
     print("\n📊 Step 1: Converting graph to binary format")
     graph_stats = process_graph(graph_file, data_dir, blocklist=blocklist)
