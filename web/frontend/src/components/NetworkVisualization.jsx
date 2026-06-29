@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
+import { isTouchInput } from "../utils/inputModality";
 
 function NetworkVisualization({
   data,
@@ -24,8 +25,6 @@ function NetworkVisualization({
     let activeNode = null;
     let activeEdge = null;
     let hoverTimeout = null;
-    const isTouchDevice =
-      "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -212,7 +211,7 @@ function NetworkVisualization({
       .attr("stroke-width", 10)
       .style("cursor", "default")
       .on("mouseenter", function (event, d) {
-        if (!isTouchDevice) {
+        if (!isTouchInput()) {
           // Clear any pending timeout
           if (hoverTimeout) {
             clearTimeout(hoverTimeout);
@@ -230,7 +229,7 @@ function NetworkVisualization({
         }
       })
       .on("mouseleave", function (event, d) {
-        if (!isTouchDevice) {
+        if (!isTouchInput()) {
           // Debounce the mouseleave to prevent flickering
           if (hoverTimeout) clearTimeout(hoverTimeout);
 
@@ -247,7 +246,7 @@ function NetworkVisualization({
       .on("click", function (event, clickedEdge) {
         event.stopPropagation();
 
-        if (isTouchDevice) {
+        if (isTouchInput()) {
           // Clear any active node highlight
           clearNodeHighlight();
 
@@ -443,7 +442,7 @@ function NetworkVisualization({
     svg.on("click", function (event) {
       // Only handle if clicking on empty space (not nodes or edges)
       if (event.target === svgRef.current || event.target.tagName === "svg") {
-        if (isTouchDevice) {
+        if (isTouchInput()) {
           clearNodeHighlight();
           clearEdgeTooltip();
         }
@@ -457,7 +456,7 @@ function NetworkVisualization({
 
     nodeGroup
       .on("mouseenter", function (event, hoveredNode) {
-        if (!isTouchDevice) {
+        if (!isTouchInput()) {
           // Clear any active edge hover first
           if (activeEdge) {
             activeEdge = null;
@@ -471,14 +470,14 @@ function NetworkVisualization({
         }
       })
       .on("mouseleave", function () {
-        if (!isTouchDevice) {
+        if (!isTouchInput()) {
           clearNodeHighlight();
         }
       })
       .on("click", function (event, clickedNode) {
         event.stopPropagation();
 
-        if (isTouchDevice) {
+        if (isTouchInput()) {
           // Clear any active edge tooltip
           clearEdgeTooltip();
 

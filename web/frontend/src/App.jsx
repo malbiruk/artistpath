@@ -13,6 +13,7 @@ import {
   getRandomArtist,
 } from "./utils/api";
 import { API_BASE_URL } from "./config";
+import { useIsTouchInput } from "./utils/inputModality";
 
 function App() {
   // Parse initial state from URL (names only)
@@ -51,6 +52,7 @@ function App() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const isAudioPlayingRef = useRef(false);
   const [forceRender, setForceRender] = useState(false);
+  const isTouch = useIsTouchInput();
 
   const swapArtists = () => {
     const tempFrom = fromArtist;
@@ -285,13 +287,11 @@ function App() {
 
     // No artists selected
     if (!fromArtist && !toArtist) {
-      const isTouchDevice =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0;
       return (
         <>
           <p>enter one artist to explore their network</p>
           <p>enter two artists to find the path between them</p>
-          {isTouchDevice && (
+          {isTouch && (
             <p className="help-message">
               <br />
               <br />
