@@ -5,9 +5,14 @@ import orjson
 import pytest
 
 from postprocessing.cleaning import (
+    _collab_member_keys,
+    _decompose,
     _identify_collabs,
     _identify_duplicates,
+    _member_cooccurrence,
+    _real_band_shape,
     compute_in_degrees,
+    member_adjacency,
     segment_name,
     skeleton,
 )
@@ -167,6 +172,35 @@ def test_collabs_central_node_kept():
     assert result == set()
 
 
+def test_collabs_feature_marker_dropped_despite_centrality():
+    # "a feat b" is a hub (in-degree above both members), but a feat/ft marker
+    # means it is a credit → dropped regardless of the centrality gate
+    phon = {
+        "a": ["id_a"],
+        "b": ["id_b"],
+        "a feat b": ["id_ab"],
+    }
+    in_deg = {"id_a": 100, "id_b": 80, "id_ab": 500}
+    result = _identify_collabs(phon, in_deg, centrality_frac=0.2)
+    assert result == {"id_ab"}
+
+
+def test_collabs_x_pair_marker_still_centrality_gated():
+    # "x" is not a feature marker → a central "a x b" survives the gate (kept)
+    phon = {"a": ["id_a"], "b": ["id_b"], "a x b": ["id_ab"]}
+    in_deg = {"id_a": 100, "id_b": 80, "id_ab": 90}
+    result = _identify_collabs(phon, in_deg, centrality_frac=0.2)
+    assert result == set()
+
+
+def test_collabs_x_pair_marker_secondary_dropped():
+    # a secondary "a x b" is still dropped by centrality
+    phon = {"a": ["id_a"], "b": ["id_b"], "a x b": ["id_ab"]}
+    in_deg = {"id_a": 100, "id_b": 80, "id_ab": 5}
+    result = _identify_collabs(phon, in_deg, centrality_frac=0.2)
+    assert result == {"id_ab"}
+
+
 def test_collabs_unknown_segment_keeps_node():
     # One segment is not a known artist → not a full decomposition → kept
     phon = {
@@ -196,6 +230,127 @@ def test_collabs_all_ids_of_dropped_node_removed():
     in_deg = {"id_a": 100, "id_b": 80, "id_ab1": 3, "id_ab2": 2}
     result = _identify_collabs(phon, in_deg, centrality_frac=0.2)
     assert result == {"id_ab1", "id_ab2"}
+
+
+# ---------------------------------------------------------------------------
+# member co-occurrence gate
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "comps,expected",
+    [
+        (["bob marley", "the wailers"], True),   # "the ..." backing band
+        (["ac", "dc"], True),                    # <=2-char fragments
+        (["pharaoh", "jeembo"], False),          # ordinary collaborators
+    ],
+)
+def test_real_band_shape(comps, expected):
+    assert _real_band_shape(comps) is expected
+
+
+def test_decompose_members_and_feature_flag():
+    known = {"foo", "bar"}
+    assert _decompose("foo & bar", known) == (["foo", "bar"], False)
+    assert _decompose("foo feat bar", known) == (["foo", "bar"], True)
+    assert _decompose("foo ft. bar", known) == (["foo", "bar"], True)
+    assert _decompose("foo x bar", known) == (["foo", "bar"], False)  # x is not a feature marker
+    assert _decompose("foo", known) is None                # single token
+    assert _decompose("foo & unknown", known) is None      # 'unknown' not a known member
+
+
+def test_decompose_feature_flag_matches_split_with_glued_punctuation():
+    # has_feat comes from the same tokenization as the split, so a glued marker
+    # ("x/feat") is detected even though it would dodge a whitespace-only scan
+    known = {"foo", "bar"}
+    assert _decompose("foo x/feat bar", known) == (["foo", "bar"], True)
+
+
+def test_collab_member_keys_is_union_of_candidate_members():
+    phon = {
+        "foo": ["1"],
+        "bar": ["2"],
+        "baz": ["3"],
+        "foo & bar": ["4"],          # candidate -> members foo, bar
+        "foo feat unknown": ["5"],   # 'unknown' not known -> not a candidate
+        "solo act": ["6"],           # single segment -> not a candidate
+    }
+    assert _collab_member_keys(phon) == {"foo", "bar"}
+
+
+def test_member_cooccurrence_fraction():
+    adj = {"a": {"b"}, "b": {"a"}}
+    assert _member_cooccurrence(["a", "b"], adj) == 1.0
+    assert _member_cooccurrence(["a", "b"], {}) == 0.0
+    # 3 members, only the a-b pair co-occurs -> 1 of 3 pairs
+    assert _member_cooccurrence(["a", "b", "c"], adj) == pytest.approx(1 / 3)
+
+
+def test_collabs_member_gate_drops_central_cooccurring():
+    # central node (survives centrality) whose members co-occur -> dropped
+    phon = {"foo": ["id_a"], "bar": ["id_b"], "foo & bar": ["id_ab"]}
+    in_deg = {"id_a": 100, "id_b": 80, "id_ab": 90}
+    adj = {"foo": {"bar"}, "bar": {"foo"}}
+    result = _identify_collabs(phon, in_deg, 0.2, adj=adj)
+    assert result == {"id_ab"}
+
+
+def test_collabs_member_gate_kept_when_no_cooccurrence():
+    # central node whose members do NOT co-occur -> kept
+    phon = {"foo": ["id_a"], "bar": ["id_b"], "foo & bar": ["id_ab"]}
+    in_deg = {"id_a": 100, "id_b": 80, "id_ab": 90}
+    result = _identify_collabs(phon, in_deg, 0.2, adj={})
+    assert result == set()
+
+
+def test_collabs_member_gate_spares_real_band_shape():
+    # members co-occur but "the ..." shape is spared (X & The Y backing band)
+    phon = {
+        "bob marley": ["id_bm"],
+        "the wailers": ["id_w"],
+        "bob marley & the wailers": ["id_bw"],
+    }
+    in_deg = {"id_bm": 100, "id_w": 80, "id_bw": 200}
+    adj = {"bob marley": {"the wailers"}, "the wailers": {"bob marley"}}
+    result = _identify_collabs(phon, in_deg, 0.2, adj=adj)
+    assert result == set()
+
+
+def test_member_adjacency_from_stream(tmp_path):
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "ida", "connections": [["idb", 0.9]]}\n'
+        b'{"id": "idb", "connections": []}\n'
+        b'{"id": "idc", "connections": []}\n'
+    )
+    phon = {"a": ["ida"], "b": ["idb"], "c": ["idc"]}
+    adj = member_adjacency(graph, phon, {"a", "b", "c"})
+    # a->b edge makes the pair adjacent in both directions; c is isolated
+    assert adj["a"] == {"b"}
+    assert adj["b"] == {"a"}
+    assert adj.get("c", set()) == set()
+
+
+def test_member_adjacency_skips_garbage_and_self_edges(tmp_path):
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b"\n"                                                # blank line
+        b"not json\n"                                        # malformed -> skipped
+        b'{"connections": [["ida2", 0.5]]}\n'                # missing id -> skipped
+        b'{"id": "ida1", "connections": [["ida2", 0.9]]}\n'  # both ids in group "a" -> self
+        b'{"id": "ida1", "connections": [["idb", 0.9]]}\n'   # a -> b
+    )
+    phon = {"a": ["ida1", "ida2"], "b": ["idb"]}
+    adj = member_adjacency(graph, phon, {"a", "b"})
+    assert "a" not in adj.get("a", set())  # same-group edge is not a self-loop
+    assert adj["a"] == {"b"}
+    assert adj["b"] == {"a"}
+
+
+def test_member_adjacency_empty_member_keys_short_circuits(tmp_path):
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(b'{"id": "ida", "connections": [["idb", 0.9]]}\n')
+    assert member_adjacency(graph, {"a": ["ida"]}, set()) == {}
 
 
 # ---------------------------------------------------------------------------
