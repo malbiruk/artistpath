@@ -73,8 +73,8 @@ class GraphStore:
         return b in self.out_neighbors(a) or a in self.out_neighbors(b)
 
     def out_neighbors_weighted(self, node: bytes) -> list[tuple[bytes, float]]:
-        """Out-edges as (target_id, similarity), in stored order (Last.fm returns
-        them similarity-descending, so top-K = first K)."""
+        """Out-edges as (target_id, similarity), in stored order. Callers that
+        need ranking should sort (top_neighbors does, defensively)."""
         pos = self.fwd_index.get(node)
         if pos is None:
             return []

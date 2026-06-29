@@ -18,8 +18,8 @@ def main():
         c = Counter(votes[i])
         return c.most_common(1)[0][0] if c else "?"
 
-    for r in rows:
-        r["label"] = majority(rows.index(r))
+    for i, r in enumerate(rows):
+        r["label"] = majority(i)
 
     def prec(rs):
         f = sum(1 for r in rs if r["label"] == "f")
@@ -43,17 +43,17 @@ def main():
     print(f"  precision {p3:.1%}  (f={f3} a={a3} ?={q3}, n={n3})")
 
     print("\n=== any node a majority called REAL ('a') -- the FPs ===")
-    fps = [r for r in rows if r["label"] == "a"]
+    fps = [(i, r) for i, r in enumerate(rows) if r["label"] == "a"]
     if not fps:
         print("  (none)")
-    for r in fps:
+    for i, r in fps:
         print(f"  [{r['gate']:10}] {r['name'][:40]!r:42} comps={r['comps']} "
-              f"listeners={r['listeners']} tags={r['tags']} votes={votes[rows.index(r)]}")
+              f"listeners={r['listeners']} tags={r['tags']} votes={votes[i]}")
 
     print("\n=== any '?' ===")
-    for r in rows:
+    for i, r in enumerate(rows):
         if r["label"] == "?":
-            print(f"  {r['name'][:46]!r}  votes={votes[rows.index(r)]}")
+            print(f"  {r['name'][:46]!r}  votes={votes[i]}")
 
 
 if __name__ == "__main__":
