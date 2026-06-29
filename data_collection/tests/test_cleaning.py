@@ -12,6 +12,7 @@ from postprocessing.cleaning import (
     _member_cooccurrence,
     _real_band_shape,
     compute_in_degrees,
+    fold_x_connectors,
     member_adjacency,
     segment_name,
     skeleton,
@@ -94,6 +95,32 @@ def test_segment_name_preserves_internal_dot():
 
 def test_segment_name_three_way_split():
     assert segment_name("a, b, c") == ["a", "b", "c"]
+
+
+# ---------------------------------------------------------------------------
+# fold_x_connectors
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("x_char", ["х", "Х", "χ", "Χ"])
+def test_fold_x_connectors_standalone_lookalike_becomes_x(x_char):
+    # Cyrillic/Greek "x" look-alike as its own token folds to Latin "x" so the
+    # credit splits; without this clean_str's unidecode would turn it into "kh".
+    assert fold_x_connectors(f"PHARAOH {x_char} BOULEVARD") == "PHARAOH x BOULEVARD"
+
+
+def test_fold_x_connectors_word_internal_lookalike_untouched():
+    # A "х" inside a word is never a join — leave it for unidecode to romanize.
+    assert fold_x_connectors("Мах") == "Мах"
+
+
+def test_fold_x_connectors_ascii_unchanged():
+    assert fold_x_connectors("a x b") == "a x b"
+
+
+def test_fold_x_connectors_feeds_the_segmenter():
+    # End to end: a Cyrillic-Х credit now decomposes into two segments.
+    assert segment_name(fold_x_connectors("foo Х bar")) == ["foo", "bar"]
 
 
 # ---------------------------------------------------------------------------

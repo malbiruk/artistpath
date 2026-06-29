@@ -13,7 +13,9 @@
 
   2. Collabs/features — "A feat. B", "A & B", "A, B, C", "A x B" credit nodes
      that are their own entity. A name is split on structural delimiters
-     (, & / + * |) plus the "feat"/"ft" and "x" pairing markers. It must decompose
+     (, & / + * |) plus the "feat"/"ft" and "x" pairing markers (a standalone
+     Cyrillic/Greek "x" look-alike folds to "x" first, so Russian "A Х B" credits
+     split too — see fold_x_connectors). It must decompose
      fully into >=2 known artist nodes; then a "feat"/"ft" marker drops it outright
      (no real artist name carries one). Otherwise it is dropped if the credit node
      is far less central than its members (in-degree < CENTRALITY_FRAC x biggest
@@ -22,6 +24,13 @@
      centrality gate spares (e.g. "ЛСП & PHARAOH", more linked than either member),
      while skipping real-band shapes ("X & The Y" backing bands, <=2-char fragments
      like AC/DC -> ac+dc) that would otherwise be false positives.
+     NOTE: a 2-hop variant (drop if members SHARE neighbours, not just link
+     directly) was prototyped and DROPPED — it does not separate. Viral-collab
+     members don't share top similar-artists (the collab pages were their only
+     bridge: max Jaccard ~0), while real duos do (Jay-Z & Kanye ~0.14, Bob Marley
+     & The Wailers ~0.61), so it would add false positives and catch none of the
+     targets. Graph structure is exhausted for those residuals; only vocabulary
+     (the connector + full decomposition) distinguishes them.
 
 Nothing is merged and no edges are rewritten — only nodes are removed, and only
 from the binary build. The source NDJSON is untouched (still used for growing).
@@ -97,6 +106,24 @@ _STRONG_CONNECTORS: frozenset[str] = _FEATURE_MARKERS | _PAIR_MARKERS
 _SPLIT_CHARS = ",/&+*|"
 _SPLIT_RE = re.compile(f"([{re.escape(_SPLIT_CHARS)}])")
 _PUNCT = string.punctuation
+
+# Standalone tokens that LOOK like the Latin "x" pairing marker but live in
+# another script (Cyrillic Х/х, Greek Χ/χ). Russian credits write "A Х B", but
+# clean_str runs the letter through unidecode -> "kh", hiding the split. We fold
+# a whole-token look-alike to "x" BEFORE clean_str (a word-internal "х" is never
+# a join, so it's left alone). Collab path only: clean_str is shared byte-for-byte
+# with the Rust serving code (string_normalization.rs) and must stay unchanged.
+_X_LOOKALIKES: frozenset[str] = frozenset("хХχΧ")
+
+
+def fold_x_connectors(name: str) -> str:
+    """Fold a standalone Cyrillic/Greek "x" look-alike token to Latin "x" so the
+    collab segmenter can split "A Х B" credits (see _X_LOOKALIKES)."""
+    if name.isascii():
+        return name
+    return " ".join(
+        "x" if tok.strip(_PUNCT) in _X_LOOKALIKES else tok for tok in name.split()
+    )
 
 
 def _segment(norm: str) -> tuple[list[str], bool]:
@@ -332,7 +359,7 @@ def identify_cleaning_uuids(
             if aid in skip or not isinstance(name, str):
                 continue
             name_of[aid] = name
-            phon_groups[clean_str(name)].append(aid)
+            phon_groups[clean_str(fold_x_connectors(name))].append(aid)
             skel_groups[skeleton(name)].append(aid)
             progress.advance(task)
 

@@ -72,6 +72,31 @@ class GraphStore:
         """Directed-either-way adjacency: edge a->b or b->a exists."""
         return b in self.out_neighbors(a) or a in self.out_neighbors(b)
 
+    def out_neighbors_weighted(self, node: bytes) -> list[tuple[bytes, float]]:
+        """Out-edges as (target_id, similarity), in stored order (Last.fm returns
+        them similarity-descending, so top-K = first K)."""
+        pos = self.fwd_index.get(node)
+        if pos is None:
+            return []
+        cnt = struct.unpack_from("<I", self.graph, pos + 16)[0]
+        start = pos + 20
+        mm = self.graph
+        out: list[tuple[bytes, float]] = []
+        for i in range(cnt):
+            base = start + i * 20
+            tid = mm[base : base + 16]
+            (w,) = struct.unpack_from("<f", mm, base + 16)
+            out.append((tid, w))
+        return out
+
+    def top_neighbors(self, node: bytes, k: int, min_sim: float) -> frozenset[bytes]:
+        """Top-k out-neighbours with similarity >= min_sim. Re-sorts by weight to
+        be robust to storage order."""
+        edges = self.out_neighbors_weighted(node)
+        edges = [e for e in edges if e[1] >= min_sim]
+        edges.sort(key=lambda e: -e[1])
+        return frozenset(tid for tid, _ in edges[:k])
+
     # -- baselines ------------------------------------------------------------
 
     def sample_mean_out_degree(self, sample: int, seed: int = 0) -> float:
