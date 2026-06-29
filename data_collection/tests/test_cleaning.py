@@ -62,8 +62,21 @@ def test_segment_name_splits_on_structural_delimiter(input_):
     assert segment_name(input_) == ["a", "b"]
 
 
-def test_segment_name_no_split_on_x():
-    assert segment_name("pharaoh x acid drop king") == ["pharaoh x acid drop king"]
+@pytest.mark.parametrize(
+    "input_,expected",
+    [
+        ("pharaoh x acid drop king", ["pharaoh", "acid drop king"]),
+        ("a x b x c", ["a", "b", "c"]),
+    ],
+)
+def test_segment_name_splits_on_x(input_, expected):
+    assert segment_name(input_) == expected
+
+
+def test_segment_name_boundary_x_not_a_collab():
+    # "X Japan" / "X Ambassadors": a leading/trailing "x" yields a single segment,
+    # so the node never decomposes into >=2 known artists and is kept.
+    assert segment_name("x japan") == ["japan"]
 
 
 def test_segment_name_single_word_no_split():

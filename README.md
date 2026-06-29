@@ -74,7 +74,7 @@ Requires Python 3.12+ with [uv](https://github.com/astral-sh/uv).
 `run_postprocessing.py` removes two classes of noise when building the binary graph. It is **delete-only** — nodes are dropped, never merged, and no edges are rewritten — and the raw NDJSON is never modified (it's kept for incremental collection):
 
 - **Duplicates** — the same artist written differently (accents, punctuation, zero-width/stylization junk, homoglyph spoofs). Nodes that share a visual "skeleton" collapse to the highest in-degree spelling; byte-identical names are kept, so genuine same-name-different-artist cases survive.
-- **Collaboration / feature credits** — `A feat. B`, `A & B`, `A, B, C` entries that aren't standalone artists. A name that splits on `feat`/`ft` or `, & / +` into ≥2 known artists and is far less connected than its members gets removed.
+- **Collaboration / feature credits** — `A feat. B`, `A & B`, `A, B, C`, `A x B` entries that aren't standalone artists. A name that splits on `feat`/`ft`/`x` or `, & / +` into ≥2 known artists and is far less connected than its members gets removed.
 
 Both rules are graph-aware (they use each node's in-degree). Cleaning is on by default; set `ARTISTPATH_CLEANING=0` to disable it.
 

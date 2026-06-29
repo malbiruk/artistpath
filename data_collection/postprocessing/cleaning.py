@@ -11,11 +11,11 @@
      was tried and DROPPED — a labeled check showed ~67% precision (many distinct
      artists romanize alike, e.g. Russian "Мот" vs Korean "MoT").
 
-  2. Collabs/features — "A feat. B", "A & B", "A, B, C" credit nodes that are
-     their own entity. A name is split on structural delimiters (, & / + * |)
-     plus the standardized "feat"/"ft" marker; if it decomposes fully into >=2
-     known artist nodes AND the credit node is far less central than its members
-     (in-degree < CENTRALITY_FRAC x biggest member), it's dropped.
+  2. Collabs/features — "A feat. B", "A & B", "A, B, C", "A x B" credit nodes
+     that are their own entity. A name is split on structural delimiters
+     (, & / + * |) plus the "feat"/"ft" and "x" pairing markers; if it decomposes
+     fully into >=2 known artist nodes AND the credit node is far less central
+     than its members (in-degree < CENTRALITY_FRAC x biggest member), it's dropped.
 
 Nothing is merged and no edges are rewritten — only nodes are removed, and only
 from the binary build. The source NDJSON is untouched (still used for growing).
@@ -72,9 +72,12 @@ def skeleton(s: str) -> str:
 
 # --- collab delimiter segmentation -------------------------------------------
 
-# Word split-markers: only the standardized feature word + abbreviations. The
-# keep/drop decision is made by graph centrality, not by which word joined.
-_STRONG_CONNECTORS: frozenset[str] = frozenset({"feat", "ft", "feats", "featuring", "feature"})
+# Word split-markers: the standardized feature word + abbreviations, plus the
+# "x" pairing token ("A x B"; the "×" multiplication sign folds to "x" via
+# clean_str). "x" was validated separately at 97.5% precision (on par with the
+# dedup rule) — see graph_analysis/dataset_cleaning/. The keep/drop decision is
+# made by graph centrality, not by which word joined.
+_STRONG_CONNECTORS: frozenset[str] = frozenset({"feat", "ft", "feats", "featuring", "feature", "x"})
 # Structural delimiter chars that split collaborators even when glued to a token
 # ("поливокс," -> "поливокс"). unidecode maps "•" -> "*".
 _SPLIT_CHARS = ",/&+*|"
