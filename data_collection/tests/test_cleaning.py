@@ -5,10 +5,12 @@ import orjson
 import pytest
 
 from postprocessing.cleaning import (
+    MAX_TRANSLIT_BLOCK,
     _collab_member_keys,
     _decompose,
     _identify_collabs,
     _identify_duplicates,
+    _identify_translit_dups,
     _member_cooccurrence,
     _real_band_shape,
     compute_in_degrees,
@@ -16,6 +18,7 @@ from postprocessing.cleaning import (
     member_adjacency,
     segment_name,
     skeleton,
+    translit_key,
 )
 
 
@@ -407,3 +410,165 @@ def test_compute_in_degrees_empty_connections(tmp_path):
     graph.write_bytes(orjson.dumps({"id": "n1", "connections": []}))
     result = compute_in_degrees(graph)
     assert "n1" not in result
+
+
+# ---------------------------------------------------------------------------
+# translit_key
+# ---------------------------------------------------------------------------
+
+
+def test_translit_key_common_romanizations_collide():
+    # All three real spellings of "Пошлая Молли" land in the same block
+    k1 = translit_key("poshlaia molli")
+    k2 = translit_key("poshlaya molly")
+    k3 = translit_key("poshlaja molli")
+    assert k1 == k2 == k3
+
+
+def test_translit_key_j_y_ia_collapse():
+    # я romanizes as ia/ya/ja — all three must be equivalent
+    assert translit_key("ya") == translit_key("ja") == translit_key("ia")
+
+
+def test_translit_key_kh_h_fold():
+    # х romanized as kh (unidecode) and as h (informal) land in one key
+    assert translit_key("makhina") == translit_key("mahina")
+
+
+def test_translit_key_doubled_letters_collapse():
+    # "molli" and "moli" differ only in the doubled l
+    assert translit_key("molli") == translit_key("moli")
+
+
+def test_translit_key_empty_string():
+    assert translit_key("") == ""
+
+
+def test_translit_key_plain_ascii_returns_string():
+    result = translit_key("radiohead")
+    assert isinstance(result, str)
+
+
+def test_translit_key_different_names_differ():
+    assert translit_key("radiohead") != translit_key("coldplay")
+
+
+# ---------------------------------------------------------------------------
+# _identify_translit_dups
+# ---------------------------------------------------------------------------
+
+
+def test_translit_dups_edge_causes_merge(tmp_path):
+    # Two spellings collide under translit_key; direct edge between their reps →
+    # the lower-in-degree node is dropped, the higher-in-degree one is kept
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_cyr", "connections": [["id_lat", 0.9]]}\n'
+        b'{"id": "id_lat", "connections": []}\n'
+    )
+    phon_groups = {
+        "poshlaia molli": ["id_cyr"],  # in_deg=1009
+        "poshlaya molly": ["id_lat"],  # in_deg=246
+    }
+    in_deg = {"id_cyr": 1009, "id_lat": 246}
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert result == {"id_lat"}
+
+
+def test_translit_dups_no_edge_no_merge(tmp_path):
+    # Same translit_key collision but no direct edge → nothing dropped
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_cyr", "connections": []}\n'
+        b'{"id": "id_lat", "connections": []}\n'
+    )
+    phon_groups = {
+        "poshlaia molli": ["id_cyr"],
+        "poshlaya molly": ["id_lat"],
+    }
+    in_deg = {"id_cyr": 1009, "id_lat": 246}
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert result == set()
+
+
+def test_translit_dups_hub_component_drops_both_non_survivors(tmp_path):
+    # Three spellings in one block: two reps each edge the high-in-deg hub but not
+    # each other → one connected component; the hub survives, both others are dropped
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_lat1", "connections": [["id_hub", 0.9]]}\n'
+        b'{"id": "id_lat2", "connections": [["id_hub", 0.8]]}\n'
+        b'{"id": "id_hub",  "connections": []}\n'
+    )
+    phon_groups = {
+        "poshlaia molli": ["id_hub"],   # in_deg=1009
+        "poshlaya molly": ["id_lat1"],  # in_deg=729
+        "poshlaja moli":  ["id_lat2"],  # in_deg=246
+    }
+    in_deg = {"id_hub": 1009, "id_lat1": 729, "id_lat2": 246}
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert result == {"id_lat1", "id_lat2"}
+
+
+def test_translit_dups_different_key_not_merged(tmp_path):
+    # Two clean_strs with different translit_keys are never merged even with an edge
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_a", "connections": [["id_b", 0.9]]}\n'
+        b'{"id": "id_b", "connections": []}\n'
+    )
+    phon_groups = {
+        "radiohead": ["id_a"],   # translit_key → "radiohead"
+        "metallica": ["id_b"],   # translit_key → "metalica"
+    }
+    in_deg = {"id_a": 100, "id_b": 50}
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert result == set()
+
+
+def test_translit_dups_dead_spelling_ignored(tmp_path):
+    # A clean_str whose best node has in_deg=0 is excluded from all blocks; no crash
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(b'{"id": "id_dead", "connections": []}\n')
+    phon_groups = {"poshlaia molli": ["id_dead"]}
+    in_deg = {}  # in_deg.get("id_dead") returns 0 → skipped
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert result == set()
+
+
+def test_translit_dups_highest_indegree_survives_regardless_of_form(tmp_path):
+    # The kh-romanization (higher in_deg) survives; the h-only form (lower) is dropped
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_kh", "connections": [["id_h", 0.9]]}\n'
+        b'{"id": "id_h",  "connections": []}\n'
+    )
+    phon_groups = {
+        "makhina": ["id_kh"],  # in_deg=800
+        "mahina":  ["id_h"],   # in_deg=50
+    }
+    in_deg = {"id_kh": 800, "id_h": 50}
+    result = _identify_translit_dups(graph, phon_groups, in_deg)
+    assert "id_h" in result
+    assert "id_kh" not in result
+
+
+def test_translit_dups_oversized_block_skipped(tmp_path):
+    # A block larger than MAX_TRANSLIT_BLOCK is a likely degenerate key (the lossy
+    # translit_key conflating distinct short names) and is skipped wholesale, even
+    # though every spelling here is edge-connected to a hub.
+    n = MAX_TRANSLIT_BLOCK + 1
+    # distinct clean_strs that all collapse to "ana" (doubled-letter runs collapse)
+    cleans = ["a" + "n" * k + "a" for k in range(1, n + 1)]
+    ids = [f"id_{k}" for k in range(n)]
+    hub = ids[0]
+    lines = [b'{"id": "%s", "connections": []}\n' % hub.encode()]
+    lines += [
+        b'{"id": "%s", "connections": [["%s", 0.9]]}\n' % (i.encode(), hub.encode())
+        for i in ids[1:]
+    ]
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(b"".join(lines))
+    phon_groups = {c: [i] for c, i in zip(cleans, ids)}
+    in_deg = {i: 100 + k for k, i in enumerate(ids)}
+    assert _identify_translit_dups(graph, phon_groups, in_deg) == set()

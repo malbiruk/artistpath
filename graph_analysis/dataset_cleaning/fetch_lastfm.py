@@ -51,6 +51,7 @@ def getinfo(name: str) -> dict:
             return {
                 "found": True,
                 "lfm_name": a.get("name"),
+                "mbid": a.get("mbid") or None,
                 "listeners": int(stats.get("listeners", 0) or 0),
                 "playcount": int(stats.get("playcount", 0) or 0),
                 "tags": [t.get("name") for t in tags][:8],

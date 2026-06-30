@@ -1,4 +1,4 @@
-"""Graph-aware cleaning: emit UUIDs to blocklist for two noise classes.
+"""Graph-aware cleaning: emit UUIDs to blocklist for three noise classes.
 
   1. Duplicates  — same artist written differently (punctuation/zero-width junk,
      accents, homoglyph spoofs, stylization). Nodes are grouped by a VISUAL key
@@ -7,11 +7,21 @@
      (genuine same-name different artists / MBID splits — homonym-safe), and
      distinct CJK/Cyrillic *letters* yield distinct skeletons so different
      non-Latin artists are not merged.
-     NOTE: cross-script transliteration dedup (Cyrillic/CJK -> Latin via unidecode)
-     was tried and DROPPED — a labeled check showed ~67% precision (many distinct
-     artists romanize alike, e.g. Russian "Мот" vs Korean "MoT").
 
-  2. Collabs/features — "A feat. B", "A & B", "A, B, C", "A x B" credit nodes
+  2. Transliteration variants — the same artist across scripts (a Cyrillic
+     original and its Latin romanizations), which the visual skeleton misses
+     because the spellings share no letters. Names are grouped by a loose
+     transliteration key (translit_key — folds я=ia/ya/ja, х=kh/h, doubled
+     letters, ...) and the highest in-degree spelling kept, but ONLY when a direct
+     similarity edge links the spellings' representative nodes. A look-alike string
+     alone is ~50% precise (distinct artists romanize alike, e.g. Russian "Мот" vs
+     Korean "MoT"); the edge gate lifts that to ~100% in a labeled check, at the
+     cost of reach — it only catches dups popular enough for their nodes to be
+     linked (~13% of candidates, but the most user-visible ones). A looser overlap
+     gate (shared neighbours, no edge) was tried and DROPPED — it readmits the
+     false merges (~67% precision).
+
+  3. Collabs/features — "A feat. B", "A & B", "A, B, C", "A x B" credit nodes
      that are their own entity. A name is split on structural delimiters
      (, & / + * |) plus the "feat"/"ft" and "x" pairing markers (a standalone
      Cyrillic/Greek "x" look-alike folds to "x" first, so Russian "A Х B" credits
@@ -55,6 +65,10 @@ CENTRALITY_FRAC = 0.2
 # Min fraction of member pairs that must co-occur in the graph for the
 # member-adjacency gate to drop a centrality survivor (see EDA: ~99.3% precision).
 MM_FRAC = 0.5
+# Max spellings in a transliteration block. translit_key is intentionally lossy,
+# so a bigger bucket is almost certainly a degenerate key conflating distinct
+# short names; the edge gate was only validated on small blocks, so skip the rest.
+MAX_TRANSLIT_BLOCK = 8
 
 # --- visual key (homoglyph skeleton) -----------------------------------------
 
@@ -86,6 +100,36 @@ def skeleton(s: str) -> str:
         folded = _HOMOGLYPHS.get(ch.lower(), ch.lower())
         out.append(folded if (folded.isalnum() or folded.isspace()) else " ")
     return " ".join("".join(out).split())
+
+
+# --- transliteration block key -----------------------------------------------
+
+# Multi-letter romanizations of single Cyrillic letters that scribes spell
+# inconsistently; folded so the variants land in one block (candidate only).
+_TRANSLIT_DIGRAPHS: tuple[tuple[str, str], ...] = (
+    ("shch", "sc"), ("sch", "sc"),           # щ
+    ("kh", "h"),                             # х (unidecode -> kh; others h/x)
+    ("zh", "z"),                             # ж
+    ("tch", "c"), ("ts", "c"), ("ch", "c"),  # ч / ц
+)
+
+
+def translit_key(clean: str) -> str:
+    """Loose transliteration block key over a clean_str result. Folds the common
+    Slavic/Cyrillic romanization ambiguities (я=ia/ya/ja and й/ы via j,y->i,
+    х=kh/h, doubled letters) so alternate spellings of one artist collide. Lossy
+    and aggressive ON PURPOSE: it only proposes merge candidates — a direct graph
+    edge gates the real merge (_identify_translit_dups). Not shared with Rust and
+    never used for search; clean_str stays the serving key."""
+    s = clean
+    for a, b in _TRANSLIT_DIGRAPHS:
+        s = s.replace(a, b)
+    s = s.replace("j", "i").replace("y", "i")
+    out: list[str] = []
+    for ch in s:
+        if not out or out[-1] != ch:
+            out.append(ch)
+    return "".join(out)
 
 
 # --- collab delimiter segmentation -------------------------------------------
@@ -205,6 +249,108 @@ def _identify_duplicates(
     return dup
 
 
+def _edge_components(nodes: list[str], adj: dict[str, set[str]]) -> list[list[str]]:
+    """Connected components of `nodes` under adjacency `adj` (union-find); edges to
+    anything outside `nodes` are ignored."""
+    nodeset = set(nodes)
+    parent = {n: n for n in nodes}
+
+    def find(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for a in nodes:
+        for b in adj.get(a, ()):
+            if b in nodeset:
+                parent[find(a)] = find(b)
+    comp: dict[str, list[str]] = defaultdict(list)
+    for n in nodes:
+        comp[find(n)].append(n)
+    return list(comp.values())
+
+
+def _stream_adjacency(
+    graph_file: Path, node_key: dict[str, str], label: str
+) -> dict[str, set[str]]:
+    """One streaming pass over graph.ndjson: symmetric adjacency between the keyed
+    nodes (uuid -> group key), an edge recorded between two keys whenever a node of
+    one links a node of the other. Restricted to the keyed universe, so memory
+    stays bounded by that subgraph rather than the whole graph."""
+    adj: dict[str, set[str]] = defaultdict(set)
+    with graph_file.open("rb") as f, Progress() as progress:
+        task = progress.add_task(label, total=None)
+        for raw in f:
+            line = raw.strip()
+            if not line:
+                continue
+            try:
+                data = orjson.loads(line)
+            except orjson.JSONDecodeError:
+                continue
+            ku = node_key.get(data.get("id"))
+            if ku is None:
+                continue
+            for conn_id, _weight in data.get("connections", []):
+                kv = node_key.get(conn_id)
+                if kv is not None and kv != ku:
+                    adj[ku].add(kv)
+                    adj[kv].add(ku)
+            progress.advance(task)
+    return adj
+
+
+def _identify_translit_dups(
+    graph_file: Path,
+    phon_groups: dict[str, list[str]],
+    in_deg: dict[str, int],
+) -> set[str]:
+    """Drop cross-script transliteration variants the visual skeleton can't reach.
+    Spellings of one artist (Cyrillic original + romanizations) share a loose
+    translit_key but different skeletons; within a block keep the highest in-degree
+    spelling and drop the others' representative nodes — but ONLY when a direct
+    graph edge links those reps (string look-alike alone is ~50% precise; the edge
+    gate lifts it to ~100%). Validated in graph_analysis/dataset_cleaning."""
+    rep_id: dict[str, str] = {}
+    rep_in: dict[str, int] = {}
+    for clean, ids in phon_groups.items():
+        best = max(ids, key=lambda i: in_deg.get(i, 0))
+        d = in_deg.get(best, 0)
+        if d > 0:  # a dead (in=0) spelling is never the survivor; merging it is pointless
+            rep_id[clean] = best
+            rep_in[clean] = d
+
+    blocks: dict[str, list[str]] = defaultdict(list)
+    for clean in rep_id:
+        blocks[translit_key(clean)].append(clean)
+    # >=2 spellings to be a duplicate set; cap the size (see MAX_TRANSLIT_BLOCK).
+    blocks = {
+        tk: cleans
+        for tk, cleans in blocks.items()
+        if 2 <= len(cleans) <= MAX_TRANSLIT_BLOCK
+    }
+    if not blocks:
+        return set()
+
+    rep_key = {rep_id[c]: c for cleans in blocks.values() for c in cleans}
+    adj = _stream_adjacency(graph_file, rep_key, "[cyan]Transliteration edges...")
+
+    drop: set[str] = set()
+    for cleans in blocks.values():
+        for group in _edge_components(cleans, adj):
+            if len(group) < 2:
+                continue
+            survivor = max(group, key=lambda c: rep_in[c])
+            # Drop only each losing spelling's representative (its highest in-degree
+            # node) — the validated unit. Weaker nodes / byte-identical homonyms
+            # under the same clean_str are left alone (homonym-safe; under-cleans).
+            for c in group:
+                if c != survivor:
+                    drop.add(rep_id[c])
+    return drop
+
+
 def _real_band_shape(comps: list[str]) -> bool:
     """A decomposition that more likely names a real band than a collaboration: a
     "the ..." backing band (X & The Y) or a <=2-char fragment (AC/DC -> ac+dc).
@@ -257,37 +403,13 @@ def member_adjacency(
     phon_groups: dict[str, list[str]],
     member_keys: set[str],
 ) -> dict[str, set[str]]:
-    """One streaming pass: for each member key, the set of other member keys it
-    shares an edge with (either direction). Restricted to the member universe so
-    memory stays bounded by the member-member subgraph, not the whole graph."""
+    """For each member key, the set of other member keys it shares an edge with
+    (either direction). Maps every node of each member group to its key, then
+    streams once — restricted to the member universe (see _stream_adjacency)."""
     if not member_keys:
         return {}
-    node_key: dict[str, str] = {}
-    for k in member_keys:
-        for i in phon_groups[k]:
-            node_key[i] = k
-
-    adj: dict[str, set[str]] = defaultdict(set)
-    with graph_file.open("rb") as f, Progress() as progress:
-        task = progress.add_task("[cyan]Member adjacency...", total=None)
-        for raw in f:
-            line = raw.strip()
-            if not line:
-                continue
-            try:
-                data = orjson.loads(line)
-            except orjson.JSONDecodeError:
-                continue
-            ku = node_key.get(data.get("id"))
-            if ku is None:
-                continue
-            for conn_id, _weight in data.get("connections", []):
-                kv = node_key.get(conn_id)
-                if kv is not None and kv != ku:
-                    adj[ku].add(kv)
-                    adj[kv].add(ku)
-            progress.advance(task)
-    return adj
+    node_key = {i: k for k in member_keys for i in phon_groups[k]}
+    return _stream_adjacency(graph_file, node_key, "[cyan]Member adjacency...")
 
 
 def _identify_collabs(
@@ -337,9 +459,10 @@ def identify_cleaning_uuids(
     metadata_file: Path,
     centrality_frac: float = CENTRALITY_FRAC,
     skip: set[str] = frozenset(),
-) -> tuple[set[str], set[str]]:
-    """Return (duplicate_uuids, collab_uuids) to blocklist. `skip` (e.g. the
-    sentinel blocklist) is excluded from grouping. Reads NDJSON only; never writes."""
+) -> tuple[set[str], set[str], set[str]]:
+    """Return (duplicate_uuids, translit_uuids, collab_uuids) to blocklist. `skip`
+    (e.g. the sentinel blocklist) is excluded from grouping. Reads NDJSON only;
+    never writes."""
     in_deg = compute_in_degrees(graph_file)
 
     name_of: dict[str, str] = {}
@@ -364,10 +487,11 @@ def identify_cleaning_uuids(
             progress.advance(task)
 
     dup = _identify_duplicates(skel_groups, name_of, in_deg)
+    translit = _identify_translit_dups(graph_file, phon_groups, in_deg)
     member_keys = _collab_member_keys(phon_groups)
     adj = member_adjacency(graph_file, phon_groups, member_keys)
     collab = _identify_collabs(phon_groups, in_deg, centrality_frac, adj)
-    return dup, collab
+    return dup, translit, collab
 
 
 def main() -> None:
@@ -377,14 +501,14 @@ def main() -> None:
     data_dir = Path("../data")
     metadata_file = data_dir / "metadata.ndjson"
     sentinels = identify_blocklisted_uuids(metadata_file)
-    dup, collab = identify_cleaning_uuids(
+    dup, translit, collab = identify_cleaning_uuids(
         data_dir / "graph.ndjson", metadata_file, skip=sentinels
     )
     print(f"\nsentinels:        {len(sentinels):,}")
     print(f"duplicates:       {len(dup):,}")
+    print(f"translit dups:    {len(translit):,}")
     print(f"collabs/features: {len(collab):,}")
-    print(f"overlap:          {len(dup & collab):,}")
-    print(f"total to drop:    {len(sentinels | dup | collab):,}")
+    print(f"total to drop:    {len(sentinels | dup | translit | collab):,}")
 
 
 if __name__ == "__main__":
