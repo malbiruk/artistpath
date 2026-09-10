@@ -1,0 +1,311 @@
+label,kind,variant,variant_id,canonical,canonical_id,variant_in,canonical_in,ratio
+,"meaning:[0.00,0.05)",Gabby!,30b08a19-5927-4078-9436-0ceb30739164,Gabby,b3375704-423a-4437-be84-51c3dac2983f,14,807,0.017
+,"meaning:[0.00,0.05)",Jay-Z; M.O.P.,601a52f4-4109-51d4-bdbf-519073f71397,"Jay Z, M.O.P.",1906123c-7dd1-5d8e-be2f-2b556ca2098c,5,146,0.034
+,"meaning:[0.00,0.05)",♡ misogi ♡,395b42bf-4924-5029-8758-2a19e510e56a,MISOGI,58b99404-e912-49d8-b100-f18aa579d695,1,366,0.003
+,"meaning:[0.00,0.05)",Daddy Yankee/Plan B,8c94754a-8668-5999-997f-bde5a22afe7e,"Daddy Yankee, Plan B",c4149848-f976-5ac6-a5f9-9af4129d0e7d,2,505,0.004
+,"meaning:[0.00,0.05)",Yellow Claw / LNY TNZ,60c029da-3389-5762-a0d1-f785bd4e06a3,Yellow Claw & LNY TNZ,cc313fc0-ef5f-5650-95cc-6f4b28c25f4e,3,172,0.017
+,"meaning:[0.00,0.05)","Le Will, Deuspi",70366830-b95c-57b8-b4b8-ee32647f895c,Lé Will & Deuspi,77dbe986-9e00-51f8-9012-d55e5cde1b95,2,275,0.007
+,"meaning:[0.00,0.05)",BAM!,7c946163-6518-5206-8065-f1f0d6f02ebd,Bam,835aca0c-a3e6-4217-9ee7-fd08e72a7ab4,20,827,0.024
+,"meaning:[0.00,0.05)",高垣彩陽，明坂聡美，戸松遥,b4324c58-9790-5363-bd1d-0a3fe7206dbf,高垣彩陽・明坂聡美・戸松遥,936bb16c-8b82-5df2-b446-ce80823db7e3,1,26,0.038
+,"meaning:[0.00,0.05)",Е.Войнаровская & Г.Матвиив,0b51b5b8-81cd-51cb-a137-948d52127788,Е.Войнаровская@Г.Матвиив,df99558c-f726-5c78-bcec-4e76da13de8a,2,43,0.047
+,"meaning:[0.00,0.05)","Алексей Фалько, Владислав Ташбулатов & Ансамбль мюзикла «Ничего не бойся. я с тобой",06154cdd-82d7-5da2-ba7f-e1a1e30db8b6,"Алексей Фалько, Владислав Ташбулатов, Ансамбль мюзикла «Ничего не бойся, я с тобой»",c020fb42-d39f-51e0-854f-b18aee161e7e,1,193,0.005
+,"meaning:[0.00,0.05)",Celine Scheen,d3b40e7e-d65a-56e0-868b-3cd16a6d628a,Céline Scheen,6965f522-2e48-41bd-9025-94c5b92e4df9,6,156,0.038
+,"meaning:[0.00,0.05)",孙楠; 韩红,3196d50a-ddbc-5bf1-983e-cb669092d593,孙楠/韩红,2cda921a-0884-58dc-871c-15c5dda76470,1,203,0.005
+,"meaning:[0.00,0.05)",山神ルーシー(略)、三好紗耶、千早恵(CV:茅野愛衣・中原麻衣・豊崎愛生),e33b8450-1515-5b94-ae43-c74c1e13cb71,山神ルーシー(略)、三好紗耶、千早恵(cv.茅野愛衣・中原麻衣・豊崎愛生),82114b95-0d11-5e4c-8ddd-9706534a6d14,7,173,0.040
+,"meaning:[0.00,0.05)",Rio Da Yung OG/ RMC Mike,e656898b-1f17-56c9-a1b4-6edf498f2878,Rio Da Yung Og & RMC Mike,ccfcf338-50f4-5dc2-8de3-46cef2c3feaf,7,1051,0.007
+,"meaning:[0.00,0.05)",DJ PRETINHO DE VR 💥,ccc0bf07-ca3f-5d75-938a-bd3885be9d99,DJ PRETINHO DE VR,fb511b9e-6878-4b79-a3d2-8a7eb99668bc,1,67,0.015
+,"meaning:[0.00,0.05)",Banks; Francis And The Lights,cad9f6ef-9478-5691-867c-927afc7ca605,"Banks, Francis and the Lights",034c0026-f96f-519a-a4ac-a0cb737ec16b,1,556,0.002
+,"meaning:[0.00,0.05)",Märyon,ed43bc09-1867-5577-a59d-73c064e0751d,Maryon,5f4f3dad-e853-47e9-b3f7-5ea423e01784,29,634,0.046
+,"meaning:[0.00,0.05)",FLAMMENFORM_36,24ff7de3-4842-5c12-8cff-3d3357eae7ec,Flammenform 36,b04833e8-e22a-40c8-8807-2bac028ac797,1,128,0.008
+,"meaning:[0.00,0.05)",Ангел - А,6662182a-0b19-55f2-8564-64e0c51a5898,Ангел-А,37aa5e9b-db20-59d3-95e8-dd5acaa77447,1,765,0.001
+,"meaning:[0.00,0.05)",Mert İçgören,8ec02ac3-0030-57fe-8cbb-aea3b245a68a,Mert Icgoren,dd636789-6df6-598a-9b74-045c94329a9d,10,201,0.050
+,"meaning:[0.00,0.05)",Intergalactic.FM,add44a44-a9ff-5b5f-b337-8f5cef9a7f81,Intergalactic FM,3ba6c351-cde9-5e28-b610-4aaee03c2881,1,37,0.027
+,"meaning:[0.00,0.05)","""Money""",b938648e-26c0-5d07-a146-60d01dd0745e,Möney,c69854e0-119e-475c-826b-0309229bc252,12,242,0.050
+,"meaning:[0.00,0.05)",CAMERON AZI & $ubjectz,27f86f39-863e-550d-8d87-ba166c6bad6f,"Cameron Azi, $ubjectz",ad07a262-cb51-5398-9072-587ade367c9a,1,68,0.015
+,"meaning:[0.00,0.05)",Ozuna/Feid,d3dcea47-5e61-5b23-8e02-16bec9ce806a,"Ozuna, Feid",e722c09c-ffee-53d3-aee5-9b69f4696452,25,705,0.035
+,"meaning:[0.00,0.05)",6arelyhuman/ asteria/ kets4eki,b4e8af29-90c6-5e07-a317-b37ebe80ccf0,"6arelyhuman, asteria, kets4eki",84f69de6-54ad-53d4-a1f3-ecf324657aba,1,823,0.001
+,"meaning:[0.00,0.05)",Mezo & Kasia Wilk,62ae07e1-4dcd-5796-8c55-2905d9ccbd74,Mezo / Kasia Wilk,8e4a4a97-8a1d-5aca-85c0-625e65818790,11,324,0.034
+,"meaning:[0.00,0.05)",Govlink & Deejay Chainwallet,3c73bb4a-7818-54b7-9a2b-5fad918ac01e,"Govlink, Deejay Chainwallet",211e7cb3-2e4c-529e-9902-5b79fd8f8f34,1,38,0.026
+,"meaning:[0.00,0.05)",Slovak Philharmonic Orchestra & Daniel Nazareth,3ccaaf49-18c1-5f2f-879c-037e43a27eed,Slovak Philharmonic Orchestra - Daniel Nazareth,75501bd7-7a54-5580-998d-2a74d435dfc7,3,103,0.029
+,"meaning:[0.00,0.05)",Nenê Altro &  O Mal De Caim,d16ba450-c8ee-5e1f-9507-786f1f9fb7cc,Nene Altro & O Mal de Caim,bd015a48-ec45-42d7-b945-e75fff16066c,1,286,0.003
+,"meaning:[0.00,0.05)",Riachào,b9cf21a6-3bb4-5bbe-ba6f-64704ff97c55,Riachão,d5af5968-5548-47d8-848c-b7ede87ef0da,31,1502,0.021
+,"meaning:[0.00,0.05)",The Orb featuring Lee `Scratch` Perry,30e12643-d85f-5e88-b0bc-947ae188ceb5,The Orb featuring Lee Scratch Perry,8d565aee-4425-5cd7-b3df-fbab80541078,11,488,0.023
+,"meaning:[0.00,0.05)","PETE TONG, ULTRA NATÉ, LP GIOBBI, JULES BUCKLEY",4207e21d-6d3b-5c8d-95ac-4462b00ac7db,"Pete Tong, Ultra Naté, LP Giobbi & Jules Buckley",ae7c9a7e-ab07-5648-a902-971541364e4a,1,43,0.023
+,"meaning:[0.00,0.05)",シン(柿原徹也),ed286686-cc11-58bd-9d1c-d16ee3390a9d,シン (柿原徹也),d0ac2c5f-507c-5d5d-909c-0402bf5ca97d,1,100,0.010
+,"meaning:[0.00,0.05)",Quebonafide; Taco Hemingway,4faf7320-acf9-598e-8767-4d022f379775,Quebonafide & Taco Hemingway,d9b75143-db65-5137-af4e-f8f0d77d9234,2,1107,0.002
+,"meaning:[0.00,0.05)",hwy,358d486e-b966-507d-bec5-6727ec44446b,HWY!,009d6e55-cd2d-5f5e-b94f-bc9b62d7618c,3,98,0.031
+,"meaning:[0.00,0.05)","""Vingança""",d225e68d-e5b1-5551-ba88-598f134dda2f,Vingança,fad351a6-0512-5b62-b6bf-6dcc020d1126,2,391,0.005
+,"meaning:[0.00,0.05)","BB Cooper, Kaphy & SØR",38eac8e0-4c4e-5ddf-91ce-5812a57c65e0,"BB Cooper, Kaphy, Sør",02514925-05c9-5b8f-807c-0cd58f223567,1,73,0.014
+,"meaning:[0.00,0.05)",Deli Yurek,09b46a53-0cf4-5c75-8a21-ed07ecf98d24,Deli Yürek,978604b4-38c3-5405-8f37-ce2c003dbf02,5,300,0.017
+,"meaning:[0.00,0.05)","Cristiano Araújo, Bruno  Marrone",db13a122-0a59-597d-a6ea-9d5f0238c833,"Cristiano Araújo, Bruno & Marrone",91f22f78-4423-5c22-9414-88d0ea28d1f7,1,56,0.018
+,"meaning:[0.00,0.05)",6lack;J. Cole,2e83dad8-9c94-5ee7-ae39-2dd17b1c1c34,"6LACK, J. Cole",69de88d2-e083-58ec-be1a-1ee59adeded2,11,484,0.023
+,"meaning:[0.05,0.10)","John Oliva, Bob Balch, Lemmy Kilmister, Gregg Bissonette",6f258ffa-1b33-5841-b09d-28b7866fdd3e,John Oliva / Bob Balch / Lemmy Kilmister / Gregg Bissonette,a6bfd1ba-c3e7-5f68-bd5c-8e25bd43f89b,1,11,0.091
+,"meaning:[0.05,0.10)",Shunji Fujii feat. Utelka,ee3f9b4c-ad7e-5acd-b2a1-f95b27759d6b,Shunji Fujii feat.Utelka,72c533be-f441-546a-8a78-4497240d1050,10,120,0.083
+,"meaning:[0.05,0.10)",KAYTRANADA; PinkPantheress,f3a353d7-8635-50bb-9416-7cffdf56ed8e,"KAYTRANADA, PinkPantheress",017f1e67-8c3c-5afb-9ebe-0e8eef8257cf,72,1434,0.050
+,"meaning:[0.05,0.10)",LIT killah & KHEA,d3a04770-4cc2-5468-bfdc-9a4466d4a337,"Lit Killah, KHEA",0493ccdd-dbb2-5dbc-9653-975357c7da51,40,437,0.092
+,"meaning:[0.05,0.10)",Syko 'El Terror',d5af8104-8e70-552f-b792-3ce9a735a6d5,Syko El Terror,a38b10a3-f0ed-50cd-8e3e-3215277790fe,1,11,0.091
+,"meaning:[0.05,0.10)",Bladee i Yung Lean,a2cd71b4-fe1b-54c4-b7d5-5d6cd6a48c3d,Bladee і Yung Lean,5e459e4b-05b8-5d14-b70d-daf3c8dead2d,1,17,0.059
+,"meaning:[0.05,0.10)",Yamandu Costa & Lúcio Yanel,bdab78c5-dc2c-5035-b7c4-5f41884a0659,Yamandú Costa & Lúcio Yanel,7b871a32-abc2-5c53-9902-3d82dfabb953,2,38,0.053
+,"meaning:[0.05,0.10)","Pooh Shiesty, Dee Mula, Big 30",89820842-9bb9-5b89-93e4-96a70083afec,"Pooh Shiesty, Dee Mula & Big 30",f30c0851-fc99-54e6-a91b-14de4cad2c13,1,14,0.071
+,"meaning:[0.05,0.10)",D-Block & S-Te-Fan ft Zatox,310c49bd-272a-5ee6-b086-b4ac510f2055,D-Block & S-Te-Fan Ft. Zatox,ff9f1ca1-cde9-5be5-a8be-74573b939358,1,20,0.050
+,"meaning:[0.05,0.10)",Marparaiso,79066674-dbb1-5eea-9893-bdaa5e585c72,Marparaíso,0afa8c73-a7ed-5d65-b810-83884076b9b4,1,12,0.083
+,"meaning:[0.05,0.10)","Ysr Gramz, Danny G Beats",a2e62f1b-0c26-5199-bf9e-bd67effce525,Ysr Gramz & Danny G Beats,d83621fe-a131-5367-b00f-4518f16001a4,3,54,0.056
+,"meaning:[0.05,0.10)",「 تهران پادکست 」,bf9f2302-3961-5571-8b89-874d7c35adfb,تهران پادکست,3150b815-b683-5ef1-94c5-d4fa1698085a,12,121,0.099
+,"meaning:[0.05,0.10)",Let’s Eat Grandma,4dc4935e-1d04-41f0-99aa-ec449b8c5fc7,Let's Eat Grandma,29dd08e1-cfbb-5904-a72e-db93dbc71014,53,761,0.070
+,"meaning:[0.05,0.10)",神様うさぎ feat.初音ミク,1e29911b-89d1-5f94-95ac-1adaa245ac7e,神様うさぎ feat. 初音ミク,84b8fd01-26b3-5a12-b571-21b9ebbdbba2,21,247,0.085
+,"meaning:[0.05,0.10)",Kodak Black (feat. Future),53eb7d23-5b90-5117-9454-26e815401859,Kodak Black Feat. Future,55c821e6-77e2-5a29-8440-d4064b4b1ca0,16,254,0.063
+,"meaning:[0.05,0.10)","クワガタP, 初音ミク",9eb72bab-b2ac-5905-81c4-0a69a82f8b2f,クワガタP/初音ミク,bb427ea6-f62b-5e64-9cf8-db2f55077663,1,11,0.091
+,"meaning:[0.05,0.10)","Laura Silverman, Sarah Silverman, Aziz Ansari, H. Jon Benjamin, Carly Simon, Kristen Schaal, Brian Huskey, John Roberts, David Wain, Eugene Mirman, Bobby Tisdale, Dan Mintz, & Bob's Burgers",70103277-6579-5e21-a864-472808a8cdc3,"Laura Silverman, Sarah Silverman, Aziz Ansari, H. Jon Benjamin, Carly Simon, Kristen Schaal, Brian Huskey, John Roberts, David Wain, Eugene Mirman, Bobby Tisdale, Dan Mintz & Bob's Burgers",c98714ce-8d19-5a13-a9a1-f3d5cac83469,12,131,0.092
+,"meaning:[0.05,0.10)",Markéta Irglová;Glen Hansard,e3826c77-140f-54af-842a-9e6e43f9af21,Marketa Irglová & Glen Hansard,56c1dae7-c212-5dc3-82d1-eea5ddae17fa,3,49,0.061
+,"meaning:[0.05,0.10)",パソコン音楽クラブ、川辺素,0705195d-0355-5539-86d5-e03e95edee0b,パソコン音楽クラブ & 川辺素,60b08de4-5662-5d51-8002-3fc2dd57e41e,1,14,0.071
+,"meaning:[0.05,0.10)",A Plus D vs. RIAA,3fff6563-840a-526f-a469-77faa5ad5cf9,A Plus D vs RIAA,3ef633b6-ce79-5be3-a2d3-a882c3501e83,8,105,0.076
+,"meaning:[0.05,0.10)",F-Raz&Jizzo John,9e4d506f-25c7-506c-b7d7-ae79965cdd45,F-Raz & Jizzo John,1a6b7e0c-1b3b-5eef-8f33-ada29f4dfdde,4,57,0.070
+,"meaning:[0.05,0.10)",Alessandro Safina; Ewan McGregor,1f7cc627-bd00-59fa-a098-0e9a6bf65221,Alessandro Safina/Ewan McGregor,34389d6c-390a-5ae3-b1f2-9aa376eaace5,47,926,0.051
+,"meaning:[0.05,0.10)",Jessie J/Lindsey Stirling,a7d0bb0e-1e09-5dda-b27d-789ae0179b51,"Jessie J, Lindsey Stirling",11eebbad-7913-582e-b3ab-8c782d9d06c2,7,73,0.096
+,"meaning:[0.05,0.10)",Primate & AC13,ff8c18b6-de22-50b3-9fdf-f751bd8932e0,"Primate, AC13",ea5a72b1-f02a-5036-b6ed-f73e7f6f102a,1,16,0.062
+,"meaning:[0.05,0.10)",Fatboy Slim Vs. Moguai,b0f784e3-ee2b-563c-9205-1279acb674ee,FATBOY SLIM vs MOGUAI,c21fbfeb-58a2-5397-98e7-512372d592cb,18,350,0.051
+,"meaning:[0.05,0.10)","Susan Egan, Tom Scharpling",471ec287-2766-5a92-a3f1-41ff17ee9988,Susan Egan & Tom Scharpling,4a64179b-adf9-592b-a5df-0d6056cf19fb,18,267,0.067
+,"meaning:[0.05,0.10)",La Cabra Mecanica Con Maria Jimenez,a86fb487-fa01-5b6b-8d75-e9a6eb40841e,LA CABRA MECANICA (con Maria Jimenez),7f08b003-0d71-5b97-98fe-6a5b12bb1d9e,1,13,0.077
+,"meaning:[0.05,0.10)",Sigala; Ella Henderson,8bd84560-7e3f-53c0-88c3-361837105152,"Sigala, Ella Henderson",3e1ca31c-7f00-5d66-92ee-9cd87be1f857,29,491,0.059
+,"meaning:[0.05,0.10)",Diskoiraa,2f9b2b20-66fd-5920-ae1d-1be33bc65240,Diskoirää,40d9f54c-ca78-5f3c-83da-8e825f09561f,1,16,0.062
+,"meaning:[0.05,0.10)",FASHION TV 💎,21e7c2a4-f67e-52d4-a383-a469a636fd3c,Fashion TV,f0673e5f-0542-51f1-9c1f-86b968e375ef,10,191,0.052
+,"meaning:[0.05,0.10)",Dosem & Boxer & Diana Miro,402f6bd3-b4ef-5d38-bf8a-b96e891d80e9,"Dosem, Boxer, Diana Miro",2ea7714c-cf4b-58e9-ab93-cb09a8fe6922,9,93,0.097
+,"meaning:[0.05,0.10)",Yeat; Lil Durk,bb4c0753-bebe-5e7f-bf0b-3eca5624faa8,"Yeat, Lil Durk",a45c391b-d6fb-565b-8857-1f6058e4720c,15,259,0.058
+,"meaning:[0.05,0.10)",Taeyeon; Verbal Jint,2b047ffd-0d1a-5cb8-81e6-b560df354013,"Taeyeon, Verbal Jint",cb5196d2-f880-5c54-91f2-e325c4e7c67a,19,376,0.051
+,"meaning:[0.05,0.10)","Intuitive, Palpal",63f32180-ed88-53ec-8f26-b50a15d1f75e,Intuitive & Palpal,c93a7680-8433-55c1-ac79-efe9d1d1e855,11,213,0.052
+,"meaning:[0.05,0.10)",Pablo Pérez,8f439a2a-98d7-57fc-9035-75355ff72f17,Pablo Perez,3f063125-e7ce-4946-8a5f-2c9b59a20204,49,597,0.082
+,"meaning:[0.05,0.10)",Noah Giger & Dy Vertigo,f1e9c5cf-5faa-576d-9401-a2feae76b665,"Noah Giger, Dy Vertigo",18cdddad-7f01-58f4-8eea-9e942a8bb4f4,6,100,0.060
+,"meaning:[0.05,0.10)",Health/100 gecs,5e41cf23-2e99-5d1d-8c3f-3a863669ee9c,"HEALTH, 100 gecs",90d15bcb-342e-5ac2-ae5e-04ff095722ef,8,154,0.052
+,"meaning:[0.05,0.10)","N.A.S.A. feat. Method Man, E-40, & DJ Swamp",8eb56b63-ca1c-5e68-ad33-57a1b7764a53,"N.A.S.A. feat. Method Man, E‐40 & DJ Swamp",bb4186d3-93c5-58a6-ab4b-cfa6da0088e5,9,173,0.052
+,"meaning:[0.05,0.10)",Rockout!!!,8af0434f-9fb8-5fee-9cff-ab60b3d3774c,Rockout,2bc9648a-ada6-55ae-98e6-9193d5c2a40e,18,319,0.056
+,"meaning:[0.05,0.10)",J.Soul,a031a46b-7d07-4c93-986c-722bb1024fe4,J-Soul,8e170ec3-43b9-4d88-b33c-3d89c108fbf4,56,937,0.060
+,"meaning:[0.10,0.20)","Mc Kevin, Mc IG & MC PH",33df5cfc-3d2f-59fb-a0ad-8fae5c957c6b,"Mc Kevin, Mc IG, Mc PH",e63b1e3b-0642-5067-be20-09f19c8c80a5,134,1275,0.105
+,"meaning:[0.10,0.20)","Hiphop Tamizha, Kabilan Vairamuthu & Sudharshan Ashok",728ad31d-b13d-585e-b720-6afcb8622c9a,"Hiphop Tamizha, Kabilan Vairamuthu, Sudharshan Ashok",52a3cead-2b54-5157-9161-b20f4c71fe54,26,179,0.145
+,"meaning:[0.10,0.20)",Ｖ2,82ece92d-bc80-53c8-b42f-10d906cd580f,V2,a0e668d1-8f8e-436f-af37-0dee1bac2ad1,86,505,0.170
+,"meaning:[0.10,0.20)","Theo, deadrazy",a2197146-c70d-53ff-a8c8-a8fefa985653,Theo & deadrazy,d93f44d1-b0c4-506e-ac43-84649a68d57b,7,70,0.100
+,"meaning:[0.10,0.20)",Tęćzowy Music Box (Gabrysia Owsiak),662c5c37-eba0-5220-a33f-52752c18da5d,Teczowy Music Box Gabrysia Owsiak,19edd7b3-49a9-5c54-86c1-b544a093a7a5,1,8,0.125
+,"meaning:[0.10,0.20)",Dibson T Hoffweiler,11fc33bf-eb83-57c5-969e-498b6b3f7fb0,Dibson T. Hoffweiler,8699fd42-fa93-51e5-8a68-7ee6cfca8add,71,593,0.120
+,"meaning:[0.10,0.20)","Money Musik, Lil Keed",17c6fa82-9423-54f4-af26-2b1bf9e66e8d,Money Musik & Lil Keed,3febb7be-3ef1-54cf-b5b2-ca241037ac80,1,7,0.143
+,"meaning:[0.10,0.20)",Μανώλης Αγγελάκης & Tα Θηρία,56a92354-a4e9-5f53-bfc5-f5418a7a851e,Μανώλης Αγγελάκης & Τα Θηρία,adfa6f0e-5bc6-5ad3-97a1-167cf76832a3,12,76,0.158
+,"meaning:[0.10,0.20)","DJ EVTN 7, WXCHSXN, & TRXSHBXY",ba27cf19-c117-5b0c-a845-7247f5f87700,"DJ EVTN 7, WXCHSXN, TRXSHBXY",05a5d983-3926-5a05-867e-84e73d5c97c7,30,259,0.116
+,"meaning:[0.10,0.20)","Hot e Oreia, Tropkillaz & Nelson Ned",0a014e17-4ffd-5bac-89de-af9007323a31,"Hot e Oreia, Tropkillaz, Nelson Ned",99e252c3-76e9-52e4-8395-d072420a7234,1,10,0.100
+,"meaning:[0.10,0.20)",Julie Walters/Jamie Bell,3ee1c2ac-1eb4-5910-98b1-482bbbbe2b2c,Julie Walters & Jamie Bell,555ef243-4db7-5280-b438-e7eec5f9ad4e,4,32,0.125
+,"meaning:[0.10,0.20)",D.V.D.A. / Perry Farrell,041b94c8-bab2-5c2b-b3a8-2e8b63737499,D.V.D.A./Perry Farrell,63aa6999-d606-5bbb-a4ac-3416cac43782,4,22,0.182
+,"meaning:[0.10,0.20)",Rene Cloerec,26b4367b-172a-5ae4-b96d-dd6aa02d6dc5,René Cloërec,d61805b9-89c0-4d78-9d5e-56fe23ac0f35,63,369,0.171
+,"meaning:[0.10,0.20)",Will Smith & DJ Khaled,1662d344-4f87-528b-a7c8-6774c01721e3,"Will Smith, DJ Khaled",65491c70-7cff-59e5-9c39-720985bcc047,4,23,0.174
+,"meaning:[0.10,0.20)",Reinier Zonneveld & JG,a23692c1-91a8-5422-8cbf-2ece60352200,"Reinier Zonneveld, JG",8e80fc75-8055-518a-a918-b508e7fd7bd9,6,38,0.158
+,"meaning:[0.10,0.20)",側田+吳雨霏,f63c09d7-677b-5ce9-8ea5-1b98c54604b0,側田 吳雨霏,a6865bfb-3cc7-53ff-8a40-f63066aaf17e,1,10,0.100
+,"meaning:[0.10,0.20)",Jonghyun/Younha,d51be6c8-191c-5148-88ad-b93e2ad12eb5,"JONGHYUN, Younha",9b3074d6-6dae-52e3-89a7-b2e2221e1c6e,13,122,0.107
+,"meaning:[0.10,0.20)",Anything Goes New Broadway Cast Ensemble,54b1fb52-31d7-50d9-9be6-321eaa209e21,'Anything Goes' New Broadway Cast Ensemble,acc6bfc7-3f5f-536f-82de-2da1f0a94a90,66,378,0.175
+,"meaning:[0.10,0.20)","Gwen Verdon, Richard Korthaze, Barney Martin",3417add7-2c7f-59b2-960d-b3ae6410a744,"Gwen Verdon, Richard Korthaze & Barney Martin",2111362b-2d4c-5078-a03f-c501d7f5cfaf,20,185,0.108
+,"meaning:[0.10,0.20)","Julianno Sosa, benjitalkapone & Jairo Vera",324fdcc8-065e-50c9-ab67-b870cce71914,"Julianno Sosa, benjitalkapone, Jairo Vera",4bc0f582-83ec-5fd2-bea4-627c29293a88,19,138,0.138
+,"meaning:[0.10,0.20)","Fimiguerrero, Lancey Foux, & Len",9f16f30d-e4e9-5455-bfd6-30dc30ba5c16,"Fimiguerrero, Lancey Foux & Len",2e73f81f-a72b-5ed5-a3ca-e39c4b6aa167,74,427,0.173
+,"meaning:[0.10,0.20)",Mobilés,7204576c-b4fa-576c-9d06-ff5ecc923b05,Mobiles,eb4affda-d83f-4e98-9caa-bfda635c7bc4,96,861,0.111
+,"meaning:[0.10,0.20)",HoneyWorks / 早見沙織,07c19c29-fe2c-5516-aec7-c6ff31df4f4a,HoneyWorks & 早見沙織,171428ea-fcba-53ef-9307-7c4bb4e0603a,10,68,0.147
+,"meaning:[0.10,0.20)",Badenya Les Frères Coulibaly,86141d24-7664-4d5d-b901-4b1aa29dbc64,Badenya Les Freres Coulibaly,3f1dee35-c0c0-526b-b815-18c3034c738b,71,422,0.168
+,"meaning:[0.10,0.20)",Diddy & Teyana Taylor,67e193ce-d55f-58fe-a3c0-549233e3be92,"Diddy, Teyana Taylor",749ab48e-3028-5634-a9e4-7c0d9ca25265,13,68,0.191
+,"meaning:[0.10,0.20)",Yoshiya Terayama; Casey Edwards,3f62437f-5269-54ee-8354-1d73a069d8a0,"Yoshiya Terayama, Casey Edwards",74b04d9f-9688-5b7a-95d5-b48968c61f0c,17,136,0.125
+,"meaning:[0.10,0.20)",ST12 - www.musik-corner.com,d20ed06e-0ced-59d1-8ed1-ba80a7cb99ba,ST12 www.musik-corner.com,cf7d716d-7721-5c23-9761-0e8889e949dd,12,89,0.135
+,"meaning:[0.10,0.20)",Thomas Rups Unger,377dcb4f-5008-5345-873f-7fdfe527384b,"Thomas ""Rups"" Unger",1a8070f7-39a1-5278-8c60-9062dc22c321,8,80,0.100
+,"meaning:[0.10,0.20)",France Televisions,874dcccf-2d94-5c39-b4bc-30e88ae32710,France Télévisions,70f4e63c-d6f9-5ab1-b673-60d072bab840,1,7,0.143
+,"meaning:[0.10,0.20)",Mag.44,997c45b9-fc94-5409-b6dd-1a6ca3873672,Mag 44,ac23ff13-419b-5313-b093-282451b41b97,1,6,0.167
+,"meaning:[0.10,0.20)",.New Leaf,8634888f-a265-5fe8-8d5a-8251bf3413c3,New Leaf.,df47a0d7-272e-58c3-ac86-cf94231124d6,3,19,0.158
+,"meaning:[0.10,0.20)",Charlotte Church/Josh Groban,ef6deeeb-d645-52f7-af42-8c7fc706708f,Charlotte Church & Josh Groban,ca624401-50ab-53b6-8c21-706d8c2fd0b9,36,356,0.101
+,"meaning:[0.10,0.20)",Latte ASMR +,a8a6f1fb-ccd6-5d9f-9c63-05eceb18321d,Latte ASMR,b1f76461-4e1e-5f26-9984-934cf43730eb,39,292,0.134
+,"meaning:[0.10,0.20)",BB ASUL & Lara91k,58f493b8-42e2-5a4b-b35d-2a28244cbe2f,"BB ASUL, Lara91k",e6e922cc-226c-59d0-ac1a-76528c3499b6,8,58,0.138
+,"meaning:[0.10,0.20)",Moscow | موسكو,fa2fd4ad-2414-5d98-9be4-c1bf4fa0fedc,Moscow - موسكو,7f112afe-52f5-51c5-b43a-62292febc7b3,3,18,0.167
+,"meaning:[0.10,0.20)",Lazza & Shiva,7d024bf7-a922-59ba-9f60-1a68b589701c,"Lazza, Shiva",9d4960bc-1111-50f7-8cbb-7cefc3e1cff1,28,225,0.124
+,"meaning:[0.10,0.20)","Oleksa Lozowchuk, Julie Elven & Melissa R. Kaplan",e4752c74-af81-5020-ba07-aa3bfbd4d864,"Oleksa Lozowchuk, Julie Elven, Melissa R. Kaplan",6c463aa1-1c76-5eda-bf93-936c0c324858,8,72,0.111
+,"meaning:[0.10,0.20)","Jools Holland, Rumer",eabe936c-7348-5318-accb-8625f3a9e6eb,Jools Holland & Rumer,234162d1-80a9-5097-a325-ef9764c846b9,15,128,0.117
+,"meaning:[0.10,0.20)",3OH!3; Katy Perry,a4042437-9dd7-5724-bac0-e7f6f294cb0b,3OH!3/Katy Perry,7626059c-710b-51ad-9cbc-f158b553037d,10,79,0.127
+,"meaning:[0.10,0.20)",Greed.,5c1b41a9-6492-56ae-84ed-f576ea0fab23,Greed,07be4419-e87c-4c54-ab5c-d395c603de13,55,525,0.105
+,"meaning:[0.20,0.30)",paprika☆,59cbed35-0f1d-506d-8e30-ca8f6203448d,Paprika,96ae057a-6278-4d2c-b9b3-d4aa5f62a55d,188,724,0.260
+,"meaning:[0.20,0.30)",神無月アリン(内田彩),272e6b2e-44f6-559c-b5d0-07e335fec6d7,神無月アリン (内田彩),41307ca2-2da3-5b7a-a743-c654ca484f2d,4,14,0.286
+,"meaning:[0.20,0.30)",S㏊dowman,b21c6ff4-deda-54cb-bf1f-09f8977a5374,Shadowman,697d7371-345c-41ee-9294-76cea0d6efd6,203,942,0.215
+,"meaning:[0.20,0.30)",шампур & benjamingotbenz,4dcbc772-3713-54c0-ae13-0a6064f80078,"шампур, Benjamingotbenz",1ef28b3c-7fa5-5707-9851-95f35cdb36b6,7,27,0.259
+,"meaning:[0.20,0.30)","Count Von Count, Ftatateeta & The Bats",2f6fc794-70f4-5540-91ff-76bee286330f,Count Von Count & Ftatateeta & The Bats,5d1a18ae-1aad-5b20-a839-822ccaeca0e2,9,39,0.231
+,"meaning:[0.20,0.30)","V9, Kwengface, Trizzac",427111f9-5510-57f1-95ae-6cd81b47d90a,"V9, Kwengface & Trizzac",69b88970-7fc1-5ec7-8935-d85c0eafa886,17,80,0.212
+,"meaning:[0.20,0.30)","Himesh Reshammiya, Ankit Tiwari & Palak Muchhal",f485820c-7c5d-5be5-b520-0ed7f8a52b8e,"Himesh Reshammiya, Ankit Tiwari, Palak Muchhal",b5809370-966c-5af3-999d-f1d12dd20569,22,93,0.237
+,"meaning:[0.20,0.30)",Saint Etienne & David Penn,c09536ba-f2a4-53b7-932f-a1aae1ddf29d,"Saint Etienne, David Penn",cba2c880-5afc-5ca7-9860-2efe4a5edd90,11,52,0.212
+,"meaning:[0.20,0.30)","Robin Schulz, Felix Jaehn",4f130f03-86bd-525a-9813-c9315f04f48b,Robin Schulz & Felix Jaehn,3519ad8d-0d0c-5540-a8d1-d7dd362a66ad,119,450,0.264
+,"meaning:[0.20,0.30)",Golden Big Wheeler,e226a7c5-b5b8-519f-b2b1-476f3307ac21,"Golden ""Big"" Wheeler",fe3e6e9c-89a5-592b-a4e8-5618fd3b20c8,61,212,0.288
+,"meaning:[0.20,0.30)","Pezet, Onar, Płomień 81; Gedz",e41de193-f546-5e4d-b4e6-8ea56c80c6a5,"Pezet, Onar, Płomień 81, Gedz",f8cf8ad4-027a-5e85-82b6-63dad1d18304,1,4,0.250
+,"meaning:[0.20,0.30)",Francisco Sánchez,b39e3724-1770-4339-a183-1d125ad000d5,Francisco Sanchez,95bc9fc0-5ee9-47fe-b8ad-60cadaf437f1,29,143,0.203
+,"meaning:[0.20,0.30)",Joe Jonas; Kevin Jonas; Nick Jonas,e8d96a97-a61f-51a0-b7c7-86b75b82c0a5,"Joe Jonas, Kevin Jonas & Nick Jonas",2d945816-7a40-5d83-8455-909f656e19b0,62,255,0.243
+,"meaning:[0.20,0.30)","Mario Luciano, Lauren Santi",c7c386c7-15ca-5bf0-b977-9335b1050faf,Mario Luciano & Lauren Santi,c97d2e8a-7c47-557e-850c-9d4fc344e001,2,7,0.286
+,"meaning:[0.20,0.30)",B2ST/ Beast,fffb5542-6c4b-57cf-abea-386d18dd5071,B2ST / Beast,3bb31c24-09f3-58b8-82fe-776a4e6f7e20,5,19,0.263
+,"meaning:[0.20,0.30)","Major Conspiracy, The Dope Doctor, EZG",619fec43-b77f-5215-90d9-e98842247d76,"Major Conspiracy, The Dope Doctor & EZG",fbe5c44f-a4bd-5d08-b09d-e12b28248f41,2,10,0.200
+,"meaning:[0.20,0.30)",Hurraco´s Massacre,76e7784e-e33e-55c0-970c-39ab986c46b8,Hurraco's Massacre,60298f78-14bf-4892-b4cc-1db7587c9da8,28,127,0.220
+,"meaning:[0.20,0.30)",Garou et Helene Segara,5fc17e1a-44f0-5bf9-9413-24d8d4d515a1,Garou et Hélène Segara,7e507a6a-97fb-5494-86f3-9cd8668f86f6,1,5,0.200
+,"meaning:[0.20,0.30)",Blacks&,73c8e82c-727d-41eb-bb51-2076619d8ae2,Blacks,3ad620e6-b11b-49df-987b-abff38d58260,279,1059,0.263
+,"meaning:[0.20,0.30)","Skrillex, PinkPantheress, & Trippie Redd",dfed671d-02e8-58d7-8c16-653dacb68ade,"Skrillex, PinkPantheress, Trippie Redd",89cf988c-803b-51f6-840d-84b69b61d56d,74,297,0.249
+,"meaning:[0.20,0.30)","Bruno Coulais, The Children's Choir Of Nice",78f76570-9f2f-5d5d-964c-e329b617a443,Bruno Coulais & The Children's Choir Of Nice,2602b2fd-332c-531e-9f3d-abf09be2b1cb,202,693,0.291
+,"meaning:[0.20,0.30)",Hands of Mt. Michele,71cce55a-d102-5424-80ad-9307e1691c58,HANDS OF MT.MICHELE,c1e4c62e-7adf-52bd-b376-dd6f0a67fc35,10,42,0.238
+,"meaning:[0.20,0.30)","VOILÀ, Chrissy Costanza",862c4f5d-8389-52b6-85f5-f64d7fd17d98,Voilà & Chrissy Costanza,cb15fc15-8dd5-5305-b9a1-8e6593aa3b9d,9,33,0.273
+,"meaning:[0.20,0.30)","STAN, ALEXANDRA&CAHILL",52bd45c5-cfcb-57f5-9257-6741c919400f,"STAN, ALEXANDRA/CAHILL",7cb772e8-5a41-55a9-bd63-6cc038cb4381,91,423,0.215
+,"meaning:[0.20,0.30)",立花響×風鳴翼×雪音クリス (CV:悠木碧×水樹奈々×高垣彩陽),4aa998ee-f7af-5f5d-8f38-7718e3e43fd2,立花響×風鳴翼×雪音クリス(CV:悠木碧×水樹奈々×高垣彩陽),e2dc51ac-aac8-5f88-99c8-c900e430e739,37,157,0.236
+,"meaning:[0.20,0.30)",Shreya Ghoshal & Tochi Raina,15ef8493-9c2a-5146-ad3f-b6ac8f6e7c92,"Shreya Ghoshal, Tochi Raina",73ddb45e-e0a4-589e-b1d8-70f276a372cd,392,1553,0.252
+,"meaning:[0.20,0.30)","Disco Lines, Justin Jay",894ea078-127e-50ee-be4e-c1ea8398df84,Disco Lines & Justin Jay,82ed9fd8-d0c0-54ee-be6b-415832cc4826,3,12,0.250
+,"meaning:[0.20,0.30)",Coldplay & The Chainsmokers,4e36579b-300d-58c5-9028-be46da4c7686,"Coldplay, The Chainsmokers",ad7b6940-9472-5cb8-9a34-36e04e4a9835,385,1565,0.246
+,"meaning:[0.20,0.30)",Low & Low,c77a7fc8-d198-48b2-9001-ad2e3f483951,Low Low,49d29681-87a7-4e84-8a6f-c3304bdf80fc,18,75,0.240
+,"meaning:[0.20,0.30)",ONIMXRU & merunes,696a2b2e-b81f-590b-8e13-0e71b47e0f16,"ONIMXRU, merunes",24ca62f9-e91b-5338-b02a-f6ccb869a6d1,102,404,0.252
+,"meaning:[0.20,0.30)","Cliff Edwards, Disney Studio Chorus",b5de46cb-7b61-57fa-971e-e524e85a0ca2,Cliff Edwards & Disney Studio Chorus,9efd29d4-bf14-58ed-b3ee-7a16eadd09d4,429,1615,0.266
+,"meaning:[0.20,0.30)",Zina Rao Feat. Chillwalker,2cf12233-21bb-55fd-b170-7f9c115785a4,Zina Rao Feat.Chillwalker,5aeda6b9-073e-534d-bdca-f5fb3bc700dc,9,44,0.205
+,"meaning:[0.20,0.30)",Diana Ross  Marvin Gaye,7b76e4c9-ec85-5ff3-bf66-9b72a6651936,Diana Ross & Marvin Gaye,e7aa354a-666b-5641-bc95-3d6fe4f5529d,49,169,0.290
+,"meaning:[0.20,0.30)","Polimá Westcoast, Nio Garcia",d25cc550-0baf-5217-8d87-9324ddaad9e4,Polimá Westcoast & Nio García,a9ccd01e-7b27-583e-8aad-b2ced95a8565,29,97,0.299
+,"meaning:[0.20,0.30)","Jorge Drexler, Jeff Eckels, Carina Voly, John Vriesacker, Ana Laan, Leo Sidran, Ben Sidran",04878c15-68fb-577b-8142-ab1223ea6240,"Jorge Drexler, Jeff Eckels, Carina Voly, John Vriesacker, Ana Laan, Leo Sidran & Ben Sidran",9e08f401-3874-5b16-bdad-959573938969,4,17,0.235
+,"meaning:[0.20,0.30)","Danny Brown, NNAMDÏ",39dceb76-1a7b-57f3-8d34-29ca098e1da6,Danny Brown & Nnamdi,50bb5668-0e04-5683-b7d6-5f65c139e129,5,18,0.278
+,"meaning:[0.20,0.30)",Jim`s Big Ego,6aff4f79-3211-5864-b791-353325d8f34d,Jim's Big Ego,b30cfae0-d63c-53f4-9ff5-f5e692dfad48,35,130,0.269
+,"meaning:[0.20,0.30)",Omnya & Coldax,a91ee79e-e2fa-5d4c-ab1d-c534fe71eaa5,"Omnya, Coldax",0db7ecf0-88fc-5115-90ec-ff92c156bcca,6,21,0.286
+,"meaning:[0.20,0.30)",Juice WRLD & Lil Tracy,526252c9-03b9-5417-874b-324c45f8d42c,"Juice WRLD, Lil Tracy",04afbf59-01fb-520d-9491-be28457296ed,98,473,0.207
+,"meaning:[0.20,0.30)",22. A Path Chosen,cf05bf61-a3e9-5a08-83f8-fbaddb22b35f,22 A Path Chosen,81c2d4e7-8cbc-5833-886d-890813a2f141,1,5,0.200
+,"meaning:[0.30,0.50)",Yolanda Be Cool feat. D-Cup,f058e7a4-45f7-52c6-abba-bb07db9eb48e,Yolanda Be Cool feat D Cup,46edc086-9824-5633-ad63-2c2fc433dc61,4,9,0.444
+,"meaning:[0.30,0.50)","Sebastian Yatra, ELENA ROSE",56b26d43-6107-5d2f-aa75-13e8e396fcf0,Sebastián Yatra & Elena Rose,f4388dc8-c8d1-5d39-9de1-0fc25bee1156,72,190,0.379
+,"meaning:[0.30,0.50)","Lofi Soundscapes, Lo-Fi Beats & LoFi Hip Hop",bd465d4b-8a3a-5d34-858b-28929a4752b5,"Lofi Soundscapes, Lo-Fi Beats, Lofi Hip Hop",1af66e8e-481f-5718-9e1d-fe872d78e796,30,89,0.337
+,"meaning:[0.30,0.50)",Error!,86b222a5-3dbc-5691-a426-d92b1a3926d5,「 error 」,926918ca-006a-4fba-837e-bc3f5191f366,217,552,0.393
+,"meaning:[0.30,0.50)",Društvo Prisječavalaca Boljih Dana,5adb57dc-474e-402a-818b-07b42fd02633,Drustvo Prisjecavalaca Boljih Dana,c753d7c0-6011-56ee-aa0c-ce88399d2322,45,122,0.369
+,"meaning:[0.30,0.50)","NOTD, Felix Jaehn, Georgia Ku, Captain Cuts",367d7e46-fb38-5159-aeb4-47b2ba7dcee7,NOTD/FELIX JAEHN/GEORGIA KU/CAPTAIN CUTS,c5cd2d7d-e34f-5e2b-828d-3cbf674330c9,12,34,0.353
+,"meaning:[0.30,0.50)","Tedashii, Sam Rivera",cf549a5b-1b37-5e96-b6ad-719a603e5ed9,Tedashii & Sam Rivera,f36a0fbf-af42-540f-9bd8-8b2624a6a8ab,3,10,0.300
+,"meaning:[0.30,0.50)",Virginia Rodrigues,9bd934ad-34c4-4ca4-a330-98cddb5cdd17,Virgínia Rodrigues,81cafa8d-09bd-4bfb-9d67-6f5224448791,595,1840,0.323
+,"meaning:[0.30,0.50)",Tusuri,ef92e847-77ab-5d63-bdb8-f9608afe98e6,Tüsüri,dd9edc2e-3e5b-43ed-9bff-9238297f51fd,8,22,0.364
+,"meaning:[0.30,0.50)",ヒプノシスマイク -D.R.B- Rhyme Anima (MAD TRIGGER CREW),af758fad-b0a8-57c7-8f6a-54f6ab5fc758,ヒプノシスマイク -D.R.B- Rhyme Anima(MAD TRIGGER CREW),ca92a919-d26e-5781-9dff-790b810d5939,447,945,0.473
+,"meaning:[0.30,0.50)",TAEYONG & Wonstein,69688618-0eb7-50ce-9951-f5a9319bf5a8,"TAEYONG, Wonstein",a8633503-1ead-5f98-8c0e-490e9e3c186c,102,330,0.309
+,"meaning:[0.30,0.50)","Jay-Z, Dr. Dre & Rakim",5c0eb1d4-0fd5-5741-91ec-1e8e78ac89a7,"Jay-Z, Dr. Dre, Rakim",78e32390-e4e2-5281-a74a-52dc4e75bcdb,16,43,0.372
+,"meaning:[0.30,0.50)",The Script / Will I Am,9fd66744-4ced-5eb3-9d6e-76f78b9ce15b,The Script & Will.I.Am,2e2db709-1897-58f1-8d66-c59ce871acae,235,477,0.493
+,"meaning:[0.30,0.50)",Brainkicker Vs Bass Modulators,cca29c35-671c-57c0-9f8b-1bbc0a4b31da,Brainkicker vs. Bass Modulators,94b712c2-1325-5718-b23b-3874e7af7653,43,105,0.410
+,"meaning:[0.30,0.50)","Yung Craka, Shotgun Willy",8c753e85-339c-582b-96b8-d60a9c73af16,Yung Craka & Shotgun Willy,f9e36a1a-b8e5-50d1-b9a9-96508f45f322,35,111,0.315
+,"meaning:[0.30,0.50)",Tiesto feat. Cary Brothers,2db7f09e-d620-52b4-b663-d01a7399f476,Tiësto feat. Cary Brothers,3f5577bf-639a-5ab6-ad6c-c510b0aff790,100,314,0.318
+,"meaning:[0.30,0.50)","Wretch 32, Teni",0e8c8906-d572-594b-97a4-0713ad07f95b,Wretch 32 & Teni,31099c47-28fa-5703-b42d-0241c9ad5527,13,37,0.351
+,"meaning:[0.30,0.50)","Patrick Page, Michael Arden, Ciara Renée & 'The Hunchback of Notre Dame' Ensemble",b0b7861d-632c-5737-8624-3b921233ad2b,"Patrick Page, Michael Arden, Ciara Renée, 'The Hunchback of Notre Dame' Ensemble",ed24e5b6-1114-53d8-8fbc-da6ff4475b7f,27,83,0.325
+,"meaning:[0.30,0.50)",Abraham Mateo & Rorro,a954c2f9-4d77-516b-ad94-46261f2a6ef1,"Abraham Mateo, Rorro",065d594d-e9e7-58a3-a2a5-644efa6ecf3e,18,47,0.383
+,"meaning:[0.30,0.50)",DJ Jilbér,5acf9a2a-3251-5a40-bac8-8d1bc688ae57,Dj Jilber,1299ab85-a1bf-5063-b177-92d6caf0d460,71,168,0.423
+,"meaning:[0.30,0.50)",Armus,cbe82c89-fa80-40a0-8de1-05c9e0cc8b63,ArMus',79331b76-360a-5d91-a7ac-5bb1dcc7ad43,12,27,0.444
+,"meaning:[0.30,0.50)","FOURTH, Ford Arun & Satang Kittiphop",5d509f26-2dfb-53c4-b637-9c4837db194f,"FOURTH, Ford Arun, Satang Kittiphop",51c01ba6-303a-5ceb-9804-643938eb4933,115,344,0.334
+,"meaning:[0.30,0.50)",TM & Endzone,8e878a86-269f-50cd-8e95-4a57ca4f3d4a,"Tm, Endzone",b36bc0e4-9faa-5cb2-9255-1182cae7eed1,1,3,0.333
+,"meaning:[0.30,0.50)",【Ａｔｏｍｉｓｔｅ】,0d77c90f-621b-56ea-b5d4-068af333acf0,Atomiste,2908dc35-76a6-4690-ab8f-7fe9d1766296,182,392,0.464
+,"meaning:[0.30,0.50)",zaan6below!,0a39cbb6-09b3-5c4a-841a-6d0ffafeda7e,Zaan6Below,3653062e-cfd8-5634-9e69-9e3f5fbc453c,32,76,0.421
+,"meaning:[0.30,0.50)","Gangrene, The Alchemist, Oh No",644da029-6160-5623-8d77-a5f0cda10ccf,"Gangrene, The Alchemist & Oh No",43f422c5-a915-5539-ba6d-b66b424ffdb0,16,35,0.457
+,"meaning:[0.30,0.50)",Sanja Maletić,04f968de-2d05-4313-8dc3-51e3e48d2159,Sanja Maletic,24507586-88f2-5a8d-9a1c-a3c3f89856ec,221,511,0.432
+,"meaning:[0.30,0.50)","HOYO-MiX, Ayanga",0d7f72a0-fac0-5fbe-8d8e-00f52fc61683,HOYO-MiX & Ayanga,fcfe9760-b132-5171-81d7-e8571031fc21,84,256,0.328
+,"meaning:[0.30,0.50)",스위트피 (Sweetpea),097f32b1-5671-5cf8-b400-ebf718660e6f,스위트피(Sweetpea),0b0ae2fd-a9a7-5acc-a44e-737867a00f9c,31,78,0.397
+,"meaning:[0.30,0.50)",The Choir Of St. Mary's,ee9e39be-4ecf-5f38-abe1-86f1a8a221b0,The Choir of St Mary's,b3a9d254-1770-5b66-8e77-b35bd760d3e2,1,3,0.333
+,"meaning:[0.30,0.50)",Fort Knox Five feat. Mustafa Akbar and Shunda K.,067a763b-16ef-521e-9498-dd7e3d05ed86,Fort Knox Five feat. Mustafa Akbar and Shunda K.),68c32d5f-5654-5403-a12a-e871c2e1a935,5,11,0.455
+,"meaning:[0.30,0.50)","Les Baxter, 101 Strings Orchestra",cbdb947e-d8e7-5f04-a0ed-e6916cc1a926,Les Baxter & 101 Strings Orchestra,e6047718-3182-5b89-86c8-9f3e9d08774d,41,108,0.380
+,"meaning:[0.30,0.50)",Atomic Pulse vs. D Groovy,9885bf84-60f0-5d01-b613-aed8adb04139,Atomic Pulse Vs. D. Groovy,3f60ee2c-e8a6-5f94-aeaa-80edfdac5e33,27,72,0.375
+,"meaning:[0.30,0.50)",Paranormal Attack (Skazi),bb72ede2-b404-53b0-9f3b-22222c729f11,Paranormal Attack & Skazi,46d97942-0d14-5827-9b8f-25ebbd572a5e,1,3,0.333
+,"meaning:[0.30,0.50)","SYSTEM SEOUL, Munzi & Sn7",fe792777-0889-56a0-a8db-e5e8326a5834,"SYSTEM SEOUL, MUNZi, sn7",ec64848f-b2ce-516c-b7ca-76d1b09a9173,1,3,0.333
+,"meaning:[0.30,0.50)","Nicky Jam, Rakim, Ken-Y",db6afc7e-b23d-5aab-bc54-e3627cf77318,"Nicky Jam, Rakim, Ken Y",99f10848-4d6c-50a7-9d37-aaf73361a8fe,21,47,0.447
+,"meaning:[0.30,0.50)",Hot Mulligan & Less Gravity,cc544615-87b8-58c8-887a-26b61f26d6c4,"Hot Mulligan, Less Gravity",fe883d2a-10d0-5aa7-a795-09ffda0aaa67,92,226,0.407
+,"meaning:[0.30,0.50)",Capone-N-Noreaga feat. Mobb Deep & Tragedy Khadafi,21379d98-ba9f-5d5b-9925-af7677bd9ad3,Capone‐N‐Noreaga feat. Mobb Deep & Tragedy Khadafi,31cf1c40-0bab-5322-ae37-7e36e56c8e7a,2,6,0.333
+,"meaning:[0.30,0.50)",Chris Brown & Young Thug [feat. Gunna & Lil Duke],b7c309d2-4603-5a04-ad55-526433ac3740,Chris Brown & Young Thug Feat. Gunna & Lil Duke,92cf4048-0243-5bcd-9327-b9cfbf359b79,18,39,0.462
+,"meaning:[0.30,0.50)",Harry Nach & Tripper,f3214bdd-b79f-5d8e-9a33-6fa9f1e21848,"Harry Nach, Tripper",78857429-16f7-51b7-9df4-ceb09b552725,106,225,0.471
+,"meaning:[0.50,0.80)","Noizu, Westend & No/Me",79e1fe6f-58f1-5929-9d55-03136b3ce419,"Noizu, Westend, No/Me",a7c26279-1671-5974-953f-9a37cd4af0e9,264,453,0.583
+,"meaning:[0.50,0.80)","Tabitha, Nielson",5739d1b7-1ca7-542c-b06a-cae95fa5ef27,Tabitha & Nielson,3786b4cb-6ab7-5307-8b7d-1e6401648bcc,28,40,0.700
+,"meaning:[0.50,0.80)",Gabriel B,aada7aeb-dd6a-4a94-b771-1ab4d6d00174,Gabriel B.,4d45852a-da23-5a65-b8e5-5de836fc247a,3,5,0.600
+,"meaning:[0.50,0.80)",ALAN MORRIS/NATALIE GIOIA,c79c7bc2-db8c-5675-b66c-7d4ea7c6e634,Alan Morris & Natalie Gioia,639fff88-b396-5da3-91ae-4013b8195014,20,30,0.667
+,"meaning:[0.50,0.80)",Igor Buzov & Buba Corelli & Jala Brat,f52423ad-39d7-585b-97ff-1126fbd0ae82,"Igor Buzov, Buba Corelli, Jala Brat",d0240b58-60e3-5980-9d88-7184051a9d32,3,6,0.500
+,"meaning:[0.50,0.80)",Pero Galic,23221b9e-97a1-5c9a-9fb7-43b0ef98c6fe,Pero Galić,ae0be9eb-617a-46fa-bb36-35d471ee2140,2,3,0.667
+,"meaning:[0.50,0.80)","SHINee, ScreaM Records",f1cb546e-6e60-53a3-aa36-8b9e2c7be573,SHINee & ScreaM Records,7b4e84a2-13d6-51d2-a8ed-24207aac8753,32,49,0.653
+,"meaning:[0.50,0.80)",Zlatko Dobric & Vesele Stajerke,e6e98101-2c62-5f15-9dc3-6e015b0a647f,ZLATKO DOBRIC&VESELE STAJERKE,885e01a6-6ebc-5b43-9d39-41e6710dfa8d,14,18,0.778
+,"meaning:[0.50,0.80)","fi-fy , 723",7275e009-3704-5498-8b53-d923ef4c98d6,"fi-fy,723",bfd4090e-ab8d-5699-b59c-fa7266d4a77d,208,291,0.715
+,"meaning:[0.50,0.80)","Mahmood, Sfera Ebbasta, Feid",5bd22b6c-0719-5e7a-934b-cf9c7a2b49e5,"Mahmood, Sfera Ebbasta & Feid",0444359c-841b-51e9-b7c8-133b22c44326,475,827,0.574
+,"meaning:[0.50,0.80)",Conrad Schnitzler & Jorg Thomasius,7331512a-654a-55ba-b879-018be2d4b693,Conrad Schnitzler & Jörg Thomasius,01f5a03e-4424-5e32-86de-6652234b9e17,3,5,0.600
+,"meaning:[0.50,0.80)","ウィーン・マルガレーテ (CV.結那), 鬼塚冬毬 (CV.坂倉 花)",6cd0ba15-d613-5cfb-9101-296d4ab30445,ウィーン・マルガレーテ (CV.結那) & 鬼塚冬毬 (CV.坂倉 花),aa0f4147-c9e3-5ac1-a12f-e3e6913fb602,23,29,0.793
+,"meaning:[0.50,0.80)",双海亜美/真美、高槻やよい、水瀬伊織,2d7a982f-5aa8-5b31-8806-3ef2706226a0,双海亜美／真美、高槻やよい、水瀬伊織,14df78a1-07f3-5474-9a73-ce34b7aef9cb,8,11,0.727
+,"meaning:[0.50,0.80)",6host & Lil Narnia,4ddb509b-b557-5f2b-8915-d621d185d207,"6host, Lil Narnia",44f13277-1fe6-5ae1-9e23-c08db6d8ea6f,37,60,0.617
+,"meaning:[0.50,0.80)","MC Couper, HRISHI",17a96667-f0f2-5a75-812b-c3efa1bf00e7,MC Couper & HRISHI,ff8e34ca-9659-53f6-b5aa-790ceff6378e,23,32,0.719
+,"meaning:[0.50,0.80)",Mr. JDK,d9c90bdc-b83b-5c04-bbb3-0b2a598aedbf,MR.JDK,b8d711af-9d9d-593c-95f4-92ede0526312,22,38,0.579
+,"meaning:[0.50,0.80)",Kindness & Kelela & Ade,5c6051f5-279b-5a26-ab08-3132b8408d4d,"Kindness, Kelela, Ade",76c66eb1-a200-5b2c-bb8c-26cfbbf0b8e8,1,2,0.500
+,"meaning:[0.50,0.80)","Don Omar, Wisin & Gente de Zona",22fd5779-fc3b-58b4-baa7-caea21d9017d,"Don Omar, Wisin, Gente de Zona",372606a1-5b68-5800-b68d-c40baa907ebf,42,80,0.525
+,"meaning:[0.50,0.80)",XXXTentacion & Lil Pump,28f2574c-be02-5b0d-a331-59bfe717165d,"XXXTENTACION, LIL PUMP",1efa599f-82e0-54fa-97d0-940fff26db24,250,374,0.668
+,"meaning:[0.50,0.80)",The Prophecy & Thez,38de0322-cb13-5261-8c6b-2dd6ea048247,"The Prophecy, Thez",9586abfc-c5f4-5436-aaf1-a2dbea0c2dc3,18,29,0.621
+,"meaning:[0.50,0.80)",Támar Davis,5d7ee48a-d467-4dd8-bb00-8698930d5b47,Tamar Davis,6d509f7b-dbb1-5c1e-82a9-59af53baa5f2,116,221,0.525
+,"meaning:[0.50,0.80)","Filipe Ret, Chris Beats Zn & L7NNON",89233248-1c41-5c3e-b7b7-208c7d738e15,"Filipe Ret, Chris Beats Zn, L7NNON",f4fbd002-7ab8-5fdc-9bc7-69c6ed894286,13,24,0.542
+,"meaning:[0.50,0.80)",Park Min Ji,30fc19f7-4277-583e-a522-3a0f8dd1bdd3,"PARK, MIN JI",12d31a4f-5ecc-5fd0-9b03-e8ce97a5cb86,232,407,0.570
+,"meaning:[0.50,0.80)","Deezl, So Juice, Disarray, Cybergore",0346746d-606b-59bf-b414-510f111a5a86,"DEEZL, So Juice, Disarray & Cybergore",eb6e8a9d-96bd-572e-875a-2a1e6fb369af,230,355,0.648
+,"meaning:[0.50,0.80)","kets4eki, Crescent, & wujek",e4eccdc7-cc93-5b4e-b5d7-1ee9d2e94ae1,"kets4eki, Crescent, wujek",3c868e76-2bcc-50e1-9d52-cb127ff1eea1,197,393,0.501
+,"meaning:[0.50,0.80)",Vishal Mishra & Shreya Ghoshal,e6ed3c21-1ca7-5af1-a398-a614003fcaeb,"Vishal Mishra, Shreya Ghoshal",f3857c18-9f10-580e-b1d1-a77558dc8c16,27,41,0.659
+,"meaning:[0.50,0.80)",PostmodernHippie & Hana Miketa,e6b4b71a-90e8-59de-baaf-4e08d50e0110,"postmodernhippie, Hana Miketa",419f7d2d-afcc-5cd5-b131-de88d59a4d54,2,4,0.500
+,"meaning:[0.50,0.80)",Destruido,87b8c2c3-a329-59c0-8f74-8f4bd3ab30da,Destruidö,162561aa-1b53-5378-a18d-8d6eaf3825fe,81,136,0.596
+,"meaning:[0.50,0.80)",Telomic & Kinsella,39891ddb-f046-5182-a02b-22ea42e510c7,"Telomic, Kinsella",69c3aa51-9af9-50f0-abd4-575a17fec166,15,27,0.556
+,"meaning:[0.50,0.80)",Madilyn Bailey & Alexi Blue,52065a41-2a7c-5f70-b9ae-222152febc0d,Madilyn Bailey  Alexi Blue,14dd5d56-5f81-5c1a-8369-871e70f5b5d6,3,6,0.500
+,"meaning:[0.50,0.80)","ISSBROKIE, BLCKK",daf9bbd9-f91f-5155-96dc-f2f9a253bb38,ISSBROKIE & BLCKK,482852fe-053b-5e31-9916-d0627d337ec4,171,323,0.529
+,"meaning:[0.50,0.80)","Clarx, Uplink",6d8c8dc5-c0dc-5d10-b8d9-f19d15510146,Clarx & Uplink,0d6e739e-0d7a-5de8-a575-74ea7c340cd9,5,8,0.625
+,"meaning:[0.50,0.80)",Duy Khánh & Hương Lan,ac6bf2fc-e1e8-5e35-916a-ff9d7767a56a,DUY KHANH & HUONG LAN,67b3f488-a58c-50f0-ac1d-0b3f925a5276,7,11,0.636
+,"meaning:[0.50,0.80)","Doctor Terror, Hellseeker",d16008f2-9f19-58fc-9d26-df0d27028c54,Doctor Terror & Hellseeker,df06ed19-2fbc-51d0-b60d-21170c45a5d8,4,6,0.667
+,"meaning:[0.50,0.80)","W/n, Duongg, Nau",458da4a4-a03b-53c4-867e-6904f5a65543,"W/n, Duongg, Nâu",131a24c2-5de8-5e56-aeae-8f237d75222b,402,555,0.724
+,"meaning:[0.50,0.80)",The Weeknd & Anitta,40d656c1-15d3-5954-9745-b98aad8e9411,"The Weeknd, Anitta",a3db8c98-56bc-59aa-8aae-e847a3a8de9c,1376,2063,0.667
+,"meaning:[0.50,0.80)","Chillinit, Wombat",41ef0194-c3d9-5c35-ad8c-355c2f994ada,ChillinIt & Wombat,d1c52096-92da-5483-99ea-f93634cf692d,9,16,0.562
+,"meaning:[0.50,0.80)",Karik & Thai VG,f6bd50fb-5bb3-5c24-a4d4-95f9f37343bf,"Karik, Thai VG",a2219f4e-1495-5715-a865-c3c38b8494f7,20,26,0.769
+,"meaning:[0.50,0.80)",Gunna & Lil Tecca,f877e526-990f-52df-9aee-c2e95674038b,"Gunna, Lil Tecca",97db0a60-e396-526f-8b5a-f45f2a110a36,6,12,0.500
+,"meaning:[0.50,0.80)","YL, Subjxct 5",49bb0975-926e-555a-b0bb-71ccb9d2ef84,YL & Subjxct 5,6398cf4a-f040-5dec-9829-a1838b3037db,64,101,0.634
+,"meaning:[0.80,1.01)",Vulture Love & Kodak Black,095aebdf-33f4-5d86-9ef2-5ea8ef7e446f,"Vulture Love, Kodak Black",a958d9dc-02ea-5b24-a381-7a790e842abf,49,56,0.875
+,"meaning:[0.80,1.01)",Audiofly feat. Shaun Parkes,b8ca493d-714b-536a-820e-a43c642fe427,Audiofly Feat Shaun Parkes,31d7573a-9467-5f86-bfa8-d97cae5e19df,4,5,0.800
+,"meaning:[0.80,1.01)",4:20,947369e6-a93e-4e82-9e9e-aa71cb4bcac8,4.20,387b728c-76f1-5834-81a0-593ce5c922e1,10,12,0.833
+,"meaning:[0.80,1.01)",G. Kramer,7ce58f42-b79a-594b-b779-8ba64df0f0e1,G.Kramer,28231eff-6bf4-5a8e-ac86-036221f5308b,1,1,1.000
+,"meaning:[0.80,1.01)",Şexo,e545d474-a6d8-5b32-bebd-1b1cec7c47b9,Şêxo,5b17e39a-a7da-5df9-9242-978f75502c85,120,142,0.845
+,"meaning:[0.80,1.01)",Loyle Carner & Tom Misch,98364ebd-2f4f-595e-8334-4578f4df5ffd,"Loyle Carner, Tom Misch",83099b2a-4bd0-52bc-b08e-07bd87e11059,385,389,0.990
+,"meaning:[0.80,1.01)",Ran-D & Invector,7fdaa135-34f3-535d-ae45-2a1a797ea713,"Ran-D, Invector",d43fc530-9dc9-5cbf-ad3e-c70558c4a214,13,13,1.000
+,"meaning:[0.80,1.01)",Nick Phoenix; Thomas Bergersen; Two Steps from Hell,75a3d014-90fc-517b-8092-616e605af556,Nick Phoenix & Thomas Bergersen (Two Steps From﻿ Hell),2ed05789-cd8b-584d-bd53-dc86257eb512,1,1,1.000
+,"meaning:[0.80,1.01)","Billy Strange, His Guitar and Orchestra",ca7bec25-f30e-505a-9a00-4cf3ba43d8e7,Billy Strange/His Guitar and Orchestra,0bc11029-1d22-58dd-a2af-6d4316cb35a3,1,1,1.000
+,"meaning:[0.80,1.01)",POOL,eafe4122-5525-5023-b5ac-ea4160a6ddd3,ＰｏｏＬ,0bb22412-153f-5354-b484-f7e42b862041,104,107,0.972
+,"meaning:[0.80,1.01)",Başak Yavuz,b56c745b-a802-56ee-b27e-44e35f986caa,basak yavuz,9c8596e0-f180-547f-939d-a3724c46cec8,258,268,0.963
+,"meaning:[0.80,1.01)",Michel Doneda + Lê Quan Ninh + Dominique Regef,5a5b8bf8-8214-5f60-8c85-f0b2b331e88e,"Michel Doneda, Lê Quan Ninh, Dominique Regef",e006d195-5a72-5e2c-aa2e-247a09aa6f50,180,225,0.800
+,"meaning:[0.80,1.01)",Crankdat & CHRMNDRS,f285fc33-9def-5280-afe4-07e032047b8c,"Crankdat, CHRMNDRS",29304e76-74d3-5b54-9a12-e632946402e3,107,124,0.863
+,"meaning:[0.80,1.01)",Our Last Night & Cole Rolland,c31edf4e-8768-5d86-801b-acfae2454b0e,"Our Last Night, Cole Rolland",03f5cda8-0145-59e3-8668-e67edc3e2307,19,19,1.000
+,"meaning:[0.80,1.01)",Bad Bunny Ft. Bomba Estéreo,e5e3fda7-9d60-563d-b4a2-c4cc39f8e880,Bad Bunny (ft. Bomba Estéreo),dc71a2f2-da72-50f6-806c-3af660668a45,292,302,0.967
+,"meaning:[0.80,1.01)","James Galway, Phil Coulter, Therese Timoney",9f897224-716f-54ed-a35b-305006977e25,James Galway;Phil Coulter;Therese Timoney,972b517d-12b5-5628-8e19-5504645a0142,1,1,1.000
+,"meaning:[0.80,1.01)",Egzu`,ae096281-b091-5ddb-8a01-4e970d94a446,Egzu,53788925-d40f-52a6-bbd0-d5ac2e3a08d4,9,9,1.000
+,"meaning:[0.80,1.01)","Nobuyoshi Koshibe, Takashi Kokubo",98d851e2-8880-5663-8175-2b74c9a4c0a8,Nobuyoshi Koshibe & Takashi Kokubo,1eea64f7-0f01-53ec-a012-4abcab60f355,3,3,1.000
+,"meaning:[0.80,1.01)",IGO & SCH,a5da82e7-b7bb-573b-865e-abf5a433f679,"IGO, SCH",d50cf334-d714-51d5-8b38-51ce7ac3a52c,5,5,1.000
+,"meaning:[0.80,1.01)","Selena Gomez, Marshmello",057b5fce-809e-5719-836a-5e44f1dd7ebe,Selena Gomez & Marshmello,a13de51b-ae5d-5c83-a972-b5b031fce5d1,1288,1452,0.887
+,"meaning:[0.80,1.01)",Larry June & Cardo Got Wings,47fcb33e-3fe5-5db7-b3f9-f3a7d516b119,"Larry June, Cardo Got Wings",a6819281-4c6e-50de-9b65-b262b95ea8b9,688,754,0.912
+,"meaning:[0.80,1.01)","CIFIKA, 1of1",2a095bd4-e665-5972-a368-e22c00e389b2,CIFIKA & 1of1,db0badb9-e57a-59e7-8dc6-391d8b8e1143,1,1,1.000
+,"meaning:[0.80,1.01)","PR SAD, R6, Pressplay",8abd008b-907f-594e-8fb7-1764fb56070b,"PR SAD, R6 & Pressplay",3afa47f2-03b1-5e2d-ba8a-4472fb50d238,58,58,1.000
+,"meaning:[0.80,1.01)","Barry McGuire, The New Christy Minstrels",90edd28c-69a9-5ffd-9b21-8d4579e5437c,Barry Mcguire & The New Christy Minstrels,71cd2364-e4f7-5723-a697-2ae28200aa7f,7,7,1.000
+,"meaning:[0.80,1.01)","White Noise Radiance, White Noise for Babies, & Heavenly Lullaby",1a1ad1e0-cb93-51c1-a312-691a8c547204,"White Noise Radiance, White Noise For Babies & Heavenly Lullaby",0cfb014e-08d2-5c81-a08f-ce72186110a4,9,11,0.818
+,"meaning:[0.80,1.01)","Emotional Oranges, Tkay Maidza",ed292e0c-7db0-5469-bc1e-0c5f6c32b47a,Emotional Oranges & Tkay Maidza,6f6bb6b4-dd9c-5a2f-84ab-543b09ae7d6b,118,129,0.915
+,"meaning:[0.80,1.01)",CODE 10,4e7d668f-62ae-57a9-b818-e5af672d7c3b,Code-10,14c48e6d-8212-4672-a724-a0070f99b474,28,35,0.800
+,"meaning:[0.80,1.01)",P T K & Slugerr,cd5eafe1-c6fc-50a8-9f5c-c814116fcfe4,"P T K, Slugerr",9be5cb7e-e9e3-5dc4-8b45-0e680efab52f,28,29,0.966
+,"meaning:[0.80,1.01)",David Bowie /Queen,3fdab814-03d1-58b9-a1ef-28ea229d9b50,David Bowie;Queen,1fa54c86-d7bc-536c-9501-400d25313bdd,4,5,0.800
+,"meaning:[0.80,1.01)","Rob Deniel, Janine",18d4d072-a69a-5a23-bf15-957bc020f689,Rob Deniel & Janine,a3bc3f0e-b01c-5f13-bd13-679176cfae20,179,179,1.000
+,"meaning:[0.80,1.01)","Oscar Maydon, Victor Mendivil",27d512f9-412c-5e9d-914f-61f750a0bb66,Óscar Maydon & Victor Mendivil,e554666a-d666-589f-b1d5-7eb058cd0333,186,218,0.853
+,"meaning:[0.80,1.01)","EQ, Estratosfera, Qiri, MAJA & OKTE",8505abbc-167e-51ab-b50f-fb1c5f13be67,"EQ, Estratosfera, Qiri, MAJA, OKTE",64e86028-ed30-533d-96dd-4f6af68ce619,642,693,0.926
+,"meaning:[0.80,1.01)","Tiësto, JES",3b041a0a-1a0f-5e13-8134-ed4625f778f3,Tiësto & Jes,8245d6ab-1f89-5d3b-968a-1c9ca64d4855,25,31,0.806
+,"meaning:[0.80,1.01)",De' Nate' Feat. Mel Brown,fc42971d-bcd0-595a-bb5f-bbfcdb1c69d6,De Nate Feat. Mel Brown,288d0309-f26a-575f-b267-17bb8eed508d,17,19,0.895
+,"meaning:[0.80,1.01)",WIDEBOYS feat VULA,43f4ac27-8666-5a83-b762-411f068ab87c,Wideboys Feat. Vula,2b297efd-278c-5886-b6b2-4aea8e6f11bb,24,25,0.960
+,"meaning:[0.80,1.01)",Clean Bandit / Anne-Marie / Sean Paul,0a950f1f-b884-50f5-89ea-9e1a936803a1,"Clean Bandit, Anne-Marie, Sean Paul",633ac182-bf2a-5423-afeb-806d19c01b50,237,242,0.979
+,"meaning:[0.80,1.01)","Francinne, Clau",a26b09b8-9a7d-5d2d-8b56-bea9f815fa63,Francinne & Clau,a8d3148d-69c7-5cfb-afd0-d60d9a9b5b8b,17,20,0.850
+,"meaning:[0.80,1.01)",Elis Regina & Antônio Carlos Jobim,300eceb5-06d3-5865-bbbf-4efa9e89388a,"Elis Regina, Antônio Carlos Jobim",416d154d-280e-58e6-a378-74bde1fe4ddb,511,578,0.884
+,"meaning:[0.80,1.01)",Koe Wetzel & Jessie Murph,1af97ff9-4414-5682-99d5-78bacd471e50,"Koe Wetzel, Jessie Murph",73cc5bc6-4e84-52bc-bbca-65a78b4100c0,229,271,0.845
+,"meaning:[0.80,1.01)",fischmob/erobique,42de7952-0124-5500-9b6b-f2ff90300c51,Fischmob / Erobique,4f2a264e-52ea-572a-a1c1-e609721a8855,4,4,1.000
+,pure,Баста & Бумбокс,d787144b-4934-576e-aba0-e2cf820cf42a,Баста  &  Бумбокс,75c32305-7580-5660-81ee-3cf1a08b4b2f,19,525,0.036
+,pure,Jason  Isbell,eb3ec3ce-8e5a-5cf8-b001-c15ded946042,Jason Isbell,4c501a41-5f23-41c9-a36a-5b86e894e08d,2,1831,0.001
+,pure,﻿Элизиум,87002595-90e4-5ef1-87a5-666e0de81d5f,Элизиум,1cd4f845-ff85-4828-b3e8-07aadba3d1d9,118,1294,0.091
+,pure,﻿League of Legends,4d2c3d13-e5c9-541d-ba93-ec5a019fa5e0,League of Legends,c68d3821-4222-4de4-acc3-a838f477433b,2,1214,0.002
+,pure,Workout Music ,5cae53e8-8c6c-5512-bd03-a5de13be3cf6,Workout Music,f2542528-cfd8-4abc-8eb6-e2fd7a42c23e,1,214,0.005
+,pure,﻿Filha da puta Games,42f942b7-2dac-5edf-ab50-a07cee54097c,Filha da puta Games,43e75526-a6d4-5ae7-807e-7e4c95773480,1,37,0.027
+,pure,﻿George Thorogood,7f3255fd-b4c8-5f72-875a-86c9dac6b4e1,George Thorogood,444e7c50-7f72-4954-b61c-1717332a27d1,4,967,0.004
+,pure,Next on Air:  Mike Nichol,4bc3dc18-32dd-53d7-923c-6cb889df872c,Next on Air: Mike Nichol,fc60e636-57d9-58e4-9266-db8bfd686e7f,7,91,0.077
+,pure,NERVO &  Hook N Sling,cbc6dd75-d1f8-53f6-ad04-4684975a5378,Nervo & Hook N Sling,a5cf4710-e5ac-5638-a23b-db205ec9d277,11,2020,0.005
+,pure,DJ Fresh & Fox Stevenson,d97f4dcd-bb83-5804-a343-1ee472b50286,DJ Fresh  & Fox Stevenson,d5e9db27-e295-5313-99e5-e9fc31dd5021,39,822,0.047
+,pure,Ra the  Mc,79354aef-0b46-5cc2-8a5b-df62ac29ebcd,Ra the MC,190d0e0e-8481-5aa4-8801-07fd66204803,1,6,0.167
+,pure,﻿Adolescent's Orquesta,3c634094-dc0b-55d3-a085-3935c363d141,Adolescent's Orquesta,b8d5bee0-56b5-5865-b6d8-d0218c481272,33,1704,0.019
+,pure,﻿Breaking Benjamin,3e9f9881-52b2-50f5-add8-ff02e8e5bee7,Breaking Benjamin,854a1807-025b-42a8-ba8c-2a39717f1d25,10,1609,0.006
+,pure,BRIGITTE BARDO feat Мс Р. Palinovskaya,14dd00f3-7e91-572c-88a4-76e72f23d14f,BRIGITTE BARDO      feat Мс Р. Palinovskaya,d9d9d3ab-1d29-50aa-89cf-89f809abf644,1,43,0.023
+,pure,Michael  Lennon,fbc55832-b75c-52b6-b646-cd0f0871ff35,Michael Lennon,2dc4d071-16d3-437d-9e40-add6afc17dc2,2,35,0.057
+,pure,Mayhem feat.  Kitsune²,9b299590-fd01-5fe2-bdb7-bbd18829aab0,Mayhem feat. Kitsune²,45480798-bab0-5993-a67e-8e5eed9cee16,316,393,0.804
+,pure,﻿vick,0e0b678c-fef5-56dd-b0ba-2f428de9ed8c,Vick,edef19b0-df8d-4395-9027-51901bc9820e,22,204,0.108
+,pure,﻿Franz Ferdinand,bfb9ef0b-6065-5c29-8876-de5bb38a8d88,Franz Ferdinand,aa7a2827-f74b-473c-bd79-03d065835cf7,19,1197,0.016
+,pure,Gym  Class Heroes,51a2d41b-1f54-5b61-9cdd-75da78bd2755,Gym Class Heroes,f4d4b515-0b74-423f-a161-db184330c37c,1,1093,0.001
+,pure,MOON  DUST,06fadcb0-c63b-5b96-96d6-5b63b98d8e9b,Moon Dust,a2b81e32-891f-4a9b-b579-222b954db700,13,253,0.051
+,pure,Next on Air: 4Strings,631120f5-e506-5b63-ba48-62ec4adf5a64,Next on Air:  4Strings,31465b66-4e5c-5415-8b5e-43385b7a727c,1,11,0.091
+,pure,Matt  Dobrovolsky,73aebcfd-b5de-504d-aec7-c9b7218a3c0f,Matt Dobrovolsky,77bb3675-ed0f-5e14-9a03-bc447ddbdd26,7,37,0.189
+,pure,﻿saluteざ,79b26fd3-2f73-54ee-b30f-bf7f18cd51e6,saluteざ,81a4b4ca-5017-5a26-bac3-be19370652b5,1,8,0.125
+,pure,Baby Boy ft Mannie Fresh,da6a5845-7900-5b9a-afd7-a395b43eaab5,Baby Boy Ft  Mannie Fresh,25ebe1e0-dd47-5de0-b575-72328c963ae0,1,17,0.059
+,pure,﻿TEMPOREX,3beaad09-e340-5c36-b891-08687c731a0a,TEMPOREX,2ace98e6-69b6-445e-b66d-a70a05f4ece0,21,937,0.022
+,pure,Mario  www.streetlife.kz,88546ae5-b5b0-57a8-a94b-7de104c79c90,Mario www.STREETLiFE.kz,7ffaa4a4-dad9-5317-97c4-48f10aaa2531,4,10,0.400
+,pure,Настасья  Самбурская,95bcb443-74e4-51a6-8070-db5a919c7fdc,Настасья Самбурская,0b807501-ceae-4919-9db5-e9a547f29911,32,444,0.072
+,pure,​​​​​​​​memphis,d82f94c3-24f9-51e5-b61c-b733a9263e31,Memphis,8628d49f-e6da-40e3-a8a4-d63a7d7eed96,1,1232,0.001
+,pure,No  Consta,61d8e59f-89ba-5671-aee6-b1bd6367481b,No Consta,ed2a134d-cdcb-5876-886c-3743c72e1e9c,1,14,0.071
+,pure,подвала  ноктюрн,778baadb-5fb2-5ec7-a60f-f23791f265bb,подвала ноктюрн,1ef9f41f-531b-4842-9d18-52754e4799d7,2,1019,0.002

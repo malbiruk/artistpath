@@ -1,0 +1,1592 @@
+[
+  {
+    "i": 0,
+    "name": "音阙诗听/赵方婧",
+    "norm": "yin que shi ting /zhao fang jing",
+    "comps": [
+      "yin que shi ting",
+      "zhao fang jing"
+    ],
+    "mm": 1.0,
+    "ratio": 0.584,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 14,
+    "stratum": "random",
+    "found": true,
+    "listeners": 323,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 3,
+    "name": "Zero 9:36, Ice Nine Kills",
+    "norm": "zero 9:36, ice nine kills",
+    "comps": [
+      "zero 9:36",
+      "ice nine kills"
+    ],
+    "mm": 1.0,
+    "ratio": 0.436,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 9,
+    "stratum": "random",
+    "found": true,
+    "listeners": 719,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 6,
+    "name": "SXMPRA & 1nonly",
+    "norm": "sxmpra & 1nonly",
+    "comps": [
+      "sxmpra",
+      "1nonly"
+    ],
+    "mm": 1.0,
+    "ratio": 0.393,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 391,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 9,
+    "name": "BIGDADDY x EMILY",
+    "norm": "bigdaddy x emily",
+    "comps": [
+      "bigdaddy",
+      "emily"
+    ],
+    "mm": 1.0,
+    "ratio": 0.261,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 5,
+    "stratum": "random",
+    "found": true,
+    "listeners": 448,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 12,
+    "name": "Azshara & Kidnapped",
+    "norm": "azshara & kidnapped",
+    "comps": [
+      "azshara",
+      "kidnapped"
+    ],
+    "mm": 1.0,
+    "ratio": 0.213,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 271,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 15,
+    "name": "Lupe de Lupe, Fernando Motta",
+    "norm": "lupe de lupe, fernando motta",
+    "comps": [
+      "lupe de lupe",
+      "fernando motta"
+    ],
+    "mm": 1.0,
+    "ratio": 0.263,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 12,
+    "stratum": "random",
+    "found": true,
+    "listeners": 638,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 18,
+    "name": "Bonobo, O’Flynn",
+    "norm": "bonobo, o'flynn",
+    "comps": [
+      "bonobo",
+      "o'flynn"
+    ],
+    "mm": 1.0,
+    "ratio": 0.419,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 1774,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 21,
+    "name": "Ben Kim & LP Giobbi",
+    "norm": "ben kim & lp giobbi",
+    "comps": [
+      "ben kim",
+      "lp giobbi"
+    ],
+    "mm": 1.0,
+    "ratio": 0.51,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 943,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 24,
+    "name": "Amanda Seyfried/Ashley Lilley/Rachel McDowall",
+    "norm": "amanda seyfried/ashley lilley/rachel mcdowall",
+    "comps": [
+      "amanda seyfried",
+      "ashley lilley",
+      "rachel mcdowall"
+    ],
+    "mm": 0.667,
+    "ratio": 0.287,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 13,
+    "stratum": "random",
+    "found": true,
+    "listeners": 3011,
+    "tags": [
+      "musical",
+      "abba"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 27,
+    "name": "Sebastian Knauer & Zürcher Kammerorchester",
+    "norm": "sebastian knauer & zurcher kammerorchester",
+    "comps": [
+      "sebastian knauer",
+      "zurcher kammerorchester"
+    ],
+    "mm": 1.0,
+    "ratio": 0.312,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 16,
+    "stratum": "random",
+    "found": true,
+    "listeners": 161,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 30,
+    "name": "kizaru, Big Baby Tape",
+    "norm": "kizaru, big baby tape",
+    "comps": [
+      "kizaru",
+      "big baby tape"
+    ],
+    "mm": 1.0,
+    "ratio": 0.315,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 946,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 33,
+    "name": "Tim O'Brien & Darrell Scott",
+    "norm": "tim o'brien & darrell scott",
+    "comps": [
+      "tim o'brien",
+      "darrell scott"
+    ],
+    "mm": 1.0,
+    "ratio": 1.488,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 11,
+    "stratum": "random",
+    "found": true,
+    "listeners": 3134,
+    "tags": [
+      "bluegrass",
+      "country",
+      "folk",
+      "american",
+      "contemporary folk"
+    ],
+    "bio": "The teaming up of American country/Americana singer-songwriters Tim O'Brien and Darrell Scott."
+  },
+  {
+    "i": 36,
+    "name": "Timeblind / Maga Bo",
+    "norm": "timeblind / maga bo",
+    "comps": [
+      "timeblind",
+      "maga bo"
+    ],
+    "mm": 1.0,
+    "ratio": 0.371,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 432,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 39,
+    "name": "Teflon Sega, OZZIE",
+    "norm": "teflon sega, ozzie",
+    "comps": [
+      "teflon sega",
+      "ozzie"
+    ],
+    "mm": 1.0,
+    "ratio": 0.458,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 5,
+    "stratum": "random",
+    "found": true,
+    "listeners": 455,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 42,
+    "name": "Rusherking, Marama",
+    "norm": "rusherking, marama",
+    "comps": [
+      "rusherking",
+      "marama"
+    ],
+    "mm": 1.0,
+    "ratio": 0.713,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 297,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 45,
+    "name": "Nessa Barrett & Artemas",
+    "norm": "nessa barrett & artemas",
+    "comps": [
+      "nessa barrett",
+      "artemas"
+    ],
+    "mm": 1.0,
+    "ratio": 0.215,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 1615,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 48,
+    "name": "Night Skinny, Nerissima Serpe & Papa V",
+    "norm": "night skinny, nerissima serpe & papa v",
+    "comps": [
+      "night skinny",
+      "nerissima serpe",
+      "papa v"
+    ],
+    "mm": 1.0,
+    "ratio": 0.296,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 74,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 51,
+    "name": "Tituss Burgess & The Cast of Schmigadoon! Season 2",
+    "norm": "tituss burgess & the cast of schmigadoon! season 2",
+    "comps": [
+      "tituss burgess",
+      "the cast of schmigadoon! season 2"
+    ],
+    "mm": 1.0,
+    "ratio": 0.299,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 14,
+    "stratum": "random",
+    "found": true,
+    "listeners": 69,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 54,
+    "name": "Riar Saab & Abhijay Sharma",
+    "norm": "riar saab & abhijay sharma",
+    "comps": [
+      "riar saab",
+      "abhijay sharma"
+    ],
+    "mm": 1.0,
+    "ratio": 0.468,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 9,
+    "stratum": "random",
+    "found": true,
+    "listeners": 564,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 57,
+    "name": "Abu Ali & Abu Abdul Maalik",
+    "norm": "abu ali & abu abdul maalik",
+    "comps": [
+      "abu ali",
+      "abu abdul maalik"
+    ],
+    "mm": 1.0,
+    "ratio": 0.287,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 1,
+    "tags": [
+      "jihad",
+      "nasheed",
+      "saudi traditional",
+      "ilahi",
+      "anasheed"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 60,
+    "name": "Sica, Hev Abi, HELLMERRY",
+    "norm": "sica, hev abi, hellmerry",
+    "comps": [
+      "sica",
+      "hev abi",
+      "hellmerry"
+    ],
+    "mm": 1.0,
+    "ratio": 0.587,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 4,
+    "stratum": "random",
+    "found": true,
+    "listeners": 470,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 63,
+    "name": "Mvnday, Softsmile, Hellmaos",
+    "norm": "mvnday, softsmile, hellmaos",
+    "comps": [
+      "mvnday",
+      "softsmile",
+      "hellmaos"
+    ],
+    "mm": 1.0,
+    "ratio": 0.246,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 135,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 66,
+    "name": "London Soul Singers/London Screen Orchestra",
+    "norm": "london soul singers/london screen orchestra",
+    "comps": [
+      "london soul singers",
+      "london screen orchestra"
+    ],
+    "mm": 1.0,
+    "ratio": 1.464,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 19,
+    "stratum": "random",
+    "found": true,
+    "listeners": 556,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 69,
+    "name": "Psychosis, МОКЕРИ",
+    "norm": "psychosis, mokeri",
+    "comps": [
+      "psychosis",
+      "mokeri"
+    ],
+    "mm": 1.0,
+    "ratio": 0.219,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 106,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 72,
+    "name": "Filipe Ret, Mc Poze do Rodo & Nagalli",
+    "norm": "filipe ret, mc poze do rodo & nagalli",
+    "comps": [
+      "filipe ret",
+      "mc poze do rodo",
+      "nagalli"
+    ],
+    "mm": 1.0,
+    "ratio": 0.274,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 220,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 75,
+    "name": "Vicky Peña, Constantino Romero",
+    "norm": "vicky pena, constantino romero",
+    "comps": [
+      "vicky pena",
+      "constantino romero"
+    ],
+    "mm": 1.0,
+    "ratio": 1.875,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 10,
+    "stratum": "random",
+    "found": true,
+    "listeners": 10,
+    "tags": [
+      "Stephen Sondheim",
+      "Original Barcelona Cast"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 78,
+    "name": "Young Thug, Future",
+    "norm": "young thug, future",
+    "comps": [
+      "young thug",
+      "future"
+    ],
+    "mm": 1.0,
+    "ratio": 1.537,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 11188,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 81,
+    "name": "LilyPichu, VGR",
+    "norm": "lilypichu, vgr",
+    "comps": [
+      "lilypichu",
+      "vgr"
+    ],
+    "mm": 1.0,
+    "ratio": 0.271,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 3,
+    "stratum": "random",
+    "found": true,
+    "listeners": 362,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 84,
+    "name": "DJ Dn o Astro, MC Caja, MC Durrony",
+    "norm": "dj dn o astro, mc caja, mc durrony",
+    "comps": [
+      "dj dn o astro",
+      "mc caja",
+      "mc durrony"
+    ],
+    "mm": 1.0,
+    "ratio": 0.273,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 224,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 87,
+    "name": "Hamza & Tiakola",
+    "norm": "hamza & tiakola",
+    "comps": [
+      "hamza",
+      "tiakola"
+    ],
+    "mm": 1.0,
+    "ratio": 0.455,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 5,
+    "stratum": "random",
+    "found": true,
+    "listeners": 440,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 90,
+    "name": "Ey Gary & Mikeel D.",
+    "norm": "ey gary & mikeel d.",
+    "comps": [
+      "ey gary",
+      "mikeel d."
+    ],
+    "mm": 1.0,
+    "ratio": 1.133,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 1,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 93,
+    "name": "Delli Boe, ppcocaine, Kidd Kenn, Stunna Girl",
+    "norm": "delli boe, ppcocaine, kidd kenn, stunna girl",
+    "comps": [
+      "delli boe",
+      "ppcocaine",
+      "kidd kenn",
+      "stunna girl"
+    ],
+    "mm": 0.667,
+    "ratio": 0.477,
+    "n_seg": 4,
+    "has_the": false,
+    "min_seg_len": 9,
+    "stratum": "random",
+    "found": true,
+    "listeners": 844,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 96,
+    "name": "Dave, Fredo",
+    "norm": "dave, fredo",
+    "comps": [
+      "dave",
+      "fredo"
+    ],
+    "mm": 1.0,
+    "ratio": 0.211,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 4,
+    "stratum": "random",
+    "found": true,
+    "listeners": 2048,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 99,
+    "name": "Aesop Rock, Lealani",
+    "norm": "aesop rock, lealani",
+    "comps": [
+      "aesop rock",
+      "lealani"
+    ],
+    "mm": 1.0,
+    "ratio": 0.231,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 7,
+    "stratum": "random",
+    "found": true,
+    "listeners": 789,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 102,
+    "name": "Dreams For Two, just johnny, her.story",
+    "norm": "dreams for two, just johnny, her.story",
+    "comps": [
+      "dreams for two",
+      "just johnny",
+      "her.story"
+    ],
+    "mm": 1.0,
+    "ratio": 0.26,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 9,
+    "stratum": "random",
+    "found": true,
+    "listeners": 54,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 105,
+    "name": "塩見周子 (ルゥティン), 橘ありす (佐藤亜美菜), 松永涼 (千菅春香)",
+    "norm": "yan jian zhou zi (ruutein), ju arisu (zuo teng ya mei cai ), song yong liang (qian jian chun xiang )",
+    "comps": [
+      "yan jian zhou zi (ruutein)",
+      "ju arisu (zuo teng ya mei cai )",
+      "song yong liang (qian jian chun xiang )"
+    ],
+    "mm": 0.667,
+    "ratio": 1.646,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 26,
+    "stratum": "random",
+    "found": true,
+    "listeners": 171,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 108,
+    "name": "Cordae, Eminem",
+    "norm": "cordae, eminem",
+    "comps": [
+      "cordae",
+      "eminem"
+    ],
+    "mm": 1.0,
+    "ratio": 0.223,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 767,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 111,
+    "name": "J Balvin x Bad Bunny",
+    "norm": "j balvin x bad bunny",
+    "comps": [
+      "j balvin",
+      "bad bunny"
+    ],
+    "mm": 1.0,
+    "ratio": 0.324,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 8,
+    "stratum": "random",
+    "found": true,
+    "listeners": 990,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 114,
+    "name": "Renee Franke, Detlev Lais",
+    "norm": "renee franke, detlev lais",
+    "comps": [
+      "renee franke",
+      "detlev lais"
+    ],
+    "mm": 1.0,
+    "ratio": 0.286,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 11,
+    "stratum": "random",
+    "found": true,
+    "listeners": 27,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 117,
+    "name": "Reinhard Goebel, Musica Antiqua Köln",
+    "norm": "reinhard goebel, musica antiqua koln",
+    "comps": [
+      "reinhard goebel",
+      "musica antiqua koln"
+    ],
+    "mm": 1.0,
+    "ratio": 0.242,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 15,
+    "stratum": "random",
+    "found": true,
+    "listeners": 172,
+    "tags": [
+      "baroque",
+      "Bach",
+      "authentic instruments",
+      "Counterpoint",
+      "historically informed perfomance"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 120,
+    "name": "Oversize, Heavenward",
+    "norm": "oversize, heavenward",
+    "comps": [
+      "oversize",
+      "heavenward"
+    ],
+    "mm": 1.0,
+    "ratio": 0.606,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 8,
+    "stratum": "random",
+    "found": true,
+    "listeners": 413,
+    "tags": [
+      "alternative",
+      "rock",
+      "shoegaze"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 123,
+    "name": "Supriya Joshi, Vijay Antony",
+    "norm": "supriya joshi, vijay antony",
+    "comps": [
+      "supriya joshi",
+      "vijay antony"
+    ],
+    "mm": 1.0,
+    "ratio": 0.841,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 12,
+    "stratum": "random",
+    "found": true,
+    "listeners": 144,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 126,
+    "name": "ANNA TSUCHIYA inspi' NANA (BLACK STONES)、OLIVIA inspi' REIRA (TRAPNEST)",
+    "norm": "anna tsuchiya inspi' nana (black stones), olivia inspi' reira (trapnest)",
+    "comps": [
+      "anna tsuchiya inspi' nana (black stones)",
+      "olivia inspi' reira (trapnest)"
+    ],
+    "mm": 1.0,
+    "ratio": 0.714,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 30,
+    "stratum": "random",
+    "found": true,
+    "listeners": 152,
+    "tags": [
+      "rock",
+      "japanese",
+      "j-pop",
+      "pop",
+      "J-rock"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 129,
+    "name": "Johannes Brahms, Berliner Philharmoniker, Claudio Abbado",
+    "norm": "johannes brahms, berliner philharmoniker, claudio abbado",
+    "comps": [
+      "johannes brahms",
+      "berliner philharmoniker",
+      "claudio abbado"
+    ],
+    "mm": 0.667,
+    "ratio": 0.249,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 14,
+    "stratum": "random",
+    "found": true,
+    "listeners": 368,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 132,
+    "name": "The Alchemist, Conway The Machine",
+    "norm": "the alchemist, conway the machine",
+    "comps": [
+      "the alchemist",
+      "conway the machine"
+    ],
+    "mm": 1.0,
+    "ratio": 0.229,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 13,
+    "stratum": "random",
+    "found": true,
+    "listeners": 3141,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 135,
+    "name": "Simone Dinnerstein & A Far Cry",
+    "norm": "simone dinnerstein & a far cry",
+    "comps": [
+      "simone dinnerstein",
+      "a far cry"
+    ],
+    "mm": 1.0,
+    "ratio": 0.325,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 9,
+    "stratum": "random",
+    "found": true,
+    "listeners": 360,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 138,
+    "name": "Better Oblivion Community Center, Conor Oberst & Phoebe Bridgers",
+    "norm": "better oblivion community center, conor oberst & phoebe bridgers",
+    "comps": [
+      "better oblivion community center",
+      "conor oberst",
+      "phoebe bridgers"
+    ],
+    "mm": 1.0,
+    "ratio": 1.7,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 12,
+    "stratum": "random",
+    "found": true,
+    "listeners": 7312,
+    "tags": [
+      "folk rock",
+      "american",
+      "United States"
+    ],
+    "bio": "wrong tag."
+  },
+  {
+    "i": 141,
+    "name": "Blessd, Justin Quiles, Lenny Tavárez",
+    "norm": "blessd, justin quiles, lenny tavarez",
+    "comps": [
+      "blessd",
+      "justin quiles",
+      "lenny tavarez"
+    ],
+    "mm": 1.0,
+    "ratio": 0.587,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 6,
+    "stratum": "random",
+    "found": true,
+    "listeners": 1124,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 144,
+    "name": "Hillsong Worship & TAYA",
+    "norm": "hillsong worship & taya",
+    "comps": [
+      "hillsong worship",
+      "taya"
+    ],
+    "mm": 1.0,
+    "ratio": 0.383,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 4,
+    "stratum": "random",
+    "found": true,
+    "listeners": 850,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 147,
+    "name": "Northern Sinfonia/Bradley Creswick,",
+    "norm": "northern sinfonia/bradley creswick,",
+    "comps": [
+      "northern sinfonia",
+      "bradley creswick"
+    ],
+    "mm": 1.0,
+    "ratio": 0.207,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 16,
+    "stratum": "random",
+    "found": true,
+    "listeners": 78,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 150,
+    "name": "The Ananda Shankar Experience & State Of Bengal",
+    "norm": "the ananda shankar experience & state of bengal",
+    "comps": [
+      "the ananda shankar experience",
+      "state of bengal"
+    ],
+    "mm": 1.0,
+    "ratio": 0.814,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 15,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 330,
+    "tags": [
+      "ethnic",
+      "rock",
+      "Psychedelic Rock",
+      "psychedelic",
+      "instrumental"
+    ],
+    "bio": "The sitarist and nephew of Ravi Shankar, Ananda Shankar (11 December 1942 - 26 March 1999), joins with the DJ and producer Sam Zaman, also known as State of Bengal, to create a fusion where Indian traditional music, sitars and tablas meet western guitars, hip-hop and breakbeats. In the late 1960s Shankar traveled to Los Angeles, where he played with many contemporary musicians including Jimi Hendrix ad recorded his first album utilizing Indian classical"
+  },
+  {
+    "i": 153,
+    "name": "The Kid LAROI., Juice WRLD",
+    "norm": "the kid laroi., juice wrld",
+    "comps": [
+      "the kid laroi.",
+      "juice wrld"
+    ],
+    "mm": 1.0,
+    "ratio": 0.267,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 10,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 1202,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 156,
+    "name": "Hubert Tas & The Small Circle",
+    "norm": "hubert tas & the small circle",
+    "comps": [
+      "hubert tas",
+      "the small circle"
+    ],
+    "mm": 1.0,
+    "ratio": 1.018,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 10,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 177,
+    "tags": [
+      "instrumental hip-hop",
+      "jazz",
+      "instrumental",
+      "Hip-Hop",
+      "downtempo"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 159,
+    "name": "The Viper & G-town Madness",
+    "norm": "the viper & g-town madness",
+    "comps": [
+      "the viper",
+      "g-town madness"
+    ],
+    "mm": 1.0,
+    "ratio": 0.506,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 9,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 2376,
+    "tags": [
+      "hardcore",
+      "Gabber",
+      "hardstyle",
+      "synth3sis",
+      "Mainstyle Hardcore"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 162,
+    "name": "The Tyets & Chiara Oliver",
+    "norm": "the tyets & chiara oliver",
+    "comps": [
+      "the tyets",
+      "chiara oliver"
+    ],
+    "mm": 1.0,
+    "ratio": 0.228,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 9,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 48,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 165,
+    "name": "Belly & The Weeknd",
+    "norm": "belly & the weeknd",
+    "comps": [
+      "belly",
+      "the weeknd"
+    ],
+    "mm": 1.0,
+    "ratio": 0.326,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 5,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 1279,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 168,
+    "name": "Huey \"Piano\" Smith & The Clowns",
+    "norm": "huey \"piano\" smith & the clowns",
+    "comps": [
+      "huey \"piano\" smith",
+      "the clowns"
+    ],
+    "mm": 1.0,
+    "ratio": 0.715,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 10,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 14193,
+    "tags": [
+      "soul",
+      "oldies",
+      "New Orleans",
+      "60s",
+      "Rock and Roll"
+    ],
+    "bio": "Huey Smith was born in New Orleans on January 26, 1934, and began playing the piano at age 15. At the dawn of the '50s, Smith backed New Orleans guitar legends Earl King and Guitar Slim, and quickly became a popular session pianist, playing on records by the cream of the New Orleans R&B scene: Smiley Lewis (the classic \"I Hear You Knockin'\"), Lloyd Price, and Little Richard. During the mid-'50s, Smith began leading his own band, the Clowns, which usually featured popular local blues singer and female impersonator Bobby Marchan on lead vocals."
+  },
+  {
+    "i": 171,
+    "name": "The Harp Consort / Andrew Lawrence-King",
+    "norm": "the harp consort / andrew lawrence-king",
+    "comps": [
+      "the harp consort",
+      "andrew lawrence-king"
+    ],
+    "mm": 1.0,
+    "ratio": 0.535,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 16,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 1549,
+    "tags": [
+      "early music",
+      "early music performer",
+      "harp",
+      "Classical",
+      "Performer"
+    ],
+    "bio": "http://www.theharpconsort.com/"
+  },
+  {
+    "i": 174,
+    "name": "J.Jay & The Dell Tones",
+    "norm": "j.jay & the dell tones",
+    "comps": [
+      "j.jay",
+      "the dell tones"
+    ],
+    "mm": 1.0,
+    "ratio": 0.667,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 5,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 11,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 177,
+    "name": "Carmen Dragon & The Hollywood Bowl Symphony Orchestra",
+    "norm": "carmen dragon & the hollywood bowl symphony orchestra",
+    "comps": [
+      "carmen dragon",
+      "the hollywood bowl symphony orchestra"
+    ],
+    "mm": 1.0,
+    "ratio": 3.28,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 13,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 328,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 180,
+    "name": "Sumac Dub, The Maucals",
+    "norm": "sumac dub, the maucals",
+    "comps": [
+      "sumac dub",
+      "the maucals"
+    ],
+    "mm": 1.0,
+    "ratio": 0.226,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 9,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 215,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 183,
+    "name": "Westside Gunn, Conway The Machine & The Alchemist",
+    "norm": "westside gunn, conway the machine & the alchemist",
+    "comps": [
+      "westside gunn",
+      "conway the machine",
+      "the alchemist"
+    ],
+    "mm": 1.0,
+    "ratio": 0.406,
+    "n_seg": 3,
+    "has_the": true,
+    "min_seg_len": 13,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 3117,
+    "tags": [
+      "rap",
+      "Hip-Hop",
+      "underground hip-hop",
+      "new york",
+      "jazz rap"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 186,
+    "name": "Audio & The Sect",
+    "norm": "audio & the sect",
+    "comps": [
+      "audio",
+      "the sect"
+    ],
+    "mm": 1.0,
+    "ratio": 0.292,
+    "n_seg": 2,
+    "has_the": true,
+    "min_seg_len": 5,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 1799,
+    "tags": [
+      "Drum and bass",
+      "darkstep",
+      "neurofunk",
+      "techstep",
+      "darkside"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 189,
+    "name": "Freddie Gibbs, The Alchemist, Conway the Machine",
+    "norm": "freddie gibbs, the alchemist, conway the machine",
+    "comps": [
+      "freddie gibbs",
+      "the alchemist",
+      "conway the machine"
+    ],
+    "mm": 1.0,
+    "ratio": 0.502,
+    "n_seg": 3,
+    "has_the": true,
+    "min_seg_len": 13,
+    "stratum": "the_seg",
+    "found": true,
+    "listeners": 8187,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 192,
+    "name": "IY, DVRST",
+    "norm": "iy, dvrst",
+    "comps": [
+      "iy",
+      "dvrst"
+    ],
+    "mm": 1.0,
+    "ratio": 0.37,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 679,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 195,
+    "name": "LEALL, Rock Danger, BK & Nagalli",
+    "norm": "leall, rock danger, bk & nagalli",
+    "comps": [
+      "leall",
+      "rock danger",
+      "bk",
+      "nagalli"
+    ],
+    "mm": 1.0,
+    "ratio": 0.241,
+    "n_seg": 4,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 116,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 198,
+    "name": "LV & Untold",
+    "norm": "lv & untold",
+    "comps": [
+      "lv",
+      "untold"
+    ],
+    "mm": 1.0,
+    "ratio": 2.796,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 5436,
+    "tags": [
+      "dubstep",
+      "electronic",
+      "glitch",
+      "duo",
+      "170 bpm electronic"
+    ],
+    "bio": "Untold and LV step into the future with a slab of advanced Afro-tek backed with a Mount Kimbie remix on Hemlock recordings. The collaboratory effort on the A-side is exceptional, with Untold kneading maleable subbass into fluid forms at the bottom of the spectrum while melodic percussion plugs the gaps between post-garage shuffle and shoulder-dipping Afro-flex. Noticably LV's contribution comes in the stealthy camouflage of smoked dub vibes, favouring spooked FX and crackling textures woven into the rhythm with a deft crispness."
+  },
+  {
+    "i": 201,
+    "name": "BandoKay, Double Lz, SJ",
+    "norm": "bandokay, double lz, sj",
+    "comps": [
+      "bandokay",
+      "double lz",
+      "sj"
+    ],
+    "mm": 0.667,
+    "ratio": 0.24,
+    "n_seg": 3,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 338,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 204,
+    "name": "Mattik & DL",
+    "norm": "mattik & dl",
+    "comps": [
+      "mattik",
+      "dl"
+    ],
+    "mm": 1.0,
+    "ratio": 0.435,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 40,
+    "tags": [
+      "breakbeat",
+      "electronic",
+      "2-step",
+      "UK Garage",
+      "4x4"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 207,
+    "name": "I // O",
+    "norm": "i // o",
+    "comps": [
+      "i",
+      "o"
+    ],
+    "mm": 1.0,
+    "ratio": 0.304,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 1,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 55,
+    "tags": [
+      "ambient",
+      "electronic",
+      "dark ambient",
+      "experimental",
+      "drone"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 210,
+    "name": "БГ & Джордж",
+    "norm": "bg & dzhordzh",
+    "comps": [
+      "bg",
+      "dzhordzh"
+    ],
+    "mm": 1.0,
+    "ratio": 0.248,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 2,
+    "tags": [
+      "Psychedelic Rock",
+      "rock",
+      "70s",
+      "experimental",
+      "Lo-Fi"
+    ],
+    "bio": ""
+  },
+  {
+    "i": 213,
+    "name": "Anos 60,70,80,90",
+    "norm": "anos 60,70,80,90",
+    "comps": [
+      "anos 60",
+      "70",
+      "80",
+      "90"
+    ],
+    "mm": 0.5,
+    "ratio": 0.876,
+    "n_seg": 4,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 3887,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 216,
+    "name": "Karmadiesz, cW",
+    "norm": "karmadiesz, cw",
+    "comps": [
+      "karmadiesz",
+      "cw"
+    ],
+    "mm": 1.0,
+    "ratio": 0.231,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 186,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 219,
+    "name": "D3, sulga",
+    "norm": "d3, sulga",
+    "comps": [
+      "d3",
+      "sulga"
+    ],
+    "mm": 1.0,
+    "ratio": 0.202,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 61,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 222,
+    "name": "EF & Ugovhb",
+    "norm": "ef & ugovhb",
+    "comps": [
+      "ef",
+      "ugovhb"
+    ],
+    "mm": 1.0,
+    "ratio": 0.788,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 478,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 225,
+    "name": "DC, Emil",
+    "norm": "dc, emil",
+    "comps": [
+      "dc",
+      "emil"
+    ],
+    "mm": 1.0,
+    "ratio": 0.978,
+    "n_seg": 2,
+    "has_the": false,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 1210,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "i": 228,
+    "name": "Recayd Mob, Derek, Jé, MC Igu, The Boy",
+    "norm": "recayd mob, derek, je, mc igu, the boy",
+    "comps": [
+      "recayd mob",
+      "derek",
+      "je",
+      "mc igu",
+      "the boy"
+    ],
+    "mm": 1.0,
+    "ratio": 0.281,
+    "n_seg": 5,
+    "has_the": true,
+    "min_seg_len": 2,
+    "stratum": "short_seg",
+    "found": true,
+    "listeners": 363,
+    "tags": [],
+    "bio": ""
+  }
+]

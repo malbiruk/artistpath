@@ -1,0 +1,3173 @@
+[
+  {
+    "name": "(SWMG) Acid Souljah X Zayguapkid X Xhris2Eazy",
+    "norm": "(swmg) acid souljah x zayguapkid x xhris2eazy",
+    "ratio": 0.0027,
+    "collab_in": 2,
+    "segments": {
+      "(swmg) acid souljah": 86,
+      "zayguapkid": 464,
+      "xhris2eazy": 741
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 31,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "kyoto x Frostekk",
+    "norm": "kyoto x frostekk",
+    "ratio": 0.0032,
+    "collab_in": 4,
+    "segments": {
+      "kyoto": 838,
+      "frostekk": 1238
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 40,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "IMANU x The Glitch Mob",
+    "norm": "imanu x the glitch mob",
+    "ratio": 0.0005,
+    "collab_in": 1,
+    "segments": {
+      "imanu": 1930,
+      "the glitch mob": 1149
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 58,
+    "tags": [
+      "netherlands"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Yyou x Ratatat",
+    "norm": "yyou x ratatat",
+    "ratio": 0.0016,
+    "collab_in": 1,
+    "segments": {
+      "yyou": 43,
+      "ratatat": 624
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 59,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "BeazyTymes x JP",
+    "norm": "beazytymes x jp",
+    "ratio": 0.0047,
+    "collab_in": 3,
+    "segments": {
+      "beazytymes": 305,
+      "jp": 637
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 182,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Katy B x Mr. Mitch",
+    "norm": "katy b x mr. mitch",
+    "ratio": 0.0043,
+    "collab_in": 4,
+    "segments": {
+      "katy b": 925,
+      "mr. mitch": 462
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 50,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Marlon Brutal x Juice",
+    "norm": "marlon brutal x juice",
+    "ratio": 0.003,
+    "collab_in": 2,
+    "segments": {
+      "marlon brutal": 657,
+      "juice": 392
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 50,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Occvlt X Ned Bundy",
+    "norm": "occvlt x ned bundy",
+    "ratio": 0.0019,
+    "collab_in": 1,
+    "segments": {
+      "occvlt": 5,
+      "ned bundy": 530
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 60,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Chief Kelly x RiverKinn x Kasper Fell",
+    "norm": "chief kelly x riverkinn x kasper fell",
+    "ratio": 0.0041,
+    "collab_in": 7,
+    "segments": {
+      "chief kelly": 294,
+      "riverkinn": 327,
+      "kasper fell": 1714
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 17,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "santos santana x sinizter",
+    "norm": "santos santana x sinizter",
+    "ratio": 0.0024,
+    "collab_in": 1,
+    "segments": {
+      "santos santana": 328,
+      "sinizter": 420
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 33,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Tatami Construct x khutko",
+    "norm": "tatami construct x khutko",
+    "ratio": 0.0064,
+    "collab_in": 4,
+    "segments": {
+      "tatami construct": 629,
+      "khutko": 553
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 18,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Paluch x Gedz x Kobik x Szpaku",
+    "norm": "paluch x gedz x kobik x szpaku",
+    "ratio": 0.0013,
+    "collab_in": 3,
+    "segments": {
+      "paluch": 2370,
+      "gedz": 680,
+      "kobik": 1584,
+      "szpaku": 1826
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 36,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "SOPHIE, Abyss X",
+    "norm": "sophie, abyss x",
+    "ratio": 0.0046,
+    "collab_in": 8,
+    "segments": {
+      "sophie": 1725,
+      "abyss": 200
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 18,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "メロン記念日 x Midori†",
+    "norm": "meronji nian ri x midori+",
+    "ratio": 0.0009,
+    "collab_in": 2,
+    "segments": {
+      "meronji nian ri": 2144,
+      "midori": 833
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 2,
+    "tags": [
+      "japanese",
+      "japan",
+      "Hello Project"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "TG Millian x Naira Marley x Blanco",
+    "norm": "tg millian x naira marley x blanco",
+    "ratio": 0.0017,
+    "collab_in": 4,
+    "segments": {
+      "tg millian": 838,
+      "naira marley": 641,
+      "blanco": 2355
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 51,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "tkdwn. x [ bsd.u ]",
+    "norm": "tkdwn. x [ bsd.u ]",
+    "ratio": 0.0009,
+    "collab_in": 1,
+    "segments": {
+      "tkdwn.": 1071,
+      "[ bsd.u ]": 765
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 115,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Pixa x Kis Grófo",
+    "norm": "pixa x kis grofo",
+    "ratio": 0.0007,
+    "collab_in": 1,
+    "segments": {
+      "pixa": 1373,
+      "kis grofo": 1350
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 65,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DORA FIGUEIREDO x DOMA",
+    "norm": "dora figueiredo x doma",
+    "ratio": 0.0075,
+    "collab_in": 1,
+    "segments": {
+      "dora figueiredo": 2,
+      "doma": 133
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 36,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "alto × Moyu",
+    "norm": "alto x moyu",
+    "ratio": 0.0015,
+    "collab_in": 1,
+    "segments": {
+      "alto": 287,
+      "moyu": 675
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 24,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Cristale x Teezandos",
+    "norm": "cristale x teezandos",
+    "ratio": 0.0051,
+    "collab_in": 6,
+    "segments": {
+      "cristale": 520,
+      "teezandos": 1180
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 83,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Mega Man X 4",
+    "norm": "mega man x 4",
+    "ratio": 0.0069,
+    "collab_in": 6,
+    "segments": {
+      "mega man": 423,
+      "4": 871
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 76,
+    "tags": [],
+    "bio": "This is not an artist, but appears here due to incorrectly tagged tracks . If this non-artist appears in your charts, do last.fm and yourself a favor. Fix your tags by putting the actual artist name in the artist field. The easiest way is to use Picard."
+  },
+  {
+    "name": "Kim Petras & Nicki Minaj X Bad Friends",
+    "norm": "kim petras & nicki minaj x bad friends",
+    "ratio": 0.0009,
+    "collab_in": 2,
+    "segments": {
+      "kim petras": 2008,
+      "nicki minaj": 2202,
+      "bad friends": 109
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 92,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "A Tribe Called Quest X The Pharcyde",
+    "norm": "a tribe called quest x the pharcyde",
+    "ratio": 0.002,
+    "collab_in": 3,
+    "segments": {
+      "a tribe called quest": 1297,
+      "the pharcyde": 1508
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 272,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Playboi Carti x Key Glock",
+    "norm": "playboi carti x key glock",
+    "ratio": 0.0007,
+    "collab_in": 2,
+    "segments": {
+      "playboi carti": 2137,
+      "key glock": 2768
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 30,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Nunu X Sagi Kariv",
+    "norm": "nunu x sagi kariv",
+    "ratio": 0.0006,
+    "collab_in": 1,
+    "segments": {
+      "nunu": 1741,
+      "sagi kariv": 324
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 39,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DESSITA x ADAM",
+    "norm": "dessita x adam",
+    "ratio": 0.0099,
+    "collab_in": 18,
+    "segments": {
+      "dessita": 1822,
+      "adam": 967
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 13,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Gucci Mane x Lil Uzi Vert",
+    "norm": "gucci mane x lil uzi vert",
+    "ratio": 0.0022,
+    "collab_in": 5,
+    "segments": {
+      "gucci mane": 2296,
+      "lil uzi vert": 1912
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 205,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "lil kaine x cursed",
+    "norm": "lil kaine x cursed",
+    "ratio": 0.004,
+    "collab_in": 3,
+    "segments": {
+      "lil kaine": 351,
+      "cursed": 743
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 97,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "pandora., Red X",
+    "norm": "pandora., red x",
+    "ratio": 0.0058,
+    "collab_in": 8,
+    "segments": {
+      "pandora.": 123,
+      "red": 1378
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 19,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "X WAVE, GOTTI, KARDO, BANGWHITE, LockeNumma19, Big Toe",
+    "norm": "x wave, gotti, kardo, bangwhite, lockenumma19, big toe",
+    "ratio": 0.0007,
+    "collab_in": 1,
+    "segments": {
+      "wave": 290,
+      "gotti": 890,
+      "kardo": 1035,
+      "bangwhite": 1018,
+      "lockenumma19": 1515,
+      "big toe": 750
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 14,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Phantogram x Anthem",
+    "norm": "phantogram x anthem",
+    "ratio": 0.0024,
+    "collab_in": 2,
+    "segments": {
+      "phantogram": 826,
+      "anthem": 690
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 169,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "NEVAEH x P.A.F.F.",
+    "norm": "nevaeh x p.a.f.f.",
+    "ratio": 0.0034,
+    "collab_in": 2,
+    "segments": {
+      "nevaeh": 594,
+      "p.a.f.f.": 563
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 47,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Macka B X The Kiffness",
+    "norm": "macka b x the kiffness",
+    "ratio": 0.002,
+    "collab_in": 1,
+    "segments": {
+      "macka b": 495,
+      "the kiffness": 448
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 193,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "流星隊 × Knights",
+    "norm": "liu xing dui x knights",
+    "ratio": 0.0073,
+    "collab_in": 9,
+    "segments": {
+      "liu xing dui": 1086,
+      "knights": 1225
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 37,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "RIMSKI X TEA TAIROVIC",
+    "norm": "rimski x tea tairovic",
+    "ratio": 0.0082,
+    "collab_in": 13,
+    "segments": {
+      "rimski": 1579,
+      "tea tairovic": 738
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 42,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Angel Haze x Kanye West",
+    "norm": "angel haze x kanye west",
+    "ratio": 0.0012,
+    "collab_in": 2,
+    "segments": {
+      "angel haze": 424,
+      "kanye west": 1679
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 174,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Pastyle x IZMIZM",
+    "norm": "pastyle x izmizm",
+    "ratio": 0.0056,
+    "collab_in": 2,
+    "segments": {
+      "pastyle": 11,
+      "izmizm": 359
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 68,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Alan Walker x Emma Steinbakken",
+    "norm": "alan walker x emma steinbakken",
+    "ratio": 0.0041,
+    "collab_in": 10,
+    "segments": {
+      "alan walker": 2420,
+      "emma steinbakken": 418
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 104,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "freshgoodies x Yestalgia",
+    "norm": "freshgoodies x yestalgia",
+    "ratio": 0.0035,
+    "collab_in": 3,
+    "segments": {
+      "freshgoodies": 860,
+      "yestalgia": 597
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 179,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "BEJO X COOKIN SOUL",
+    "norm": "bejo x cookin soul",
+    "ratio": 0.0049,
+    "collab_in": 7,
+    "segments": {
+      "bejo": 668,
+      "cookin soul": 1415
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 109,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Karol G x Ovy On The Drums",
+    "norm": "karol g x ovy on the drums",
+    "ratio": 0.0016,
+    "collab_in": 3,
+    "segments": {
+      "karol g": 1826,
+      "ovy on the drums": 446
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 16,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Kris Kross Amsterdam x Maan x Tabitha x Bizzey",
+    "norm": "kris kross amsterdam x maan x tabitha x bizzey",
+    "ratio": 0.0006,
+    "collab_in": 1,
+    "segments": {
+      "kris kross amsterdam": 785,
+      "maan": 770,
+      "tabitha": 1747,
+      "bizzey": 340
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 36,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Sam Nelson, X Ambassadors & Madi Diaz",
+    "norm": "sam nelson, x ambassadors & madi diaz",
+    "ratio": 0.0055,
+    "collab_in": 3,
+    "segments": {
+      "sam nelson": 287,
+      "ambassadors": 497,
+      "madi diaz": 542
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 22,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Hoogway x Dontcry",
+    "norm": "hoogway x dontcry",
+    "ratio": 0.0004,
+    "collab_in": 1,
+    "segments": {
+      "hoogway": 2303,
+      "dontcry": 1170
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 2,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Couzare x Cozy",
+    "norm": "couzare x cozy",
+    "ratio": 0.0007,
+    "collab_in": 1,
+    "segments": {
+      "couzare": 1334,
+      "cozy": 1030
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 94,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "J'san x Klemsis",
+    "norm": "j'san x klemsis",
+    "ratio": 0.0029,
+    "collab_in": 4,
+    "segments": {
+      "j'san": 1395,
+      "klemsis": 307
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 27,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Ivy Lab × Two Fingers",
+    "norm": "ivy lab x two fingers",
+    "ratio": 0.0092,
+    "collab_in": 14,
+    "segments": {
+      "ivy lab": 1518,
+      "two fingers": 517
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 65,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "U-zhaan × 環ROY × 鎮座DOPENESS",
+    "norm": "u-zhaan x huan roy x zhen zuo dopeness",
+    "ratio": 0.0077,
+    "collab_in": 21,
+    "segments": {
+      "u-zhaan": 1155,
+      "huan roy": 2710,
+      "zhen zuo dopeness": 1529
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 31,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Lil Peep x Baby E",
+    "norm": "lil peep x baby e",
+    "ratio": 0.0002,
+    "collab_in": 1,
+    "segments": {
+      "lil peep": 4424,
+      "baby e": 555
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 28,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Joda x 2sty x Gedz x Beeres",
+    "norm": "joda x 2sty x gedz x beeres",
+    "ratio": 0.0073,
+    "collab_in": 16,
+    "segments": {
+      "joda": 656,
+      "2sty": 2205,
+      "gedz": 680,
+      "beeres": 748
+    },
+    "r_bin": "[0.00,0.01)",
+    "found": true,
+    "listeners": 296,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "majinblxxdy x osamason",
+    "norm": "majinblxxdy x osamason",
+    "ratio": 0.0362,
+    "collab_in": 85,
+    "segments": {
+      "majinblxxdy": 477,
+      "osamason": 2345
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 261,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Porchy x Ameriqa x Bumble Beezy",
+    "norm": "porchy x ameriqa x bumble beezy",
+    "ratio": 0.023,
+    "collab_in": 18,
+    "segments": {
+      "porchy": 323,
+      "ameriqa": 85,
+      "bumble beezy": 784
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 93,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DJ X Arg",
+    "norm": "dj x arg",
+    "ratio": 0.0182,
+    "collab_in": 8,
+    "segments": {
+      "dj": 440,
+      "arg": 187
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 137,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Tenchu x Daffy",
+    "norm": "tenchu x daffy",
+    "ratio": 0.0225,
+    "collab_in": 24,
+    "segments": {
+      "tenchu": 286,
+      "daffy": 1068
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 351,
+    "tags": [
+      "trap"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "⚬ RAZEGOD ✝︎ x HER EX",
+    "norm": "razegod x her ex",
+    "ratio": 0.0116,
+    "collab_in": 9,
+    "segments": {
+      "razegod": 777,
+      "her ex": 409
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 62,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Skabbibal x DK",
+    "norm": "skabbibal x dk",
+    "ratio": 0.0159,
+    "collab_in": 24,
+    "segments": {
+      "skabbibal": 490,
+      "dk": 1511
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 232,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "bappy x Wondermothh",
+    "norm": "bappy x wondermothh",
+    "ratio": 0.0452,
+    "collab_in": 16,
+    "segments": {
+      "bappy": 354,
+      "wondermothh": 125
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 22,
+    "tags": [],
+    "bio": "bappy x Wondermothh is the collaborative name of underground California artist bappy and Wondermothh. The duo has released the collaborative album \"Stiched Fragments\", Wondermothh under production and art, while bappy is on vocals."
+  },
+  {
+    "name": "Race Banyon x Skymning",
+    "norm": "race banyon x skymning",
+    "ratio": 0.0172,
+    "collab_in": 22,
+    "segments": {
+      "race banyon": 1277,
+      "skymning": 236
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 54,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Miles Bonny x Ta-Ku",
+    "norm": "miles bonny x ta-ku",
+    "ratio": 0.0179,
+    "collab_in": 29,
+    "segments": {
+      "miles bonny": 1621,
+      "ta-ku": 839
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 439,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "brillion. x Sleepdealer",
+    "norm": "brillion. x sleepdealer",
+    "ratio": 0.0141,
+    "collab_in": 16,
+    "segments": {
+      "brillion.": 1133,
+      "sleepdealer": 1067
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 39,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Białas x Quebonafide",
+    "norm": "bialas x quebonafide",
+    "ratio": 0.0418,
+    "collab_in": 158,
+    "segments": {
+      "bialas": 1639,
+      "quebonafide": 3781
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 317,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "SG Lewis, Shygirl, X & Ivy",
+    "norm": "sg lewis, shygirl, x & ivy",
+    "ratio": 0.032,
+    "collab_in": 57,
+    "segments": {
+      "sg lewis": 1193,
+      "shygirl": 1780,
+      "ivy": 498
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 117,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "W&W x Lucas & Steve",
+    "norm": "w&w x lucas & steve",
+    "ratio": 0.0124,
+    "collab_in": 8,
+    "segments": {
+      "w": 598,
+      "lucas": 647,
+      "steve": 486
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 105,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Blick Bassy & Ry X",
+    "norm": "blick bassy & ry x",
+    "ratio": 0.0121,
+    "collab_in": 5,
+    "segments": {
+      "blick bassy": 412,
+      "ry": 258
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 79,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Drippin x DJ New Jersey Drone",
+    "norm": "drippin x dj new jersey drone",
+    "ratio": 0.0222,
+    "collab_in": 19,
+    "segments": {
+      "drippin": 854,
+      "dj new jersey drone": 30
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 123,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "amies × cxlt.",
+    "norm": "amies x cxlt.",
+    "ratio": 0.0377,
+    "collab_in": 63,
+    "segments": {
+      "amies": 1483,
+      "cxlt.": 1671
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 44,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "snctm. x jamesjamesjames",
+    "norm": "snctm. x jamesjamesjames",
+    "ratio": 0.0357,
+    "collab_in": 19,
+    "segments": {
+      "snctm.": 532,
+      "jamesjamesjames": 293
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 15,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Ty Burhoe × Yukihiro Atsumi",
+    "norm": "ty burhoe x yukihiro atsumi",
+    "ratio": 0.0129,
+    "collab_in": 13,
+    "segments": {
+      "ty burhoe": 1004,
+      "yukihiro atsumi": 36
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 11,
+    "tags": [
+      "japanese",
+      "american"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "mateo x 6",
+    "norm": "mateo x 6",
+    "ratio": 0.0212,
+    "collab_in": 15,
+    "segments": {
+      "mateo": 385,
+      "6": 708
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 221,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Rivilin x RipThePetals",
+    "norm": "rivilin x ripthepetals",
+    "ratio": 0.0429,
+    "collab_in": 33,
+    "segments": {
+      "rivilin": 769,
+      "ripthepetals": 96
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 42,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "dead baron x zdechly osa",
+    "norm": "dead baron x zdechly osa",
+    "ratio": 0.0206,
+    "collab_in": 34,
+    "segments": {
+      "dead baron": 80,
+      "zdechly osa": 1650
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 68,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Prezioso X Vini Vici X SHIBUI",
+    "norm": "prezioso x vini vici x shibui",
+    "ratio": 0.0135,
+    "collab_in": 9,
+    "segments": {
+      "prezioso": 669,
+      "vini vici": 582,
+      "shibui": 302
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 58,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Spy X Family",
+    "norm": "spy x family",
+    "ratio": 0.0424,
+    "collab_in": 51,
+    "segments": {
+      "spy": 1203,
+      "family": 850
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 946,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Tenngage x Hydra",
+    "norm": "tenngage x hydra",
+    "ratio": 0.023,
+    "collab_in": 25,
+    "segments": {
+      "tenngage": 1086,
+      "hydra": 393
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 147,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "KALIQ X KAY FLOCK",
+    "norm": "kaliq x kay flock",
+    "ratio": 0.0414,
+    "collab_in": 56,
+    "segments": {
+      "kaliq": 801,
+      "kay flock": 1352
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 96,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DJ SMOKEY x PURPDOGG",
+    "norm": "dj smokey x purpdogg",
+    "ratio": 0.0164,
+    "collab_in": 16,
+    "segments": {
+      "dj smokey": 976,
+      "purpdogg": 54
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 160,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "W&W x Armin van Buuren",
+    "norm": "w&w x armin van buuren",
+    "ratio": 0.0423,
+    "collab_in": 127,
+    "segments": {
+      "w": 598,
+      "armin van buuren": 2999
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 286,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Zhu, Skrillex, THEY., ZHU x Skrillex x THEY.",
+    "norm": "zhu, skrillex, they., zhu x skrillex x they.",
+    "ratio": 0.0481,
+    "collab_in": 92,
+    "segments": {
+      "zhu": 1772,
+      "skrillex": 1854,
+      "they.": 1914
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 20,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "FYRE x MILIONI",
+    "norm": "fyre x milioni",
+    "ratio": 0.0204,
+    "collab_in": 9,
+    "segments": {
+      "fyre": 327,
+      "milioni": 442
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 19,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "HILJSON MANDELA x MIACH",
+    "norm": "hiljson mandela x miach",
+    "ratio": 0.0318,
+    "collab_in": 29,
+    "segments": {
+      "hiljson mandela": 775,
+      "miach": 913
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 101,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Mike Posner, Labrinth, Sluggo X Loote",
+    "norm": "mike posner, labrinth, sluggo x loote",
+    "ratio": 0.0124,
+    "collab_in": 15,
+    "segments": {
+      "mike posner": 1187,
+      "labrinth": 539,
+      "sluggo": 680,
+      "loote": 1206
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 43,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Randy x Ape Drums",
+    "norm": "randy x ape drums",
+    "ratio": 0.0492,
+    "collab_in": 29,
+    "segments": {
+      "randy": 590,
+      "ape drums": 317
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 100,
+    "tags": [
+      "france"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "LiL PEEP x Xavier Wulf",
+    "norm": "lil peep x xavier wulf",
+    "ratio": 0.0267,
+    "collab_in": 118,
+    "segments": {
+      "lil peep": 4424,
+      "xavier wulf": 1994
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 611,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Kaz Bałagane x Malik Montana",
+    "norm": "kaz balagane x malik montana",
+    "ratio": 0.0221,
+    "collab_in": 65,
+    "segments": {
+      "kaz balagane": 2942,
+      "malik montana": 1707
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 227,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Sam Nelson & X Ambassadors",
+    "norm": "sam nelson & x ambassadors",
+    "ratio": 0.0463,
+    "collab_in": 23,
+    "segments": {
+      "sam nelson": 287,
+      "ambassadors": 497
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 83,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Oatmello x Cloudchord",
+    "norm": "oatmello x cloudchord",
+    "ratio": 0.0181,
+    "collab_in": 31,
+    "segments": {
+      "oatmello": 1708,
+      "cloudchord": 543
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 94,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Dj Lishniy x Vladimirskaya",
+    "norm": "dj lishniy x vladimirskaya",
+    "ratio": 0.0205,
+    "collab_in": 5,
+    "segments": {
+      "dj lishniy": 244,
+      "vladimirskaya": 7
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 55,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "R3HAB x Alida",
+    "norm": "r3hab x alida",
+    "ratio": 0.0155,
+    "collab_in": 36,
+    "segments": {
+      "r3hab": 2322,
+      "alida": 1004
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 46,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "花譜 × 罪十罰",
+    "norm": "hua pu x zui shi fa",
+    "ratio": 0.0158,
+    "collab_in": 19,
+    "segments": {
+      "hua pu": 1204,
+      "zui shi fa": 187
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 8,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Kkevin & Bruno X Spacc",
+    "norm": "kkevin & bruno x spacc",
+    "ratio": 0.0157,
+    "collab_in": 20,
+    "segments": {
+      "kkevin": 1270,
+      "bruno": 1230,
+      "spacc": 1
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 18,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ECCO2K x Bladee",
+    "norm": "ecco2k x bladee",
+    "ratio": 0.0108,
+    "collab_in": 27,
+    "segments": {
+      "ecco2k": 1587,
+      "bladee": 2500
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 284,
+    "tags": [
+      "Ecco",
+      "gtb",
+      "SBE",
+      "bladee",
+      "drain gang"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Edzio x Pezet x Skor x Bisz x Buka",
+    "norm": "edzio x pezet x skor x bisz x buka",
+    "ratio": 0.019,
+    "collab_in": 45,
+    "segments": {
+      "edzio": 415,
+      "pezet": 2195,
+      "skor": 909,
+      "bisz": 2369,
+      "buka": 1169
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 114,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "иЛуаЗ_ x baZZZarov",
+    "norm": "iluaz_ x bazzzarov",
+    "ratio": 0.0345,
+    "collab_in": 21,
+    "segments": {
+      "iluaz_": 126,
+      "bazzzarov": 608
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 52,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Baked Milk x Ratmir Shishkov",
+    "norm": "baked milk x ratmir shishkov",
+    "ratio": 0.0117,
+    "collab_in": 4,
+    "segments": {
+      "baked milk": 86,
+      "ratmir shishkov": 342
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 41,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DJ SMOKEY X SOUDIERE",
+    "norm": "dj smokey x soudiere",
+    "ratio": 0.0123,
+    "collab_in": 12,
+    "segments": {
+      "dj smokey": 976,
+      "soudiere": 678
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 269,
+    "tags": [
+      "phonk"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Sangam x CMD094",
+    "norm": "sangam x cmd094",
+    "ratio": 0.0137,
+    "collab_in": 10,
+    "segments": {
+      "sangam": 730,
+      "cmd094": 540
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 114,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Phoebe Bridgers x Arlo Parks",
+    "norm": "phoebe bridgers x arlo parks",
+    "ratio": 0.0144,
+    "collab_in": 20,
+    "segments": {
+      "phoebe bridgers": 1393,
+      "arlo parks": 915
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 584,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Yunk Vino x Mc Igu",
+    "norm": "yunk vino x mc igu",
+    "ratio": 0.0109,
+    "collab_in": 22,
+    "segments": {
+      "yunk vino": 1684,
+      "mc igu": 2014
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 78,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "JEEMBO x Freddie Dredd",
+    "norm": "jeembo x freddie dredd",
+    "ratio": 0.0121,
+    "collab_in": 20,
+    "segments": {
+      "jeembo": 1650,
+      "freddie dredd": 1598
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 129,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Screwly G x TiyGangAce",
+    "norm": "screwly g x tiygangace",
+    "ratio": 0.0414,
+    "collab_in": 58,
+    "segments": {
+      "screwly g": 705,
+      "tiygangace": 1401
+    },
+    "r_bin": "[0.01,0.05)",
+    "found": true,
+    "listeners": 169,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Mod3no x Miyoki",
+    "norm": "mod3no x miyoki",
+    "ratio": 0.0988,
+    "collab_in": 66,
+    "segments": {
+      "mod3no": 668,
+      "miyoki": 307
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 81,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Lockah x Taste Tester",
+    "norm": "lockah x taste tester",
+    "ratio": 0.0708,
+    "collab_in": 51,
+    "segments": {
+      "lockah": 720,
+      "taste tester": 510
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 546,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "HEALTH X YOUTH CODE",
+    "norm": "health x youth code",
+    "ratio": 0.0816,
+    "collab_in": 112,
+    "segments": {
+      "health": 1372,
+      "youth code": 1141
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 421,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "tusken. × Philanthrope",
+    "norm": "tusken. x philanthrope",
+    "ratio": 0.0638,
+    "collab_in": 120,
+    "segments": {
+      "tusken.": 608,
+      "philanthrope": 1880
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 38,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Mixtress x Pete Cannon",
+    "norm": "mixtress x pete cannon",
+    "ratio": 0.0815,
+    "collab_in": 49,
+    "segments": {
+      "mixtress": 393,
+      "pete cannon": 601
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 9,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "SERENITY x hxntai",
+    "norm": "serenity x hxntai",
+    "ratio": 0.0619,
+    "collab_in": 60,
+    "segments": {
+      "serenity": 970,
+      "hxntai": 15
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 53,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Black Josh x Wino Willy",
+    "norm": "black josh x wino willy",
+    "ratio": 0.0608,
+    "collab_in": 110,
+    "segments": {
+      "black josh": 1810,
+      "wino willy": 163
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 25,
+    "tags": [
+      "Manchester",
+      "rap",
+      "british",
+      "british rap"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Parkbreezy X Pheel.",
+    "norm": "parkbreezy x pheel.",
+    "ratio": 0.0983,
+    "collab_in": 139,
+    "segments": {
+      "parkbreezy": 1131,
+      "pheel.": 1414
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 1037,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "venbee x goddard.",
+    "norm": "venbee x goddard.",
+    "ratio": 0.0878,
+    "collab_in": 104,
+    "segments": {
+      "venbee": 702,
+      "goddard.": 1185
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 211,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "angela x fripSide",
+    "norm": "angela x fripside",
+    "ratio": 0.0729,
+    "collab_in": 245,
+    "segments": {
+      "angela": 1708,
+      "fripside": 3359
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 185,
+    "tags": [
+      "japanese",
+      "j-pop",
+      "anime",
+      "JPop",
+      "female vocalists"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "młody yerba x mlodyskiny",
+    "norm": "mlody yerba x mlodyskiny",
+    "ratio": 0.0866,
+    "collab_in": 168,
+    "segments": {
+      "mlody yerba": 1596,
+      "mlodyskiny": 1940
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 276,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "xaxanity x ronin",
+    "norm": "xaxanity x ronin",
+    "ratio": 0.0638,
+    "collab_in": 43,
+    "segments": {
+      "xaxanity": 415,
+      "ronin": 674
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 100,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "O.S.T.R. x Małpa x W.E.N.A.",
+    "norm": "o.s.t.r. x malpa x w.e.n.a.",
+    "ratio": 0.0753,
+    "collab_in": 240,
+    "segments": {
+      "o.s.t.r.": 1896,
+      "malpa": 1625,
+      "w.e.n.a.": 3189
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 453,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Eve × suis from ヨルシカ",
+    "norm": "eve x suis from yorushika",
+    "ratio": 0.0787,
+    "collab_in": 126,
+    "segments": {
+      "eve": 1602,
+      "suis from yorushika": 780
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 301,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "luftwaffe8841 x bomjorno",
+    "norm": "luftwaffe8841 x bomjorno",
+    "ratio": 0.0959,
+    "collab_in": 28,
+    "segments": {
+      "luftwaffe8841": 238,
+      "bomjorno": 292
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 44,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "NAK × Soulostar",
+    "norm": "nak x soulostar",
+    "ratio": 0.0935,
+    "collab_in": 50,
+    "segments": {
+      "nak": 354,
+      "soulostar": 535
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 182,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Contact Lens x SELA",
+    "norm": "contact lens x sela",
+    "ratio": 0.0684,
+    "collab_in": 75,
+    "segments": {
+      "contact lens": 483,
+      "sela": 1096
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 3,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ID Cℎίℯƒ x Aloe Island Posse",
+    "norm": "id chief x aloe island posse",
+    "ratio": 0.054,
+    "collab_in": 48,
+    "segments": {
+      "id chief": 889,
+      "aloe island posse": 796
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 435,
+    "tags": [
+      "future funk"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Russian Village Boys x Cosmo & Skoro",
+    "norm": "russian village boys x cosmo & skoro",
+    "ratio": 0.0666,
+    "collab_in": 60,
+    "segments": {
+      "russian village boys": 901,
+      "cosmo": 647,
+      "skoro": 4
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 693,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Bisz x The XX",
+    "norm": "bisz x the xx",
+    "ratio": 0.0903,
+    "collab_in": 214,
+    "segments": {
+      "bisz": 2369,
+      "the xx": 871
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 550,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "MEGAN x JIM AVES",
+    "norm": "megan x jim aves",
+    "ratio": 0.0557,
+    "collab_in": 16,
+    "segments": {
+      "megan": 287,
+      "jim aves": 96
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 852,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Snakehips x Tory Lanez",
+    "norm": "snakehips x tory lanez",
+    "ratio": 0.0784,
+    "collab_in": 151,
+    "segments": {
+      "snakehips": 569,
+      "tory lanez": 1927
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 1793,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Joel Corry x Jax Jones",
+    "norm": "joel corry x jax jones",
+    "ratio": 0.0876,
+    "collab_in": 177,
+    "segments": {
+      "joel corry": 2020,
+      "jax jones": 1733
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 606,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "M-Phazes x Alison Wonderland",
+    "norm": "m-phazes x alison wonderland",
+    "ratio": 0.0922,
+    "collab_in": 148,
+    "segments": {
+      "m-phazes": 826,
+      "alison wonderland": 1605
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 165,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Kizuna AI × KAF",
+    "norm": "kizuna ai x kaf",
+    "ratio": 0.0673,
+    "collab_in": 99,
+    "segments": {
+      "kizuna ai": 740,
+      "kaf": 1471
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 9,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Lost Frequencies x Elley Duhé x X Ambassadors",
+    "norm": "lost frequencies x elley duhe x x ambassadors",
+    "ratio": 0.0595,
+    "collab_in": 111,
+    "segments": {
+      "lost frequencies": 1865,
+      "elley duhe": 1358,
+      "ambassadors": 497
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 78,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Flechette x Tomsize",
+    "norm": "flechette x tomsize",
+    "ratio": 0.0622,
+    "collab_in": 91,
+    "segments": {
+      "flechette": 938,
+      "tomsize": 1462
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 154,
+    "tags": [
+      "trapstep",
+      "trap",
+      "trapstyle"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Dua Lipa x Angèle",
+    "norm": "dua lipa x angele",
+    "ratio": 0.0508,
+    "collab_in": 58,
+    "segments": {
+      "dua lipa": 1142,
+      "angele": 743
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 263,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Bleachers x Grimes",
+    "norm": "bleachers x grimes",
+    "ratio": 0.0636,
+    "collab_in": 87,
+    "segments": {
+      "bleachers": 1367,
+      "grimes": 917
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 66,
+    "tags": [
+      "indie pop",
+      "synthpop",
+      "dream pop"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "NANON X JORIN",
+    "norm": "nanon x jorin",
+    "ratio": 0.0558,
+    "collab_in": 31,
+    "segments": {
+      "nanon": 556,
+      "jorin": 13
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 260,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ISLURWHENITALK! X SELLASOULS",
+    "norm": "islurwhenitalk! x sellasouls",
+    "ratio": 0.0611,
+    "collab_in": 35,
+    "segments": {
+      "islurwhenitalk!": 273,
+      "sellasouls": 573
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 139,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "PSY-TRANCE ◉ All In One x DANTRA",
+    "norm": "psy-trance * all in one x dantra",
+    "ratio": 0.0695,
+    "collab_in": 78,
+    "segments": {
+      "psy-trance": 7,
+      "all in one": 1123,
+      "dantra": 16
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 127,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Today X Spot",
+    "norm": "today x spot",
+    "ratio": 0.0585,
+    "collab_in": 22,
+    "segments": {
+      "today": 178,
+      "spot": 376
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 65,
+    "tags": [
+      "Korean",
+      "hardcore",
+      "melodic hardcore",
+      "melodic punk"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Acid Black Cherry x DAIGO",
+    "norm": "acid black cherry x daigo",
+    "ratio": 0.0671,
+    "collab_in": 32,
+    "segments": {
+      "acid black cherry": 477,
+      "daigo": 382
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 988,
+    "tags": [
+      "collaborations",
+      "hyde fanboys",
+      "Acid Black Cherry x DAIGO"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "HEALTH x The Soft Moon",
+    "norm": "health x the soft moon",
+    "ratio": 0.0736,
+    "collab_in": 101,
+    "segments": {
+      "health": 1372,
+      "the soft moon": 1086
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 300,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "kradness x Reol",
+    "norm": "kradness x reol",
+    "ratio": 0.053,
+    "collab_in": 145,
+    "segments": {
+      "kradness": 268,
+      "reol": 2736
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 499,
+    "tags": [
+      "reol"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Tim Taler X Johny Space X Modeehoe",
+    "norm": "tim taler x johny space x modeehoe",
+    "ratio": 0.0549,
+    "collab_in": 14,
+    "segments": {
+      "tim taler": 255,
+      "johny space": 41,
+      "modeehoe": 16
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 67,
+    "tags": [
+      "german hiphop",
+      "hiphop",
+      "stoner"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "ADAMN KILLA X BLADEE",
+    "norm": "adamn killa x bladee",
+    "ratio": 0.0572,
+    "collab_in": 143,
+    "segments": {
+      "adamn killa": 867,
+      "bladee": 2500
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 569,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "$uicideboy$ x Denzel Curry",
+    "norm": "$uicideboy$ x denzel curry",
+    "ratio": 0.0609,
+    "collab_in": 145,
+    "segments": {
+      "$uicideboy$": 2382,
+      "denzel curry": 1585
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 1102,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Salyu × 小林武史",
+    "norm": "salyu x xiao lin wu shi",
+    "ratio": 0.0522,
+    "collab_in": 40,
+    "segments": {
+      "salyu": 431,
+      "xiao lin wu shi": 767
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 51,
+    "tags": [
+      "japanese",
+      "j-pop",
+      "JPop",
+      "female fronted",
+      "Asian Pop"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Axian X J'san",
+    "norm": "axian x j'san",
+    "ratio": 0.086,
+    "collab_in": 120,
+    "segments": {
+      "axian": 739,
+      "j'san": 1395
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 733,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Leellamarz X TOIL",
+    "norm": "leellamarz x toil",
+    "ratio": 0.0926,
+    "collab_in": 91,
+    "segments": {
+      "leellamarz": 983,
+      "toil": 431
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 62,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "TV Noise x Drew Love",
+    "norm": "tv noise x drew love",
+    "ratio": 0.0823,
+    "collab_in": 182,
+    "segments": {
+      "tv noise": 2212,
+      "drew love": 187
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 81,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Spook x Sadhugold.",
+    "norm": "spook x sadhugold.",
+    "ratio": 0.0892,
+    "collab_in": 47,
+    "segments": {
+      "spook": 415,
+      "sadhugold.": 527
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 29,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Anitta x Missy Elliott",
+    "norm": "anitta x missy elliott",
+    "ratio": 0.0984,
+    "collab_in": 234,
+    "segments": {
+      "anitta": 2379,
+      "missy elliott": 1656
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 456,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Catherine Lamb x Ghost Ensemble",
+    "norm": "catherine lamb x ghost ensemble",
+    "ratio": 0.0536,
+    "collab_in": 24,
+    "segments": {
+      "catherine lamb": 439,
+      "ghost ensemble": 448
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 82,
+    "tags": [
+      "Berlin",
+      "instrumental",
+      "contemporary classical",
+      "german",
+      "Classical"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Rustie X Porter Robinson",
+    "norm": "rustie x porter robinson",
+    "ratio": 0.0513,
+    "collab_in": 117,
+    "segments": {
+      "rustie": 741,
+      "porter robinson": 2282
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 112,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Lil Yachty x Rio Da Yung OG x Veeze x RMC Mike x Louie Ray x GrindHard E",
+    "norm": "lil yachty x rio da yung og x veeze x rmc mike x louie ray x grindhard e",
+    "ratio": 0.0561,
+    "collab_in": 138,
+    "segments": {
+      "lil yachty": 1882,
+      "rio da yung og": 2460,
+      "veeze": 2274,
+      "rmc mike": 542,
+      "louie ray": 365,
+      "grindhard e": 819
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 584,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "SLik D X Punpee",
+    "norm": "slik d x punpee",
+    "ratio": 0.0926,
+    "collab_in": 49,
+    "segments": {
+      "slik d": 506,
+      "punpee": 529
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 93,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Victoire x Festus",
+    "norm": "victoire x festus",
+    "ratio": 0.0594,
+    "collab_in": 33,
+    "segments": {
+      "victoire": 556,
+      "festus": 4
+    },
+    "r_bin": "[0.05,0.10)",
+    "found": true,
+    "listeners": 205,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Decco x Leo Stannard",
+    "norm": "decco x leo stannard",
+    "ratio": 0.113,
+    "collab_in": 153,
+    "segments": {
+      "decco": 861,
+      "leo stannard": 1354
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 523,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "JVKE, TOMORROW X TOGETHER, LE SSERAFIM, TAEHYUN, Kim Chaewon of LE SSERAFIM",
+    "norm": "jvke, tomorrow x together, le sserafim, taehyun, kim chaewon of le sserafim",
+    "ratio": 0.1596,
+    "collab_in": 212,
+    "segments": {
+      "jvke": 1218,
+      "tomorrow": 929,
+      "together": 84,
+      "le sserafim": 1328,
+      "taehyun": 193,
+      "kim chaewon of le sserafim": 2
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1225,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Purple Disco Machine x ÁSDÍS",
+    "norm": "purple disco machine x asdis",
+    "ratio": 0.1094,
+    "collab_in": 195,
+    "segments": {
+      "purple disco machine": 1782,
+      "asdis": 260
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 47,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Katy B x KAYTRANADA",
+    "norm": "katy b x kaytranada",
+    "ratio": 0.1552,
+    "collab_in": 243,
+    "segments": {
+      "katy b": 925,
+      "kaytranada": 1566
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1217,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Curren$y x The Alchemist",
+    "norm": "curren$y x the alchemist",
+    "ratio": 0.1125,
+    "collab_in": 305,
+    "segments": {
+      "curren$y": 2712,
+      "the alchemist": 1988
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1702,
+    "tags": [
+      "Hip-Hop",
+      "rap",
+      "New Orleans"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "blair x backw666s",
+    "norm": "blair x backw666s",
+    "ratio": 0.1034,
+    "collab_in": 90,
+    "segments": {
+      "blair": 787,
+      "backw666s": 870
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 96,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Jesse x Hokuto Matsumura",
+    "norm": "jesse x hokuto matsumura",
+    "ratio": 0.1018,
+    "collab_in": 34,
+    "segments": {
+      "jesse": 334,
+      "hokuto matsumura": 8
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 90,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Tom Morello, X Ambassadors",
+    "norm": "tom morello, x ambassadors",
+    "ratio": 0.124,
+    "collab_in": 64,
+    "segments": {
+      "tom morello": 516,
+      "ambassadors": 497
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 150,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "SBTRKT x TK Wonder",
+    "norm": "sbtrkt x tk wonder",
+    "ratio": 0.1231,
+    "collab_in": 124,
+    "segments": {
+      "sbtrkt": 1007,
+      "tk wonder": 265
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 14,
+    "tags": [
+      "electro",
+      "hip hop",
+      "electronic"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Dontcry × Nokiaa",
+    "norm": "dontcry x nokiaa",
+    "ratio": 0.1137,
+    "collab_in": 133,
+    "segments": {
+      "dontcry": 1170,
+      "nokiaa": 626
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 60,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Judgement X Day",
+    "norm": "judgement x day",
+    "ratio": 0.1795,
+    "collab_in": 252,
+    "segments": {
+      "judgement": 294,
+      "day": 1404
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 14,
+    "tags": [
+      "hardcore punk",
+      "hardcore"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Zeus X Crona & Shiah Maisel",
+    "norm": "zeus x crona & shiah maisel",
+    "ratio": 0.1264,
+    "collab_in": 208,
+    "segments": {
+      "zeus": 655,
+      "crona": 9,
+      "shiah maisel": 1645
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 184,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Włodi x Molesta",
+    "norm": "wlodi x molesta",
+    "ratio": 0.1059,
+    "collab_in": 66,
+    "segments": {
+      "wlodi": 584,
+      "molesta": 623
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 382,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "R3HAB x A Touch Of Class",
+    "norm": "r3hab x a touch of class",
+    "ratio": 0.1021,
+    "collab_in": 237,
+    "segments": {
+      "r3hab": 2322,
+      "a touch of class": 732
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1154,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Yellow Claw x Yung Felix",
+    "norm": "yellow claw x yung felix",
+    "ratio": 0.1662,
+    "collab_in": 176,
+    "segments": {
+      "yellow claw": 1059,
+      "yung felix": 766
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 2377,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Desingerica x Pljugica",
+    "norm": "desingerica x pljugica",
+    "ratio": 0.1106,
+    "collab_in": 67,
+    "segments": {
+      "desingerica": 606,
+      "pljugica": 264
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 129,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "FlexMorris X Daedra",
+    "norm": "flexmorris x daedra",
+    "ratio": 0.1354,
+    "collab_in": 85,
+    "segments": {
+      "flexmorris": 117,
+      "daedra": 628
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 95,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "bsd.u x j^p^n",
+    "norm": "bsd.u x j^p^n",
+    "ratio": 0.1068,
+    "collab_in": 90,
+    "segments": {
+      "bsd.u": 794,
+      "j^p^n": 843
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 17,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "młody yerba x maly elvis",
+    "norm": "mlody yerba x maly elvis",
+    "ratio": 0.1284,
+    "collab_in": 205,
+    "segments": {
+      "mlody yerba": 1596,
+      "maly elvis": 1424
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 235,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Levianth X VVSV",
+    "norm": "levianth x vvsv",
+    "ratio": 0.107,
+    "collab_in": 80,
+    "segments": {
+      "levianth": 97,
+      "vvsv": 748
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 167,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "NextRO x Hekmah",
+    "norm": "nextro x hekmah",
+    "ratio": 0.1421,
+    "collab_in": 57,
+    "segments": {
+      "nextro": 401,
+      "hekmah": 13
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 76,
+    "tags": [
+      "dark trap",
+      "trap"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Issay × Tuck.よしひさ",
+    "norm": "issay x tuck.yoshihisa",
+    "ratio": 0.1498,
+    "collab_in": 83,
+    "segments": {
+      "issay": 336,
+      "tuck.yoshihisa": 554
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 8,
+    "tags": [
+      "touhou",
+      "doujin ongaku",
+      "issay",
+      "tuck yoshihisa",
+      "sound holic"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "LUKA x ESSEX",
+    "norm": "luka x essex",
+    "ratio": 0.169,
+    "collab_in": 133,
+    "segments": {
+      "luka": 787,
+      "essex": 598
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 306,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Nicky Jam x Steve Aoki",
+    "norm": "nicky jam x steve aoki",
+    "ratio": 0.1226,
+    "collab_in": 258,
+    "segments": {
+      "nicky jam": 2104,
+      "steve aoki": 1243
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 8,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Haunted X Humans",
+    "norm": "haunted x humans",
+    "ratio": 0.1875,
+    "collab_in": 78,
+    "segments": {
+      "haunted": 15,
+      "humans": 416
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 575,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "lightwished x *67",
+    "norm": "lightwished x *67",
+    "ratio": 0.1772,
+    "collab_in": 45,
+    "segments": {
+      "lightwished": 254,
+      "67": 213
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 59,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Aili x Transistorcake",
+    "norm": "aili x transistorcake",
+    "ratio": 0.1036,
+    "collab_in": 74,
+    "segments": {
+      "aili": 714,
+      "transistorcake": 298
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 161,
+    "tags": [],
+    "bio": "For her debut Dansu EP Belgian-Japanese artist Aili Maruyama has joined forces with another of Belgium’s most exciting new acts Transistorcake, resulting in Aili x Transistorcake The pair has been working through lockdown to produce a wonderfully fresh sounding 5 track release on Eskimo Recordings. Effortlessly bringing together elements of Kosmiche Musik, Acid House, Electronica, Disco & Leftfield Pop, the Dansu EP is as easy on the ears as it is hard to categorise."
+  },
+  {
+    "name": "RELJA X COBY X STOJA",
+    "norm": "relja x coby x stoja",
+    "ratio": 0.1106,
+    "collab_in": 117,
+    "segments": {
+      "relja": 904,
+      "coby": 1058,
+      "stoja": 787
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 196,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Tyler, The Creator x Malefic Form",
+    "norm": "tyler, the creator x malefic form",
+    "ratio": 0.1247,
+    "collab_in": 54,
+    "segments": {
+      "tyler": 156,
+      "the creator": 433,
+      "malefic form": 338
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1,
+    "tags": [
+      "chopped and screwed",
+      "Hip-Hop",
+      ":3",
+      "swag"
+    ],
+    "bio": "Malefic Form didn't sleep for a few days and decided to slow down Tyler, The Creator's album Bastard and throw some effects on it. The result was named Screwed Up Bastard."
+  },
+  {
+    "name": "Faberyayo X Tom Trago",
+    "norm": "faberyayo x tom trago",
+    "ratio": 0.1519,
+    "collab_in": 282,
+    "segments": {
+      "faberyayo": 1856,
+      "tom trago": 201
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 5273,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "BEDOES x ZUI",
+    "norm": "bedoes x zui",
+    "ratio": 0.1779,
+    "collab_in": 201,
+    "segments": {
+      "bedoes": 1130,
+      "zui": 381
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 327,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Jvcki Wai X Futuristic Swaver",
+    "norm": "jvcki wai x futuristic swaver",
+    "ratio": 0.121,
+    "collab_in": 121,
+    "segments": {
+      "jvcki wai": 589,
+      "futuristic swaver": 1000
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 3,
+    "tags": [
+      "rap",
+      "Hip-Hop",
+      "khh",
+      "Korean",
+      "FUTURISTIC SWAVER"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Z-Uk x Hightop",
+    "norm": "z-uk x hightop",
+    "ratio": 0.125,
+    "collab_in": 1,
+    "segments": {
+      "z-uk": 8,
+      "hightop": 5
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 35,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Macklemore x Ed Sheeran",
+    "norm": "macklemore x ed sheeran",
+    "ratio": 0.1056,
+    "collab_in": 107,
+    "segments": {
+      "macklemore": 1013,
+      "ed sheeran": 902
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 281,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Allie X & Della Casa",
+    "norm": "allie x & della casa",
+    "ratio": 0.119,
+    "collab_in": 67,
+    "segments": {
+      "allie": 563,
+      "della casa": 1
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 240,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "KirbLaGoop x Ruben Slikk",
+    "norm": "kirblagoop x ruben slikk",
+    "ratio": 0.1198,
+    "collab_in": 155,
+    "segments": {
+      "kirblagoop": 753,
+      "ruben slikk": 1294
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 389,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "DJ Paypal x Ticklish",
+    "norm": "dj paypal x ticklish",
+    "ratio": 0.1485,
+    "collab_in": 97,
+    "segments": {
+      "dj paypal": 515,
+      "ticklish": 653
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 794,
+    "tags": [
+      "Juke"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Tripple X Elle",
+    "norm": "tripple x elle",
+    "ratio": 0.1975,
+    "collab_in": 64,
+    "segments": {
+      "tripple": 1,
+      "elle": 324
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 372,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Billionaire Black x Dizze Inkz",
+    "norm": "billionaire black x dizze inkz",
+    "ratio": 0.1341,
+    "collab_in": 134,
+    "segments": {
+      "billionaire black": 999,
+      "dizze inkz": 1
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 8,
+    "tags": [
+      "rap",
+      "hip hop",
+      "drill",
+      "chicago",
+      "Chicago drill"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Shira Rodbina x KUKU$ Klan",
+    "norm": "shira rodbina x kuku$ klan",
+    "ratio": 0.1128,
+    "collab_in": 22,
+    "segments": {
+      "shira rodbina": 195,
+      "kuku$ klan": 67
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 82,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "MGK, X Ambassadors & Bebe Rexha",
+    "norm": "mgk, x ambassadors & bebe rexha",
+    "ratio": 0.1706,
+    "collab_in": 329,
+    "segments": {
+      "mgk": 1617,
+      "ambassadors": 497,
+      "bebe rexha": 1928
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 611,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "A-Trak x Kanye x Jay-Z",
+    "norm": "a-trak x kanye x jay-z",
+    "ratio": 0.122,
+    "collab_in": 242,
+    "segments": {
+      "a-trak": 436,
+      "kanye": 5,
+      "jay-z": 1984
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 1371,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Visceral Design x anatu",
+    "norm": "visceral design x anatu",
+    "ratio": 0.1011,
+    "collab_in": 48,
+    "segments": {
+      "visceral design": 475,
+      "anatu": 68
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 154,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Diho x Białas x Malik Montana",
+    "norm": "diho x bialas x malik montana",
+    "ratio": 0.1781,
+    "collab_in": 304,
+    "segments": {
+      "diho": 1473,
+      "bialas": 1639,
+      "malik montana": 1707
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 460,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "蛋堡Soft Lipa X JABBERLOOP",
+    "norm": "dan bao soft lipa x jabberloop",
+    "ratio": 0.1627,
+    "collab_in": 55,
+    "segments": {
+      "dan bao soft lipa": 181,
+      "jabberloop": 338
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 14,
+    "tags": [
+      "japanese",
+      "jazz",
+      "rap",
+      "chinese",
+      "taiwan"
+    ],
+    "bio": "Collaboration of Taiwanese rapper 蛋堡Soft Lipa and Japanese club jazz band JABBERLOOP."
+  },
+  {
+    "name": "MYSTXRIVL x KAREFUL",
+    "norm": "mystxrivl x kareful",
+    "ratio": 0.1897,
+    "collab_in": 177,
+    "segments": {
+      "mystxrivl": 933,
+      "kareful": 393
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 262,
+    "tags": [
+      "UK",
+      "bass",
+      "trap",
+      "wave",
+      "future garage"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Deadcrow x MYSTXRIVL",
+    "norm": "deadcrow x mystxrivl",
+    "ratio": 0.1436,
+    "collab_in": 134,
+    "segments": {
+      "deadcrow": 398,
+      "mystxrivl": 933
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 251,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Introvert x Irrita",
+    "norm": "introvert x irrita",
+    "ratio": 0.1515,
+    "collab_in": 45,
+    "segments": {
+      "introvert": 249,
+      "irrita": 297
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 41,
+    "tags": [
+      "downtempo",
+      "hardcore",
+      "deathcore",
+      "groove metal"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Stone Van Brooken X Wolfskind",
+    "norm": "stone van brooken x wolfskind",
+    "ratio": 0.1589,
+    "collab_in": 106,
+    "segments": {
+      "stone van brooken": 667,
+      "wolfskind": 527
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 215,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Nissy × SKY-HI",
+    "norm": "nissy x sky-hi",
+    "ratio": 0.1182,
+    "collab_in": 65,
+    "segments": {
+      "nissy": 242,
+      "sky-hi": 550
+    },
+    "r_bin": "[0.10,0.20)",
+    "found": true,
+    "listeners": 111,
+    "tags": [],
+    "bio": ""
+  }
+]

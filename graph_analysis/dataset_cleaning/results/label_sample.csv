@@ -1,0 +1,331 @@
+label,name,url,r,collab_in,components,n_seg,r_bin,norm
+,Rosa Ana feat. Appa,https://www.last.fm/music/Rosa+Ana+feat.+Appa,0.002,3,rosa ana (in=158); appa (in=1241),2,LOW(<0.05),rosa ana feat. appa
+,Cassidy & Billy The Kid,https://www.last.fm/music/Cassidy+&+Billy+The+Kid,0.005,6,cassidy (in=693); billy the kid (in=1281),2,LOW(<0.05),cassidy & billy the kid
+,Supermartxé & Playb4ck Feat. Mohombi,https://www.last.fm/music/Supermartx%C3%A9+&+Playb4ck+Feat.+Mohombi,0.005,4,supermartxe (in=282); playb4ck (in=357); mohombi (in=754),3,LOW(<0.05),supermartxe & playb4ck feat. mohombi
+,"Cristoph, CultureKind & Afnan Prince","https://www.last.fm/music/Cristoph,+CultureKind+&+Afnan+Prince",0.007,6,cristoph (in=923); culturekind (in=232); afnan prince (in=24),3,LOW(<0.05),"cristoph, culturekind & afnan prince"
+,Robb Sapp & Company,https://www.last.fm/music/Robb+Sapp+&+Company,0.010,9,robb sapp (in=8); company (in=916),2,LOW(<0.05),robb sapp & company
+,"Brownie McGhee, Pete Seeger & Sonny Terry","https://www.last.fm/music/Brownie+McGhee,+Pete+Seeger+&+Sonny+Terry",0.011,13,brownie mcghee (in=172); pete seeger (in=1183); sonny terry (in=469),3,LOW(<0.05),"brownie mcghee, pete seeger & sonny terry"
+,"Medusa, LØST SIGNAL, PACANI","https://www.last.fm/music/Medusa,+L%C3%98ST+SIGNAL,+PACANI",0.012,15,medusa (in=179); lost signal (in=1247); pacani (in=664),3,LOW(<0.05),"medusa, lost signal, pacani"
+,"Trippie Redd, Skrillex & PinkPantheress","https://www.last.fm/music/Trippie+Redd,+Skrillex+&+PinkPantheress",0.016,33,trippie redd (in=2120); skrillex (in=1854); pinkpantheress (in=883),3,LOW(<0.05),"trippie redd, skrillex & pinkpantheress"
+,"Mithril Oreder, R.A. The Rugged Man","https://www.last.fm/music/Mithril+Oreder,+R.A.+The+Rugged+Man",0.024,28,mithril oreder (in=372); r.a. the rugged man (in=1189),2,LOW(<0.05),"mithril oreder, r.a. the rugged man"
+,Na Yoon Sik & Park Se Jun,https://www.last.fm/music/Na+Yoon+Sik+&+Park+Se+Jun,0.027,9,na yoon sik (in=268); park se jun (in=328),2,LOW(<0.05),na yoon sik & park se jun
+,Senses & Nightclub20xx,https://www.last.fm/music/Senses+&+Nightclub20xx,0.030,34,senses (in=1140); nightclub20xx (in=91),2,LOW(<0.05),senses & nightclub20xx
+,"CHIARO, Ch3f Beats","https://www.last.fm/music/CHIARO,+Ch3f+Beats",0.036,6,chiaro (in=36); ch3f beats (in=169),2,LOW(<0.05),"chiaro, ch3f beats"
+,"電音部、日高零奈 (CV: 蔀 祐佳)、東雲和音 (CV: 天音みほ)、茅野ふたば (CV: 堀越せな), Shinpei Nasuno","https://www.last.fm/music/%E9%9B%BB%E9%9F%B3%E9%83%A8%E3%80%81%E6%97%A5%E9%AB%98%E9%9B%B6%E5%A5%88+(CV:+%E8%94%80+%E7%A5%90%E4%BD%B3)%E3%80%81%E6%9D%B1%E9%9B%B2%E5%92%8C%E9%9F%B3+(CV:+%E5%A4%A9%E9%9F%B3%E3%81%BF%E3%81%BB)%E3%80%81%E8%8C%85%E9%87%8E%E3%81%B5%E3%81%9F%E3%81%B0+(CV:+%E5%A0%80%E8%B6%8A%E3%81%9B%E3%81%AA),+Shinpei+Nasuno",0.040,8,dian yin bu (in=201); ri gao ling nai (cv: bu you jia ) (in=46); dong yun he yin (cv: tian yin miho) (in=80); mao ye hutaba (cv: ku yue sena) (in=35); shinpei nasuno (in=2),5,LOW(<0.05),"dian yin bu , ri gao ling nai (cv: bu you jia ), dong yun he yin (cv: tian yin miho), mao ye hutaba (cv: ku yue sena), shinpei nasuno"
+,"Gareth Emery, Alex & Sierra","https://www.last.fm/music/Gareth+Emery,+Alex+&+Sierra",0.044,87,gareth emery (in=1961); alex (in=1064); sierra (in=577),3,LOW(<0.05),"gareth emery, alex & sierra"
+,"Chingy, Ludacris & Snoop Dogg","https://www.last.fm/music/Chingy,+Ludacris+&+Snoop+Dogg",0.049,108,chingy (in=1211); ludacris (in=2200); snoop dogg (in=1906),3,LOW(<0.05),"chingy, ludacris & snoop dogg"
+,"escape, Konfuz","https://www.last.fm/music/escape,+Konfuz",0.051,60,escape (in=493); konfuz (in=1182),2,"[0.05,0.10)","escape, konfuz"
+,High John & Flitz&Suppe,https://www.last.fm/music/High+John+&+Flitz&Suppe,0.051,20,high john (in=393); flitz (in=8); suppe (in=34),3,"[0.05,0.10)",high john & flitz&suppe
+,"Nicky Jam, Romeo Santos","https://www.last.fm/music/Nicky+Jam,+Romeo+Santos",0.052,109,nicky jam (in=2104); romeo santos (in=1669),2,"[0.05,0.10)","nicky jam, romeo santos"
+,一二三/初音ミク,https://www.last.fm/music/%E4%B8%80%E4%BA%8C%E4%B8%89%2F%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF,0.053,58,yi er san (in=552); chu yin miku (in=1089),2,"[0.05,0.10)",yi er san /chu yin miku
+,"SI Istwa, Father John Misty","https://www.last.fm/music/SI+Istwa,+Father+John+Misty",0.055,69,si istwa (in=856); father john misty (in=1256),2,"[0.05,0.10)","si istwa, father john misty"
+,Darby & Ian,https://www.last.fm/music/Darby+&+Ian,0.057,115,darby (in=515); ian (in=2012),2,"[0.05,0.10)",darby & ian
+,菅野よう子 & キセル,https://www.last.fm/music/%E8%8F%85%E9%87%8E%E3%82%88%E3%81%86%E5%AD%90+&+%E3%82%AD%E3%82%BB%E3%83%AB,0.059,123,jian ye youzi (in=2074); kiseru (in=178),2,"[0.05,0.10)",jian ye youzi & kiseru
+,"ZekeUltra, Yonqi","https://www.last.fm/music/ZekeUltra,+Yonqi",0.061,22,zekeultra (in=363); yonqi (in=255),2,"[0.05,0.10)","zekeultra, yonqi"
+,"Captain Future, Edmond Hamilton","https://www.last.fm/music/Captain+Future,+Edmond+Hamilton",0.062,15,captain future (in=243); edmond hamilton (in=86),2,"[0.05,0.10)","captain future, edmond hamilton"
+,"Madonna, LMFAO, Nicki Minaj","https://www.last.fm/music/Madonna,+LMFAO,+Nicki+Minaj",0.062,137,madonna (in=1604); lmfao (in=650); nicki minaj (in=2202),3,"[0.05,0.10)","madonna, lmfao, nicki minaj"
+,Raine Maida & Chantal Kreviazuk,https://www.last.fm/music/Raine+Maida+&+Chantal+Kreviazuk,0.062,70,raine maida (in=1124); chantal kreviazuk (in=655),2,"[0.05,0.10)",raine maida & chantal kreviazuk
+,"Rifti Beats, GameChops, Super Guitar Bros","https://www.last.fm/music/Rifti+Beats,+GameChops,+Super+Guitar+Bros",0.067,61,rifti beats (in=543); gamechops (in=401); super guitar bros (in=909),3,"[0.05,0.10)","rifti beats, gamechops, super guitar bros"
+,North-T feat. Hatsune Miku,https://www.last.fm/music/North-T+feat.+Hatsune+Miku,0.067,84,north-t (in=1074); hatsune miku (in=1246),2,"[0.05,0.10)",north-t feat. hatsune miku
+,ANUQRAM & Alexey Sonar,https://www.last.fm/music/ANUQRAM+&+Alexey+Sonar,0.067,78,anuqram (in=1157); alexey sonar (in=432),2,"[0.05,0.10)",anuqram & alexey sonar
+,"Coults, Venny","https://www.last.fm/music/Coults,+Venny",0.068,20,coults (in=175); venny (in=296),2,"[0.05,0.10)","coults, venny"
+,"Plains, Waxahatchee","https://www.last.fm/music/Plains,+Waxahatchee",0.068,152,plains (in=249); waxahatchee (in=2223),2,"[0.05,0.10)","plains, waxahatchee"
+,Keina Suda & ぬゆり,https://www.last.fm/music/Keina+Suda+&+%E3%81%AC%E3%82%86%E3%82%8A,0.077,169,keina suda (in=1204); nuyuri (in=2204),2,"[0.05,0.10)",keina suda & nuyuri
+,"demxntia, 6host","https://www.last.fm/music/demxntia,+6host",0.078,59,demxntia (in=761); 6host (in=442),2,"[0.05,0.10)","demxntia, 6host"
+,"ABOVE & BEYOND/JOHNSTON, ZOE","https://www.last.fm/music/ABOVE+&+BEYOND%2FJOHNSTON,+ZOE",0.078,166,above (in=244); beyond (in=1885); johnston (in=251); zoe (in=2135),4,"[0.05,0.10)","above & beyond/johnston, zoe"
+,"SUICIDAL-IDOL, hubithekid, & Pröz","https://www.last.fm/music/SUICIDAL-IDOL,+hubithekid,+&+Pr%C3%B6z",0.085,106,suicidal-idol (in=1247); hubithekid (in=675); proz (in=1225),3,"[0.05,0.10)","suicidal-idol, hubithekid, & proz"
+,Emilio Kauderer & Federico Jusid,https://www.last.fm/music/Emilio+Kauderer+&+Federico+Jusid,0.085,74,emilio kauderer (in=559); federico jusid (in=867),2,"[0.05,0.10)",emilio kauderer & federico jusid
+,"koyori, 柘榴","https://www.last.fm/music/koyori,+%E6%9F%98%E6%A6%B4",0.086,95,koyori (in=1104); zhe liu (in=18),2,"[0.05,0.10)","koyori, zhe liu"
+,"BoofPaxkMooky, Dylvinci","https://www.last.fm/music/BoofPaxkMooky,+Dylvinci",0.087,126,boofpaxkmooky (in=1440); dylvinci (in=1395),2,"[0.05,0.10)","boofpaxkmooky, dylvinci"
+,"Crush Your Soul, Loyal To The Grave, Lukey Cage, Combust, Gigan","https://www.last.fm/music/Crush+Your+Soul,+Loyal+To+The+Grave,+Lukey+Cage,+Combust,+Gigan",0.090,134,crush your soul (in=730); loyal to the grave (in=1494); lukey cage (in=7); combust (in=772); gigan (in=639),5,"[0.05,0.10)","crush your soul, loyal to the grave, lukey cage, combust, gigan"
+,Limbee & Sanek187,https://www.last.fm/music/Limbee+&+Sanek187,0.092,22,limbee (in=239); sanek187 (in=4),2,"[0.05,0.10)",limbee & sanek187
+,"bambi, Oki & francis","https://www.last.fm/music/bambi,+Oki+&+francis",0.093,197,bambi (in=688); oki (in=2121); francis (in=369),3,"[0.05,0.10)","bambi, oki & francis"
+,DJ DIMIXER/SERGE LEGRAN/MURANA/HARDDOPE,https://www.last.fm/music/DJ+DIMIXER%2FSERGE+LEGRAN%2FMURANA%2FHARDDOPE,0.095,162,dj dimixer (in=1704); serge legran (in=962); murana (in=189); harddope (in=1397),4,"[0.05,0.10)",dj dimixer/serge legran/murana/harddope
+,T & T,https://www.last.fm/music/T+&+T,0.096,47,t (in=488); t (in=488),2,"[0.05,0.10)",t & t
+,"Suzanne Ciani, Jonathan Fitoussi","https://www.last.fm/music/Suzanne+Ciani,+Jonathan+Fitoussi",0.097,72,suzanne ciani (in=739); jonathan fitoussi (in=332),2,"[0.05,0.10)","suzanne ciani, jonathan fitoussi"
+,Michael Mayer & Ed Macfarlane,https://www.last.fm/music/Michael+Mayer+&+Ed+Macfarlane,0.099,94,michael mayer (in=945); ed macfarlane (in=57),2,"[0.05,0.10)",michael mayer & ed macfarlane
+,KAYTRANADA feat. Dawn Richard,https://www.last.fm/music/KAYTRANADA+feat.+Dawn+Richard,0.102,159,kaytranada (in=1566); dawn richard (in=1112),2,"[0.10,0.15)",kaytranada feat. dawn richard
+,"Emilia, Florin Salam & Costi","https://www.last.fm/music/Emilia,+Florin+Salam+&+Costi",0.102,186,emilia (in=1818); florin salam (in=1277); costi (in=976),3,"[0.10,0.15)","emilia, florin salam & costi"
+,"Javi Reina, Alex Guerrero,Syntheticsax","https://www.last.fm/music/Javi+Reina,+Alex+Guerrero,Syntheticsax",0.102,54,javi reina (in=527); alex guerrero (in=282); syntheticsax (in=465),3,"[0.10,0.15)","javi reina, alex guerrero,syntheticsax"
+,"Psychosis, Pxlsdead","https://www.last.fm/music/Psychosis,+Pxlsdead",0.103,68,psychosis (in=659); pxlsdead (in=534),2,"[0.10,0.15)","psychosis, pxlsdead"
+,"鷹富士茄子 (森下来奈), 道明寺歌鈴 (新田ひより), 依田芳乃 (高田憂希)","https://www.last.fm/music/%E9%B7%B9%E5%AF%8C%E5%A3%AB%E8%8C%84%E5%AD%90+(%E6%A3%AE%E4%B8%8B%E6%9D%A5%E5%A5%88),+%E9%81%93%E6%98%8E%E5%AF%BA%E6%AD%8C%E9%88%B4+(%E6%96%B0%E7%94%B0%E3%81%B2%E3%82%88%E3%82%8A),+%E4%BE%9D%E7%94%B0%E8%8A%B3%E4%B9%83+(%E9%AB%98%E7%94%B0%E6%86%82%E5%B8%8C)",0.105,9,ying fu shi qie zi (sen xia lai nai ) (in=50); dao ming si ge ling (xin tian hiyori) (in=5); yi tian fang nai (gao tian you xi ) (in=86),3,"[0.10,0.15)","ying fu shi qie zi (sen xia lai nai ), dao ming si ge ling (xin tian hiyori), yi tian fang nai (gao tian you xi )"
+,Keala Settle/The Greatest Showman Ensemble,https://www.last.fm/music/Keala+Settle%2FThe+Greatest+Showman+Ensemble,0.107,105,keala settle (in=865); the greatest showman ensemble (in=985),2,"[0.10,0.15)",keala settle/the greatest showman ensemble
+,"Busta 929, Boohle","https://www.last.fm/music/Busta+929,+Boohle",0.107,317,busta 929 (in=2957); boohle (in=1298),2,"[0.10,0.15)","busta 929, boohle"
+,Efteling & De magische Klok,https://www.last.fm/music/Efteling+&+De+magische+Klok,0.108,20,efteling (in=186); de magische klok (in=78),2,"[0.10,0.15)",efteling & de magische klok
+,Slick Rick & Giggs,https://www.last.fm/music/Slick+Rick+&+Giggs,0.108,195,slick rick (in=1806); giggs (in=1577),2,"[0.10,0.15)",slick rick & giggs
+,VLADIVOJNA LA CHIA & BANANA,https://www.last.fm/music/VLADIVOJNA+LA+CHIA+&+BANANA,0.108,98,vladivojna la chia (in=904); banana (in=528),2,"[0.10,0.15)",vladivojna la chia & banana
+,"187 Strassenbande, Gzuz, Bonez MC","https://www.last.fm/music/187+Strassenbande,+Gzuz,+Bonez+MC",0.111,222,187 strassenbande (in=514); gzuz (in=2006); bonez mc (in=1826),3,"[0.10,0.15)","187 strassenbande, gzuz, bonez mc"
+,"Celtic Harp, Kathryn Mannyng","https://www.last.fm/music/Celtic+Harp,+Kathryn+Mannyng",0.111,4,celtic harp (in=36); kathryn mannyng (in=20),2,"[0.10,0.15)","celtic harp, kathryn mannyng"
+,Sheryl Crow & Eric Clapton,https://www.last.fm/music/Sheryl+Crow+&+Eric+Clapton,0.111,200,sheryl crow (in=1757); eric clapton (in=1794),2,"[0.10,0.15)",sheryl crow & eric clapton
+,Illumate feat. GONE.Fludd,https://www.last.fm/music/Illumate+feat.+GONE.Fludd,0.114,253,illumate (in=477); gone.fludd (in=2211),2,"[0.10,0.15)",illumate feat. gone.fludd
+,Kleistwahr / P Wits,https://www.last.fm/music/Kleistwahr+%2F+P+Wits,0.117,109,kleistwahr (in=930); p wits (in=84),2,"[0.10,0.15)",kleistwahr / p wits
+,Kid Moxie & Ivan Iusco,https://www.last.fm/music/Kid+Moxie+&+Ivan+Iusco,0.117,89,kid moxie (in=759); ivan iusco (in=6),2,"[0.10,0.15)",kid moxie & ivan iusco
+,"Approaching Black, Jacob Henry","https://www.last.fm/music/Approaching+Black,+Jacob+Henry",0.125,156,approaching black (in=1247); jacob henry (in=866),2,"[0.10,0.15)","approaching black, jacob henry"
+,"TobyMac, Capital Kings","https://www.last.fm/music/TobyMac,+Capital+Kings",0.129,268,tobymac (in=2083); capital kings (in=711),2,"[0.10,0.15)","tobymac, capital kings"
+,"Christy Altomare, Derek Klena, Mary Beth Peil, Ramin Karimloo","https://www.last.fm/music/Christy+Altomare,+Derek+Klena,+Mary+Beth+Peil,+Ramin+Karimloo",0.129,292,christy altomare (in=2262); derek klena (in=686); mary beth peil (in=967); ramin karimloo (in=605),4,"[0.10,0.15)","christy altomare, derek klena, mary beth peil, ramin karimloo"
+,"Liar, Flower","https://www.last.fm/music/Liar,+Flower",0.130,111,liar (in=141); flower (in=857),2,"[0.10,0.15)","liar, flower"
+,"Toil, Leellamarz, BE'O","https://www.last.fm/music/Toil,+Leellamarz,+BE%27O",0.130,150,toil (in=431); leellamarz (in=983); be'o (in=1155),3,"[0.10,0.15)","toil, leellamarz, be'o"
+,Ghostface Killah & Inspectah Deck,https://www.last.fm/music/Ghostface+Killah+&+Inspectah+Deck,0.130,250,ghostface killah (in=1923); inspectah deck (in=515),2,"[0.10,0.15)",ghostface killah & inspectah deck
+,"Phix, Ryan Oakes","https://www.last.fm/music/Phix,+Ryan+Oakes",0.131,102,phix (in=195); ryan oakes (in=776),2,"[0.10,0.15)","phix, ryan oakes"
+,"Jhené Aiko, Childish Gambino","https://www.last.fm/music/Jhen%C3%A9+Aiko,+Childish+Gambino",0.136,228,jhene aiko (in=1633); childish gambino (in=1680),2,"[0.10,0.15)","jhene aiko, childish gambino"
+,"Marc Ducret, Michel Benita & Aaron Scott","https://www.last.fm/music/Marc+Ducret,+Michel+Benita+&+Aaron+Scott",0.139,233,marc ducret (in=1116); michel benita (in=1678); aaron scott (in=145),3,"[0.10,0.15)","marc ducret, michel benita & aaron scott"
+,"Alan Aztec, Одолжи Юность","https://www.last.fm/music/Alan+Aztec,+%D0%9E%D0%B4%D0%BE%D0%BB%D0%B6%D0%B8+%D0%AE%D0%BD%D0%BE%D1%81%D1%82%D1%8C",0.140,45,alan aztec (in=226); odolzhi iunost' (in=322),2,"[0.10,0.15)","alan aztec, odolzhi iunost'"
+,Houses/Teen Daze,https://www.last.fm/music/Houses%2FTeen+Daze,0.147,144,houses (in=463); teen daze (in=982),2,"[0.10,0.15)",houses/teen daze
+,"Pussy Riot, Boys Noize, Alice Glass","https://www.last.fm/music/Pussy+Riot,+Boys+Noize,+Alice+Glass",0.148,267,pussy riot (in=419); boys noize (in=1807); alice glass (in=1015),3,"[0.10,0.15)","pussy riot, boys noize, alice glass"
+,Clare de Graw/Douglass/Rob Symeonn/Roots Combination,https://www.last.fm/music/Clare+de+Graw%2FDouglass%2FRob+Symeonn%2FRoots+Combination,0.148,327,clare de graw (in=1); douglass (in=2210); rob symeonn (in=573); roots combination (in=29),4,"[0.10,0.15)",clare de graw/douglass/rob symeonn/roots combination
+,"Galena, DJ Damyan, Costi","https://www.last.fm/music/Galena,+DJ+Damyan,+Costi",0.149,296,galena (in=1988); dj damyan (in=1133); costi (in=976),3,"[0.10,0.15)","galena, dj damyan, costi"
+,"GENIUS, K CAMP & RARE Sound","https://www.last.fm/music/GENIUS,+K+CAMP+&+RARE+Sound",0.150,223,genius (in=277); k camp (in=1482); rare sound (in=409),3,"[0.15,0.20)","genius, k camp & rare sound"
+,Joey Valence & Brae feat. Danny Brown,https://www.last.fm/music/Joey+Valence+&+Brae+feat.+Danny+Brown,0.152,220,joey valence (in=328); brae (in=59); danny brown (in=1451),3,"[0.15,0.20)",joey valence & brae feat. danny brown
+,Black Moon ft Method Man & General Steele,https://www.last.fm/music/Black+Moon+ft+Method+Man+&+General+Steele,0.153,291,black moon (in=1279); method man (in=1901); general steele (in=352),3,"[0.15,0.20)",black moon ft method man & general steele
+,"Los Mesoneros, Caloncho","https://www.last.fm/music/Los+Mesoneros,+Caloncho",0.154,251,los mesoneros (in=929); caloncho (in=1632),2,"[0.15,0.20)","los mesoneros, caloncho"
+,"Gabo El Chamaquito, Jere Klein, El Bai","https://www.last.fm/music/Gabo+El+Chamaquito,+Jere+Klein,+El+Bai",0.154,247,gabo el chamaquito (in=1603); jere klein (in=822); el bai (in=929),3,"[0.15,0.20)","gabo el chamaquito, jere klein, el bai"
+,"Jon Hopkins, Ram Dass & East Forest","https://www.last.fm/music/Jon+Hopkins,+Ram+Dass+&+East+Forest",0.155,420,jon hopkins (in=2703); ram dass (in=1110); east forest (in=435),3,"[0.15,0.20)","jon hopkins, ram dass & east forest"
+,Boney James featuring Jaheim,https://www.last.fm/music/Boney+James+featuring+Jaheim,0.158,186,boney james (in=955); jaheim (in=1179),2,"[0.15,0.20)",boney james featuring jaheim
+,Paul McCartney & Damon Albarn,https://www.last.fm/music/Paul+McCartney+&+Damon+Albarn,0.159,182,paul mccartney (in=1146); damon albarn (in=602),2,"[0.15,0.20)",paul mccartney & damon albarn
+,Laura & Greg,https://www.last.fm/music/Laura+&+Greg,0.159,54,laura (in=339); greg (in=274),2,"[0.15,0.20)",laura & greg
+,Terranova feat. Coco,https://www.last.fm/music/Terranova+feat.+Coco,0.162,108,terranova (in=668); coco (in=553),2,"[0.15,0.20)",terranova feat. coco
+,Lady Gaga & COUCOU CHLOE,https://www.last.fm/music/Lady+Gaga+&+COUCOU+CHLOE,0.164,285,lady gaga (in=1735); coucou chloe (in=1453),2,"[0.15,0.20)",lady gaga & coucou chloe
+,Prem Dhillon & San-B,https://www.last.fm/music/Prem+Dhillon+&+San-B,0.165,127,prem dhillon (in=769); san-b (in=13),2,"[0.15,0.20)",prem dhillon & san-b
+,"Perth Tanapon, Chimon Wachirawit","https://www.last.fm/music/Perth+Tanapon,+Chimon+Wachirawit",0.166,101,perth tanapon (in=549); chimon wachirawit (in=607),2,"[0.15,0.20)","perth tanapon, chimon wachirawit"
+,"Netz, Dina","https://www.last.fm/music/Netz,+Dina",0.167,58,netz (in=348); dina (in=337),2,"[0.15,0.20)","netz, dina"
+,Enduser & Patrick Currier,https://www.last.fm/music/Enduser+&+Patrick+Currier,0.169,169,enduser (in=998); patrick currier (in=92),2,"[0.15,0.20)",enduser & patrick currier
+,"Thrilliam Angels, d.j. polyplus u.c.","https://www.last.fm/music/Thrilliam+Angels,+d.j.+polyplus+u.c.",0.174,101,thrilliam angels (in=581); d.j. polyplus u.c. (in=144),2,"[0.15,0.20)","thrilliam angels, d.j. polyplus u.c."
+,Sweat Enzo & Sumo Party,https://www.last.fm/music/Sweat+Enzo+&+Sumo+Party,0.175,11,sweat enzo (in=63); sumo party (in=22),2,"[0.15,0.20)",sweat enzo & sumo party
+,Xosé Lois Romero & Aliboria,https://www.last.fm/music/Xos%C3%A9+Lois+Romero+&+Aliboria,0.178,155,xose lois romero (in=869); aliboria (in=21),2,"[0.15,0.20)",xose lois romero & aliboria
+,"LOST FREQUENCIES, BONN","https://www.last.fm/music/LOST+FREQUENCIES,+BONN",0.180,335,lost frequencies (in=1865); bonn (in=218),2,"[0.15,0.20)","lost frequencies, bonn"
+,"Johnny Pacheco & Pete ""Conde"" Rodriguez",https://www.last.fm/music/Johnny+Pacheco+&+Pete+%22Conde%22+Rodriguez,0.184,78,"johnny pacheco (in=425); pete ""conde"" rodriguez (in=17)",2,"[0.15,0.20)","johnny pacheco & pete ""conde"" rodriguez"
+,"Os Garotin, Caetano Veloso, Cupertino, Anchietx","https://www.last.fm/music/Os+Garotin,+Caetano+Veloso,+Cupertino,+Anchietx",0.184,488,os garotin (in=1030); caetano veloso (in=2658); cupertino (in=2146); anchietx (in=1030),4,"[0.15,0.20)","os garotin, caetano veloso, cupertino, anchietx"
+,Dj Milano feat. Samantha Fox,https://www.last.fm/music/Dj+Milano+feat.+Samantha+Fox,0.186,246,dj milano (in=192); samantha fox (in=1324),2,"[0.15,0.20)",dj milano feat. samantha fox
+,Martin de Lima & Matthew Wang,https://www.last.fm/music/Martin+de+Lima+&+Matthew+Wang,0.186,8,martin de lima (in=42); matthew wang (in=43),2,"[0.15,0.20)",martin de lima & matthew wang
+,Cherrelle & Alexander O’neal,https://www.last.fm/music/Cherrelle+&+Alexander+O%E2%80%99neal,0.189,228,cherrelle (in=747); alexander o'neal (in=1206),2,"[0.15,0.20)",cherrelle & alexander o'neal
+,Unknown T & Knucks,https://www.last.fm/music/Unknown+T+&+Knucks,0.191,473,unknown t (in=1903); knucks (in=2474),2,"[0.15,0.20)",unknown t & knucks
+,"Yessi Fran, nody rap","https://www.last.fm/music/Yessi+Fran,+nody+rap",0.192,283,yessi fran (in=1476); nody rap (in=6),2,"[0.15,0.20)","yessi fran, nody rap"
+,Jewell & Aaron Hall,https://www.last.fm/music/Jewell+&+Aaron+Hall,0.192,201,jewell (in=1045); aaron hall (in=450),2,"[0.15,0.20)",jewell & aaron hall
+,"Инфинити, D.I.P. Project","https://www.last.fm/music/%D0%98%D0%BD%D1%84%D0%B8%D0%BD%D0%B8%D1%82%D0%B8,+D.I.P.+Project",0.196,280,infiniti (in=1426); d.i.p. project (in=132),2,"[0.15,0.20)","infiniti, d.i.p. project"
+,Oatmello & Ornithology,https://www.last.fm/music/Oatmello+&+Ornithology,0.198,338,oatmello (in=1708); ornithology (in=459),2,"[0.15,0.20)",oatmello & ornithology
+,J.Period & Black Thought,https://www.last.fm/music/J.Period+&+Black+Thought,0.199,236,j.period (in=106); black thought (in=1185),2,"[0.15,0.20)",j.period & black thought
+,"Fieldwork feat. Vijay Iyer, Steve Lehman & Tyshawn Sorey","https://www.last.fm/music/Fieldwork+feat.+Vijay+Iyer,+Steve+Lehman+&+Tyshawn+Sorey",0.201,317,fieldwork (in=746); vijay iyer (in=1575); steve lehman (in=365); tyshawn sorey (in=905),4,"[0.20,0.25)","fieldwork feat. vijay iyer, steve lehman & tyshawn sorey"
+,Scorpions & Berliner Philharmoniker,https://www.last.fm/music/Scorpions+&+Berliner+Philharmoniker,0.202,392,scorpions (in=1374); berliner philharmoniker (in=1943),2,"[0.20,0.25)",scorpions & berliner philharmoniker
+,"Roberto Murolo, Mia Martini","https://www.last.fm/music/Roberto+Murolo,+Mia+Martini",0.204,141,roberto murolo (in=134); mia martini (in=691),2,"[0.20,0.25)","roberto murolo, mia martini"
+,"Silent Killer, Breaker & DJ Hidden","https://www.last.fm/music/Silent+Killer,+Breaker+&+DJ+Hidden",0.206,282,silent killer (in=1112); breaker (in=1367); dj hidden (in=478),3,"[0.20,0.25)","silent killer, breaker & dj hidden"
+,Hearse Percy feat. ThatMusicBrony,https://www.last.fm/music/Hearse+Percy+feat.+ThatMusicBrony,0.208,240,hearse percy (in=732); thatmusicbrony (in=1152),2,"[0.20,0.25)",hearse percy feat. thatmusicbrony
+,Critical Point Feat. Vikter Duplaix,https://www.last.fm/music/Critical+Point+Feat.+Vikter+Duplaix,0.209,106,critical point (in=357); vikter duplaix (in=508),2,"[0.20,0.25)",critical point feat. vikter duplaix
+,Lonzo & Oscar,https://www.last.fm/music/Lonzo+&+Oscar,0.209,289,lonzo (in=144); oscar (in=1384),2,"[0.20,0.25)",lonzo & oscar
+,"Skurt, ФРИК ПАТИ","https://www.last.fm/music/Skurt,+%D0%A4%D0%A0%D0%98%D0%9A+%D0%9F%D0%90%D0%A2%D0%98",0.209,177,skurt (in=517); frik pati (in=846),2,"[0.20,0.25)","skurt, frik pati"
+,Downtown Binary & The Present Sound,https://www.last.fm/music/Downtown+Binary+&+The+Present+Sound,0.211,339,downtown binary (in=1604); the present sound (in=926),2,"[0.20,0.25)",downtown binary & the present sound
+,Cub Sport feat. Darren Hayes,https://www.last.fm/music/Cub+Sport+feat.+Darren+Hayes,0.212,146,cub sport (in=654); darren hayes (in=688),2,"[0.20,0.25)",cub sport feat. darren hayes
+,Tom de Neef & Laidback Luke,https://www.last.fm/music/Tom+de+Neef+&+Laidback+Luke,0.213,283,tom de neef (in=435); laidback luke (in=1326),2,"[0.20,0.25)",tom de neef & laidback luke
+,"Jovens da Igreja de Jesus Cristo, Beatriz Marmelo","https://www.last.fm/music/Jovens+da+Igreja+de+Jesus+Cristo,+Beatriz+Marmelo",0.214,45,jovens da igreja de jesus cristo (in=210); beatriz marmelo (in=41),2,"[0.20,0.25)","jovens da igreja de jesus cristo, beatriz marmelo"
+,"Verzache, Swell","https://www.last.fm/music/Verzache,+Swell",0.216,301,verzache (in=1396); swell (in=575),2,"[0.20,0.25)","verzache, swell"
+,"Dave, Kamal.","https://www.last.fm/music/Dave,+Kamal.",0.216,424,dave (in=1960); kamal. (in=499),2,"[0.20,0.25)","dave, kamal."
+,Pharoahe Monch feat. Nate Dogg,https://www.last.fm/music/Pharoahe+Monch+feat.+Nate+Dogg,0.219,365,pharoahe monch (in=1670); nate dogg (in=1019),2,"[0.20,0.25)",pharoahe monch feat. nate dogg
+,"Low Chord, Gareth Inkster, Scott Orr","https://www.last.fm/music/Low+Chord,+Gareth+Inkster,+Scott+Orr",0.219,337,low chord (in=347); gareth inkster (in=1); scott orr (in=1536),3,"[0.20,0.25)","low chord, gareth inkster, scott orr"
+,French Montana & Coi Leray,https://www.last.fm/music/French+Montana+&+Coi+Leray,0.220,472,french montana (in=2141); coi leray (in=1264),2,"[0.20,0.25)",french montana & coi leray
+,"Justine Skye, KAYTRANADA","https://www.last.fm/music/Justine+Skye,+KAYTRANADA",0.222,347,justine skye (in=1292); kaytranada (in=1566),2,"[0.20,0.25)","justine skye, kaytranada"
+,"Powfu, Ollie","https://www.last.fm/music/Powfu,+Ollie",0.222,330,powfu (in=1488); ollie (in=1230),2,"[0.20,0.25)","powfu, ollie"
+,Josh Cumbee & Jordan Powers,https://www.last.fm/music/Josh+Cumbee+&+Jordan+Powers,0.226,30,josh cumbee (in=133); jordan powers (in=69),2,"[0.20,0.25)",josh cumbee & jordan powers
+,JAEGER & Meric,https://www.last.fm/music/JAEGER+&+Meric,0.235,112,jaeger (in=476); meric (in=1),2,"[0.20,0.25)",jaeger & meric
+,Cool Project & BBK,https://www.last.fm/music/Cool+Project+&+BBK,0.237,182,cool project (in=767); bbk (in=106),2,"[0.20,0.25)",cool project & bbk
+,blueberry_ & miraa.,https://www.last.fm/music/blueberry_+&+miraa.,0.237,289,blueberry_ (in=374); miraa. (in=1217),2,"[0.20,0.25)",blueberry_ & miraa.
+,"20mop, snakechildpain","https://www.last.fm/music/20mop,+snakechildpain",0.238,243,20mop (in=1022); snakechildpain (in=526),2,"[0.20,0.25)","20mop, snakechildpain"
+,Adam Stone / Dead Sea Apes / Black Tempest,https://www.last.fm/music/Adam+Stone+%2F+Dead+Sea+Apes+%2F+Black+Tempest,0.238,121,adam stone (in=406); dead sea apes (in=508); black tempest (in=207),3,"[0.20,0.25)",adam stone / dead sea apes / black tempest
+,"Paul Simon, General M.D.Shirinda & The Gaza Sisters","https://www.last.fm/music/Paul+Simon,+General+M.D.Shirinda+&+The+Gaza+Sisters",0.239,356,paul simon (in=1488); general m.d.shirinda (in=14); the gaza sisters (in=2),3,"[0.20,0.25)","paul simon, general m.d.shirinda & the gaza sisters"
+,"Холи Полли, неаринаменя","https://www.last.fm/music/%D0%A5%D0%BE%D0%BB%D0%B8+%D0%9F%D0%BE%D0%BB%D0%BB%D0%B8,+%D0%BD%D0%B5%D0%B0%D1%80%D0%B8%D0%BD%D0%B0%D0%BC%D0%B5%D0%BD%D1%8F",0.239,102,kholi polli (in=426); nearinamenia (in=174),2,"[0.20,0.25)","kholi polli, nearinamenia"
+,Last Heroes & Nevve,https://www.last.fm/music/Last+Heroes+&+Nevve,0.243,166,last heroes (in=683); nevve (in=405),2,"[0.20,0.25)",last heroes & nevve
+,"CHRIS RAIN, Promoting Sounds","https://www.last.fm/music/CHRIS+RAIN,+Promoting+Sounds",0.246,82,chris rain (in=333); promoting sounds (in=254),2,"[0.20,0.25)","chris rain, promoting sounds"
+,"Claude Debussy, Markus Klinko","https://www.last.fm/music/Claude+Debussy,+Markus+Klinko",0.247,208,claude debussy (in=843); markus klinko (in=124),2,"[0.20,0.25)","claude debussy, markus klinko"
+,Middleton & Pritchard,https://www.last.fm/music/Middleton+&+Pritchard,0.250,2,middleton (in=7); pritchard (in=8),2,"[0.25,0.33)",middleton & pritchard
+,We Are Messengers & Josh Baldwin,https://www.last.fm/music/We+Are+Messengers+&+Josh+Baldwin,0.253,231,we are messengers (in=912); josh baldwin (in=704),2,"[0.25,0.33)",we are messengers & josh baldwin
+,"Outlaw, L'Insoumise, Keny Arkana","https://www.last.fm/music/Outlaw,+L%27Insoumise,+Keny+Arkana",0.253,227,outlaw (in=187); l'insoumise (in=173); keny arkana (in=896),3,"[0.25,0.33)","outlaw, l'insoumise, keny arkana"
+,"Jowell & Randy, J Balvin","https://www.last.fm/music/Jowell+&+Randy,+J+Balvin",0.255,465,jowell (in=764); randy (in=590); j balvin (in=1823),3,"[0.25,0.33)","jowell & randy, j balvin"
+,Rigby ft. Layne,https://www.last.fm/music/Rigby+ft.+Layne,0.257,233,rigby (in=321); layne (in=908),2,"[0.25,0.33)",rigby ft. layne
+,"Anitta, Lexa, Luísa Sonza","https://www.last.fm/music/Anitta,+Lexa,+Lu%C3%ADsa+Sonza",0.258,613,anitta (in=2379); lexa (in=1538); luisa sonza (in=1631),3,"[0.25,0.33)","anitta, lexa, luisa sonza"
+,"MC CAROL 011, MC M7, Noguera DJ","https://www.last.fm/music/MC+CAROL+011,+MC+M7,+Noguera+DJ",0.262,271,mc carol 011 (in=1036); mc m7 (in=561); noguera dj (in=863),3,"[0.25,0.33)","mc carol 011, mc m7, noguera dj"
+,"AKRIILA, Aqua VS","https://www.last.fm/music/AKRIILA,+Aqua+VS",0.270,669,akriila (in=2480); aqua vs (in=1747),2,"[0.25,0.33)","akriila, aqua vs"
+,Disclosure & Blick Bassy,https://www.last.fm/music/Disclosure+&+Blick+Bassy,0.271,473,disclosure (in=1747); blick bassy (in=412),2,"[0.25,0.33)",disclosure & blick bassy
+,"Viva Suecia, Leiva","https://www.last.fm/music/Viva+Suecia,+Leiva",0.272,309,viva suecia (in=894); leiva (in=1136),2,"[0.25,0.33)","viva suecia, leiva"
+,"MC VDC, DJ VDC, DJ Kevyn Do RC","https://www.last.fm/music/MC+VDC,+DJ+VDC,+DJ+Kevyn+Do+RC",0.278,32,mc vdc (in=115); dj vdc (in=11); dj kevyn do rc (in=75),3,"[0.25,0.33)","mc vdc, dj vdc, dj kevyn do rc"
+,Colbert Hamilton & the Nitros,https://www.last.fm/music/Colbert+Hamilton+&+the+Nitros,0.280,242,colbert hamilton (in=167); the nitros (in=864),2,"[0.25,0.33)",colbert hamilton & the nitros
+,The Humble Brothers Feat. Jonathan Davis,https://www.last.fm/music/The+Humble+Brothers+Feat.+Jonathan+Davis,0.281,234,the humble brothers (in=165); jonathan davis (in=833),2,"[0.25,0.33)",the humble brothers feat. jonathan davis
+,But & Memo,https://www.last.fm/music/But+&+Memo,0.283,265,but (in=24); memo (in=937),2,"[0.25,0.33)",but & memo
+,紗希&Rie fu,https://www.last.fm/music/%E7%B4%97%E5%B8%8C&Rie+fu,0.283,235,sha xi (in=217); rie fu (in=829),2,"[0.25,0.33)",sha xi &rie fu
+,"Puppet, Pierce Fulton","https://www.last.fm/music/Puppet,+Pierce+Fulton",0.284,175,puppet (in=616); pierce fulton (in=468),2,"[0.25,0.33)","puppet, pierce fulton"
+,"mishix), 1NZZiDENT, NEKKIBOI","https://www.last.fm/music/mishix),+1NZZiDENT,+NEKKIBOI",0.286,106,mishix) (in=323); 1nzzident (in=371); nekkiboi (in=2),3,"[0.25,0.33)","mishix), 1nzzident, nekkiboi"
+,"Armin van Buuren, Ferry Corsten, Rank 1, Ruben de Ronde","https://www.last.fm/music/Armin+van+Buuren,+Ferry+Corsten,+Rank+1,+Ruben+de+Ronde",0.292,931,armin van buuren (in=2999); ferry corsten (in=3187); rank 1 (in=1830); ruben de ronde (in=628),4,"[0.25,0.33)","armin van buuren, ferry corsten, rank 1, ruben de ronde"
+,Lady Luminis & Meren Music,https://www.last.fm/music/Lady+Luminis+&+Meren+Music,0.294,5,lady luminis (in=17); meren music (in=11),2,"[0.25,0.33)",lady luminis & meren music
+,Mark Andre Kilian & Chris Walden,https://www.last.fm/music/Mark+Andre+Kilian+&+Chris+Walden,0.296,77,mark andre kilian (in=61); chris walden (in=260),2,"[0.25,0.33)",mark andre kilian & chris walden
+,Kate & Lauri,https://www.last.fm/music/Kate+&+Lauri,0.298,98,kate (in=329); lauri (in=131),2,"[0.25,0.33)",kate & lauri
+,"ALLP, your home","https://www.last.fm/music/ALLP,+your+home",0.303,132,allp (in=436); your home (in=273),2,"[0.25,0.33)","allp, your home"
+,Gorillaz feat. Octavian,https://www.last.fm/music/Gorillaz+feat.+Octavian,0.304,368,gorillaz (in=1209); octavian (in=678),2,"[0.25,0.33)",gorillaz feat. octavian
+,"Zubin Mehta, Los Angeles Philharmonic Orchestra","https://www.last.fm/music/Zubin+Mehta,+Los+Angeles+Philharmonic+Orchestra",0.308,156,zubin mehta (in=507); los angeles philharmonic orchestra (in=308),2,"[0.25,0.33)","zubin mehta, los angeles philharmonic orchestra"
+,"Claude Debussy, Daniel Barenboim","https://www.last.fm/music/Claude+Debussy,+Daniel+Barenboim",0.310,750,claude debussy (in=843); daniel barenboim (in=2418),2,"[0.25,0.33)","claude debussy, daniel barenboim"
+,The Crystal Method feat. Stefanie King Warfield,https://www.last.fm/music/The+Crystal+Method+feat.+Stefanie+King+Warfield,0.316,273,the crystal method (in=864); stefanie king warfield (in=1),2,"[0.25,0.33)",the crystal method feat. stefanie king warfield
+,Memphis Cult & KYD_EDITS,https://www.last.fm/music/Memphis+Cult+&+KYD_EDITS,0.318,221,memphis cult (in=694); kyd_edits (in=18),2,"[0.25,0.33)",memphis cult & kyd_edits
+,"Panda, Ícaro e Gilmar, Fred & Fabrício","https://www.last.fm/music/Panda,+%C3%8Dcaro+e+Gilmar,+Fred+&+Fabr%C3%ADcio",0.324,556,panda (in=1714); icaro e gilmar (in=711); fred (in=467); fabricio (in=120),4,"[0.25,0.33)","panda, icaro e gilmar, fred & fabricio"
+,RATS & STAR,https://www.last.fm/music/RATS+&+STAR,0.326,396,rats (in=1215); star (in=499),2,"[0.25,0.33)",rats & star
+,ESH & ARC,https://www.last.fm/music/ESH+&+ARC,0.328,350,esh (in=1067); arc (in=435),2,"[0.25,0.33)",esh & arc
+,"Mike Piccirillo, Samuel Vincent","https://www.last.fm/music/Mike+Piccirillo,+Samuel+Vincent",0.333,3,mike piccirillo (in=1); samuel vincent (in=9),2,"[0.33,0.40)","mike piccirillo, samuel vincent"
+,Dj Antoine / Timati / Kalenna,https://www.last.fm/music/Dj+Antoine+%2F+Timati+%2F+Kalenna,0.334,573,dj antoine (in=1718); timati (in=1301); kalenna (in=1298),3,"[0.33,0.40)",dj antoine / timati / kalenna
+,"De La Soul, Jungle Brothers, Q-tip","https://www.last.fm/music/De+La+Soul,+Jungle+Brothers,+Q-tip",0.336,476,de la soul (in=1237); jungle brothers (in=876); q-tip (in=1417),3,"[0.33,0.40)","de la soul, jungle brothers, q-tip"
+,Cairokee & Uber,https://www.last.fm/music/Cairokee+&+Uber,0.337,511,cairokee (in=1518); uber (in=1151),2,"[0.33,0.40)",cairokee & uber
+,Tomas Fujiwara & The Hook Up,https://www.last.fm/music/Tomas+Fujiwara+&+The+Hook+Up,0.337,237,tomas fujiwara (in=704); the hook up (in=147),2,"[0.33,0.40)",tomas fujiwara & the hook up
+,Nicole & Hugo,https://www.last.fm/music/Nicole+&+Hugo,0.337,244,nicole (in=603); hugo (in=723),2,"[0.33,0.40)",nicole & hugo
+,Cookie monsta & funtcase,https://www.last.fm/music/Cookie+monsta+&+funtcase,0.338,123,cookie monsta (in=322); funtcase (in=364),2,"[0.33,0.40)",cookie monsta & funtcase
+,Playboi Carti feat. Young Thug,https://www.last.fm/music/Playboi+Carti+feat.+Young+Thug,0.340,726,playboi carti (in=2137); young thug (in=1926),2,"[0.33,0.40)",playboi carti feat. young thug
+,Draper feat. Laura Brehm,https://www.last.fm/music/Draper+feat.+Laura+Brehm,0.352,323,draper (in=918); laura brehm (in=426),2,"[0.33,0.40)",draper feat. laura brehm
+,"Kel, Mro Mc & Kairuu","https://www.last.fm/music/Kel,+Mro+Mc+&+Kairuu",0.354,129,kel (in=329); mro mc (in=318); kairuu (in=364),3,"[0.33,0.40)","kel, mro mc & kairuu"
+,Alina Baraz & Galimatias,https://www.last.fm/music/Alina+Baraz+&+Galimatias,0.355,479,alina baraz (in=1351); galimatias (in=463),2,"[0.33,0.40)",alina baraz & galimatias
+,Dropper Vampire & GrazySmash,https://www.last.fm/music/Dropper+Vampire+&+GrazySmash,0.356,332,dropper vampire (in=933); grazysmash (in=912),2,"[0.33,0.40)",dropper vampire & grazysmash
+,Conway the Machine & Jae Skeese,https://www.last.fm/music/Conway+the+Machine+&+Jae+Skeese,0.357,1172,conway the machine (in=3285); jae skeese (in=815),2,"[0.33,0.40)",conway the machine & jae skeese
+,"Viktor Vaughn, MF DOOM, M.Sayyid","https://www.last.fm/music/Viktor+Vaughn,+MF+DOOM,+M.Sayyid",0.357,416,viktor vaughn (in=937); mf doom (in=1166); m.sayyid (in=8),3,"[0.33,0.40)","viktor vaughn, mf doom, m.sayyid"
+,Roman Flugel + Delano & Crockett,https://www.last.fm/music/Roman+Flugel+%252B+Delano+&+Crockett,0.359,607,roman flugel (in=1692); delano (in=1088); crockett (in=383),3,"[0.33,0.40)",roman flugel + delano & crockett
+,H.1 & Hevi,https://www.last.fm/music/H.1+&+Hevi,0.359,445,h.1 (in=1123); hevi (in=1240),2,"[0.33,0.40)",h.1 & hevi
+,"Haruka Terui, Suzuko Mimori, Tomoyo Kurosawa, Yumi Uchiyama","https://www.last.fm/music/Haruka+Terui,+Suzuko+Mimori,+Tomoyo+Kurosawa,+Yumi+Uchiyama",0.361,246,haruka terui (in=2); suzuko mimori (in=459); tomoyo kurosawa (in=682); yumi uchiyama (in=1),4,"[0.33,0.40)","haruka terui, suzuko mimori, tomoyo kurosawa, yumi uchiyama"
+,The Choir of Trinity College Cambridge & Richard Marlow,https://www.last.fm/music/The+Choir+of+Trinity+College+Cambridge+&+Richard+Marlow,0.366,59,the choir of trinity college cambridge (in=50); richard marlow (in=161),2,"[0.33,0.40)",the choir of trinity college cambridge & richard marlow
+,Terry Gilkyson & The Easy Riders,https://www.last.fm/music/Terry+Gilkyson+&+The+Easy+Riders,0.367,301,terry gilkyson (in=820); the easy riders (in=103),2,"[0.33,0.40)",terry gilkyson & the easy riders
+,Baby Raw & MC Ike,https://www.last.fm/music/Baby+Raw+&+MC+Ike,0.370,102,baby raw (in=276); mc ike (in=3),2,"[0.33,0.40)",baby raw & mc ike
+,"1 Trait Danger, Jimmy Fallon","https://www.last.fm/music/1+Trait+Danger,+Jimmy+Fallon",0.370,130,1 trait danger (in=351); jimmy fallon (in=298),2,"[0.33,0.40)","1 trait danger, jimmy fallon"
+,"Ms. Lauryn Hill, D'Angelo","https://www.last.fm/music/Ms.+Lauryn+Hill,+D%27Angelo",0.372,347,ms. lauryn hill (in=880); d'angelo (in=933),2,"[0.33,0.40)","ms. lauryn hill, d'angelo"
+,Никита & Alexey Romeo,https://www.last.fm/music/%D0%9D%D0%B8%D0%BA%D0%B8%D1%82%D0%B0+&+Alexey+Romeo,0.374,328,nikita (in=604); alexey romeo (in=878),2,"[0.33,0.40)",nikita & alexey romeo
+,"Tom Deckman, Gideon Glick, Boys & Girls","https://www.last.fm/music/Tom+Deckman,+Gideon+Glick,+Boys+&+Girls",0.374,603,tom deckman (in=3); gideon glick (in=53); boys (in=260); girls (in=1611),4,"[0.33,0.40)","tom deckman, gideon glick, boys & girls"
+,"Volt, Vintage","https://www.last.fm/music/Volt,+Vintage",0.375,168,volt (in=448); vintage (in=240),2,"[0.33,0.40)","volt, vintage"
+,Emilia & NICKI NICOLE,https://www.last.fm/music/Emilia+&+NICKI+NICOLE,0.382,789,emilia (in=1818); nicki nicole (in=2064),2,"[0.33,0.40)",emilia & nicki nicole
+,"sinalyx, Sxpl","https://www.last.fm/music/sinalyx,+Sxpl",0.386,468,sinalyx (in=1214); sxpl (in=237),2,"[0.33,0.40)","sinalyx, sxpl"
+,shu-t feat. MEIKO,https://www.last.fm/music/shu-t+feat.+MEIKO,0.387,681,shu-t (in=1761); meiko (in=439),2,"[0.33,0.40)",shu-t feat. meiko
+,Senmuth & Novocaine,https://www.last.fm/music/Senmuth+&+Novocaine,0.389,326,senmuth (in=599); novocaine (in=838),2,"[0.33,0.40)",senmuth & novocaine
+,"Thomas Bergersen, Nick Phoenix, Two Steps From Hell","https://www.last.fm/music/Thomas+Bergersen,+Nick+Phoenix,+Two+Steps+From+Hell",0.393,648,thomas bergersen (in=1648); nick phoenix (in=507); two steps from hell (in=1498),3,"[0.33,0.40)","thomas bergersen, nick phoenix, two steps from hell"
+,Meagan Taylor & Jason Coleman,https://www.last.fm/music/Meagan+Taylor+&+Jason+Coleman,0.400,2,meagan taylor (in=1); jason coleman (in=5),2,"[0.40,0.50)",meagan taylor & jason coleman
+,BTS & JIN,https://www.last.fm/music/BTS+&+JIN,0.403,568,bts (in=1409); jin (in=1275),2,"[0.40,0.50)",bts & jin
+,Patti Labelle & The Bluebelles,https://www.last.fm/music/Patti+Labelle+&+The+Bluebelles,0.405,705,patti labelle (in=1741); the bluebelles (in=68),2,"[0.40,0.50)",patti labelle & the bluebelles
+,Sarah Brightman & Fernando Lima,https://www.last.fm/music/Sarah+Brightman+&+Fernando+Lima,0.405,388,sarah brightman (in=957); fernando lima (in=778),2,"[0.40,0.50)",sarah brightman & fernando lima
+,Laura Nyro & Labelle,https://www.last.fm/music/Laura+Nyro+&+Labelle,0.406,378,laura nyro (in=860); labelle (in=930),2,"[0.40,0.50)",laura nyro & labelle
+,"DJ Silva 07, DJ CN ZL, Mc Lobinho, Mc DDSV","https://www.last.fm/music/DJ+Silva+07,+DJ+CN+ZL,+Mc+Lobinho,+Mc+DDSV",0.408,454,dj silva 07 (in=1114); dj cn zl (in=342); mc lobinho (in=250); mc ddsv (in=731),4,"[0.40,0.50)","dj silva 07, dj cn zl, mc lobinho, mc ddsv"
+,"L7nnon, DJ Biel do Furduncinho","https://www.last.fm/music/L7nnon,+DJ+Biel+do+Furduncinho",0.413,728,l7nnon (in=1763); dj biel do furduncinho (in=358),2,"[0.40,0.50)","l7nnon, dj biel do furduncinho"
+,Shaolin Master feat. Siobhan,https://www.last.fm/music/Shaolin+Master+feat.+Siobhan,0.416,232,shaolin master (in=238); siobhan (in=558),2,"[0.40,0.50)",shaolin master feat. siobhan
+,ØDYSSEE & B-Side,https://www.last.fm/music/%C3%98DYSSEE+&+B-Side,0.417,315,odyssee (in=755); b-side (in=478),2,"[0.40,0.50)",odyssee & b-side
+,"Silk Sonic, Bruno Mars & Anderson .Paak","https://www.last.fm/music/Silk+Sonic,+Bruno+Mars+&+Anderson+.Paak",0.420,636,silk sonic (in=1103); bruno mars (in=1133); anderson .paak (in=1516),3,"[0.40,0.50)","silk sonic, bruno mars & anderson .paak"
+,"JID, J. Cole","https://www.last.fm/music/JID,+J.+Cole",0.432,1155,jid (in=2671); j. cole (in=1912),2,"[0.40,0.50)","jid, j. cole"
+,"Albrecht Mayer, Sinfonia Varsovia & Johann Sebastian Bach","https://www.last.fm/music/Albrecht+Mayer,+Sinfonia+Varsovia+&+Johann+Sebastian+Bach",0.433,436,albrecht mayer (in=524); sinfonia varsovia (in=676); johann sebastian bach (in=1006),3,"[0.40,0.50)","albrecht mayer, sinfonia varsovia & johann sebastian bach"
+,Eventide feat. Robina,https://www.last.fm/music/Eventide+feat.+Robina,0.434,466,eventide (in=1073); robina (in=453),2,"[0.40,0.50)",eventide feat. robina
+,Dunk & Yatuza,https://www.last.fm/music/Dunk+&+Yatuza,0.437,188,dunk (in=430); yatuza (in=108),2,"[0.40,0.50)",dunk & yatuza
+,Joseph & Maia,https://www.last.fm/music/Joseph+&+Maia,0.443,949,joseph (in=267); maia (in=2141),2,"[0.40,0.50)",joseph & maia
+,"Grioten, xlout","https://www.last.fm/music/Grioten,+xlout",0.443,98,grioten (in=206); xlout (in=221),2,"[0.40,0.50)","grioten, xlout"
+,"YOVNGCHIMI, Pressure 9X19","https://www.last.fm/music/YOVNGCHIMI,+Pressure+9X19",0.445,305,yovngchimi (in=686); pressure 9x19 (in=591),2,"[0.40,0.50)","yovngchimi, pressure 9x19"
+,Jorge Degas & Marcelo Salazar,https://www.last.fm/music/Jorge+Degas+&+Marcelo+Salazar,0.446,79,jorge degas (in=177); marcelo salazar (in=69),2,"[0.40,0.50)",jorge degas & marcelo salazar
+,Haji & Emanuel feat. Erire,https://www.last.fm/music/Haji+&+Emanuel+feat.+Erire,0.452,187,haji (in=254); emanuel (in=414); erire (in=67),3,"[0.40,0.50)",haji & emanuel feat. erire
+,Christoph Pepe Auer & Manu Delago,https://www.last.fm/music/Christoph+Pepe+Auer+&+Manu+Delago,0.452,47,christoph pepe auer (in=84); manu delago (in=104),2,"[0.40,0.50)",christoph pepe auer & manu delago
+,Hallux & Nuno Fernandez feat. Marcus,https://www.last.fm/music/Hallux+&+Nuno+Fernandez+feat.+Marcus,0.454,320,hallux (in=139); nuno fernandez (in=16); marcus (in=705),3,"[0.40,0.50)",hallux & nuno fernandez feat. marcus
+,Janitors Against Apartheid / One Eye Open,https://www.last.fm/music/Janitors+Against+Apartheid+%2F+One+Eye+Open,0.454,217,janitors against apartheid (in=478); one eye open (in=177),2,"[0.40,0.50)",janitors against apartheid / one eye open
+,Sinn Sisamouth & Ros Sereysothea,https://www.last.fm/music/Sinn+Sisamouth+&+Ros+Sereysothea,0.455,138,sinn sisamouth (in=303); ros sereysothea (in=257),2,"[0.40,0.50)",sinn sisamouth & ros sereysothea
+,"Lil Nas X, DaBaby","https://www.last.fm/music/Lil+Nas+X,+DaBaby",0.463,1066,lil nas x (in=919); dababy (in=2303),2,"[0.40,0.50)","lil nas x, dababy"
+,"Filipe Ret, Mãolee, Start","https://www.last.fm/music/Filipe+Ret,+M%C3%A3olee,+Start",0.469,727,filipe ret (in=1551); maolee (in=215); start (in=1062),3,"[0.40,0.50)","filipe ret, maolee, start"
+,Klaus Wiese & Oöphoi,https://www.last.fm/music/Klaus+Wiese+&+O%C3%B6phoi,0.478,287,klaus wiese (in=250); oophoi (in=600),2,"[0.40,0.50)",klaus wiese & oophoi
+,"potsu, lando!","https://www.last.fm/music/potsu,+lando%21",0.485,684,potsu (in=1409); lando! (in=396),2,"[0.40,0.50)","potsu, lando!"
+,"Tream, Heino","https://www.last.fm/music/Tream,+Heino",0.486,234,tream (in=481); heino (in=330),2,"[0.40,0.50)","tream, heino"
+,Rome Streetz & Futurewave,https://www.last.fm/music/Rome+Streetz+&+Futurewave,0.491,1412,rome streetz (in=2876); futurewave (in=252),2,"[0.40,0.50)",rome streetz & futurewave
+,"Tune in with Chewie, GameChops","https://www.last.fm/music/Tune+in+with+Chewie,+GameChops",0.493,298,tune in with chewie (in=605); gamechops (in=401),2,"[0.40,0.50)","tune in with chewie, gamechops"
+,"City Morgue, ZillaKami, SOSMULA, Jasiah","https://www.last.fm/music/City+Morgue,+ZillaKami,+SOSMULA,+Jasiah",0.502,900,city morgue (in=627); zillakami (in=1370); sosmula (in=798); jasiah (in=1793),4,"[0.50,0.67)","city morgue, zillakami, sosmula, jasiah"
+,Melodious Monk & Tranzformer,https://www.last.fm/music/Melodious+Monk+&+Tranzformer,0.505,152,melodious monk (in=301); tranzformer (in=61),2,"[0.50,0.67)",melodious monk & tranzformer
+,"Paul Schoeffler, Glory Crampton","https://www.last.fm/music/Paul+Schoeffler,+Glory+Crampton",0.506,89,paul schoeffler (in=176); glory crampton (in=67),2,"[0.50,0.67)","paul schoeffler, glory crampton"
+,Justice & The Flints,https://www.last.fm/music/Justice+&+The+Flints,0.509,673,justice (in=1322); the flints (in=262),2,"[0.50,0.67)",justice & the flints
+,"Stupid F, Rassakas & WST","https://www.last.fm/music/Stupid+F,+Rassakas+&+WST",0.513,174,stupid f (in=339); rassakas (in=145); wst (in=142),3,"[0.50,0.67)","stupid f, rassakas & wst"
+,"Nazia Hassan, FEROZ KHAN","https://www.last.fm/music/Nazia+Hassan,+FEROZ+KHAN",0.516,275,nazia hassan (in=244); feroz khan (in=533),2,"[0.50,0.67)","nazia hassan, feroz khan"
+,Astrix & Ace Ventura,https://www.last.fm/music/Astrix+&+Ace+Ventura,0.527,740,astrix (in=1403); ace ventura (in=445),2,"[0.50,0.67)",astrix & ace ventura
+,M6 & Willem van Hanegem,https://www.last.fm/music/M6+&+Willem+van+Hanegem,0.528,994,m6 (in=1881); willem van hanegem (in=136),2,"[0.50,0.67)",m6 & willem van hanegem
+,Big Brother ft Jason Nagy,https://www.last.fm/music/Big+Brother+ft+Jason+Nagy,0.530,160,big brother (in=302); jason nagy (in=120),2,"[0.50,0.67)",big brother ft jason nagy
+,Kuzma & Opa!,https://www.last.fm/music/Kuzma+&+Opa%21,0.530,70,kuzma (in=26); opa! (in=132),2,"[0.50,0.67)",kuzma & opa!
+,Boom & Birds,https://www.last.fm/music/Boom+&+Birds,0.531,228,boom (in=429); birds (in=189),2,"[0.50,0.67)",boom & birds
+,STRLGHT & Roonin,https://www.last.fm/music/STRLGHT+&+Roonin,0.534,411,strlght (in=770); roonin (in=247),2,"[0.50,0.67)",strlght & roonin
+,d.silvestre & MC DENADAI,https://www.last.fm/music/d.silvestre+&+MC+DENADAI,0.548,475,d.silvestre (in=867); mc denadai (in=108),2,"[0.50,0.67)",d.silvestre & mc denadai
+,Moonface & Spencer Krug,https://www.last.fm/music/Moonface+&+Spencer+Krug,0.551,204,moonface (in=211); spencer krug (in=370),2,"[0.50,0.67)",moonface & spencer krug
+,"The Neft, Ellipse","https://www.last.fm/music/The+Neft,+Ellipse",0.570,245,the neft (in=255); ellipse (in=430),2,"[0.50,0.67)","the neft, ellipse"
+,Chris Liberti Feat. Heather Smith,https://www.last.fm/music/Chris+Liberti+Feat.+Heather+Smith,0.571,4,chris liberti (in=2); heather smith (in=7),2,"[0.50,0.67)",chris liberti feat. heather smith
+,John Larner & Slater Hogan,https://www.last.fm/music/John+Larner+&+Slater+Hogan,0.580,235,john larner (in=405); slater hogan (in=8),2,"[0.50,0.67)",john larner & slater hogan
+,Tinie Tempah Feat. Jess Glynne,https://www.last.fm/music/Tinie+Tempah+Feat.+Jess+Glynne,0.584,871,tinie tempah (in=1108); jess glynne (in=1492),2,"[0.50,0.67)",tinie tempah feat. jess glynne
+,"Warframe, Matthew Chalmers","https://www.last.fm/music/Warframe,+Matthew+Chalmers",0.586,503,warframe (in=104); matthew chalmers (in=859),2,"[0.50,0.67)","warframe, matthew chalmers"
+,Amaarae & PinkPantheress,https://www.last.fm/music/Amaarae+&+PinkPantheress,0.593,651,amaarae (in=1098); pinkpantheress (in=883),2,"[0.50,0.67)",amaarae & pinkpantheress
+,Beyoncé & Dolly Parton,https://www.last.fm/music/Beyonc%C3%A9+&+Dolly+Parton,0.593,911,beyonce (in=1535); dolly parton (in=1495),2,"[0.50,0.67)",beyonce & dolly parton
+,"Николаев, Игорь","https://www.last.fm/music/%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2,+%D0%98%D0%B3%D0%BE%D1%80%D1%8C",0.605,52,nikolaev (in=21); igor' (in=86),2,"[0.50,0.67)","nikolaev, igor'"
+,TwoThirds & Feint,https://www.last.fm/music/TwoThirds+&+Feint,0.607,1418,twothirds (in=279); feint (in=2337),2,"[0.50,0.67)",twothirds & feint
+,Atom & Cell,https://www.last.fm/music/Atom+&+Cell,0.608,710,atom (in=287); cell (in=1167),2,"[0.50,0.67)",atom & cell
+,篁 志季(CV:江口拓也)、奥井 翼(CV:斉藤壮馬)、世良里津花(CV:花江夏樹)、村瀬 大(CV:梅原裕一郎),https://www.last.fm/music/%E7%AF%81+%E5%BF%97%E5%AD%A3(CV:%E6%B1%9F%E5%8F%A3%E6%8B%93%E4%B9%9F)%E3%80%81%E5%A5%A5%E4%BA%95+%E7%BF%BC(CV:%E6%96%89%E8%97%A4%E5%A3%AE%E9%A6%AC)%E3%80%81%E4%B8%96%E8%89%AF%E9%87%8C%E6%B4%A5%E8%8A%B1(CV:%E8%8A%B1%E6%B1%9F%E5%A4%8F%E6%A8%B9)%E3%80%81%E6%9D%91%E7%80%AC+%E5%A4%A7(CV:%E6%A2%85%E5%8E%9F%E8%A3%95%E4%B8%80%E9%83%8E),0.609,56,huang zhi ji (cv:jiang kou tuo ye ) (in=41); ao jing yi (cv:qi teng zhuang ma ) (in=38); shi liang li jin hua (cv:hua jiang xia shu ) (in=55); cun lai da (cv:mei yuan yu yi lang ) (in=92),4,"[0.50,0.67)","huang zhi ji (cv:jiang kou tuo ye ), ao jing yi (cv:qi teng zhuang ma ), shi liang li jin hua (cv:hua jiang xia shu ), cun lai da (cv:mei yuan yu yi lang )"
+,"CloZee, LSDREAM","https://www.last.fm/music/CloZee,+LSDREAM",0.611,920,clozee (in=1506); lsdream (in=934),2,"[0.50,0.67)","clozee, lsdream"
+,"Anchietx, Os Garotin","https://www.last.fm/music/Anchietx,+Os+Garotin",0.618,637,anchietx (in=1030); os garotin (in=1030),2,"[0.50,0.67)","anchietx, os garotin"
+,Stan Getz & João Gilberto,https://www.last.fm/music/Stan+Getz+&+Jo%C3%A3o+Gilberto,0.636,978,stan getz (in=1029); joao gilberto (in=1537),2,"[0.50,0.67)",stan getz & joao gilberto
+,"Ikkimel, Admiral Klatsch","https://www.last.fm/music/Ikkimel,+Admiral+Klatsch",0.656,550,ikkimel (in=838); admiral klatsch (in=196),2,"[0.50,0.67)","ikkimel, admiral klatsch"
+,Bazzi feat. Camila Cabello,https://www.last.fm/music/Bazzi+feat.+Camila+Cabello,0.670,750,bazzi (in=1028); camila cabello (in=1120),2,"[0.50,0.67)",bazzi feat. camila cabello
+,"MiyaGi, Эндшпиль, al l bo & Wooshendoo","https://www.last.fm/music/MiyaGi,+%D0%AD%D0%BD%D0%B4%D1%88%D0%BF%D0%B8%D0%BB%D1%8C,+al+l+bo+&+Wooshendoo",0.670,831,miyagi (in=906); endshpil' (in=1240); al l bo (in=270); wooshendoo (in=23),4,"[0.67,0.80)","miyagi, endshpil', al l bo & wooshendoo"
+,"The Cast of RuPaul's Drag Race UK, Season 2","https://www.last.fm/music/The+Cast+of+RuPaul%27s+Drag+Race+UK,+Season+2",0.675,270,the cast of rupaul's drag race uk (in=400); season 2 (in=5),2,"[0.67,0.80)","the cast of rupaul's drag race uk, season 2"
+,cYsmix feat. えみぃ,https://www.last.fm/music/cYsmix+feat.+%E3%81%88%E3%81%BF%E3%81%83,0.679,1371,cysmix (in=872); emii (in=2019),2,"[0.67,0.80)",cysmix feat. emii
+,"MC Jams, Psycho Girl","https://www.last.fm/music/MC+Jams,+Psycho+Girl",0.679,36,mc jams (in=53); psycho girl (in=22),2,"[0.67,0.80)","mc jams, psycho girl"
+,"Niink, Supernova Ent, Stick, Nagalli, Galdino","https://www.last.fm/music/Niink,+Supernova+Ent,+Stick,+Nagalli,+Galdino",0.681,716,niink (in=206); supernova ent (in=183); stick (in=1052); nagalli (in=520); galdino (in=205),5,"[0.67,0.80)","niink, supernova ent, stick, nagalli, galdino"
+,Die & Clipz feat Ben Westbeech,https://www.last.fm/music/Die+&+Clipz+feat+Ben+Westbeech,0.684,403,die (in=385); clipz (in=589); ben westbeech (in=309),3,"[0.67,0.80)",die & clipz feat ben westbeech
+,"Dave Dee, Dozy, Beaky, Mick & Tich","https://www.last.fm/music/Dave+Dee,+Dozy,+Beaky,+Mick+&+Tich",0.688,474,dave dee (in=120); dozy (in=422); beaky (in=9); mick (in=689); tich (in=626),5,"[0.67,0.80)","dave dee, dozy, beaky, mick & tich"
+,Mike Candys feat. Sandra Wild,https://www.last.fm/music/Mike+Candys+feat.+Sandra+Wild,0.692,1613,mike candys (in=2332); sandra wild (in=93),2,"[0.67,0.80)",mike candys feat. sandra wild
+,"Blagoje Bersa, Goran Filipec","https://www.last.fm/music/Blagoje+Bersa,+Goran+Filipec",0.693,472,blagoje bersa (in=681); goran filipec (in=451),2,"[0.67,0.80)","blagoje bersa, goran filipec"
+,Udo Schindler & Jaap Blonk,https://www.last.fm/music/Udo+Schindler+&+Jaap+Blonk,0.696,206,udo schindler (in=296); jaap blonk (in=128),2,"[0.67,0.80)",udo schindler & jaap blonk
+,Major Lazer AND DJ Snake feat Mø,https://www.last.fm/music/Major+Lazer+AND+DJ+Snake+feat+M%C3%B8,0.697,841,major lazer and dj snake (in=260); mo (in=1207),2,"[0.67,0.80)",major lazer and dj snake feat mo
+,Ragnhild Hemsing & Tor Espen Aspaas,https://www.last.fm/music/Ragnhild+Hemsing+&+Tor+Espen+Aspaas,0.704,324,ragnhild hemsing (in=460); tor espen aspaas (in=73),2,"[0.67,0.80)",ragnhild hemsing & tor espen aspaas
+,John Doe / 1200 Hobos,https://www.last.fm/music/John+Doe+%2F+1200+Hobos,0.705,184,john doe (in=261); 1200 hobos (in=34),2,"[0.67,0.80)",john doe / 1200 hobos
+,Gian-Piero Reverberi/Robert Mellin,https://www.last.fm/music/Gian-Piero+Reverberi%2FRobert+Mellin,0.708,46,gian-piero reverberi (in=11); robert mellin (in=65),2,"[0.67,0.80)",gian-piero reverberi/robert mellin
+,Jovana & Dunja,https://www.last.fm/music/Jovana+&+Dunja,0.713,266,jovana (in=373); dunja (in=217),2,"[0.67,0.80)",jovana & dunja
+,Karma & Sez on the Beat,https://www.last.fm/music/Karma+&+Sez+on+the+Beat,0.718,921,karma (in=1152); sez on the beat (in=1282),2,"[0.67,0.80)",karma & sez on the beat
+,"DJ MH, DJ ZRED DA DZ7","https://www.last.fm/music/DJ+MH,+DJ+ZRED+DA+DZ7",0.720,659,dj mh (in=871); dj zred da dz7 (in=915),2,"[0.67,0.80)","dj mh, dj zred da dz7"
+,765PRO & 765THEATER,https://www.last.fm/music/765PRO+&+765THEATER,0.727,8,765pro (in=11); 765theater (in=8),2,"[0.67,0.80)",765pro & 765theater
+,Arc North & Bryce Fox,https://www.last.fm/music/Arc+North+&+Bryce+Fox,0.736,1046,arc north (in=356); bryce fox (in=1422),2,"[0.67,0.80)",arc north & bryce fox
+,"O SIDE MAFIA, Tu$ Brother$","https://www.last.fm/music/O+SIDE+MAFIA,+Tu$+Brother$",0.738,748,o side mafia (in=1014); tu$ brother$ (in=430),2,"[0.67,0.80)","o side mafia, tu$ brother$"
+,"如月千早 (CV:今井麻美), 四条貴音 (CV:原由実), 菊地真 (CV:平田宏美)","https://www.last.fm/music/%E5%A6%82%E6%9C%88%E5%8D%83%E6%97%A9+(CV:%E4%BB%8A%E4%BA%95%E9%BA%BB%E7%BE%8E),+%E5%9B%9B%E6%9D%A1%E8%B2%B4%E9%9F%B3+(CV:%E5%8E%9F%E7%94%B1%E5%AE%9F),+%E8%8F%8A%E5%9C%B0%E7%9C%9F+(CV:%E5%B9%B3%E7%94%B0%E5%AE%8F%E7%BE%8E)",0.745,108,ru yue qian zao (cv:jin jing ma mei ) (in=145); si tiao gui yin (cv:yuan you shi ) (in=109); ju di zhen (cv:ping tian hong mei ) (in=109),3,"[0.67,0.80)","ru yue qian zao (cv:jin jing ma mei ), si tiao gui yin (cv:yuan you shi ), ju di zhen (cv:ping tian hong mei )"
+,United Feature Syndicate,https://www.last.fm/music/United+Feature+Syndicate,0.746,373,united (in=184); syndicate (in=500),2,"[0.67,0.80)",united feature syndicate
+,Whethan & Oliver Tree,https://www.last.fm/music/Whethan+&+Oliver+Tree,0.747,706,whethan (in=945); oliver tree (in=720),2,"[0.67,0.80)",whethan & oliver tree
+,Samsonyte & LeRoyce,https://www.last.fm/music/Samsonyte+&+LeRoyce,0.747,586,samsonyte (in=416); leroyce (in=784),2,"[0.67,0.80)",samsonyte & leroyce
+,Geela feat. Duan Fro,https://www.last.fm/music/Geela+feat.+Duan+Fro,0.750,3,geela (in=2); duan fro (in=4),2,"[0.67,0.80)",geela feat. duan fro
+,DizzyEight & Mix Williams,https://www.last.fm/music/DizzyEight+&+Mix+Williams,0.751,244,dizzyeight (in=303); mix williams (in=325),2,"[0.67,0.80)",dizzyeight & mix williams
+,Lil Boosie & Webbie,https://www.last.fm/music/Lil+Boosie+&+Webbie,0.759,601,lil boosie (in=432); webbie (in=792),2,"[0.67,0.80)",lil boosie & webbie
+,PARACHUTE YOUTH/NEJTRINO/BAUR,https://www.last.fm/music/PARACHUTE+YOUTH%2FNEJTRINO%2FBAUR,0.793,261,parachute youth (in=329); nejtrino (in=241); baur (in=25),3,"[0.67,0.80)",parachute youth/nejtrino/baur
+,"Young Lito, Troy Ave","https://www.last.fm/music/Young+Lito,+Troy+Ave",0.798,470,young lito (in=150); troy ave (in=589),2,"[0.67,0.80)","young lito, troy ave"
+,"Samurai, Refused","https://www.last.fm/music/Samurai,+Refused",0.799,904,samurai (in=1132); refused (in=860),2,"[0.67,0.80)","samurai, refused"
+,Jack Starr feat. Rhett Forrester,https://www.last.fm/music/Jack+Starr+feat.+Rhett+Forrester,0.802,485,jack starr (in=605); rhett forrester (in=412),2,"[0.80,1.00)",jack starr feat. rhett forrester
+,Juun feat. Sam Smith,https://www.last.fm/music/Juun+feat.+Sam+Smith,0.803,959,juun (in=857); sam smith (in=1194),2,"[0.80,1.00)",juun feat. sam smith
+,"BXZX, echo","https://www.last.fm/music/BXZX,+echo",0.808,295,bxzx (in=187); echo (in=365),2,"[0.80,1.00)","bxzx, echo"
+,Kati & Azuro,https://www.last.fm/music/Kati+&+Azuro,0.817,1078,kati (in=465); azuro (in=1320),2,"[0.80,1.00)",kati & azuro
+,Phonique feat. Rebecca,https://www.last.fm/music/Phonique+feat.+Rebecca,0.824,855,phonique (in=717); rebecca (in=1038),2,"[0.80,1.00)",phonique feat. rebecca
+,"Blanke, Rival, KC","https://www.last.fm/music/Blanke,+Rival,+KC",0.833,1104,blanke (in=1326); rival (in=289); kc (in=302),3,"[0.80,1.00)","blanke, rival, kc"
+,"32ki, Hatsune Miku & Kasane Teto","https://www.last.fm/music/32ki,+Hatsune+Miku+&+Kasane+Teto",0.835,1041,32ki (in=689); hatsune miku (in=1246); kasane teto (in=265),3,"[0.80,1.00)","32ki, hatsune miku & kasane teto"
+,A$AP Rocky Feat. Juicy J,https://www.last.fm/music/A$AP+Rocky+Feat.+Juicy+J,0.842,1538,a$ap rocky (in=1566); juicy j (in=1827),2,"[0.80,1.00)",a$ap rocky feat. juicy j
+,鸣潮先约电台/jkinss,https://www.last.fm/music/%E9%B8%A3%E6%BD%AE%E5%85%88%E7%BA%A6%E7%94%B5%E5%8F%B0%2Fjkinss,0.845,49,ming chao xian yue dian tai (in=58); jkinss (in=43),2,"[0.80,1.00)",ming chao xian yue dian tai /jkinss
+,"Farazi, Kodes Kahra","https://www.last.fm/music/Farazi,+Kodes+Kahra",0.854,375,farazi (in=439); kodes kahra (in=204),2,"[0.80,1.00)","farazi, kodes kahra"
+,Jare & VilleGalle,https://www.last.fm/music/Jare+&+VilleGalle,0.854,1624,jare (in=42); villegalle (in=1901),2,"[0.80,1.00)",jare & villegalle
+,"Blood Orange, Caroline Polachek, Lorde, Mustafa","https://www.last.fm/music/Blood+Orange,+Caroline+Polachek,+Lorde,+Mustafa",0.856,1214,blood orange (in=859); caroline polachek (in=1257); lorde (in=1418); mustafa (in=750),4,"[0.80,1.00)","blood orange, caroline polachek, lorde, mustafa"
+,"Ele A, Nerissima Serpe","https://www.last.fm/music/Ele+A,+Nerissima+Serpe",0.858,1078,ele a (in=1257); nerissima serpe (in=738),2,"[0.80,1.00)","ele a, nerissima serpe"
+,JENNIE & FKJ,https://www.last.fm/music/JENNIE+&+FKJ,0.859,978,jennie (in=739); fkj (in=1139),2,"[0.80,1.00)",jennie & fkj
+,Tommy Boyce & Bobby Hart,https://www.last.fm/music/Tommy+Boyce+&+Bobby+Hart,0.866,600,tommy boyce (in=693); bobby hart (in=335),2,"[0.80,1.00)",tommy boyce & bobby hart
+,Rogers & Dean,https://www.last.fm/music/Rogers+&+Dean,0.869,1177,rogers (in=524); dean (in=1355),2,"[0.80,1.00)",rogers & dean
+,Pulstate & Juventa,https://www.last.fm/music/Pulstate+&+Juventa,0.872,340,pulstate (in=390); juventa (in=284),2,"[0.80,1.00)",pulstate & juventa
+,Pablo Denegri / Sebastian Cohen,https://www.last.fm/music/Pablo+Denegri+%2F+Sebastian+Cohen,0.885,216,pablo denegri (in=244); sebastian cohen (in=2),2,"[0.80,1.00)",pablo denegri / sebastian cohen
+,Vicci Martinez & Niki Dawson,https://www.last.fm/music/Vicci+Martinez+&+Niki+Dawson,0.887,251,vicci martinez (in=283); niki dawson (in=207),2,"[0.80,1.00)",vicci martinez & niki dawson
+,Mama Aiuto & Daphné,https://www.last.fm/music/Mama+Aiuto+&+Daphn%C3%A9,0.905,1137,mama aiuto (in=1257); daphne (in=459),2,"[0.80,1.00)",mama aiuto & daphne
+,Reminder feat. Brad Hooks,https://www.last.fm/music/Reminder+feat.+Brad+Hooks,0.906,221,reminder (in=244); brad hooks (in=11),2,"[0.80,1.00)",reminder feat. brad hooks
+,"Andrew Underberg, Sam Haft, Alex Brightman, Erika Henningsen","https://www.last.fm/music/Andrew+Underberg,+Sam+Haft,+Alex+Brightman,+Erika+Henningsen",0.908,476,andrew underberg (in=524); sam haft (in=233); alex brightman (in=404); erika henningsen (in=520),4,"[0.80,1.00)","andrew underberg, sam haft, alex brightman, erika henningsen"
+,XV feat. Irv Da Phenom,https://www.last.fm/music/XV+feat.+Irv+Da+Phenom,0.909,299,xv (in=249); irv da phenom (in=329),2,"[0.80,1.00)",xv feat. irv da phenom
+,NAEUN & JINSOL,https://www.last.fm/music/NAEUN+&+JINSOL,0.911,439,naeun (in=24); jinsol (in=482),2,"[0.80,1.00)",naeun & jinsol
+,"Pilar Lorengar, Orchestra dell'Accademia Nazionale di Santa Cecilia & Giuseppe Patanè","https://www.last.fm/music/Pilar+Lorengar,+Orchestra+dell%27Accademia+Nazionale+di+Santa+Cecilia+&+Giuseppe+Patan%C3%A8",0.915,454,pilar lorengar (in=482); orchestra dell'accademia nazionale di santa cecilia (in=496); giuseppe patane (in=264),3,"[0.80,1.00)","pilar lorengar, orchestra dell'accademia nazionale di santa cecilia & giuseppe patane"
+,kemu feat. IA,https://www.last.fm/music/kemu+feat.+IA,0.939,846,kemu (in=901); ia (in=675),2,"[0.80,1.00)",kemu feat. ia
+,Kyle Hall & Kero,https://www.last.fm/music/Kyle+Hall+&+Kero,0.947,588,kyle hall (in=240); kero (in=621),2,"[0.80,1.00)",kyle hall & kero
+,Kyle Wytchwood & Andy Vilo,https://www.last.fm/music/Kyle+Wytchwood+&+Andy+Vilo,0.956,303,kyle wytchwood (in=317); andy vilo (in=20),2,"[0.80,1.00)",kyle wytchwood & andy vilo
+,Shaban & Käptn Peng,https://www.last.fm/music/Shaban+&+K%C3%A4ptn+Peng,0.963,1709,shaban (in=1775); kaptn peng (in=508),2,"[0.80,1.00)",shaban & kaptn peng
+,Shift Feat. Franca Morgano,https://www.last.fm/music/Shift+Feat.+Franca+Morgano,0.980,250,shift (in=116); franca morgano (in=255),2,"[0.80,1.00)",shift feat. franca morgano
+,Dyro & Dannic,https://www.last.fm/music/Dyro+&+Dannic,1.024,718,dyro (in=488); dannic (in=701),2,HIGH(>=1.0),dyro & dannic
+,"Miksu / Macloud, t-low","https://www.last.fm/music/Miksu+%2F+Macloud,+t-low",1.033,1297,miksu (in=630); macloud (in=3); t-low (in=1255),3,HIGH(>=1.0),"miksu / macloud, t-low"
+,"Barbara Barrie, Beth Howland, Merle Louise, Teri Ralston & Elaine Stritch","https://www.last.fm/music/Barbara+Barrie,+Beth+Howland,+Merle+Louise,+Teri+Ralston+&+Elaine+Stritch",1.046,273,barbara barrie (in=20); beth howland (in=40); merle louise (in=89); teri ralston (in=71); elaine stritch (in=261),5,HIGH(>=1.0),"barbara barrie, beth howland, merle louise, teri ralston & elaine stritch"
+,"Тони Раут, Гарри Топор","https://www.last.fm/music/%D0%A2%D0%BE%D0%BD%D0%B8+%D0%A0%D0%B0%D1%83%D1%82,+%D0%93%D0%B0%D1%80%D1%80%D0%B8+%D0%A2%D0%BE%D0%BF%D0%BE%D1%80",1.137,881,toni raut (in=775); garri topor (in=643),2,HIGH(>=1.0),"toni raut, garri topor"
+,"Marshall Lee, Fionna and Cake","https://www.last.fm/music/Marshall+Lee,+Fionna+and+Cake",1.154,15,marshall lee (in=13); fionna and cake (in=1),2,HIGH(>=1.0),"marshall lee, fionna and cake"
+,Tadeusz Nalepa + Dżem,https://www.last.fm/music/Tadeusz+Nalepa+%252B+D%C5%BCem,1.202,1679,tadeusz nalepa (in=1397); dzem (in=1044),2,HIGH(>=1.0),tadeusz nalepa + dzem
+,"Leslie Grace, Noriel","https://www.last.fm/music/Leslie+Grace,+Noriel",1.547,571,leslie grace (in=369); noriel (in=336),2,HIGH(>=1.0),"leslie grace, noriel"
+,"Anti-Herói, sh1ft","https://www.last.fm/music/Anti-Her%C3%B3i,+sh1ft",1.956,579,anti-heroi (in=233); sh1ft (in=296),2,HIGH(>=1.0),"anti-heroi, sh1ft"
+,Denis Couldry & The Next Collection,https://www.last.fm/music/Denis+Couldry+&+The+Next+Collection,2.550,102,denis couldry (in=40); the next collection (in=2),2,HIGH(>=1.0),denis couldry & the next collection
+,Bvoice & KHz,https://www.last.fm/music/Bvoice+&+KHz,2.788,736,bvoice (in=264); khz (in=160),2,HIGH(>=1.0),bvoice & khz
+,"Kamień, Kamień, Kamień","https://www.last.fm/music/Kamie%C5%84,+Kamie%C5%84,+Kamie%C5%84",3.091,272,kamien (in=88); kamien (in=88); kamien (in=88),3,HIGH(>=1.0),"kamien, kamien, kamien"
+,Sonic & Silver,https://www.last.fm/music/Sonic+&+Silver,3.911,2100,sonic (in=285); silver (in=537),2,HIGH(>=1.0),sonic & silver
+,"Tyler, The Creator, Lil Wayne","https://www.last.fm/music/Tyler,+The+Creator,+Lil+Wayne",4.044,1751,tyler (in=156); the creator (in=433); lil wayne (in=4),3,HIGH(>=1.0),"tyler, the creator, lil wayne"
+,"Dialektik Verbal, Dysto BPM, Layem","https://www.last.fm/music/Dialektik+Verbal,+Dysto+BPM,+Layem",6.905,290,dialektik verbal (in=10); dysto bpm (in=42); layem (in=11),3,HIGH(>=1.0),"dialektik verbal, dysto bpm, layem"
+,Hansson & Karlsson,https://www.last.fm/music/Hansson+&+Karlsson,12.024,998,hansson (in=17); karlsson (in=83),2,HIGH(>=1.0),hansson & karlsson

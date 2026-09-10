@@ -1,5 +1,9 @@
-# EDA outputs — regenerable from the scripts, can be large
-results/
+# EDA outputs are regenerable and can be large. Only the labelled samples are
+# tracked: they are the ground truth behind the precision numbers in README.md.
+results/*
+!results/*label*
+!results/dedup_sample*.csv
+!results/dedup_pop*.json
 *.log
 
 # uv / python

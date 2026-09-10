@@ -1,0 +1,823 @@
+[
+  {
+    "name": "CVPELLV х Subtronikz",
+    "norm": "cvpellv x subtronikz",
+    "comps": [
+      "cvpellv",
+      "subtronikz"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 190,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "∆XIUS LIИK х ножевые ранения",
+    "norm": "xius liik x nozhevye raneniia",
+    "comps": [
+      "xius liik",
+      "nozhevye raneniia"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 116,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Саша Скул х MURDA KILLA",
+    "norm": "sasha skul x murda killa",
+    "comps": [
+      "sasha skul",
+      "murda killa"
+    ],
+    "gate": "centrality",
+    "ratio": 0.003,
+    "found": true,
+    "listeners": 120,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Lida х Tenderlybae",
+    "norm": "lida x tenderlybae",
+    "comps": [
+      "lida",
+      "tenderlybae"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 76,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Дрыгва Х Сварга",
+    "norm": "drygva x svarga",
+    "comps": [
+      "drygva",
+      "svarga"
+    ],
+    "gate": "centrality",
+    "ratio": 0.079,
+    "found": true,
+    "listeners": 561,
+    "tags": [
+      "folk metal",
+      "folk rock",
+      "pagan metal",
+      "russian rock"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Леша Свик х Зомб",
+    "norm": "lesha svik x zomb",
+    "comps": [
+      "lesha svik",
+      "zomb"
+    ],
+    "gate": "centrality",
+    "ratio": 0.001,
+    "found": true,
+    "listeners": 59,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Юрий Лоза х Андрей Бебуришвили",
+    "norm": "iurii loza x andrei beburishvili",
+    "comps": [
+      "iurii loza",
+      "andrei beburishvili"
+    ],
+    "gate": "centrality",
+    "ratio": 0.03,
+    "found": true,
+    "listeners": 198,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ТЯЖЁЛАЯ АТЛЕТИКА Х OBREZZ",
+    "norm": "tiazhiolaia atletika x obrezz",
+    "comps": [
+      "tiazhiolaia atletika",
+      "obrezz"
+    ],
+    "gate": "centrality",
+    "ratio": 0.009,
+    "found": true,
+    "listeners": 67,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "OBREZZ Х كل صلب",
+    "norm": "obrezz x kl slb",
+    "comps": [
+      "obrezz",
+      "kl slb"
+    ],
+    "gate": "centrality",
+    "ratio": 0.078,
+    "found": true,
+    "listeners": 112,
+    "tags": [
+      "death"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "МОЛОДОСТЬ ВНУТРИ х muzhevsky",
+    "norm": "molodost' vnutri x muzhevsky",
+    "comps": [
+      "molodost' vnutri",
+      "muzhevsky"
+    ],
+    "gate": "centrality",
+    "ratio": 0.002,
+    "found": true,
+    "listeners": 53,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Танди х Радиоз",
+    "norm": "tandi x radioz",
+    "comps": [
+      "tandi",
+      "radioz"
+    ],
+    "gate": "centrality",
+    "ratio": 0.006,
+    "found": true,
+    "listeners": 17,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Жак-Энтони х Птаха",
+    "norm": "zhak-entoni x ptakha",
+    "comps": [
+      "zhak-entoni",
+      "ptakha"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 55,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "СЕКТА х Crocodile",
+    "norm": "sekta x crocodile",
+    "comps": [
+      "sekta",
+      "crocodile"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 18,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Dramma x UnStab x Леша7емь х Appledream",
+    "norm": "dramma x unstab x lesha7em' x appledream",
+    "comps": [
+      "dramma",
+      "unstab",
+      "lesha7em'",
+      "appledream"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 81,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Пасош х Макулатура",
+    "norm": "pasosh x makulatura",
+    "comps": [
+      "pasosh",
+      "makulatura"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 48,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Баста х Скриптонит",
+    "norm": "basta x skriptonit",
+    "comps": [
+      "basta",
+      "skriptonit"
+    ],
+    "gate": "centrality",
+    "ratio": 0.009,
+    "found": true,
+    "listeners": 412,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "МОЛОДОСТЬ ВНУТРИ х ВКУСНЫЙ ПОЗОР",
+    "norm": "molodost' vnutri x vkusnyi pozor",
+    "comps": [
+      "molodost' vnutri",
+      "vkusnyi pozor"
+    ],
+    "gate": "centrality",
+    "ratio": 0.003,
+    "found": true,
+    "listeners": 122,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "добраяпросто х перерывпятьминут",
+    "norm": "dobraiaprosto x pereryvpiat'minut",
+    "comps": [
+      "dobraiaprosto",
+      "pereryvpiat'minut"
+    ],
+    "gate": "centrality",
+    "ratio": 0.005,
+    "found": true,
+    "listeners": 140,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "оленибитс х крузбитс",
+    "norm": "olenibits x kruzbits",
+    "comps": [
+      "olenibits",
+      "kruzbits"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 30,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "маша порез х циркониевый браслет",
+    "norm": "masha porez x tsirkonievyi braslet",
+    "comps": [
+      "masha porez",
+      "tsirkonievyi braslet"
+    ],
+    "gate": "centrality",
+    "ratio": 0.001,
+    "found": true,
+    "listeners": 31,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "егор натс х elastronauta",
+    "norm": "egor nats x elastronauta",
+    "comps": [
+      "egor nats",
+      "elastronauta"
+    ],
+    "gate": "centrality",
+    "ratio": 0.021,
+    "found": true,
+    "listeners": 249,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Бакей х Kakora х Горящий Жираф",
+    "norm": "bakei x kakora x goriashchii zhiraf",
+    "comps": [
+      "bakei",
+      "kakora",
+      "goriashchii zhiraf"
+    ],
+    "gate": "centrality",
+    "ratio": 0.002,
+    "found": true,
+    "listeners": 57,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "МС Кальмар х Паша Техник",
+    "norm": "ms kal'mar x pasha tekhnik",
+    "comps": [
+      "ms kal'mar",
+      "pasha tekhnik"
+    ],
+    "gate": "centrality",
+    "ratio": 0.01,
+    "found": true,
+    "listeners": 629,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ПодлецМерзавец х Ша Керава",
+    "norm": "podletsmerzavets x sha kerava",
+    "comps": [
+      "podletsmerzavets",
+      "sha kerava"
+    ],
+    "gate": "centrality",
+    "ratio": 0.022,
+    "found": true,
+    "listeners": 14,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "KRESTALL / Courier х Thomas Mrvz",
+    "norm": "krestall / courier x thomas mrvz",
+    "comps": [
+      "krestall",
+      "courier",
+      "thomas mrvz"
+    ],
+    "gate": "centrality",
+    "ratio": 0.001,
+    "found": true,
+    "listeners": 80,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "утри х DsDest",
+    "norm": "utri x dsdest",
+    "comps": [
+      "utri",
+      "dsdest"
+    ],
+    "gate": "centrality",
+    "ratio": 0.011,
+    "found": true,
+    "listeners": 59,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "оленибитс х serezhadelal",
+    "norm": "olenibits x serezhadelal",
+    "comps": [
+      "olenibits",
+      "serezhadelal"
+    ],
+    "gate": "centrality",
+    "ratio": 0.003,
+    "found": true,
+    "listeners": 392,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ХХОС х ПОТРАЧЕНО.FM",
+    "norm": "khkhos x potracheno.fm",
+    "comps": [
+      "khkhos",
+      "potracheno.fm"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 43,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Моргенштерн х Артемий Лебедев",
+    "norm": "morgenshtern x artemii lebedev",
+    "comps": [
+      "morgenshtern",
+      "artemii lebedev"
+    ],
+    "gate": "centrality",
+    "ratio": 0.119,
+    "found": true,
+    "listeners": 496,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Павел Воля х Сергей Детков",
+    "norm": "pavel volia x sergei detkov",
+    "comps": [
+      "pavel volia",
+      "sergei detkov"
+    ],
+    "gate": "centrality",
+    "ratio": 0.008,
+    "found": true,
+    "listeners": 65,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "t-fest х скриптонит",
+    "norm": "t-fest x skriptonit",
+    "comps": [
+      "t-fest",
+      "skriptonit"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 1500,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ALPHAVITE х МЛЕЧНЫЙ",
+    "norm": "alphavite x mlechnyi",
+    "comps": [
+      "alphavite",
+      "mlechnyi"
+    ],
+    "gate": "centrality",
+    "ratio": 0.001,
+    "found": true,
+    "listeners": 75,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "EMCXXA х foner",
+    "norm": "emcxxa x foner",
+    "comps": [
+      "emcxxa",
+      "foner"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 86,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Слава КПСС х Букер Д. Фред х Alx Beats",
+    "norm": "slava kpss x buker d. fred x alx beats",
+    "comps": [
+      "slava kpss",
+      "buker d. fred",
+      "alx beats"
+    ],
+    "gate": "centrality",
+    "ratio": 0.005,
+    "found": true,
+    "listeners": 128,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Horus х ATL",
+    "norm": "horus x atl",
+    "comps": [
+      "horus",
+      "atl"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 112,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "MainstreaM One х Фиска Адвайта",
+    "norm": "mainstream one x fiska advaita",
+    "comps": [
+      "mainstream one",
+      "fiska advaita"
+    ],
+    "gate": "centrality",
+    "ratio": 0.002,
+    "found": true,
+    "listeners": 44,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "TABLO х TAEYANG",
+    "norm": "tablo x taeyang",
+    "comps": [
+      "tablo",
+      "taeyang"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 25,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Сидоджи Дубоshit х Грязный Рамирес",
+    "norm": "sidodzhi duboshit x griaznyi ramires",
+    "comps": [
+      "sidodzhi duboshit",
+      "griaznyi ramires"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 98,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Thomas Mraz х Glebasta Spal",
+    "norm": "thomas mraz x glebasta spal",
+    "comps": [
+      "thomas mraz",
+      "glebasta spal"
+    ],
+    "gate": "centrality",
+    "ratio": 0.0,
+    "found": true,
+    "listeners": 75,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ОСОБОВ Х OBREZZ Х МАРМЕЛАДОВ",
+    "norm": "osobov x obrezz x marmeladov",
+    "comps": [
+      "osobov",
+      "obrezz",
+      "marmeladov"
+    ],
+    "gate": "centrality",
+    "ratio": 0.004,
+    "found": true,
+    "listeners": 55,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Мальбэк х Сюзанна",
+    "norm": "mal'bek x siuzanna",
+    "comps": [
+      "mal'bek",
+      "siuzanna"
+    ],
+    "gate": "needs_mm",
+    "ratio": 1.222,
+    "found": true,
+    "listeners": 8647,
+    "tags": [
+      "indie pop",
+      "pop"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "Hucci х Stooki Sound",
+    "norm": "hucci x stooki sound",
+    "comps": [
+      "hucci",
+      "stooki sound"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.321,
+    "found": true,
+    "listeners": 3618,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ЛСП х 25/17",
+    "norm": "lsp x 25/17",
+    "comps": [
+      "lsp",
+      "25",
+      "17"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.957,
+    "found": true,
+    "listeners": 2428,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ПОШЛАЯ МОЛЛИ х dǝǝls",
+    "norm": "poshlaia molli x d@@ls",
+    "comps": [
+      "poshlaia molli",
+      "d@@ls"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.866,
+    "found": true,
+    "listeners": 3775,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Бодя Мир642 х Dewensoon",
+    "norm": "bodia mir642 x dewensoon",
+    "comps": [
+      "bodia mir642",
+      "dewensoon"
+    ],
+    "gate": "needs_mm",
+    "ratio": 1.395,
+    "found": true,
+    "listeners": 4035,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "PHARAOH Х BOULEVARD DEPO",
+    "norm": "pharaoh x boulevard depo",
+    "comps": [
+      "pharaoh",
+      "boulevard depo"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.516,
+    "found": true,
+    "listeners": 3427,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Jah Khalib х Мот",
+    "norm": "jah khalib x mot",
+    "comps": [
+      "jah khalib",
+      "mot"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.201,
+    "found": true,
+    "listeners": 1699,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Сварга Х Дрыгва",
+    "norm": "svarga x drygva",
+    "comps": [
+      "svarga",
+      "drygva"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.231,
+    "found": true,
+    "listeners": 1734,
+    "tags": [
+      "folk metal",
+      "pagan metal",
+      "pagan folk metal",
+      "russian",
+      "belarus"
+    ],
+    "bio": "A combination between two folk metal bands Сварга (from Russia) and Дрыгва (from Belarus)."
+  },
+  {
+    "name": "OBREZZ Х CRUCIFIED PRIEST",
+    "norm": "obrezz x crucified priest",
+    "comps": [
+      "obrezz",
+      "crucified priest"
+    ],
+    "gate": "needs_mm",
+    "ratio": 1.06,
+    "found": true,
+    "listeners": 184,
+    "tags": [
+      "horror",
+      "death",
+      "Dak"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "ATL х Eecii McFly",
+    "norm": "atl x eecii mcfly",
+    "comps": [
+      "atl",
+      "eecii mcfly"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.218,
+    "found": true,
+    "listeners": 1090,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Незлобин х Вассерман",
+    "norm": "nezlobin x vasserman",
+    "comps": [
+      "nezlobin",
+      "vasserman"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.33,
+    "found": true,
+    "listeners": 277,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "Вадим Галыгин х Джиган",
+    "norm": "vadim galygin x dzhigan",
+    "comps": [
+      "vadim galygin",
+      "dzhigan"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.307,
+    "found": true,
+    "listeners": 401,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "ЖЛЪЧ х SEZKO x RUSTY",
+    "norm": "zhl'ch x sezko x rusty",
+    "comps": [
+      "zhl'ch",
+      "sezko",
+      "rusty"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.462,
+    "found": true,
+    "listeners": 114,
+    "tags": [],
+    "bio": ""
+  },
+  {
+    "name": "The Seed Of Evil Х The Senseless Insane",
+    "norm": "the seed of evil x the senseless insane",
+    "comps": [
+      "the seed of evil",
+      "the senseless insane"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.225,
+    "found": true,
+    "listeners": 33,
+    "tags": [
+      "hip hop",
+      "Hip-Hop",
+      "russian",
+      "Horrorcore"
+    ],
+    "bio": ""
+  },
+  {
+    "name": "бельфегоров х горгоротов",
+    "norm": "bel'fegorov x gorgorotov",
+    "comps": [
+      "bel'fegorov",
+      "gorgorotov"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.521,
+    "found": true,
+    "listeners": 103,
+    "tags": [
+      "rap metal",
+      "underground rap",
+      "abstract rap"
+    ],
+    "bio": "Абстрактный унтерграунд реп, не имеющий морали, границ и предрассудков, охватывающий любую тематику, и заходящий за грани метафизического понимания, насыщенный астральной пост-иронией, гротескным абсурдом с нотками шизофазии, и философской сатирой над окружающим нас миром."
+  },
+  {
+    "name": "ΔM х Unimog",
+    "norm": "dm x unimog",
+    "comps": [
+      "dm",
+      "unimog"
+    ],
+    "gate": "needs_mm",
+    "ratio": 0.205,
+    "found": true,
+    "listeners": 96,
+    "tags": [],
+    "bio": ""
+  }
+]

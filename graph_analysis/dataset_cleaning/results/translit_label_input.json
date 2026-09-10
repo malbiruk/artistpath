@@ -1,0 +1,4281 @@
+[
+  {
+    "a": "Shubhangi Kedar",
+    "b": "Shubhangii Kedar",
+    "a_clean": "shubhangi kedar",
+    "b_clean": "shubhangii kedar",
+    "in_a": 153,
+    "in_b": 198,
+    "edge": true,
+    "shared": 178,
+    "jaccard": 0.56,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Shubhangi Kedar",
+      "mbid": null,
+      "listeners": 526,
+      "playcount": 2303,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Shubhangii Kedar",
+      "mbid": null,
+      "listeners": 1245,
+      "playcount": 6639,
+      "tags": [
+        "india"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Scythermane, DJ LYVIXRA i Hugomasked",
+    "b": "Scythermane, DJ LYVIXRA y Hugomasked",
+    "a_clean": "scythermane, dj lyvixra i hugomasked",
+    "b_clean": "scythermane, dj lyvixra y hugomasked",
+    "in_a": 1,
+    "in_b": 10,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Scythermane, DJ LYVIXRA i Hugomasked",
+      "mbid": null,
+      "listeners": 4,
+      "playcount": 38,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Scythermane, DJ LYVIXRA y Hugomasked",
+      "mbid": null,
+      "listeners": 13,
+      "playcount": 45,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "wellman",
+    "b": "welman",
+    "a_clean": "wellman",
+    "b_clean": "welman",
+    "in_a": 27,
+    "in_b": 124,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "wellman",
+      "mbid": null,
+      "listeners": 602,
+      "playcount": 3523,
+      "tags": [
+        "creative commons"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "welman",
+      "mbid": null,
+      "listeners": 245,
+      "playcount": 1730,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "League of Legends y Djerv",
+    "b": "League of Legends i Djerv",
+    "a_clean": "league of legends y djerv",
+    "b_clean": "league of legends i djerv",
+    "in_a": 258,
+    "in_b": 20,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "League of Legends y Djerv",
+      "mbid": null,
+      "listeners": 157,
+      "playcount": 1912,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "League of Legends i Djerv",
+      "mbid": null,
+      "listeners": 25,
+      "playcount": 79,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Ilest",
+    "b": "Illest",
+    "a_clean": "ilest",
+    "b_clean": "illest",
+    "in_a": 2,
+    "in_b": 6,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Ilest",
+      "mbid": null,
+      "listeners": 120,
+      "playcount": 925,
+      "tags": [
+        "rock"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Illest",
+      "mbid": null,
+      "listeners": 387,
+      "playcount": 5584,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Катя Ямщикова",
+    "b": "Katya Yamschikova",
+    "a_clean": "katia iamshchikova",
+    "b_clean": "katya yamschikova",
+    "in_a": 216,
+    "in_b": 154,
+    "edge": false,
+    "shared": 12,
+    "jaccard": 0.026,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Катя Ямщикова",
+      "mbid": null,
+      "listeners": 235,
+      "playcount": 1157,
+      "tags": [
+        "female vocalists",
+        "folk",
+        "russian",
+        "4",
+        "yandex music"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Katya Yamschikova",
+      "mbid": "17c28723-2612-4bf8-8ba4-5e2880de352f",
+      "listeners": 9,
+      "playcount": 14,
+      "tags": [
+        "female vocalists",
+        "folk",
+        "russian",
+        "Russian Folk"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Amanian",
+    "b": "amanyan",
+    "a_clean": "amanian",
+    "b_clean": "amanyan",
+    "in_a": 1,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Amanian",
+      "mbid": null,
+      "listeners": 12,
+      "playcount": 60,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "amanyan",
+      "mbid": null,
+      "listeners": 108,
+      "playcount": 349,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Elena Fallwell",
+    "b": "Elena Falwell",
+    "a_clean": "elena fallwell",
+    "b_clean": "elena falwell",
+    "in_a": 239,
+    "in_b": 151,
+    "edge": true,
+    "shared": 153,
+    "jaccard": 0.442,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Elena Fallwell",
+      "mbid": null,
+      "listeners": 14727,
+      "playcount": 56434,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Elena Falwell",
+      "mbid": null,
+      "listeners": 5870,
+      "playcount": 22987,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Kygo y Ava Max",
+    "b": "Kygo і Ava Max",
+    "a_clean": "kygo y ava max",
+    "b_clean": "kygo i ava max",
+    "in_a": 402,
+    "in_b": 67,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kygo y Ava Max",
+      "mbid": null,
+      "listeners": 157,
+      "playcount": 501,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Kygo і Ava Max",
+      "mbid": null,
+      "listeners": 38,
+      "playcount": 149,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "route 94 y jess glynne",
+    "b": "Route 94 и Jess Glynne",
+    "a_clean": "route 94 y jess glynne",
+    "b_clean": "route 94 i jess glynne",
+    "in_a": 1,
+    "in_b": 12,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "route 94 y jess glynne",
+      "mbid": null,
+      "listeners": 20,
+      "playcount": 49,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Route 94 и Jess Glynne",
+      "mbid": null,
+      "listeners": 20,
+      "playcount": 35,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "n55",
+    "b": "N5",
+    "a_clean": "n55",
+    "b_clean": "n5",
+    "in_a": 309,
+    "in_b": 98,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "n55",
+      "mbid": null,
+      "listeners": 557,
+      "playcount": 2262,
+      "tags": [
+        "electronica",
+        "electronic"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "N5",
+      "mbid": null,
+      "listeners": 174,
+      "playcount": 1833,
+      "tags": [
+        "pop",
+        "Romanian"
+      ],
+      "bio": "Numero5 (Number5) is a Spanish group from San Vicente del Raspeig, near Alicante, which has a very marked style, both in their image and their sound. This is due to the fact that they are a heterogeneuos group. They started around 2005 in Alicante, and ever since they have been trying to identify and unify the characteristics of each of their instruments, as well as their musicians. The band is formed by guitars, drums, bass and a trombone, all of them, put together by their singer's voice."
+    }
+  },
+  {
+    "a": "dj tits",
+    "b": "DJ TICH",
+    "a_clean": "dj tits",
+    "b_clean": "dj tich",
+    "in_a": 212,
+    "in_b": 5,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "dj tits",
+      "mbid": null,
+      "listeners": 331,
+      "playcount": 1345,
+      "tags": [
+        "doujin ongaku",
+        "techno",
+        "electronica",
+        "tribal",
+        "dj tits"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "DJ TICH",
+      "mbid": null,
+      "listeners": 690,
+      "playcount": 3786,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Claudia Pavel",
+    "b": "Claudia Pavell",
+    "a_clean": "claudia pavel",
+    "b_clean": "claudia pavell",
+    "in_a": 383,
+    "in_b": 12,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Claudia Pavel",
+      "mbid": null,
+      "listeners": 2334,
+      "playcount": 25835,
+      "tags": [
+        "romania",
+        "pop",
+        "female vocalists",
+        "dance",
+        "Eurovision"
+      ],
+      "bio": "The right tag for this artist is Claudia Cream."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Claudia Pavell",
+      "mbid": null,
+      "listeners": 177,
+      "playcount": 1052,
+      "tags": [
+        "Akcent",
+        "AKTIV"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "cervi",
+    "b": "Черви",
+    "a_clean": "cervi",
+    "b_clean": "chervi",
+    "in_a": 102,
+    "in_b": 62,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "cervi",
+      "mbid": null,
+      "listeners": 12,
+      "playcount": 209,
+      "tags": [
+        "rap",
+        "rock",
+        "italia",
+        "hip hop",
+        "underground-rap"
+      ],
+      "bio": "Cervi is a rapper originating from the DRC, displaying a versatile talent within his music. From raw, punchy trap beats to melodic, trippy tunes, he enjoys experimenting with his sound according to what he pictures in his mind. Stefan Makengo grew up often listening to the likes of A$AP Rocky, XXXTentacion, and Young Thug where he then indulged in freestyling over beats to kill some time. It was then, around the age of 14, that he started writing songs in his free time but was unable to produce any tracks due to having no music equipment."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Черви",
+      "mbid": "b4ec7f5d-e8e6-41de-ab16-badff139569e",
+      "listeners": 312,
+      "playcount": 1829,
+      "tags": [
+        "darkwave",
+        "Ukraine",
+        "ebm",
+        "ambient",
+        "ukranian"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Shoshi",
+    "b": "Shoshy",
+    "a_clean": "shoshi",
+    "b_clean": "shoshy",
+    "in_a": 29,
+    "in_b": 4,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Shoshi",
+      "mbid": null,
+      "listeners": 302,
+      "playcount": 1272,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Shoshy",
+      "mbid": "76755f2e-946d-4338-8574-091e9e000c15",
+      "listeners": 1030,
+      "playcount": 3832,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Sweet Scarlett",
+    "b": "Sweet Scarlet",
+    "a_clean": "sweet scarlett",
+    "b_clean": "sweet scarlet",
+    "in_a": 143,
+    "in_b": 93,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Sweet Scarlett",
+      "mbid": null,
+      "listeners": 67,
+      "playcount": 734,
+      "tags": [
+        "blues",
+        "rock",
+        "soul"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Sweet Scarlet",
+      "mbid": "37c785bd-0218-4a3f-a881-bd451d2b5f76",
+      "listeners": 1558,
+      "playcount": 6072,
+      "tags": [
+        "mixed-classical-instrumental"
+      ],
+      "bio": "Sweet Scarlet is a Norwegian band based in Oslo. Members are Cornelius Hermansen (vocals), Bård-Åge Nyland Pedersen (guitar) and Robin Richardsen (bass). Their stadium rock is largely based on a wall of sound and sincere emotions, and they have received more than 2 millions streams on Spotify. Sweet Scarlet has been played on radio stations in Japan, Canada, USA, Australia as well as their homeland Norway."
+    }
+  },
+  {
+    "a": "Lonely Boy",
+    "b": "Lonely Boi",
+    "a_clean": "lonely boy",
+    "b_clean": "lonely boi",
+    "in_a": 216,
+    "in_b": 24,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Lonely Boy",
+      "mbid": "77072f0a-4db5-4249-b7a7-a0690f9fdbab",
+      "listeners": 28297,
+      "playcount": 137913,
+      "tags": [
+        "progressive trance",
+        "trance",
+        "funk",
+        "electronic",
+        "Kitsune"
+      ],
+      "bio": "http://www.soundcloud.com/lonelyboymusic http://www.facebook.com/lonelyboymusic http://www.instagram.com/lonelyboymusic http://www.twitter.com/lonelyboymusic1 Funk conductor, eclectic savant, and master of good vibes: this is Lonely Boy. His talents are omnidirectional, spanning a Master’s Degree in Jazz Studies, television commercials, bike building, sausage making, ice dancing, and tour gigs on every continent (except Antarctica). This lonely robot cares not about what genre is cool"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Lonely Boi",
+      "mbid": "812645ae-c8b6-4f5e-a7c6-a11e75cdfbb0",
+      "listeners": 186,
+      "playcount": 1753,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Treem",
+    "b": "Trem",
+    "a_clean": "treem",
+    "b_clean": "trem",
+    "in_a": 802,
+    "in_b": 437,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Treem",
+      "mbid": null,
+      "listeners": 626,
+      "playcount": 46071,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Trem",
+      "mbid": "6d7ebd4c-b813-419a-ad61-85844a95c45b",
+      "listeners": 1503,
+      "playcount": 24767,
+      "tags": [
+        "new wave",
+        "minimal synth",
+        "Aussie Hip-Hop",
+        "underground rap",
+        "australian hip hop"
+      ],
+      "bio": "Born and raised in inner west Sydney till the age of 13 before re-locating south to the boon-docks of G-Town, an hour south west of Melbourne, Trem, like most in his age bracket and on this part of the planet, gained his first look at hip hop through movies such as Beat Street and books like Subway Art in the early eighties. Instantly falling in love with the phenomenon he dabbled in floor moves before turning his hand to graff. As a member of the Australian leg of a worldwide graffiti crew ‘Run For Kover’(originating in the U."
+    }
+  },
+  {
+    "a": "Spyridon Shishigin",
+    "b": "Spiridon Shishigin",
+    "a_clean": "spyridon shishigin",
+    "b_clean": "spiridon shishigin",
+    "in_a": 4,
+    "in_b": 56,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Spyridon Shishigin",
+      "mbid": null,
+      "listeners": 124,
+      "playcount": 304,
+      "tags": [
+        "khomus",
+        "folk",
+        "Russia",
+        "central asian",
+        "spotify"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Spiridon Shishigin",
+      "mbid": "e4f94d0a-4f9a-4d8a-9c48-8a129b7c1830",
+      "listeners": 631,
+      "playcount": 4968,
+      "tags": [
+        "XOMyC",
+        "folk",
+        "Russia",
+        "ethnic",
+        "vargan"
+      ],
+      "bio": "Spiridon Shishigin was born on the first August of 1950 in the village of Tabaga in the Megino-Kangalassky District of the Sacha Republic (Yakutia). The renowned smith S. I. Gogolev lived in Tabaga, and almost every family had a Khomus. When he was ten years old, his older brother Alexei gave him a Khomus. As often as he could, he watched and listened to how the babushki played it; right away he learned how to produce the different sounds. In 1968 he entered the Physics-Mathematics Department of the Yakutsk State University."
+    }
+  },
+  {
+    "a": "Kereni",
+    "b": "kerényi",
+    "a_clean": "kereni",
+    "b_clean": "kerenyi",
+    "in_a": 3,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kereni",
+      "mbid": null,
+      "listeners": 521,
+      "playcount": 1822,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "kerényi",
+      "mbid": null,
+      "listeners": 284,
+      "playcount": 882,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Disfigure",
+    "b": "Dysfigure",
+    "a_clean": "disfigure",
+    "b_clean": "dysfigure",
+    "in_a": 332,
+    "in_b": 14,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Disfigure",
+      "mbid": "c8baf85b-533a-4cff-ada0-7424ea4806b8",
+      "listeners": 136228,
+      "playcount": 1035233,
+      "tags": [
+        "d-beat",
+        "death metal",
+        "punk",
+        "electronic",
+        "metal"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Dysfigure",
+      "mbid": null,
+      "listeners": 50,
+      "playcount": 1991,
+      "tags": [],
+      "bio": "Mid Atlantic hardcore metal band"
+    }
+  },
+  {
+    "a": "Blurri",
+    "b": "Blurry",
+    "a_clean": "blurri",
+    "b_clean": "blurry",
+    "in_a": 15,
+    "in_b": 364,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Blurri",
+      "mbid": null,
+      "listeners": 564,
+      "playcount": 1210,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Blurry",
+      "mbid": "42dc09bb-a4c8-4dc4-a827-9e53691d98d6",
+      "listeners": 4534,
+      "playcount": 48544,
+      "tags": [
+        "Grunge",
+        "rock",
+        "alternative metal",
+        "alternative rock",
+        "post-grunge"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Jason Aldeannn",
+    "b": "Jason Aldean",
+    "a_clean": "jason aldeannn",
+    "b_clean": "jason aldean",
+    "in_a": 1,
+    "in_b": 780,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Jason Aldeannn",
+      "mbid": null,
+      "listeners": 103,
+      "playcount": 134,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Jason Aldean",
+      "mbid": "f24df11a-7e35-4979-a4db-a3b2a170ce27",
+      "listeners": 1102269,
+      "playcount": 24317184,
+      "tags": [
+        "country",
+        "modern country",
+        "Jason Aldean",
+        "male vocalists",
+        "male country"
+      ],
+      "bio": "Jason Aldean is a country music singer and songwriter. He's had 30 of his singles hit #1 on the Hot Country Songs or Country Airplay charts. Since 2005, Aldean has been signed to Broken Bow Records, a record label for which he has released 11 albums and 40 singles. His 2010 album, My Kinda Party, is certified quadruple-platinum by the Recording Industry Association of America (RIAA). His 2012 album Night Train is certified double-platinum, while his 2005 self-titled debut"
+    }
+  },
+  {
+    "a": "Hovhannes Badalyan",
+    "b": "Hovhannes Badalian",
+    "a_clean": "hovhannes badalyan",
+    "b_clean": "hovhannes badalian",
+    "in_a": 73,
+    "in_b": 158,
+    "edge": true,
+    "shared": 141,
+    "jaccard": 0.403,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Hovhannes Badalyan",
+      "mbid": null,
+      "listeners": 211,
+      "playcount": 1880,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Hovhannes Badalian",
+      "mbid": "e626fe34-9105-4b56-bfac-be953460cd19",
+      "listeners": 446,
+      "playcount": 5692,
+      "tags": [
+        "world",
+        "schellack-schatz",
+        "GS1425"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Athanasios Evgenikos",
+    "b": "Athanassios Evgenikos",
+    "a_clean": "athanasios evgenikos",
+    "b_clean": "athanassios evgenikos",
+    "in_a": 57,
+    "in_b": 90,
+    "edge": false,
+    "shared": 9,
+    "jaccard": 0.021,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Athanasios Evgenikos",
+      "mbid": null,
+      "listeners": 207,
+      "playcount": 672,
+      "tags": [
+        "Greek",
+        "Grammophon",
+        "schellack-schatz"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Athanassios Evgenikos",
+      "mbid": null,
+      "listeners": 6,
+      "playcount": 18,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "MATTHESON",
+    "b": "Matheson",
+    "a_clean": "mattheson",
+    "b_clean": "matheson",
+    "in_a": 259,
+    "in_b": 78,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "MATTHESON",
+      "mbid": null,
+      "listeners": 92,
+      "playcount": 652,
+      "tags": [
+        "baroque",
+        "Classical"
+      ],
+      "bio": "Johann Mattheson (28 September 1681 – 17 April 1764) was a German composer, singer, writer, lexicographer, diplomat and music theorist. Mattheson was born and died in Hamburg. He was a close friend of George Frideric Handel, although he nearly killed him in a sudden quarrel, during a performance of Mattheson's opera Cleopatra in 1704. Handel was saved only by a large button which turned aside Mattheson's sword. The two were afterwards reconciled and remained in correspondence for life: shortly after his friend's death"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Matheson",
+      "mbid": "73d9c182-ccd1-4519-82d1-eac9bf8bd691",
+      "listeners": 531,
+      "playcount": 4075,
+      "tags": [
+        "pop",
+        "france",
+        "pop rock"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Visotsky",
+    "b": "Visockij",
+    "a_clean": "visotsky",
+    "b_clean": "visockij",
+    "in_a": 6,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Visotsky",
+      "mbid": null,
+      "listeners": 397,
+      "playcount": 4800,
+      "tags": [],
+      "bio": "This is an incorrect tag for Владимир Высоцкий. If this non-artist appears in your charts, do last.fm and yourself a favor. Fix your artist tags."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Visockij",
+      "mbid": null,
+      "listeners": 56,
+      "playcount": 1101,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "JUGG3N",
+    "b": "Yug3n",
+    "a_clean": "jugg3n",
+    "b_clean": "yug3n",
+    "in_a": 2,
+    "in_b": 277,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "JUGG3N",
+      "mbid": null,
+      "listeners": 48,
+      "playcount": 262,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Yug3n",
+      "mbid": null,
+      "listeners": 5772,
+      "playcount": 57279,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Purple Disco Machine y Sophie and the Giants",
+    "b": "Purple Disco Machine і Sophie and the Giants",
+    "a_clean": "purple disco machine y sophie and the giants",
+    "b_clean": "purple disco machine i sophie and the giants",
+    "in_a": 572,
+    "in_b": 170,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Purple Disco Machine y Sophie and the Giants",
+      "mbid": null,
+      "listeners": 195,
+      "playcount": 1580,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Purple Disco Machine і Sophie and the Giants",
+      "mbid": null,
+      "listeners": 58,
+      "playcount": 451,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Bario Jazz Gang",
+    "b": "Barrio Jazz Gang",
+    "a_clean": "bario jazz gang",
+    "b_clean": "barrio jazz gang",
+    "in_a": 233,
+    "in_b": 303,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Bario Jazz Gang",
+      "mbid": null,
+      "listeners": 595,
+      "playcount": 2209,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Barrio Jazz Gang",
+      "mbid": "7793bd2b-a901-4b9c-b28e-f697b65da822",
+      "listeners": 77864,
+      "playcount": 649957,
+      "tags": [
+        "acid jazz",
+        "chillout",
+        "lounge",
+        "nu jazz",
+        "jazz"
+      ],
+      "bio": "It was 2002 when the Barrio Jazz Gang’s first CD, “Spectrum”, was released, venturing into Nu Jazz territory with an electronic flair. They quickly became an Italian reality with strong northern european influences from Germany and France but maintaing their strong Mediteranean melodic flavor. The two tracks that created the most buzz at that time were: “Linda Cançao” and “Chok-a-blok Avenue”. The first became a “must”, so to speak"
+    }
+  },
+  {
+    "a": "Slim Gailard and His Orchestra",
+    "b": "Slim Gaillard and His Orchestra",
+    "a_clean": "slim gailard and his orchestra",
+    "b_clean": "slim gaillard and his orchestra",
+    "in_a": 2,
+    "in_b": 349,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Slim Gailard and His Orchestra",
+      "mbid": null,
+      "listeners": 51,
+      "playcount": 220,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Slim Gaillard and His Orchestra",
+      "mbid": "08d374d6-2aa6-4649-ad57-bb933a1fdf5f",
+      "listeners": 6754,
+      "playcount": 20285,
+      "tags": [
+        "bebop",
+        "jazz",
+        "swing",
+        "USA",
+        "40s"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "mic jordan",
+    "b": "Mitch Jordan",
+    "a_clean": "mic jordan",
+    "b_clean": "mitch jordan",
+    "in_a": 7,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "mic jordan",
+      "mbid": null,
+      "listeners": 127,
+      "playcount": 578,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Mitch Jordan",
+      "mbid": null,
+      "listeners": 139,
+      "playcount": 467,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "JOOWON",
+    "b": "yowoon",
+    "a_clean": "joowon",
+    "b_clean": "yowoon",
+    "in_a": 50,
+    "in_b": 92,
+    "edge": false,
+    "shared": 47,
+    "jaccard": 0.107,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "JOOWON",
+      "mbid": null,
+      "listeners": 2706,
+      "playcount": 9792,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "yowoon",
+      "mbid": null,
+      "listeners": 359,
+      "playcount": 1519,
+      "tags": [
+        "rnb",
+        "Korean",
+        "k-rnb"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "BICCAN",
+    "b": "Bican",
+    "a_clean": "biccan",
+    "b_clean": "bican",
+    "in_a": 47,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "BICCAN",
+      "mbid": null,
+      "listeners": 162,
+      "playcount": 2320,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Bican",
+      "mbid": null,
+      "listeners": 112,
+      "playcount": 869,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Christian Morgenstern",
+    "b": "Cristian Morgenstern",
+    "a_clean": "christian morgenstern",
+    "b_clean": "cristian morgenstern",
+    "in_a": 1682,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Christian Morgenstern",
+      "mbid": "727ab9ab-741f-4272-91eb-ccbbfa40626c",
+      "listeners": 13733,
+      "playcount": 103838,
+      "tags": [
+        "techno",
+        "minimal",
+        "minimal techno",
+        "House",
+        "electronic"
+      ],
+      "bio": "Christian Morgenstern was born on the 10th of November 1975 in Düsseldorf, Germany. Being interested in technical issues since he was a child, he bought his first Commodore Amiga when he was 15 and started interesting in graphics. Together with a classmate he founded a graphic-duo and pixelled the artwork for early computer-animated movies. By 1994 Christian also started making music with the Amiga and produced Synthie-Pop and C-64 like tunes,"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Cristian Morgenstern",
+      "mbid": null,
+      "listeners": 55,
+      "playcount": 195,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "CRYSOON",
+    "b": "Chrisson",
+    "a_clean": "crysoon",
+    "b_clean": "chrisson",
+    "in_a": 2,
+    "in_b": 382,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "CRYSOON",
+      "mbid": null,
+      "listeners": 66,
+      "playcount": 863,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Chrisson",
+      "mbid": "f25586f8-a3ee-442f-ae1e-3ac28293c269",
+      "listeners": 9164,
+      "playcount": 48880,
+      "tags": [
+        "dutch",
+        "electronic",
+        "dnb",
+        "Drum and bass"
+      ],
+      "bio": "Christiaan Neeteson, known professionally as Chrisson, is a Dutch Drum and Bass producer living in Berlin, Germany."
+    }
+  },
+  {
+    "a": "Zak James",
+    "b": "Zakk James",
+    "a_clean": "zak james",
+    "b_clean": "zakk james",
+    "in_a": 210,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Zak James",
+      "mbid": null,
+      "listeners": 4382,
+      "playcount": 26701,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Zakk James",
+      "mbid": null,
+      "listeners": 93,
+      "playcount": 329,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Addiction",
+    "b": "Addyction",
+    "a_clean": "addiction",
+    "b_clean": "addyction",
+    "in_a": 523,
+    "in_b": 178,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Addiction",
+      "mbid": "318a6805-67a3-439b-aae6-9c2deb089396",
+      "listeners": 13109,
+      "playcount": 80708,
+      "tags": [
+        "heavy metal",
+        "Nu Metal",
+        "hard rock",
+        "Nu-metal",
+        "synth"
+      ],
+      "bio": "Addiction is the name of more than one act: 1) Addiction Crew were formed in 1996. Two years later the band released 'Doubt The Dosage' (featuring Sepultura's drummer Igor Cavalera on the track 'Inside') greatly reviewed from local/european press. The 'Dosage Tour 2002' was about 40 shows touching Italy, Switzerland and France with amazing audience response, while the video for the single 'Download' got endless airplay on MTV Italy and RockTV."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Addyction",
+      "mbid": null,
+      "listeners": 21,
+      "playcount": 409,
+      "tags": [
+        "instrumental",
+        "rock",
+        "Progressive metal",
+        "Progressive rock",
+        "guitar virtuoso"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Hezz",
+    "b": "Hez",
+    "a_clean": "hezz",
+    "b_clean": "hez",
+    "in_a": 221,
+    "in_b": 269,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Hezz",
+      "mbid": null,
+      "listeners": 2790,
+      "playcount": 21456,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Hez",
+      "mbid": "2e7cb7ba-60cd-4a52-93e2-849f178da0ad",
+      "listeners": 1785,
+      "playcount": 28507,
+      "tags": [
+        "Panama",
+        "hardcore punk",
+        "hardcore",
+        "punk",
+        "Philadelphia"
+      ],
+      "bio": "There are at least two projects called Hez: 1.) Hez is a hardcore punk band from Panama. The band shares members with Juventud Podrida. https://hez666.bandcamp.com/ 2.) Depois de ter passado pelo College e Gigante Animal, HEZ e o mais novo projeto de Henrique Zarate que conta com apoio de Rafael Crespo (Planet Hemp, Polara) e Lucas Wirz (collelge e Gigante animal). Por ser muito recente nao tem nada gravado oficialmente apenas videos caseiros e um show gravado na Audio Rebel!"
+    }
+  },
+  {
+    "a": "Powann",
+    "b": "ぽわん",
+    "a_clean": "powann",
+    "b_clean": "powan",
+    "in_a": 94,
+    "in_b": 330,
+    "edge": true,
+    "shared": 34,
+    "jaccard": 0.076,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Powann",
+      "mbid": null,
+      "listeners": 174,
+      "playcount": 1841,
+      "tags": [
+        "japanese",
+        "j-pop",
+        "JPop",
+        "pop",
+        "female vocalists"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "ぽわん",
+      "mbid": "aedf41b9-6919-4ed7-a697-a2c48160dc83",
+      "listeners": 386,
+      "playcount": 12279,
+      "tags": [
+        "japanese",
+        "j-pop",
+        "female vocalist",
+        "indie",
+        "pop"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Billy May & His Orchestrra",
+    "b": "Billy May & His Orchestra",
+    "a_clean": "billy may & his orchestrra",
+    "b_clean": "billy may & his orchestra",
+    "in_a": 12,
+    "in_b": 1075,
+    "edge": true,
+    "shared": 3,
+    "jaccard": 0.009,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Billy May & His Orchestrra",
+      "mbid": null,
+      "listeners": 637,
+      "playcount": 2408,
+      "tags": [
+        "futurama"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Billy May & His Orchestra",
+      "mbid": "5ccd3ed0-9a0e-412e-93b4-9ad5dd151547",
+      "listeners": 34006,
+      "playcount": 131272,
+      "tags": [
+        "swing",
+        "jazz",
+        "lounge",
+        "Big Band",
+        "space age pop"
+      ],
+      "bio": "William E. May, better known as Billy May (November 10, 1916 – January 22, 2004)"
+    }
+  },
+  {
+    "a": "Naezy",
+    "b": "Naeezy",
+    "a_clean": "naezy",
+    "b_clean": "naeezy",
+    "in_a": 1293,
+    "in_b": 25,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Naezy",
+      "mbid": "6bafe2f8-4f1f-48d4-9b3b-c89880cd9475",
+      "listeners": 7035,
+      "playcount": 65019,
+      "tags": [
+        "rap",
+        "Hip-Hop",
+        "india",
+        "desi rap",
+        "indian hip-hop"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Naeezy",
+      "mbid": null,
+      "listeners": 47,
+      "playcount": 359,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Verasi",
+    "b": "Верасы",
+    "a_clean": "verasi",
+    "b_clean": "verasy",
+    "in_a": 45,
+    "in_b": 930,
+    "edge": true,
+    "shared": 37,
+    "jaccard": 0.095,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Verasi",
+      "mbid": null,
+      "listeners": 392,
+      "playcount": 1306,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Верасы",
+      "mbid": "4c407944-4b7c-47b3-9d03-66da57ba1af1",
+      "listeners": 10217,
+      "playcount": 74880,
+      "tags": [
+        "via",
+        "Soviet",
+        "Retro",
+        "soul",
+        "belarus"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "DJ Navvy",
+    "b": "Dj Navii",
+    "a_clean": "dj navvy",
+    "b_clean": "dj navii",
+    "in_a": 169,
+    "in_b": 5,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "DJ Navvy",
+      "mbid": "04e9b921-f9a0-4363-905e-bfc3158045b3",
+      "listeners": 480,
+      "playcount": 8788,
+      "tags": [
+        "instrumental hip-hop",
+        "instrumental",
+        "turntablism",
+        "underground hip-hop"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Dj Navii",
+      "mbid": null,
+      "listeners": 734,
+      "playcount": 1964,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Djo - Topic",
+    "b": "Dio - Topic",
+    "a_clean": "djo - topic",
+    "b_clean": "dio - topic",
+    "in_a": 52,
+    "in_b": 112,
+    "edge": false,
+    "shared": 29,
+    "jaccard": 0.09,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Djo - Topic",
+      "mbid": null,
+      "listeners": 90,
+      "playcount": 442,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Dio - Topic",
+      "mbid": null,
+      "listeners": 290,
+      "playcount": 1261,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "DJ Fultono",
+    "b": "DJ FULLTONO",
+    "a_clean": "dj fultono",
+    "b_clean": "dj fulltono",
+    "in_a": 139,
+    "in_b": 330,
+    "edge": true,
+    "shared": 123,
+    "jaccard": 0.403,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "DJ Fultono",
+      "mbid": null,
+      "listeners": 183,
+      "playcount": 1371,
+      "tags": [
+        "experimental",
+        "electronic",
+        "Juke",
+        "minimal",
+        "footwork"
+      ],
+      "bio": "DJ and track maker DJ Fulltono comes from the Kansai region, Japan. He runs a label \"Booty Tune\". Host of a party \"SOMETHINN\". A prolific writer of Juke/Footwork for international medias. Based in Juke / Footwork, his voracious style includes Ghettotech, Electro, Chicago House, and so on. He provides Planet Mu and Hyperdub with privilege DJ MIX CDs. In the mix for Concept Radio, a Spanish web magazine, He pursues Techno-style Juke."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "DJ FULLTONO",
+      "mbid": null,
+      "listeners": 1209,
+      "playcount": 5157,
+      "tags": [
+        "Juke",
+        "japanese",
+        "footwork",
+        "electronic"
+      ],
+      "bio": "DJ Fulltono is a Japanese juke and footwork producer from Osaka."
+    }
+  },
+  {
+    "a": "Humm Music",
+    "b": "HUM Music",
+    "a_clean": "humm music",
+    "b_clean": "hum music",
+    "in_a": 148,
+    "in_b": 5,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Humm Music",
+      "mbid": null,
+      "listeners": 244,
+      "playcount": 502,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "HUM Music",
+      "mbid": null,
+      "listeners": 67,
+      "playcount": 374,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Glenn Washington",
+    "b": "Glen Washington",
+    "a_clean": "glenn washington",
+    "b_clean": "glen washington",
+    "in_a": 14,
+    "in_b": 1754,
+    "edge": true,
+    "shared": 118,
+    "jaccard": 0.324,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Glenn Washington",
+      "mbid": null,
+      "listeners": 1003,
+      "playcount": 3873,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Glen Washington",
+      "mbid": "2fa7f0b7-2686-4e80-a75a-762f65ba9fe2",
+      "listeners": 47599,
+      "playcount": 310646,
+      "tags": [
+        "reggae",
+        "roots reggae",
+        "lovers rock",
+        "dancehall",
+        "jamaica"
+      ],
+      "bio": "Glen Washington is a Jamaican Reggae/Soca singer, songwriter and drummer. Washington evolved from humble beginnings. Born in the parish of Clarendon, Jamaica he is currently a popular artist in reggae music. this has come after many years of recording and waiting in the wings. In 1997, he released his debut album Brother To Brother and, to date, has released 10 albums. Washington began his musical career in the early seventies as the lead singer for the group Names And Faces."
+    }
+  },
+  {
+    "a": "Dj PiTi",
+    "b": "Dj Pitty",
+    "a_clean": "dj piti",
+    "b_clean": "dj pitty",
+    "in_a": 7,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Dj PiTi",
+      "mbid": null,
+      "listeners": 67,
+      "playcount": 639,
+      "tags": [
+        "breakbeat"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Dj Pitty",
+      "mbid": null,
+      "listeners": 186,
+      "playcount": 1654,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Sons de la Nature Projet France de TraxLab",
+    "b": "Sons de la Nature Projet France de TraxLabb",
+    "a_clean": "sons de la nature projet france de traxlab",
+    "b_clean": "sons de la nature projet france de traxlabb",
+    "in_a": 568,
+    "in_b": 2,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Sons de la Nature Projet France de TraxLab",
+      "mbid": null,
+      "listeners": 9551,
+      "playcount": 1044563,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Sons de la Nature Projet France de TraxLabb",
+      "mbid": null,
+      "listeners": 94,
+      "playcount": 557,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Proffesor E",
+    "b": "Professor E",
+    "a_clean": "proffesor e",
+    "b_clean": "professor e",
+    "in_a": 114,
+    "in_b": 390,
+    "edge": true,
+    "shared": 133,
+    "jaccard": 0.462,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Proffesor E",
+      "mbid": null,
+      "listeners": 209,
+      "playcount": 501,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Professor E",
+      "mbid": "941451cd-2a6b-4705-bc2e-40278e97506e",
+      "listeners": 1435,
+      "playcount": 4820,
+      "tags": [
+        "nerdcore",
+        "All"
+      ],
+      "bio": "There are two Professor E's (they are no way connected with each other in any way). The original Professor E is a nerdcore rapper. Three tracks have been released since 2007. E. Gadd, sometimes referred to as Professor E. Gadd; known as \"Professor Oyama\" in Japan, is a character who has made a number of appearances in different Mario games, each time appearing as a mad, but friendly, gadget-inventing scientist. His full name is Elvin Gadd. By day Professor E is a mad scientist who specializes in economics"
+    }
+  },
+  {
+    "a": "Panajotov Aleksandr",
+    "b": "Панайотов Александр",
+    "a_clean": "panajotov aleksandr",
+    "b_clean": "panaiotov aleksandr",
+    "in_a": 3,
+    "in_b": 95,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Panajotov Aleksandr",
+      "mbid": null,
+      "listeners": 109,
+      "playcount": 862,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Панайотов Александр",
+      "mbid": null,
+      "listeners": 1106,
+      "playcount": 7977,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Takat Band",
+    "b": "Takkat Band",
+    "a_clean": "takat band",
+    "b_clean": "takkat band",
+    "in_a": 30,
+    "in_b": 58,
+    "edge": false,
+    "shared": 102,
+    "jaccard": 0.283,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Takat Band",
+      "mbid": null,
+      "listeners": 40,
+      "playcount": 570,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Takkat Band",
+      "mbid": null,
+      "listeners": 56,
+      "playcount": 368,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Jett Black",
+    "b": "Jet Black",
+    "a_clean": "jett black",
+    "b_clean": "jet black",
+    "in_a": 826,
+    "in_b": 1096,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Jett Black",
+      "mbid": "8fb516ba-892f-4f64-a40d-3b00629c1f0a",
+      "listeners": 12225,
+      "playcount": 61448,
+      "tags": [
+        "hard rock",
+        "rock",
+        "80's",
+        "AOR",
+        "melodic hard rock"
+      ],
+      "bio": "Joe Atkins (vocals, guitar) Gary Atkins (drums) Mike Greger (bass; 1984) John Ryman (keys) Mark Alex Atkins (guitar, vocals) Sandy (bass; 1986) An rather unknown eighties AOR/Hard rock etc. band formed by the three Atkins brothers in 1983 in Toronto, Canada. Jett Black produced a 1984 cassette before heading into the studio for their now collectible \"Night Flight\" LP. . There is also a video for the band's song \"Hold On\". The 1986 album \"Night Flight\" also featured Jeff Jones (Red Rider) on bass"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Jet Black",
+      "mbid": "27c405a7-3df9-4d8f-8a08-b44d081e4874",
+      "listeners": 13438,
+      "playcount": 215051,
+      "tags": [
+        "screamo",
+        "german",
+        "emo",
+        "emo violence",
+        "real screamo"
+      ],
+      "bio": "There are four artists with this name: 1) Jet Black was a German screamo band, existing from 2001 - 2006. Released a self titled 7 inch and a 12 inch record entitled \"The Dead End\" on UNterm Durchschnitt Records. Three members afterwards founded a band named \"The town of Machine\". 2) Rapper out the bay area called JET Black. CEO of Hard Earned Records. Is well known by his debut cd called Hard Earned with feats by fellow bay area rappers. 3) Jet Black (born Brian John Duffy; 26 August 1938 in Ilford"
+    }
+  },
+  {
+    "a": "Philippe Van Mullem",
+    "b": "Philipe Van Mullem",
+    "a_clean": "philippe van mullem",
+    "b_clean": "philipe van mullem",
+    "in_a": 190,
+    "in_b": 53,
+    "edge": false,
+    "shared": 15,
+    "jaccard": 0.033,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Philippe Van Mullem",
+      "mbid": "7a396a2a-bbe5-49f7-a1f7-90a8b536d6b4",
+      "listeners": 1880,
+      "playcount": 6997,
+      "tags": [
+        "trance",
+        "progressive trance",
+        "techno-classics",
+        "trance-classics"
+      ],
+      "bio": "Philippe Van Mullem is the producer from Quadran. Releasing the first Bonzai Trance Progressive ever back in 1994 he was the one hat made the difference and started an a new era in trance music not only via the former Lightning Records but also all over the globe!!! After having hits with Eternally and the follow up single Free Your Mind, Quadran became more progressive till the day Unlovable got released featuring Tasha Joan Paul!!! That release feature a blasting M.I.K.E. remix that still hits the decks throughout the world regularly!!!"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Philipe Van Mullem",
+      "mbid": null,
+      "listeners": 40,
+      "playcount": 120,
+      "tags": [
+        "trance",
+        "classic trance"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "FunkeLakeBossa",
+    "b": "FunkeLakeBosa",
+    "a_clean": "funkelakebossa",
+    "b_clean": "funkelakebosa",
+    "in_a": 10,
+    "in_b": 42,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "FunkeLakeBossa",
+      "mbid": null,
+      "listeners": 274,
+      "playcount": 809,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "FunkeLakeBosa",
+      "mbid": "08b2fa27-2a04-49fa-9ab4-5f8db5999217",
+      "listeners": 946,
+      "playcount": 3980,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Liquefaction",
+    "b": "liqueffaction",
+    "a_clean": "liquefaction",
+    "b_clean": "liqueffaction",
+    "in_a": 271,
+    "in_b": 20,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Liquefaction",
+      "mbid": "9b0c7230-411c-4cf6-9358-7fc8e55f4124",
+      "listeners": 2907,
+      "playcount": 28080,
+      "tags": [
+        "drum'n'bass",
+        "Drum and bass",
+        "All",
+        "electro-industrial",
+        ":51n7h3515:"
+      ],
+      "bio": "Liquefaction was created by the lead singer Kindle (music and vocals), who was later joined by Sine on keyboards and on guitar. They have appeared at SXSW and other electronic festivals in the United states."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "liqueffaction",
+      "mbid": null,
+      "listeners": 116,
+      "playcount": 357,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Capítulo 14",
+    "b": "Capítulo 114",
+    "a_clean": "capitulo 14",
+    "b_clean": "capitulo 114",
+    "in_a": 40,
+    "in_b": 23,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Capítulo 14",
+      "mbid": null,
+      "listeners": 234,
+      "playcount": 763,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Capítulo 114",
+      "mbid": null,
+      "listeners": 18,
+      "playcount": 47,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Josie Katz",
+    "b": "Jossie Katz",
+    "a_clean": "josie katz",
+    "b_clean": "jossie katz",
+    "in_a": 181,
+    "in_b": 1,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Josie Katz",
+      "mbid": null,
+      "listeners": 1133,
+      "playcount": 9217,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Jossie Katz",
+      "mbid": null,
+      "listeners": 104,
+      "playcount": 410,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Moti Giladi & Sarai Tzuriel",
+    "b": "Motty Giladi & Sarai Tzuriel",
+    "a_clean": "moti giladi & sarai tzuriel",
+    "b_clean": "motty giladi & sarai tzuriel",
+    "in_a": 86,
+    "in_b": 1,
+    "edge": false,
+    "shared": 28,
+    "jaccard": 0.097,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Moti Giladi & Sarai Tzuriel",
+      "mbid": null,
+      "listeners": 121,
+      "playcount": 589,
+      "tags": [
+        "Eurovision Song Contest",
+        "Israel",
+        "Eurovision"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Motty Giladi & Sarai Tzuriel",
+      "mbid": null,
+      "listeners": 175,
+      "playcount": 557,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Mariya Zhilina",
+    "b": "Maria Zhilina",
+    "a_clean": "mariya zhilina",
+    "b_clean": "maria zhilina",
+    "in_a": 2,
+    "in_b": 4,
+    "edge": false,
+    "shared": 6,
+    "jaccard": 0.045,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Mariya Zhilina",
+      "mbid": null,
+      "listeners": 15,
+      "playcount": 463,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Maria Zhilina",
+      "mbid": null,
+      "listeners": 6,
+      "playcount": 327,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "vasee",
+    "b": "Vase",
+    "a_clean": "vasee",
+    "b_clean": "vase",
+    "in_a": 87,
+    "in_b": 172,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "vasee",
+      "mbid": null,
+      "listeners": 883,
+      "playcount": 21438,
+      "tags": [
+        "soul",
+        "akustik",
+        "vasee",
+        "rock",
+        "rap"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Vase",
+      "mbid": "067a2123-47bf-402c-ad5e-c77fed1fe6e3",
+      "listeners": 3432,
+      "playcount": 16154,
+      "tags": [
+        "techno",
+        "ambient",
+        "idm",
+        "Vase Rock Indie Alternative Cairo Egypt",
+        "vasee"
+      ],
+      "bio": "Vase is about diversity, the main idea behind the band is that we play every kind of Rock. We do not have a subgenre, our music goes from indie folk rock to heavy progressive. Each member of the band has a rather different direction of influences than the other, which forms quite a sublime result. Vase was formed in 2011 in Cairo, Egypt. Facebook page : http://www.facebook.com/VaseBand"
+    }
+  },
+  {
+    "a": "Ivy Robbins",
+    "b": "Ivy Robins",
+    "a_clean": "ivy robbins",
+    "b_clean": "ivy robins",
+    "in_a": 2,
+    "in_b": 4,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Ivy Robbins",
+      "mbid": null,
+      "listeners": 395,
+      "playcount": 6596,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Ivy Robins",
+      "mbid": null,
+      "listeners": 170,
+      "playcount": 310,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Kluun",
+    "b": "klun",
+    "a_clean": "kluun",
+    "b_clean": "klun",
+    "in_a": 2,
+    "in_b": 4,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kluun",
+      "mbid": "d32e3f7d-5649-4a5c-9e68-0091dbfe5f1f",
+      "listeners": 81,
+      "playcount": 748,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "klun",
+      "mbid": null,
+      "listeners": 234,
+      "playcount": 4616,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "The Enchantments",
+    "b": "Thee Enchantments",
+    "a_clean": "the enchantments",
+    "b_clean": "thee enchantments",
+    "in_a": 85,
+    "in_b": 26,
+    "edge": false,
+    "shared": 12,
+    "jaccard": 0.026,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "The Enchantments",
+      "mbid": "3c69017a-d67a-4bcb-8963-2be7025b8598",
+      "listeners": 572,
+      "playcount": 3518,
+      "tags": [
+        "Lo-Fi",
+        "pop",
+        "oldies",
+        "bubblegum",
+        "doo wop"
+      ],
+      "bio": "The Enchantments are a lo-fi band from Brooklyn, New York."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Thee Enchantments",
+      "mbid": "0b34b4c0-ea21-497b-9e6b-4785ce13a090",
+      "listeners": 150,
+      "playcount": 479,
+      "tags": [
+        "jetset",
+        "soul",
+        "60s garage"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "P-TrixXx",
+    "b": "P-Trix",
+    "a_clean": "p-trixxx",
+    "b_clean": "p-trix",
+    "in_a": 24,
+    "in_b": 4,
+    "edge": true,
+    "shared": 3,
+    "jaccard": 0.01,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "P-TrixXx",
+      "mbid": null,
+      "listeners": 354,
+      "playcount": 1962,
+      "tags": [
+        "deep rap"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "P-Trix",
+      "mbid": null,
+      "listeners": 72,
+      "playcount": 1087,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "2550",
+    "b": "250",
+    "a_clean": "2550",
+    "b_clean": "250",
+    "in_a": 144,
+    "in_b": 155,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "2550",
+      "mbid": null,
+      "listeners": 164,
+      "playcount": 402,
+      "tags": [
+        "idm",
+        "techno",
+        "electro",
+        "club",
+        "Hard Dance"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "250",
+      "mbid": "d48b3d32-f26f-41a9-a103-418fb2d16589",
+      "listeners": 9179,
+      "playcount": 102361,
+      "tags": [
+        "250",
+        "Korean",
+        "Pon-chak disco",
+        "electronic",
+        "electronic dance music"
+      ],
+      "bio": "Beasts And Natives Alike 소속 DJ 겸 프로듀서."
+    }
+  },
+  {
+    "a": "ShaMan (Район Моей Мечты)",
+    "b": "ShaMan (Rayon Moey Mechty)",
+    "a_clean": "shaman (raion moei mechty)",
+    "b_clean": "shaman (rayon moey mechty)",
+    "in_a": 6,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "ShaMan (Район Моей Мечты)",
+      "mbid": null,
+      "listeners": 75,
+      "playcount": 258,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "ShaMan (Rayon Moey Mechty)",
+      "mbid": null,
+      "listeners": 80,
+      "playcount": 214,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Zezinho Viana",
+    "b": "Zezinho Vianna",
+    "a_clean": "zezinho viana",
+    "b_clean": "zezinho vianna",
+    "in_a": 6,
+    "in_b": 1,
+    "edge": false,
+    "shared": 4,
+    "jaccard": 0.062,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Zezinho Viana",
+      "mbid": null,
+      "listeners": 60,
+      "playcount": 459,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Zezinho Vianna",
+      "mbid": null,
+      "listeners": 10,
+      "playcount": 151,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "The Armada",
+    "b": "Thee Armada",
+    "a_clean": "the armada",
+    "b_clean": "thee armada",
+    "in_a": 384,
+    "in_b": 1191,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "The Armada",
+      "mbid": "95498a58-7825-40cb-8a57-3e50c8176edb",
+      "listeners": 3666,
+      "playcount": 104051,
+      "tags": [
+        "rock",
+        "jeff martin",
+        "the tea party",
+        "moroccan roll",
+        "Power metal"
+      ],
+      "bio": "There are at least 2 artists with this name: 1. The Armada is a band formed by Jeff Martin. Jeff Martin was the lead vocalist and frontman of the Canadian rock band The Tea Party. After the band broke up in 2005 he launched a solo career, and released his first solo album titled Exile and the Kingdom in April 2006. . In 2008 Jeff Martin and Wayne P. Sheehy formed The Armada and soon after, Gareth Forsyth was named as their bass player. The Armada's debut tour started November 2008 in Peth, Australia and travelled around the country."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Thee Armada",
+      "mbid": "85e166b4-fb89-4b6e-91e2-1ccaba574f47",
+      "listeners": 10828,
+      "playcount": 113132,
+      "tags": [
+        "pop punk",
+        "rock",
+        "pop rock",
+        "emo",
+        "powerpop"
+      ],
+      "bio": "Hailing from Houston- a city known more for its hip-hop alumnus than its rock bands- these self-proclaimed \"boys from Texas\" have come together from diverse musical backgrounds to form a passionate, driven five piece pop rock band intent on making an indelible impression on the music world. The band- made up of vocalist Joshua Caddy, guitarists Bryan Shelton and Taylor Peek, bassist Michael Fillewicz, and drummer Brian Smith- started as many bands do"
+    }
+  },
+  {
+    "a": "Abbildung",
+    "b": "Abildung",
+    "a_clean": "abbildung",
+    "b_clean": "abildung",
+    "in_a": 107,
+    "in_b": 21,
+    "edge": false,
+    "shared": 29,
+    "jaccard": 0.083,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Abbildung",
+      "mbid": "545de42d-383c-4e62-9ffe-27ec26c09824",
+      "listeners": 493,
+      "playcount": 4045,
+      "tags": [
+        "dark ambient",
+        "ambient",
+        "Doom",
+        "experimental",
+        "world"
+      ],
+      "bio": "ABBILDUNG is an interdisciplinary music & photography project from Sibiu/Romania. The journey began in late 2004 after setting the main framework of what I intend to express and how - an entire worldview drawn by both ideology, imagery and of course music - so ABBILDUNG project was born, a project fully aware of its ‘environment.’ The first release in 2005 represents the basis, the fundamental of the ideology and of how ABBILDUNG will be constructed in the future: ‘Dunkles Wissenschaftliches Sachverhalten."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Abildung",
+      "mbid": null,
+      "listeners": 91,
+      "playcount": 377,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Wallo",
+    "b": "Walo",
+    "a_clean": "wallo",
+    "b_clean": "walo",
+    "in_a": 11,
+    "in_b": 61,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Wallo",
+      "mbid": "34336c7b-7aa1-4b4e-94d8-78f5e412f84f",
+      "listeners": 132,
+      "playcount": 1457,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Walo",
+      "mbid": "7afab28b-b0d6-4b9f-a71e-bfadc2adc6f0",
+      "listeners": 636,
+      "playcount": 3531,
+      "tags": [
+        "Korean Hip Hop",
+        "hip hop",
+        "Korean rap",
+        "khiphop",
+        "khh"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Slavo",
+    "b": "Славво",
+    "a_clean": "slavo",
+    "b_clean": "slavvo",
+    "in_a": 95,
+    "in_b": 201,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Slavo",
+      "mbid": "b809690c-9128-47ec-b57c-96c212180df6",
+      "listeners": 1830,
+      "playcount": 9038,
+      "tags": [
+        "chillout",
+        "lounge",
+        "lovely",
+        "female vocalists",
+        "i love female voices"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Славво",
+      "mbid": null,
+      "listeners": 832,
+      "playcount": 3950,
+      "tags": [
+        "Russia",
+        "russian",
+        "Sochi",
+        "rossiya"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Kralj Čačka",
+    "b": "Краљ Чачка",
+    "a_clean": "kralj cacka",
+    "b_clean": "kralj chachka",
+    "in_a": 328,
+    "in_b": 2,
+    "edge": true,
+    "shared": 8,
+    "jaccard": 0.036,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kralj Čačka",
+      "mbid": "ab938b46-d584-494d-ba55-bb0976c291ba",
+      "listeners": 470,
+      "playcount": 10903,
+      "tags": [
+        "blues",
+        "jazz",
+        "serbian",
+        "rock",
+        "acoustic"
+      ],
+      "bio": "Kralj Čačka (King of Čačak) is a Serbian musician, singer, songwriter and artist. He graduated on Faculty of Fine Arts in Belgrade, where he lives and works now. He was previously the vocalist and guitarist of the group Disko klackalica (Disko See Saw) from Čačak, and nowadays he performs with group Fishin Oil from Belgrade."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Краљ Чачка",
+      "mbid": null,
+      "listeners": 28,
+      "playcount": 86,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Savile Robots",
+    "b": "Saville Robots",
+    "a_clean": "savile robots",
+    "b_clean": "saville robots",
+    "in_a": 2,
+    "in_b": 9,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Savile Robots",
+      "mbid": "ec8369dd-9025-4348-bc0d-fb4653be2560",
+      "listeners": 190,
+      "playcount": 574,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Saville Robots",
+      "mbid": "76f48926-fce9-4473-a461-38a2a62ee7bd",
+      "listeners": 371,
+      "playcount": 769,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "The Goonies",
+    "b": "Thee goonies",
+    "a_clean": "the goonies",
+    "b_clean": "thee goonies",
+    "in_a": 109,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "The Goonies",
+      "mbid": "b1df4507-9240-4da8-81e3-d6470ba5b01b",
+      "listeners": 1362,
+      "playcount": 10912,
+      "tags": [
+        "Ska-Core",
+        "skacore",
+        "ska",
+        "hardcore",
+        "ska-punk"
+      ],
+      "bio": "There are at least five artists with this name: 1. A Hip-Hop Group from Syracuse, NY 2. A Rock group from Petrozavodsk, Karelia, Russia. 3. A hardcore punk band from Boston, MA. 4. A garage indie loung two piece from Naples, Italy. 5. http://www.soundclick.com/bands/default.cfm?bandID=176033 1. The story of The Goonies begins in 2003 at a telemarketing company in Syracuse, New York. Clam Weezy and Illumination both worked at the same company (sometimes side-by-side), but neither of them knew that the other was also an emcee."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Thee goonies",
+      "mbid": null,
+      "listeners": 39,
+      "playcount": 1631,
+      "tags": [
+        "canavese punk rock"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Thakur Dass Rathi",
+    "b": "Thakur Das Rathi",
+    "a_clean": "thakur dass rathi",
+    "b_clean": "thakur das rathi",
+    "in_a": 31,
+    "in_b": 9,
+    "edge": false,
+    "shared": 12,
+    "jaccard": 0.039,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Thakur Dass Rathi",
+      "mbid": null,
+      "listeners": 221,
+      "playcount": 1394,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Thakur Das Rathi",
+      "mbid": null,
+      "listeners": 14,
+      "playcount": 117,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Мэрия",
+    "b": "Mería",
+    "a_clean": "meriia",
+    "b_clean": "meria",
+    "in_a": 23,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Мэрия",
+      "mbid": null,
+      "listeners": 4,
+      "playcount": 34,
+      "tags": [
+        "russian",
+        "alternative rock",
+        "Cyber punk"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Mería",
+      "mbid": null,
+      "listeners": 257,
+      "playcount": 538,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "ECCOWAVE",
+    "b": "Echowave",
+    "a_clean": "eccowave",
+    "b_clean": "echowave",
+    "in_a": 24,
+    "in_b": 262,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "ECCOWAVE",
+      "mbid": "f2df7314-ec11-4fa4-a776-6fbaed85dc0a",
+      "listeners": 157,
+      "playcount": 773,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Echowave",
+      "mbid": "60992fc8-a7ff-4a2a-a008-f61f06f4fa70",
+      "listeners": 87473,
+      "playcount": 528119,
+      "tags": [
+        "rock",
+        "indie",
+        "montreal",
+        "alternative",
+        "goth"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Sheree Brown",
+    "b": "Sherree Brown",
+    "a_clean": "sheree brown",
+    "b_clean": "sherree brown",
+    "in_a": 803,
+    "in_b": 349,
+    "edge": false,
+    "shared": 34,
+    "jaccard": 0.074,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Sheree Brown",
+      "mbid": "0ccfc286-cc16-45be-9698-c8a857fed6fe",
+      "listeners": 5801,
+      "playcount": 24546,
+      "tags": [
+        "soul",
+        "jazz",
+        "female vocalists",
+        "indie",
+        "rnb"
+      ],
+      "bio": "b. Sheree Sarah Brown, 25th December 1955, Los Angeles, California, U.S.A. Los Angeles-based Sheree recorded two albums, in the early Eighties, both for the Capitol imprint. 'Straight Ahead' was released in 1981 and included the songs 'You'll Be Dancing All Night' and 'It's A Pleasure'. 'The Music' followed in 1982 and included 'Happy Music', 'Got To Get Away' and 'On My Way Home' (featuring Stevie Wonder on harmonica). Both albums were showcases for her songwriting abilities"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Sherree Brown",
+      "mbid": "e5be05aa-2a8a-4695-ad61-25458824bc4d",
+      "listeners": 381,
+      "playcount": 1754,
+      "tags": [
+        "gospel",
+        "soul",
+        "rnb",
+        "r&b",
+        "cdbaby"
+      ],
+      "bio": "Sherree Brown, formerly known as Sherree Ford-Payne is a R&B singer & songwriter who has worked with artists such as Toni Braxton, Céline Dion, Whitney Houston, Christina Aguilera, Mary J. Blige, Fantasia, Kelly Rowland, Brandy and many others. She used to be signed to Geffen records (according to the booklet of Toni Braxton's Secrets) In 1996 she recorded her selftitled debut album featuring the singles 'Shoulda Coulda Woulda' & 'Love Him Anyway'"
+    }
+  },
+  {
+    "a": "Alan Walker, Dash Berlin и Vikkstar",
+    "b": "Alan Walker, Dash Berlin y Vikkstar",
+    "a_clean": "alan walker, dash berlin i vikkstar",
+    "b_clean": "alan walker, dash berlin y vikkstar",
+    "in_a": 2,
+    "in_b": 114,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Alan Walker, Dash Berlin и Vikkstar",
+      "mbid": null,
+      "listeners": 30,
+      "playcount": 74,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Alan Walker, Dash Berlin y Vikkstar",
+      "mbid": null,
+      "listeners": 74,
+      "playcount": 183,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Midnight Wolf",
+    "b": "Midnight Woolf",
+    "a_clean": "midnight wolf",
+    "b_clean": "midnight woolf",
+    "in_a": 15,
+    "in_b": 201,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Midnight Wolf",
+      "mbid": null,
+      "listeners": 250,
+      "playcount": 805,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Midnight Woolf",
+      "mbid": "f6f62825-8327-4ffb-9670-3f7a6c18b1b8",
+      "listeners": 127,
+      "playcount": 3878,
+      "tags": [
+        "garage",
+        "Garage Punk"
+      ],
+      "bio": "Midnight Woolf is a garage rock band from Melbourne.Band members: Midnight Woolf: Guitar, Vocals, Lluis Fuzzhound: Vocals, Guitar, El Furioso: Bass, Dante Diablo: Drums More on official band website: http://midnightwoolf.blogspot.com/ Listen & buy on http://midnightwoolf.bandcamp.com/"
+    }
+  },
+  {
+    "a": "Hamza Al Qaisy",
+    "b": "Hamza Al Qaisi",
+    "a_clean": "hamza al qaisy",
+    "b_clean": "hamza al qaisi",
+    "in_a": 16,
+    "in_b": 11,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Hamza Al Qaisy",
+      "mbid": null,
+      "listeners": 34,
+      "playcount": 446,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Hamza Al Qaisi",
+      "mbid": null,
+      "listeners": 37,
+      "playcount": 163,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Vyon",
+    "b": "Viön",
+    "a_clean": "vyon",
+    "b_clean": "vion",
+    "in_a": 68,
+    "in_b": 48,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Vyon",
+      "mbid": null,
+      "listeners": 268,
+      "playcount": 1063,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Viön",
+      "mbid": "93675cd5-eb25-4e3a-a09f-555523fedb6d",
+      "listeners": 36,
+      "playcount": 232,
+      "tags": [
+        "trip hop",
+        "experimental",
+        "poland",
+        "polish",
+        "noise ambient"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Kairiki bear и MARETU",
+    "b": "Kairiki bear y MARETU",
+    "a_clean": "kairiki bear i maretu",
+    "b_clean": "kairiki bear y maretu",
+    "in_a": 14,
+    "in_b": 212,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kairiki bear и MARETU",
+      "mbid": null,
+      "listeners": 40,
+      "playcount": 275,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Kairiki bear y MARETU",
+      "mbid": null,
+      "listeners": 157,
+      "playcount": 725,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Anamia",
+    "b": "Annamia",
+    "a_clean": "anamia",
+    "b_clean": "annamia",
+    "in_a": 111,
+    "in_b": 3,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Anamia",
+      "mbid": null,
+      "listeners": 452,
+      "playcount": 3007,
+      "tags": [
+        "indie",
+        "rock",
+        "danish",
+        "alternative"
+      ],
+      "bio": "Old schoolmates Michael Jønsson, Cartridge Moog and Mogens Mills met in the Danish city of Holstebro during the early days of 2004 and formed Anamia. The EP \"He Never Left Tea Room\" was released in the summer of 2005. The debut LP \"An Extraordinary New Fitness\" was released in September 2006. http://www.anamia.dk/"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Annamia",
+      "mbid": null,
+      "listeners": 21,
+      "playcount": 162,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Makeshift Lulaby",
+    "b": "Makeshift Lullaby",
+    "a_clean": "makeshift lulaby",
+    "b_clean": "makeshift lullaby",
+    "in_a": 1,
+    "in_b": 75,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Makeshift Lulaby",
+      "mbid": null,
+      "listeners": 9,
+      "playcount": 522,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Makeshift Lullaby",
+      "mbid": null,
+      "listeners": 167,
+      "playcount": 2266,
+      "tags": [
+        "pop rock",
+        "alternative"
+      ],
+      "bio": "Makeshift Lullaby was officially founded in April 2009 by NYC based singer/songwriter John Black, then age 22. The band is currently comprised of Black on lead vocals and guitar, Andrew Iuso on bass (standup & electric) and vocals, and Ian Carroll on drums. Their debut album, \"Shadows\" is currently available on iTunes, Amazon.com, and many other digital retailers."
+    }
+  },
+  {
+    "a": "Mc Magico e Suzy",
+    "b": "Mc Mágico e Suzi",
+    "a_clean": "mc magico e suzy",
+    "b_clean": "mc magico e suzi",
+    "in_a": 13,
+    "in_b": 67,
+    "edge": false,
+    "shared": 20,
+    "jaccard": 0.053,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Mc Magico e Suzy",
+      "mbid": null,
+      "listeners": 214,
+      "playcount": 1068,
+      "tags": [],
+      "bio": "Description: Currently studying (BA In Recording Arts) at the SAE Institute based in London. After receiving an Audio Engineering Diploma at the SAE, MC Magico now focuses his energies on Music Production and song Writing not only for himself and his band, his genius ability to craft a fluent, influential music wave, has attracted the likes of many artist ranging from Rap to R&B, dance and pop. One of the first Latino MCs in the UK, MC Magico was born in"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Mc Mágico e Suzi",
+      "mbid": null,
+      "listeners": 11,
+      "playcount": 44,
+      "tags": [
+        "Funk Carioca",
+        "funk",
+        "castelo das pedras"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Dmitry Shurov",
+    "b": "Дмитрий Шуров",
+    "a_clean": "dmitry shurov",
+    "b_clean": "dmitrii shurov",
+    "in_a": 22,
+    "in_b": 74,
+    "edge": true,
+    "shared": 53,
+    "jaccard": 0.151,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Dmitry Shurov",
+      "mbid": null,
+      "listeners": 303,
+      "playcount": 2163,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Дмитрий Шуров",
+      "mbid": "34f7b488-4e39-4ec6-8a10-a0b0a4c28332",
+      "listeners": 469,
+      "playcount": 5230,
+      "tags": [
+        "indie",
+        "Ukrainian"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Denzel Curry и Kenny Beats",
+    "b": "Denzel Curry y Kenny Beats",
+    "a_clean": "denzel curry i kenny beats",
+    "b_clean": "denzel curry y kenny beats",
+    "in_a": 16,
+    "in_b": 265,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Denzel Curry и Kenny Beats",
+      "mbid": null,
+      "listeners": 42,
+      "playcount": 255,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Denzel Curry y Kenny Beats",
+      "mbid": null,
+      "listeners": 155,
+      "playcount": 946,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Dj Ramzes",
+    "b": "DJ RAMZESS",
+    "a_clean": "dj ramzes",
+    "b_clean": "dj ramzess",
+    "in_a": 198,
+    "in_b": 643,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Dj Ramzes",
+      "mbid": null,
+      "listeners": 1434,
+      "playcount": 9122,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "DJ RAMZESS",
+      "mbid": null,
+      "listeners": 2826,
+      "playcount": 21577,
+      "tags": [
+        "poland",
+        "polish",
+        "polskie"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Emannuel Costa",
+    "b": "Emanuel Costa",
+    "a_clean": "emannuel costa",
+    "b_clean": "emanuel costa",
+    "in_a": 212,
+    "in_b": 191,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Emannuel Costa",
+      "mbid": null,
+      "listeners": 28,
+      "playcount": 197,
+      "tags": [
+        "indie",
+        "folk",
+        "pop",
+        "singer-songwriter",
+        "folk pop"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Emanuel Costa",
+      "mbid": null,
+      "listeners": 3160,
+      "playcount": 7917,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "JLHA",
+    "b": "iLHa",
+    "a_clean": "jlha",
+    "b_clean": "ilha",
+    "in_a": 37,
+    "in_b": 108,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "JLHA",
+      "mbid": "7a40d7a1-dd43-4117-ab87-b21338319d24",
+      "listeners": 978,
+      "playcount": 7413,
+      "tags": [
+        "trance"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "iLHa",
+      "mbid": null,
+      "listeners": 130,
+      "playcount": 1073,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "m4thew",
+    "b": "M4TTHEW",
+    "a_clean": "m4thew",
+    "b_clean": "m4tthew",
+    "in_a": 2,
+    "in_b": 215,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "m4thew",
+      "mbid": null,
+      "listeners": 77,
+      "playcount": 487,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "M4TTHEW",
+      "mbid": null,
+      "listeners": 55443,
+      "playcount": 863507,
+      "tags": [
+        "pluggnb"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Bisollini",
+    "b": "Bisolini",
+    "a_clean": "bisollini",
+    "b_clean": "bisolini",
+    "in_a": 50,
+    "in_b": 33,
+    "edge": true,
+    "shared": 100,
+    "jaccard": 0.316,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Bisollini",
+      "mbid": null,
+      "listeners": 400,
+      "playcount": 9338,
+      "tags": [
+        "bg hip-hop"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Bisolini",
+      "mbid": null,
+      "listeners": 171,
+      "playcount": 4404,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Yulia Klauzer",
+    "b": "Юлия Клаузер",
+    "a_clean": "yulia klauzer",
+    "b_clean": "iuliia klauzer",
+    "in_a": 1,
+    "in_b": 2,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Yulia Klauzer",
+      "mbid": null,
+      "listeners": 37,
+      "playcount": 850,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Юлия Клаузер",
+      "mbid": null,
+      "listeners": 44,
+      "playcount": 674,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "cepe",
+    "b": "Chepe",
+    "a_clean": "cepe",
+    "b_clean": "chepe",
+    "in_a": 106,
+    "in_b": 180,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "cepe",
+      "mbid": null,
+      "listeners": 4553,
+      "playcount": 11539,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Chepe",
+      "mbid": "b57dd111-44b8-4c6b-b7b9-3bb56876b0c7",
+      "listeners": 22,
+      "playcount": 80,
+      "tags": [
+        "rap",
+        "Hip-Hop",
+        "underground rap"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Elektronica",
+    "b": "Ellektronica",
+    "a_clean": "elektronica",
+    "b_clean": "ellektronica",
+    "in_a": 252,
+    "in_b": 206,
+    "edge": true,
+    "shared": 176,
+    "jaccard": 0.672,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Elektronica",
+      "mbid": null,
+      "listeners": 93,
+      "playcount": 573,
+      "tags": [
+        "90s",
+        "eurodance",
+        "Italodance"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Ellektronica",
+      "mbid": null,
+      "listeners": 81,
+      "playcount": 727,
+      "tags": [
+        "90s",
+        "eurodance",
+        "Italodance"
+      ],
+      "bio": "Ellektronica is a dance act featuring Viviana Presutti. Bliss Corporation. Singles: \"Get It On\"."
+    }
+  },
+  {
+    "a": "Bear Cat Philips",
+    "b": "BEAR CAT PHILLIPS",
+    "a_clean": "bear cat philips",
+    "b_clean": "bear cat phillips",
+    "in_a": 36,
+    "in_b": 20,
+    "edge": false,
+    "shared": 50,
+    "jaccard": 0.258,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Bear Cat Philips",
+      "mbid": null,
+      "listeners": 336,
+      "playcount": 1051,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "BEAR CAT PHILLIPS",
+      "mbid": null,
+      "listeners": 415,
+      "playcount": 1211,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Kaymaklý Ekmek Kadayýfý",
+    "b": "Kaymaklı Ekmek Kadayıfı",
+    "a_clean": "kaymakly ekmek kadayyfy",
+    "b_clean": "kaymakli ekmek kadayifi",
+    "in_a": 1,
+    "in_b": 96,
+    "edge": true,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Kaymaklý Ekmek Kadayýfý",
+      "mbid": null,
+      "listeners": 39,
+      "playcount": 204,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Kaymaklı Ekmek Kadayıfı",
+      "mbid": null,
+      "listeners": 148,
+      "playcount": 4311,
+      "tags": [
+        "folk",
+        "jazz",
+        "turkish",
+        "blues"
+      ],
+      "bio": "K.E.K was formed by university students at Technical University of Istanbul in 2003. There have been very kinds of working and producting periods for the band and it came out today as it is. By all these time periods, there become a kind of music which is original and different from usual, related with musical and cultural backgrounds of band members. There is not any care, worry or purpose about the kind of music and it's just the reflection of communication and inspirations between the band members."
+    }
+  },
+  {
+    "a": "Maystro",
+    "b": "MAISTRØ",
+    "a_clean": "maystro",
+    "b_clean": "maistro",
+    "in_a": 3,
+    "in_b": 3,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Maystro",
+      "mbid": null,
+      "listeners": 256,
+      "playcount": 503,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "MAISTRØ",
+      "mbid": null,
+      "listeners": 353,
+      "playcount": 1667,
+      "tags": [
+        "uptempo"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Gary Ray",
+    "b": "Garry Ray",
+    "a_clean": "gary ray",
+    "b_clean": "garry ray",
+    "in_a": 80,
+    "in_b": 8,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Gary Ray",
+      "mbid": "2f3e1f29-d9d7-4db4-ad4d-e4e359cfb74d",
+      "listeners": 470,
+      "playcount": 8039,
+      "tags": [],
+      "bio": "As a performer, sought-after singer-songwriter and executive at the successful Nashville based record label and publishing company, Better Angels Music, Gary Ray is a music biz triple-threat. That rare combination of artist/executive and songwriter gives Gary a unique perspective on the business while simultaneously allowing him to direct his career and artistic goals with insight not often seen in most recording artists. Overall, Gary Ray is an artist"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Garry Ray",
+      "mbid": null,
+      "listeners": 100,
+      "playcount": 177,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Priscila Noceti",
+    "b": "Priscila Nocetti",
+    "a_clean": "priscila noceti",
+    "b_clean": "priscila nocetti",
+    "in_a": 4,
+    "in_b": 335,
+    "edge": true,
+    "shared": 62,
+    "jaccard": 0.212,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Priscila Noceti",
+      "mbid": null,
+      "listeners": 241,
+      "playcount": 706,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Priscila Nocetti",
+      "mbid": null,
+      "listeners": 1914,
+      "playcount": 11576,
+      "tags": [
+        "funk",
+        "female vocalists",
+        "brazilian",
+        "funk melody",
+        "rnb"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "anoha",
+    "b": "Anokha",
+    "a_clean": "anoha",
+    "b_clean": "anokha",
+    "in_a": 6,
+    "in_b": 3,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "anoha",
+      "mbid": null,
+      "listeners": 57,
+      "playcount": 268,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Anokha",
+      "mbid": null,
+      "listeners": 954,
+      "playcount": 9780,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Lil Mann",
+    "b": "LIL MAN",
+    "a_clean": "lil mann",
+    "b_clean": "lil man",
+    "in_a": 7,
+    "in_b": 21,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Lil Mann",
+      "mbid": null,
+      "listeners": 32,
+      "playcount": 158,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "LIL MAN",
+      "mbid": null,
+      "listeners": 546,
+      "playcount": 2678,
+      "tags": [],
+      "bio": "Fernando Alvarado (born October 24th, 1975), is an underground artist known as LiL MaN G from Stockton,Ca. LiL Man began rapping in his late teens, attending high school with other Stockton rappers such as Knowledge Bone and Mr. Peebodie. LiL Man latter teamed up with Nasty Trey, Young Ren, and Wizard One to put out one of the city's most recognizable release \"Doesia Click -Hard On The Grind.\" In 1996 the group released \"Women,Cars, and Firearms\" and changed the spelling of the group to \"Doja Clik."
+    }
+  },
+  {
+    "a": "Teatr Teney",
+    "b": "Театр Теней",
+    "a_clean": "teatr teney",
+    "b_clean": "teatr tenei",
+    "in_a": 51,
+    "in_b": 842,
+    "edge": false,
+    "shared": 15,
+    "jaccard": 0.033,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Teatr Teney",
+      "mbid": null,
+      "listeners": 245,
+      "playcount": 4401,
+      "tags": [
+        "heavy metal",
+        "Power metal",
+        "russian metal"
+      ],
+      "bio": "Formed in 1986 in the capital of Russia, Moscow, Teatr Teney that means Theater Of Shadows in English play some various, melodic and electronic-thrashing influenced heavy metal. Current line-up is: Denis Masharov - vocals Evgeniy Isaev - guitars Mihail Dementyev - bass Dmitriy «Coffin» Morozov - drums Fast and dash Russian band Teatr Teney raised during last few years. Their music varies quite much from one album to another; they play at many big festivals"
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Театр Теней",
+      "mbid": null,
+      "listeners": 21874,
+      "playcount": 586731,
+      "tags": [
+        "heavy metal",
+        "Power metal",
+        "russian",
+        "metal",
+        "rock"
+      ],
+      "bio": "Творческий путь группы Театр Теней берет начало в далеком 1986 г., когда старшеклассники Денис Машаров и Дмитрий Сидоров создали школьную рок-группу, исполняющую исключительно кавера таких команд, как Black Sabbath, Deep Purple, Judas Priest, Iron Maiden. Концерты проходили"
+    }
+  },
+  {
+    "a": "Melika",
+    "b": "melikka",
+    "a_clean": "melika",
+    "b_clean": "melikka",
+    "in_a": 84,
+    "in_b": 8,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Melika",
+      "mbid": "d68c33cd-1df6-4f8b-8bef-80bbc20b0d4a",
+      "listeners": 1380,
+      "playcount": 9434,
+      "tags": [
+        "melika",
+        "pop",
+        "rnb",
+        "soul",
+        "Iranian"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "melikka",
+      "mbid": "6adfdb04-fc66-4858-9bf1-31f783711f6a",
+      "listeners": 143,
+      "playcount": 973,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "JID и Denzel Curry",
+    "b": "JID y Denzel Curry",
+    "a_clean": "jid i denzel curry",
+    "b_clean": "jid y denzel curry",
+    "in_a": 2,
+    "in_b": 202,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "JID и Denzel Curry",
+      "mbid": null,
+      "listeners": 15,
+      "playcount": 70,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "JID y Denzel Curry",
+      "mbid": null,
+      "listeners": 100,
+      "playcount": 326,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Jessita Reyes",
+    "b": "Jesita Reyes",
+    "a_clean": "jessita reyes",
+    "b_clean": "jesita reyes",
+    "in_a": 1057,
+    "in_b": 7,
+    "edge": true,
+    "shared": 14,
+    "jaccard": 0.056,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Jessita Reyes",
+      "mbid": "36ea0c1f-8873-4957-96c2-a6ee48f4b387",
+      "listeners": 28111,
+      "playcount": 424376,
+      "tags": [
+        "new age",
+        "native american",
+        "Native American Flute",
+        "ambient",
+        "beyondwithin"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Jesita Reyes",
+      "mbid": null,
+      "listeners": 319,
+      "playcount": 810,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "GES",
+    "b": "Gess",
+    "a_clean": "ges",
+    "b_clean": "gess",
+    "in_a": 1343,
+    "in_b": 881,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "GES",
+      "mbid": "b526d854-c369-45dc-b325-3583f10f270c",
+      "listeners": 8943,
+      "playcount": 59972,
+      "tags": [
+        "pop",
+        "swedish",
+        "Sweden",
+        "scandinavian",
+        "90s"
+      ],
+      "bio": "GES is a Swedish pop band consisting of Anders Glenmark, Thomas \"Orup\" Eriksson and Niklas Strömstedt. The name is an acronym of the members' last names. The group was created in 1995 after the three solo artists first collaboration when they wrote the very successful official song for the Swedish football team in the 1994 world championships. That song was \"När Vi Gräver Guld i USA\" and it's definitely their most well-known song."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Gess",
+      "mbid": null,
+      "listeners": 16750,
+      "playcount": 115275,
+      "tags": [
+        "japanese",
+        "punk rock",
+        "noise punk",
+        "hardcore punk",
+        "hardcore"
+      ],
+      "bio": "There are at least two artists with the name GESS 1. GESS was a noisepunk band from Kyushu, Japan. Similar to the Swankys (or Gai), Confuse and Sieg Heil -that's to say heavily inspired by Disorder, Chaos UK and most importantly Chaotic Dischord. They would later change their name to Lydia-Cat's 2. GESS is an r&b/pop singer-songwriter-producer who’s being noticed for his ability to “transport his listeners to the stars” with his melodies and “out of this world” production style."
+    }
+  },
+  {
+    "a": "Gery-Nikol",
+    "b": "Гери-Никол",
+    "a_clean": "gery-nikol",
+    "b_clean": "geri-nikol",
+    "in_a": 1266,
+    "in_b": 103,
+    "edge": true,
+    "shared": 107,
+    "jaccard": 0.289,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Gery-Nikol",
+      "mbid": "56282598-7c45-4727-980e-b9141f5c7c7e",
+      "listeners": 7520,
+      "playcount": 168519,
+      "tags": [
+        "pop",
+        "bulgarian",
+        "bulgarian pop",
+        "All",
+        "female vocalists"
+      ],
+      "bio": "Gery-Nikol Nikolaeva Georgieva (Bulgarian: Гери-Никол Николаева Георгиева, born 30 July 1998), better known simply as Gery-Nikol, is a Bulgarian pop singer who rose to fame in late 2014 after participating in the third season of the Bulgarian edition of The X Factor."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Гери-Никол",
+      "mbid": null,
+      "listeners": 76,
+      "playcount": 1426,
+      "tags": [
+        "bulgarian",
+        "diva",
+        "amazingvoice",
+        "xfactor",
+        "bulgarianvoice"
+      ],
+      "bio": "http://gerynikol.com/ Гери–Никол Николаева Георгиева е родена и отраснала в гр. Варна. Още от ранна възраст се увлича по музиката и танците. На десетгодишна възраст е избрана за главната роля в късометражния български филм ‘‘ Съдба ‘‘ . В седми клас променя"
+    }
+  },
+  {
+    "a": "Virginio Aiello y On Piano",
+    "b": "Virginio Aiello і On Piano",
+    "a_clean": "virginio aiello y on piano",
+    "b_clean": "virginio aiello i on piano",
+    "in_a": 154,
+    "in_b": 15,
+    "edge": false,
+    "shared": 11,
+    "jaccard": 0.032,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Virginio Aiello y On Piano",
+      "mbid": null,
+      "listeners": 293,
+      "playcount": 671,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Virginio Aiello і On Piano",
+      "mbid": null,
+      "listeners": 65,
+      "playcount": 161,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Lakmann",
+    "b": "Lakman",
+    "a_clean": "lakmann",
+    "b_clean": "lakman",
+    "in_a": 1480,
+    "in_b": 274,
+    "edge": true,
+    "shared": 115,
+    "jaccard": 0.33,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Lakmann",
+      "mbid": "a0f67c86-a6fc-4117-964b-4f1d528c48ce",
+      "listeners": 8792,
+      "playcount": 211758,
+      "tags": [
+        "german hiphop",
+        "rap",
+        "hip hop",
+        "german",
+        "german hip-hop"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Lakman",
+      "mbid": null,
+      "listeners": 1085,
+      "playcount": 26484,
+      "tags": [
+        "german hip-hop",
+        "Hip-Hop",
+        "german hiphop",
+        "hiphop",
+        "rap"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Fenja",
+    "b": "fenya",
+    "a_clean": "fenja",
+    "b_clean": "fenya",
+    "in_a": 29,
+    "in_b": 8,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Fenja",
+      "mbid": "1f6db3b3-045a-4ae3-b75e-16202daf577c",
+      "listeners": 772,
+      "playcount": 4588,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "fenya",
+      "mbid": null,
+      "listeners": 175,
+      "playcount": 1615,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Playahitty",
+    "b": "Playahitti",
+    "a_clean": "playahitty",
+    "b_clean": "playahitti",
+    "in_a": 673,
+    "in_b": 77,
+    "edge": false,
+    "shared": 10,
+    "jaccard": 0.022,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Playahitty",
+      "mbid": "50fcdf40-df62-402a-8aeb-f67ba4d1fb05",
+      "listeners": 101098,
+      "playcount": 417634,
+      "tags": [
+        "eurodance",
+        "dance",
+        "90s",
+        "italian",
+        "90s dance"
+      ],
+      "bio": "PLAYAHITTY was an Italian Eurodance-project created by the producers Emanuele Asti and Stefano Carrara, the voice was performed by Giovanna Bersola a.k.a. Jenny B. Their biggest hits were \"The summer is magic\" and \" 1-2-3! (Train with me)\""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Playahitti",
+      "mbid": null,
+      "listeners": 2198,
+      "playcount": 6926,
+      "tags": [
+        "eurodance",
+        "dance",
+        "spotify",
+        "All",
+        "tecktonik"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "sarkar",
+    "b": "Sarkaar",
+    "a_clean": "sarkar",
+    "b_clean": "sarkaar",
+    "in_a": 1,
+    "in_b": 13,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "sarkar",
+      "mbid": null,
+      "listeners": 107,
+      "playcount": 644,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Sarkaar",
+      "mbid": null,
+      "listeners": 164,
+      "playcount": 510,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "denzell",
+    "b": "Denzel",
+    "a_clean": "denzell",
+    "b_clean": "denzel",
+    "in_a": 47,
+    "in_b": 177,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "denzell",
+      "mbid": null,
+      "listeners": 1582,
+      "playcount": 5483,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Denzel",
+      "mbid": "0dac8a0e-f57c-4e9f-893a-20730da11fc3",
+      "listeners": 4882,
+      "playcount": 24687,
+      "tags": [
+        "House"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Злыдень",
+    "b": "Злидень",
+    "a_clean": "zlyden'",
+    "b_clean": "zliden'",
+    "in_a": 133,
+    "in_b": 320,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Злыдень",
+      "mbid": null,
+      "listeners": 26,
+      "playcount": 484,
+      "tags": [
+        "singer-songwriter",
+        "punk",
+        "Lo-Fi",
+        "russian"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Злидень",
+      "mbid": "24a637e7-ad9a-446d-9a99-1df1988d9a95",
+      "listeners": 657,
+      "playcount": 11232,
+      "tags": [
+        "Crust",
+        "crust punk",
+        "d-beat",
+        "Ukrainian",
+        "dark hardcore"
+      ],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Latiff Ibrahim",
+    "b": "Latif Ibrahim",
+    "a_clean": "latiff ibrahim",
+    "b_clean": "latif ibrahim",
+    "in_a": 30,
+    "in_b": 22,
+    "edge": false,
+    "shared": 181,
+    "jaccard": 0.584,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Latiff Ibrahim",
+      "mbid": null,
+      "listeners": 150,
+      "playcount": 966,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Latif Ibrahim",
+      "mbid": null,
+      "listeners": 73,
+      "playcount": 405,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "LiL POPPY",
+    "b": "Lil Poopy",
+    "a_clean": "lil poppy",
+    "b_clean": "lil poopy",
+    "in_a": 2,
+    "in_b": 8,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "LiL POPPY",
+      "mbid": null,
+      "listeners": 68,
+      "playcount": 631,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Lil Poopy",
+      "mbid": "68bf67e2-9cae-46dd-9db2-b0e127fcb938",
+      "listeners": 446,
+      "playcount": 4021,
+      "tags": [
+        "Cocaine City Records",
+        "rap",
+        "realest nigga in the game right now bang bang",
+        "real recognize real and this nigga the realest"
+      ],
+      "bio": "french montanas latest artist lil poopy 8 yrs old from BOSTON, MA im 8 years old love to play sports my favorite is baseball n basketball love to atv riding with my dad going to school n after going to the studio i love rocking shows on stage with french hes my idol love french he shows me mad love"
+    }
+  },
+  {
+    "a": "Dennis The Menace & Jerry Ropero vs Francesco Diaz",
+    "b": "Denis the Menace & Jerry Ropero vs Francesco Diaz",
+    "a_clean": "dennis the menace & jerry ropero vs francesco diaz",
+    "b_clean": "denis the menace & jerry ropero vs francesco diaz",
+    "in_a": 7,
+    "in_b": 59,
+    "edge": false,
+    "shared": 6,
+    "jaccard": 0.029,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Dennis The Menace & Jerry Ropero vs Francesco Diaz",
+      "mbid": null,
+      "listeners": 178,
+      "playcount": 509,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Denis the Menace & Jerry Ropero vs Francesco Diaz",
+      "mbid": null,
+      "listeners": 1349,
+      "playcount": 5823,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Amirreza",
+    "b": "AmiReza",
+    "a_clean": "amirreza",
+    "b_clean": "amireza",
+    "in_a": 2,
+    "in_b": 59,
+    "edge": false,
+    "shared": 47,
+    "jaccard": 0.146,
+    "connected": true,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Amirreza",
+      "mbid": null,
+      "listeners": 72,
+      "playcount": 433,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "AmiReza",
+      "mbid": null,
+      "listeners": 8,
+      "playcount": 110,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Letter II",
+    "b": "Letter i",
+    "a_clean": "letter ii",
+    "b_clean": "letter i",
+    "in_a": 1,
+    "in_b": 1,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Letter II",
+      "mbid": null,
+      "listeners": 45,
+      "playcount": 90,
+      "tags": [],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Letter i",
+      "mbid": null,
+      "listeners": 51,
+      "playcount": 83,
+      "tags": [],
+      "bio": ""
+    }
+  },
+  {
+    "a": "Poemss",
+    "b": "Poems",
+    "a_clean": "poemss",
+    "b_clean": "poems",
+    "in_a": 555,
+    "in_b": 183,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Poemss",
+      "mbid": "0f78eb81-9f68-41bd-8dc5-0068ea4b7b4f",
+      "listeners": 4458,
+      "playcount": 73380,
+      "tags": [
+        "ambient",
+        "electronic",
+        "pop",
+        "idm",
+        "experimental"
+      ],
+      "bio": "Poemss is a musical project from Toronto-based producer and music artist Joanne Pollock in collaboration with Aaron Funk, who’s recorded music as Venetian Snares. They met in Europe but when Joanne played Aaron her music and visited him at his studio, collaboration started to happen soon after."
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Poems",
+      "mbid": "0de32a5f-c82c-40d6-bc18-a83138c7c132",
+      "listeners": 79523,
+      "playcount": 256028,
+      "tags": [
+        "jazz-hop",
+        "Mellow",
+        "jazz",
+        "Hip-Hop",
+        "good"
+      ],
+      "bio": "Poems is also known as Sharlok Poems, a rapper who's a part of the Los Angeles-based hip-hop group LA Symphony."
+    }
+  },
+  {
+    "a": "Graffitti Mechanism",
+    "b": "Graffiti Mechanism",
+    "a_clean": "graffitti mechanism",
+    "b_clean": "graffiti mechanism",
+    "in_a": 18,
+    "in_b": 557,
+    "edge": false,
+    "shared": 0,
+    "jaccard": 0.0,
+    "connected": false,
+    "a_info": {
+      "found": true,
+      "lfm_name": "Graffitti Mechanism",
+      "mbid": null,
+      "listeners": 1,
+      "playcount": 13,
+      "tags": [
+        "noise",
+        "ambient",
+        "white noise"
+      ],
+      "bio": ""
+    },
+    "b_info": {
+      "found": true,
+      "lfm_name": "Graffiti Mechanism",
+      "mbid": "4786ad55-153b-4d46-8afa-d32e4553735c",
+      "listeners": 565,
+      "playcount": 5022,
+      "tags": [
+        "drone",
+        "ambient",
+        "noise",
+        "minimal",
+        "harsh noise"
+      ],
+      "bio": "curator & operator of the proc-records label. frequently creates music under his \"Graffiti Mechanism\" or \"c4\" alias"
+    }
+  }
+]
