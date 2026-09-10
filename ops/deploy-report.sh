@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# The Pages project is also linked to the GitHub repo; its automatic Git
+# deployments are paused (empty build config -> an empty production deployment
+# that 404s on every push). Keep them paused: this direct upload is the deploy.
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 REPORT_HTML="$REPO_DIR/graph_analysis/graph_analysis_report.html"
 PROJECT_NAME="artistpath-graph-stats"
