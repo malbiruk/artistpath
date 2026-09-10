@@ -2,10 +2,13 @@
 
 import asyncio
 import json
+import os
+import signal
 from collections import deque
 from pathlib import Path
 
 import aiohttp
+from tenacity import RetryError
 
 from .api_client import (
     get_artist_info_by_name,
@@ -14,7 +17,7 @@ from .api_client import (
     is_real_mbid,
     print_api_error_summary,
 )
-from .storage import append_to_graph, append_to_metadata, save_state
+from .storage import append_to_graph, append_to_metadata, load_names, save_state
 
 
 class StreamingCollector:
@@ -24,7 +27,9 @@ class StreamingCollector:
 
         self.processed_mbids: set[str] = set()
         self.seen_metadata_ids: set[str] = set()
+        self.names: dict[str, str] = {}
         self.queue: deque = deque()
+        self.stop_requested = False
 
     def load_state(self) -> bool:
         state_path = self.output_dir / "collection_state.json"
@@ -42,6 +47,8 @@ class StreamingCollector:
             with metadata_ids_path.open() as f:
                 self.seen_metadata_ids = {line.strip() for line in f if line.strip()}
 
+        self.names = load_names(str(self.output_dir))
+
         print(f"Resuming with {len(self.processed_mbids)} processed artists")
         print(f"Queue has {len(self.queue)} pending artists")
         print(f"Tracking {len(self.seen_metadata_ids)} metadata entries")
@@ -51,13 +58,25 @@ class StreamingCollector:
         save_state(self.processed_mbids, self.queue, str(self.output_dir))
 
         metadata_ids_path = self.output_dir / "seen_metadata.txt"
-        with metadata_ids_path.open("w") as f:
+        tmp_path = metadata_ids_path.with_suffix(".txt.tmp")
+        with tmp_path.open("w") as f:
             for metadata_id in self.seen_metadata_ids:
                 f.write(f"{metadata_id}\n")
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, metadata_ids_path)
+
+    def request_stop(self) -> None:
+        # Idempotent: systemd signals the whole cgroup and uv forwards its copy,
+        # so the process gets several SIGTERMs per stop.
+        if not self.stop_requested:
+            print("🛑 Stop requested - finishing current batch and saving state...")
+        self.stop_requested = True
 
     def add_metadata_if_new(self, node_id: str, name: str, url: str) -> bool:
         if node_id not in self.seen_metadata_ids:
             self.seen_metadata_ids.add(node_id)
+            self.names[node_id] = name
             append_to_metadata(node_id, name, url, str(self.output_dir))
             return True
         return False
@@ -94,21 +113,25 @@ class StreamingCollector:
         return True
 
     def get_artist_name_from_metadata(self, artist_id: str) -> str | None:
-        metadata_path = self.output_dir / "metadata.ndjson"
-        if not metadata_path.exists():
-            return None
+        return self.names.get(artist_id)
 
-        try:
-            with metadata_path.open() as f:
-                for line in f:
-                    if not line.strip():
-                        continue
-                    entry = json.loads(line)
-                    if entry.get("id") == artist_id:
-                        return entry.get("name")
-        except Exception:  # noqa: S110
-            pass
-        return None
+    async def fetch_similar_artists(
+        self,
+        session: aiohttp.ClientSession,
+        artist_id: str,
+        similar_per_artist: int | None,
+    ) -> list[dict]:
+        if is_real_mbid(artist_id):
+            similar_artists = await get_similar_artists(session, artist_id, similar_per_artist)
+            if similar_artists:
+                return similar_artists
+
+        artist_name = self.get_artist_name_from_metadata(artist_id)
+        if not artist_name:
+            if not is_real_mbid(artist_id):
+                print(f"  ❌ Could not find name for UUID5 artist: {artist_id}")
+            return []
+        return await get_similar_artists_by_name(session, artist_name, similar_per_artist)
 
     async def process_single_artist(
         self,
@@ -121,29 +144,17 @@ class StreamingCollector:
 
         self.processed_mbids.add(artist_id)
 
-        similar_artists = []
-
-        if is_real_mbid(artist_id):
-            similar_artists = await get_similar_artists(session, artist_id, similar_per_artist)
-            if not similar_artists:
-                artist_name = self.get_artist_name_from_metadata(artist_id)
-                if artist_name:
-                    similar_artists = await get_similar_artists_by_name(
-                        session,
-                        artist_name,
-                        similar_per_artist,
-                    )
-        else:
-            artist_name = self.get_artist_name_from_metadata(artist_id)
-            if artist_name:
-                similar_artists = await get_similar_artists_by_name(
-                    session,
-                    artist_name,
-                    similar_per_artist,
-                )
-            else:
-                print(f"  ❌ Could not find name for UUID5 artist: {artist_id}")
-                return 0
+        try:
+            similar_artists = await self.fetch_similar_artists(
+                session, artist_id, similar_per_artist
+            )
+        except RetryError:
+            # Last.fm unreachable after all retries: try this artist again later
+            # instead of crashing the crawl.
+            print(f"  ⚠️ API unavailable for {artist_id} - re-queued")
+            self.processed_mbids.discard(artist_id)
+            self.queue.append(artist_id)
+            return 0
 
         connections = []
         new_artists = 0
@@ -186,6 +197,10 @@ class StreamingCollector:
     ) -> dict:
         resumed = self.load_state() if resume else False
 
+        loop = asyncio.get_running_loop()
+        for sig in (signal.SIGINT, signal.SIGTERM):
+            loop.add_signal_handler(sig, self.request_stop)
+
         async with aiohttp.ClientSession() as session:
             if (
                 not resumed
@@ -198,7 +213,11 @@ class StreamingCollector:
             total_processed = len(self.processed_mbids)
             batch_count = 0
 
-            while self.queue and (max_artists is None or total_processed < max_artists):
+            while (
+                self.queue
+                and not self.stop_requested
+                and (max_artists is None or total_processed < max_artists)
+            ):
                 batch_size_actual = min(batch_size, len(self.queue))
 
                 if max_artists is not None:
@@ -248,7 +267,10 @@ class StreamingCollector:
 
         self.save_state()
 
-        print("\n🎉 Collection complete!")
+        if self.stop_requested:
+            print("\n🛑 Collection stopped, state saved")
+        else:
+            print("\n🎉 Collection complete!")
         print(f"📊 Processed {len(self.processed_mbids)} artists")
         print(f"📝 Collected {len(self.seen_metadata_ids)} metadata entries")
         print(f"⏭️  Queue remaining: {len(self.queue)}")

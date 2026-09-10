@@ -1,8 +1,8 @@
 [Unit]
-Description=Daily check for artistpath binary refresh
+Description=Nightly check for artistpath binary refresh (02:00, before anime-enrich at 04:00)
 
 [Timer]
-OnCalendar=*-*-* 04:00:00
+OnCalendar=*-*-* 02:00:00
 Persistent=true
 
 [Install]

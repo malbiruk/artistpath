@@ -1,21 +1,44 @@
 """Convert NDJSON graph to binary format and build reverse graph."""
 
+import multiprocessing
 import os
+import shutil
 import struct
 import subprocess
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
+import numpy as np
 import orjson
-from joblib import Parallel, delayed
 from rich.progress import Progress
 
 _pack_uint32 = struct.Struct("<I").pack
 _pack_float = struct.Struct("<f").pack
-_unpack_float = struct.Struct("<f").unpack
+# Reverse edge while collecting: source ordinal + weight (8 bytes instead of
+# the 20-byte UUID + weight written to disk).
+_REV_EDGE_DTYPE = np.dtype([("src", "<u4"), ("weight", "<f4")])
+_OUT_EDGE_DTYPE = np.dtype([("uuid", "S16"), ("weight", "<f4")])
+_COPY_BUFFER = 16 * 1024 * 1024
+
+# Sorted S16 blocklist, memory-mapped once per worker by _load_blocklist.
+_BLOCKLIST: np.ndarray | None = None
+
+
+def _load_blocklist(path: str) -> None:
+    global _BLOCKLIST
+    _BLOCKLIST = np.load(path, mmap_mode="r")
 
 
 def _uuid_bytes(s: str) -> bytes:
-    return bytes.fromhex(s.replace("-", ""))
+    b = bytes.fromhex(s.replace("-", ""))
+    if len(b) != 16:
+        raise ValueError(f"not a 16-byte uuid: {s!r}")
+    return b
+
+
+def _uuid_str(b: bytes) -> str:
+    h = b.hex()
+    return f"{h[:8]}-{h[8:12]}-{h[12:16]}-{h[16:20]}-{h[20:]}"
 
 
 def _count_lines(path: Path) -> int:
@@ -35,14 +58,29 @@ def _find_chunk_boundaries(path: Path, n_chunks: int) -> list[int]:
     return boundaries
 
 
-def _process_forward_chunk(
-    path: str, start: int, end: int, blocklist: frozenset[str]
-) -> tuple[bytes, list[tuple[str, int]]]:
-    """Worker: build forward graph binary from a byte range. No reverse data."""
-    forward_buf = bytearray()
-    forward_ids: list[tuple[str, int]] = []
+def _blocked_mask(blocklist: np.ndarray, ids: np.ndarray) -> np.ndarray:
+    """True where a 16-byte id occurs in the sorted S16 blocklist."""
+    if blocklist.size == 0:
+        return np.zeros(ids.size, dtype=bool)
+    pos = np.minimum(np.searchsorted(blocklist, ids), blocklist.size - 1)
+    return blocklist[pos] == ids
 
-    with open(path, "rb") as f:
+
+def _process_forward_chunk(
+    path: str, start: int, end: int, chunk_path: str
+) -> tuple[int, list[tuple[str, int]]]:
+    """Worker: write the forward-graph records of a byte range to chunk_path.
+
+    Returns (chunk size, [(artist_id, offset within chunk), ...]). Only the
+    record being packed and the chunk's (id, offset) list are in memory; the
+    blocklist is a shared memmap.
+    """
+    blocklist = _BLOCKLIST
+    assert blocklist is not None
+    forward_ids: list[tuple[str, int]] = []
+    offset = 0
+
+    with open(path, "rb") as f, open(chunk_path, "wb") as out:
         f.seek(start)
         while f.tell() < end:
             line = f.readline().strip()
@@ -55,38 +93,35 @@ def _process_forward_chunk(
                 continue
 
             artist_id = data["id"]
-            connections = data["connections"]
-
-            if artist_id in blocklist:
-                continue
 
             try:
                 artist_bytes = _uuid_bytes(artist_id)
             except ValueError:
                 continue
 
-            offset = len(forward_buf)
-            valid_conns = 0
-            conn_data = bytearray()
+            if _blocked_mask(blocklist, np.array([artist_bytes], dtype="S16"))[0]:
+                continue
 
-            for conn_id, weight in connections:
-                if conn_id in blocklist:
-                    continue
+            conn_ids: list[bytes] = []
+            conn_weights: list[float] = []
+            for conn_id, weight in data["connections"]:
                 try:
-                    conn_bytes = _uuid_bytes(conn_id)
+                    conn_ids.append(_uuid_bytes(conn_id))
                 except ValueError:
                     continue
+                conn_weights.append(weight)
 
-                conn_data.extend(conn_bytes)
-                conn_data.extend(_pack_float(weight))
-                valid_conns += 1
+            edges = np.empty(len(conn_ids), dtype=_OUT_EDGE_DTYPE)
+            edges["uuid"] = conn_ids
+            edges["weight"] = conn_weights
+            edges = edges[~_blocked_mask(blocklist, edges["uuid"])]
 
-            forward_buf.extend(artist_bytes)
-            forward_buf.extend(_pack_uint32(valid_conns))
-            forward_buf.extend(conn_data)
+            record = artist_bytes + _pack_uint32(edges.size) + edges.tobytes()
+            out.write(record)
             forward_ids.append((artist_id, offset))
+            offset += len(record)
 
-    return bytes(forward_buf), forward_ids
+    return offset, forward_ids
 
 
 def process_graph(
@@ -97,38 +132,77 @@ def process_graph(
     rev_graph_bin = data_dir / "rev-graph.bin"
     line_count = _count_lines(graph_file)
     n_workers = min(os.cpu_count() or 1, 24)
-    print(f"  {line_count:,} lines, {n_workers} workers")
+    n_chunks = n_workers * 4
+    print(f"  {line_count:,} lines, {n_workers} workers, {n_chunks} chunks")
 
-    blocklist_fs: frozenset[str] = frozenset(blocklist or set())
-    boundaries = _find_chunk_boundaries(graph_file, n_workers)
+    blocked: set[bytes] = set()
+    for uuid_str in blocklist or ():
+        try:
+            blocked.add(_uuid_bytes(uuid_str))
+        except ValueError:
+            continue
+    # Sorted array in a file that every worker memory-maps, instead of each
+    # worker holding its own copy of a 1M+ entry set.
+    blocklist_path = data_dir / "blocklist.npy"
+    np.save(blocklist_path, np.sort(np.array(list(blocked), dtype="S16")))
+    boundaries = _find_chunk_boundaries(graph_file, n_chunks)
+    chunk_paths = [data_dir / f"graph.chunk{i:03d}.bin" for i in range(n_chunks)]
 
-    # Phase 1: Forward graph (parallel, low memory)
+    # Phase 1: Forward graph. Workers stream records to per-chunk files that
+    # are concatenated in order, so no chunk output is ever held in RAM.
     forward_index: dict[str, int] = {}
     total_artists = 0
 
-    results = Parallel(n_jobs=n_workers, return_as="generator")(
-        delayed(_process_forward_chunk)(
-            str(graph_file), boundaries[i], boundaries[i + 1], blocklist_fs
-        )
-        for i in range(n_workers)
-    )
+    try:
+        with (
+            ProcessPoolExecutor(
+                n_workers,
+                mp_context=multiprocessing.get_context("spawn"),
+                initializer=_load_blocklist,
+                initargs=(str(blocklist_path),),
+            ) as pool,
+            graph_bin.open("wb") as outfile,
+            Progress() as progress,
+        ):
+            futures = [
+                pool.submit(
+                    _process_forward_chunk,
+                    str(graph_file),
+                    boundaries[i],
+                    boundaries[i + 1],
+                    str(chunk_paths[i]),
+                )
+                for i in range(n_chunks)
+            ]
+            task = progress.add_task("[green]Building forward graph...", total=n_chunks)
+            position = 0
 
-    with graph_bin.open("wb") as outfile, Progress() as progress:
-        task = progress.add_task("[green]Building forward graph...", total=n_workers)
-        position = 0
-
-        for chunk_buf, chunk_ids in results:
-            outfile.write(chunk_buf)
-            for artist_id, offset in chunk_ids:
-                forward_index[artist_id] = position + offset
-            total_artists += len(chunk_ids)
-            position += len(chunk_buf)
-            progress.advance(task)
+            for i, future in enumerate(futures):
+                try:
+                    chunk_size, chunk_ids = future.result()
+                except BaseException:
+                    pool.shutdown(cancel_futures=True)
+                    raise
+                with chunk_paths[i].open("rb") as chunk_file:
+                    shutil.copyfileobj(chunk_file, outfile, _COPY_BUFFER)
+                chunk_paths[i].unlink()
+                for artist_id, offset in chunk_ids:
+                    forward_index[artist_id] = position + offset
+                total_artists += len(chunk_ids)
+                position += chunk_size
+                progress.advance(task)
+    finally:
+        blocklist_path.unlink(missing_ok=True)
+        for chunk_path in chunk_paths:
+            chunk_path.unlink(missing_ok=True)
 
     print(f"  {total_artists:,} artists in forward graph")
 
-    # Phase 2: Reverse graph (sequential, ~12-15 GB with packed bytes)
-    reverse_data: dict[str, bytearray] = {}
+    # Phase 2: Reverse graph (sequential). Each target collects (source
+    # ordinal, weight) pairs; source UUIDs are looked up by ordinal on write.
+    reverse_data: dict[bytes, bytearray] = {}
+    source_uuids = bytearray()
+    n_sources = 0
 
     with graph_file.open("rb") as infile, Progress() as progress:
         task = progress.add_task(
@@ -146,31 +220,37 @@ def process_graph(
             except orjson.JSONDecodeError:
                 continue
 
-            if data["id"] in blocklist_fs:
-                continue
-
             try:
                 artist_bytes = _uuid_bytes(data["id"])
             except ValueError:
                 continue
 
+            if artist_bytes in blocked:
+                continue
+
+            src = _pack_uint32(n_sources)
+            n_sources += 1
+            source_uuids.extend(artist_bytes)
+
             for conn_id, weight in data["connections"]:
-                if conn_id in blocklist_fs:
-                    continue
                 try:
-                    _uuid_bytes(conn_id)
+                    conn_bytes = _uuid_bytes(conn_id)
                 except ValueError:
                     continue
+                if conn_bytes in blocked:
+                    continue
 
-                if conn_id not in reverse_data:
-                    reverse_data[conn_id] = bytearray()
-                reverse_data[conn_id].extend(artist_bytes)
-                reverse_data[conn_id].extend(_pack_float(weight))
+                buf = reverse_data.get(conn_bytes)
+                if buf is None:
+                    buf = reverse_data[conn_bytes] = bytearray()
+                buf.extend(src)
+                buf.extend(_pack_float(weight))
 
-    total_conns = sum(len(v) // 20 for v in reverse_data.values())
+    total_conns = sum(len(v) for v in reverse_data.values()) // 8
     print(f"  {total_conns:,} reverse connections collected")
 
     # Write reverse graph binary
+    source_uuid_arr = np.frombuffer(bytes(source_uuids), dtype="S16")
     reverse_index: dict[str, int] = {}
 
     with rev_graph_bin.open("wb") as outfile, Progress() as progress:
@@ -178,22 +258,18 @@ def process_graph(
             "[green]Writing reverse graph binary...", total=len(reverse_data)
         )
 
-        for target_id, conn_buf in reverse_data.items():
+        for target_bytes, conn_buf in reverse_data.items():
             progress.advance(task)
-            try:
-                target_bytes = _uuid_bytes(target_id)
-            except ValueError:
-                continue
+            edges = np.frombuffer(conn_buf, dtype=_REV_EDGE_DTYPE)
+            order = np.argsort(-edges["weight"], kind="stable")
+            out = np.empty(edges.size, dtype=_OUT_EDGE_DTYPE)
+            out["uuid"] = source_uuid_arr[edges["src"][order]]
+            out["weight"] = edges["weight"][order]
 
-            n_conns = len(conn_buf) // 20
-            chunks = [conn_buf[i : i + 20] for i in range(0, len(conn_buf), 20)]
-            chunks.sort(key=lambda c: _unpack_float(c[16:20])[0], reverse=True)
-
-            reverse_index[target_id] = outfile.tell()
+            reverse_index[_uuid_str(target_bytes)] = outfile.tell()
             outfile.write(target_bytes)
-            outfile.write(_pack_uint32(n_conns))
-            for chunk in chunks:
-                outfile.write(chunk)
+            outfile.write(_pack_uint32(edges.size))
+            outfile.write(out.tobytes())
 
     return {
         "forward_index": forward_index,

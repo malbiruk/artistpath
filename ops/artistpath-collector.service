@@ -8,8 +8,13 @@ Type=simple
 WorkingDirectory=/var/home/klimasos/Services/artistpath/data_collection
 ExecStart=/home/klimasos/.local/bin/uv run python run_collection.py
 EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
 RestartSec=3600
+# On stop the collector finishes its current batch and saves state.
+TimeoutStopSec=300
+# Fedora's default is abort (SIGABRT + multi-GB coredump); just kill it instead.
+TimeoutStopFailureMode=terminate
 
 [Install]
 WantedBy=default.target

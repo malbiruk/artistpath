@@ -9,12 +9,12 @@ scale (billions of triplets) is not tractable.
 """
 
 import argparse
-import gc
 import gzip
 import json
 import mmap
 import pickle
 import random
+import resource
 import struct
 import time
 from pathlib import Path
@@ -23,7 +23,6 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 import orjson
-import psutil
 from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
 from rich.table import Table
@@ -71,18 +70,18 @@ def load_graph_csr_from_binary(
     metadata_path: Path,
     graph_path: Path,
 ) -> tuple[sparse.csr_matrix, dict[bytes, int], int]:
-    """Build CSR by reading graph.bin via mmap + the forward_index in metadata.bin."""
+    """Build CSR from a memory-mapped graph.bin + the forward_index in metadata.bin.
+
+    Source nodes are interned first, in file order, so their edge blocks arrive
+    in increasing row order and are written straight into preallocated CSR
+    arrays — no COO intermediate, no per-row arrays to concatenate (millions of
+    small arrays fragment the heap and never get returned to the OS), and no
+    full copy of graph.bin in RAM.
+    """
     console.print(f"[cyan]Loading forward index from {metadata_path}...")
     forward_entries = _load_forward_index(metadata_path)
     forward_entries.sort(key=lambda e: e[1])
     console.print(f"[green]✓ {len(forward_entries):,} source nodes in index")
-
-    console.print(f"[cyan]Loading graph file {graph_path} into memory...")
-    t_read = time.time()
-    graph_bytes = graph_path.read_bytes()
-    console.print(
-        f"[green]✓ Loaded {len(graph_bytes) / 1024**3:.2f} GB in {time.time() - t_read:.1f}s",
-    )
 
     id_to_idx: dict[bytes, int] = {}
 
@@ -93,82 +92,95 @@ def load_graph_csr_from_binary(
             id_to_idx[uuid_b] = idx
         return idx
 
-    rows: list[npt.NDArray[np.int32]] = []
-    cols: list[npt.NDArray[np.int32]] = []
-    data: list[npt.NDArray[np.float32]] = []
+    for uuid_b, _ in forward_entries:
+        intern(uuid_b)
+    n_sources = len(id_to_idx)
+    if n_sources != len(forward_entries):
+        raise ValueError("forward index has duplicate source ids; CSR rows would misalign")
+
+    row_counts = np.zeros(n_sources, dtype=np.int64)
     source_nodes = 0
     total_edges_seen = 0
+    filled = 0
 
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        BarColumn(),
-        console=console,
-    ) as progress:
+    console.print(f"[cyan]Parsing graph file {graph_path} (mmap)...")
+    with (
+        graph_path.open("rb") as graph_fh,
+        mmap.mmap(graph_fh.fileno(), 0, access=mmap.ACCESS_READ) as graph_bytes,
+        Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            console=console,
+        ) as progress,
+    ):
         task = progress.add_task("Parsing graph.bin...", total=len(forward_entries))
+        graph_len = len(graph_bytes)
+        block = uuid_view = weights = None
 
-        for i, (uuid_b, pos) in enumerate(forward_entries):
-            if pos + 20 > len(graph_bytes):
-                continue
-            # 16-byte UUID stored in record (skip verify for speed)
-            (conn_count,) = struct.unpack_from("<I", graph_bytes, pos + 16)
-            src = intern(uuid_b)
-            if conn_count == 0:
-                continue
-            source_nodes += 1
-            edges_start = pos + 20
+        # Upper bound on edges (non-positive weights are dropped below).
+        max_edges = 0
+        for _, pos in forward_entries:
+            if pos + 20 <= graph_len:
+                max_edges += struct.unpack_from("<I", graph_bytes, pos + 16)[0]
+        indices = np.empty(max_edges, dtype=np.int32)
+        data = np.empty(max_edges, dtype=np.float32)
 
-            # Vectorized parse of edge block — offset+count avoids slicing
-            # the underlying bytes (zero-copy view)
-            block = np.frombuffer(
-                graph_bytes,
-                dtype=_EDGE_DTYPE,
-                count=conn_count,
-                offset=edges_start,
-            )
-            # Intern all target UUIDs (still Python-level, but bulk extracted)
-            tgt_indices = np.empty(conn_count, dtype=np.int32)
-            uuid_view = block["uuid"]
-            for k in range(conn_count):
-                tgt_indices[k] = intern(bytes(uuid_view[k]))
+        try:
+            for uuid_b, pos in forward_entries:
+                row = id_to_idx[uuid_b]
+                if pos + 20 > graph_len:
+                    continue
+                # 16-byte UUID stored in record (skip verify for speed)
+                (conn_count,) = struct.unpack_from("<I", graph_bytes, pos + 16)
+                if conn_count == 0:
+                    continue
+                source_nodes += 1
 
-            weights = block["weight"].copy()
-            # Keep only positive weights
-            mask = weights > 0
-            if mask.all():
-                rows.append(np.full(conn_count, src, dtype=np.int32))
-                cols.append(tgt_indices)
-                data.append(weights)
-            else:
-                rows.append(np.full(mask.sum(), src, dtype=np.int32))
-                cols.append(tgt_indices[mask])
-                data.append(weights[mask])
-            total_edges_seen += conn_count
+                block = np.frombuffer(
+                    graph_bytes,
+                    dtype=_EDGE_DTYPE,
+                    count=conn_count,
+                    offset=pos + 20,
+                )
+                tgt_indices = np.empty(conn_count, dtype=np.int32)
+                uuid_view = block["uuid"]
+                for k in range(conn_count):
+                    tgt_indices[k] = intern(bytes(uuid_view[k]))
 
-            if (i & 0xFFFF) == 0:
-                progress.update(task, completed=i)
+                weights = block["weight"]
+                # Keep only positive weights
+                mask = weights > 0
+                if not mask.all():
+                    tgt_indices = tgt_indices[mask]
+                    weights = weights[mask]
+                n_kept = tgt_indices.size
+                indices[filled : filled + n_kept] = tgt_indices
+                data[filled : filled + n_kept] = weights
+                filled += n_kept
+                row_counts[row] = n_kept
+                total_edges_seen += conn_count
 
-    # Release the big bytes object before building CSR. We must also drop
-    # any numpy views (block, uuid_view) that reference graph_bytes via
-    # `.base`, otherwise the refcount stays nonzero and the memory isn't
-    # actually freed until function return.
-    block = None
-    uuid_view = None
-    del graph_bytes
-    gc.collect()
+                if (row & 0xFFFF) == 0:
+                    progress.update(task, completed=row)
+        finally:
+            # Drop every view into the mmap before it is closed, or the close
+            # raises BufferError (and masks any real exception).
+            block = uuid_view = weights = None
 
     n = len(id_to_idx)
     console.print(f"[green]✓ Parsed {n:,} nodes, {total_edges_seen:,} edges")
 
-    rows_arr = np.concatenate(rows) if rows else np.empty(0, dtype=np.int32)
-    cols_arr = np.concatenate(cols) if cols else np.empty(0, dtype=np.int32)
-    data_arr = np.concatenate(data) if data else np.empty(0, dtype=np.float32)
-    del rows, cols, data
-    gc.collect()
+    # Rows were emitted in increasing order (sources interned in file order),
+    # so indptr comes straight from the per-row counts; target-only nodes have
+    # empty rows.
+    indptr = np.zeros(n + 1, dtype=np.int64)
+    indptr[1 : n_sources + 1] = np.cumsum(row_counts)
+    indptr[n_sources + 1 :] = indptr[n_sources]
+    del row_counts
 
-    A = sparse.csr_matrix((data_arr, (rows_arr, cols_arr)), shape=(n, n))
-    del rows_arr, cols_arr, data_arr
-    gc.collect()
+    A = sparse.csr_matrix((data[:filled], indices[:filled], indptr), shape=(n, n))
+    del data, indices, indptr
     A.sum_duplicates()
     A.eliminate_zeros()
     console.print(f"[green]✓ Built CSR: nnz={A.nnz:,}")
@@ -200,15 +212,25 @@ def degree_stats_dict(degrees: npt.NDArray[np.int64]) -> dict[str, Any]:
     }
 
 
-def weight_stats_dict(weights: npt.NDArray[np.float64]) -> dict[str, Any]:
+def weight_stats_dict(weights: npt.NDArray[np.float32]) -> dict[str, Any]:
+    """Stats straight from the float32 edge weights: float64 accumulation in
+    chunks for mean/std and a single float32 partition copy for the percentiles,
+    rather than a float64 copy of all edges."""
+    mean = float(np.mean(weights, dtype=np.float64))
+    sq_dev = 0.0
+    for chunk in np.array_split(weights, max(1, weights.size // 50_000_000)):
+        d = chunk.astype(np.float64) - mean
+        sq_dev += float(np.dot(d, d))
+    std = (sq_dev / weights.size) ** 0.5 if weights.size else 0.0
+    q25, median, q75 = np.percentile(weights, [25, 50, 75])
     return {
-        "mean": float(np.mean(weights)),
-        "median": float(np.median(weights)),
-        "std": float(np.std(weights)),
+        "mean": mean,
+        "median": float(median),
+        "std": std,
         "min": float(np.min(weights)),
         "max": float(np.max(weights)),
-        "q25": float(np.percentile(weights, 25)),
-        "q75": float(np.percentile(weights, 75)),
+        "q25": float(q25),
+        "q75": float(q75),
         "sample_size": int(len(weights)),
     }
 
@@ -216,11 +238,23 @@ def weight_stats_dict(weights: npt.NDArray[np.float64]) -> dict[str, Any]:
 def calculate_reciprocity(A: sparse.csr_matrix) -> float:
     """Exact reciprocity: fraction of edges (i,j) such that (j,i) also exists."""
     console.print("[cyan]Calculating reciprocity (exact)...")
-    bin_a = (A > 0).astype(np.int8)
-    # multiply elementwise: positions with both A[i,j] and A[j,i] > 0 stay positive
-    reciprocal = bin_a.multiply(bin_a.T)
-    rec = reciprocal.nnz / bin_a.nnz if bin_a.nnz else 0.0
-    console.print(f"[green]✓ Reciprocity: {rec:.4%} over {bin_a.nnz:,} edges")
+    # Pattern-only matrix sharing A's structure (A holds positive weights only).
+    # A must be canonical: a lazy sort here would permute A's shared indices.
+    assert A.has_canonical_format
+    pattern = sparse.csr_matrix(
+        (np.ones(A.nnz, dtype=np.int8), A.indices, A.indptr), shape=A.shape
+    )
+    transposed = pattern.T.tocsr()
+    # Elementwise product (positions with both A[i,j] and A[j,i] > 0) in row
+    # blocks: scipy sizes the product's buffers for the combined nnz of both
+    # operands, several GB for the whole matrix.
+    reciprocal_nnz = 0
+    block = 100_000
+    for start in range(0, A.shape[0], block):
+        stop = min(start + block, A.shape[0])
+        reciprocal_nnz += pattern[start:stop].multiply(transposed[start:stop]).nnz
+    rec = reciprocal_nnz / pattern.nnz if pattern.nnz else 0.0
+    console.print(f"[green]✓ Reciprocity: {rec:.4%} over {pattern.nnz:,} edges")
     return float(rec)
 
 
@@ -270,12 +304,21 @@ def clustering_coefficient(
     if valid.size > node_sample:
         valid = np.random.choice(valid, node_sample, replace=False)
 
-    # Precompute neighbor sets for the sampled nodes — set membership is O(1).
-    # The other ~2/3 of the time the script spends on random.randint dominates.
-    neighbor_sets: dict[int, set[int]] = {
-        int(a): set(indices[indptr[a] : indptr[a + 1]].tolist()) for a in valid
+    # Neighbour rows of the sampled nodes as views into the (canonical, hence
+    # sorted) CSR indices; membership via searchsorted. Python sets of ~190
+    # neighbours for 200k nodes cost several GB.
+    assert A.has_canonical_format
+    neighbors: dict[int, npt.NDArray[np.int32]] = {
+        int(a): indices[indptr[a] : indptr[a + 1]] for a in valid
     }
-    valid_list = list(neighbor_sets.keys())
+    valid_list = list(neighbors.keys())
+
+    def has_edge(src: int, dst: int) -> bool:
+        row = neighbors.get(src)
+        if row is None:
+            row = indices[indptr[src] : indptr[src + 1]]
+        pos = np.searchsorted(row, dst)
+        return bool(pos < row.size and row[pos] == dst)
 
     triangles = 0
     triplets = 0
@@ -293,24 +336,15 @@ def clustering_coefficient(
         while triplets < triplet_sample and attempts < max_attempts:
             attempts += 1
             a = random.choice(valid_list)
-            neighbors_a = neighbor_sets[a]
-            if len(neighbors_a) < 2:
+            neighbors_a = neighbors[a]
+            if neighbors_a.size < 2:
                 continue
-            b, c = random.sample(tuple(neighbors_a), 2)
+            i, j = random.sample(range(neighbors_a.size), 2)
+            b, c = int(neighbors_a[i]), int(neighbors_a[j])
             triplets += 1
-            # Triangle if B→C or C→B exists. Use precomputed sets where we
-            # have them; fall back to indices lookup otherwise.
-            b_neighbors = neighbor_sets.get(b)
-            if b_neighbors is None:
-                b_neighbors = set(indices[indptr[b] : indptr[b + 1]].tolist())
-            if c in b_neighbors:
+            # Triangle if B→C or C→B exists.
+            if has_edge(b, c) or has_edge(c, b):
                 triangles += 1
-            else:
-                c_neighbors = neighbor_sets.get(c)
-                if c_neighbors is None:
-                    c_neighbors = set(indices[indptr[c] : indptr[c + 1]].tolist())
-                if b in c_neighbors:
-                    triangles += 1
             if triplets % 10000 == 0:
                 progress.update(task, completed=triplets)
 
@@ -334,7 +368,7 @@ def _uuid_bytes_to_str(b: bytes) -> str:
 def top_nodes(
     out_degrees: npt.NDArray[np.int64],
     in_degrees: npt.NDArray[np.int64],
-    idx_to_id: dict[int, bytes],
+    id_to_idx: dict[bytes, int],
     metadata_path: Path | None,
     n: int = 20,
 ) -> dict[str, list[tuple[str, int]]]:
@@ -342,6 +376,10 @@ def top_nodes(
     top_out_idx = top_out_idx[np.argsort(-out_degrees[top_out_idx])]
     top_in_idx = np.argpartition(-in_degrees, min(n, in_degrees.size - 1))[:n]
     top_in_idx = top_in_idx[np.argsort(-in_degrees[top_in_idx])]
+
+    # Invert the id map only for the handful of indices we report.
+    wanted_idx = set(top_out_idx.tolist()) | set(top_in_idx.tolist())
+    idx_to_id = {idx: uuid for uuid, idx in id_to_idx.items() if idx in wanted_idx}
 
     top_out_ids = [_uuid_bytes_to_str(idx_to_id[int(i)]) for i in top_out_idx]
     top_in_ids = [_uuid_bytes_to_str(idx_to_id[int(i)]) for i in top_in_idx]
@@ -386,10 +424,14 @@ def save_distributions(
     needs to be capped (Cloudflare Pages 25 MB per-file limit)."""
     output_dir.mkdir(exist_ok=True, parents=True)
 
+    rng = np.random.default_rng()
+
     def subsample(arr: npt.NDArray, k: int) -> npt.NDArray:
         if arr.size <= k:
             return arr
-        idx = np.random.choice(arr.size, k, replace=False)
+        # Generator.choice draws k of n without a full n-element permutation
+        # (the legacy np.random.choice needs ~8 bytes × n, GBs for the weights).
+        idx = rng.choice(arr.size, k, replace=False)
         return arr[idx]
 
     distributions: dict[str, Any] = {
@@ -463,16 +505,17 @@ def main() -> None:
     n = A.shape[0]
     num_edges = int(A.nnz)
 
-    # Reverse map for top-node lookup
-    idx_to_id = {idx: uuid for uuid, idx in id_to_idx.items()}
-
     # Degree arrays (exact, from CSR)
     console.print("[cyan]Computing degree distributions...")
-    out_degrees = np.asarray(A.getnnz(axis=1), dtype=np.int64)
-    in_degrees = np.asarray(A.getnnz(axis=0), dtype=np.int64)
+    out_degrees = np.diff(A.indptr).astype(np.int64)
+    # scipy's getnnz(axis=0) casts every column index to int64 for one bincount
+    # (a full-size copy); count in chunks instead.
+    in_degrees = np.zeros(A.shape[1], dtype=np.int64)
+    for chunk in np.array_split(A.indices, max(1, A.indices.size // 50_000_000)):
+        in_degrees += np.bincount(chunk, minlength=A.shape[1])
 
-    # Weights (exact, from CSR data)
-    weights = A.data.copy()
+    # Weights (exact, from CSR data; read-only use, no copy)
+    weights = A.data
 
     # Reciprocity (exact)
     reciprocity = calculate_reciprocity(A)
@@ -494,7 +537,7 @@ def main() -> None:
     top = top_nodes(
         out_degrees,
         in_degrees,
-        idx_to_id,
+        id_to_idx,
         metadata_ndjson_path if metadata_ndjson_path.exists() else None,
     )
 
@@ -518,7 +561,7 @@ def main() -> None:
                 "full_count": int(in_degrees.size),
             },
         },
-        "weight_stats": weight_stats_dict(weights.astype(np.float64)),
+        "weight_stats": weight_stats_dict(weights),
         "clustering": clustering,
         "power_law_fits": power_law_fits,
         "top_nodes": top,
@@ -534,7 +577,7 @@ def main() -> None:
 
     save_distributions(output_dir, output_prefix, out_degrees, in_degrees, weights, reciprocity)
 
-    memory_mb = psutil.Process().memory_info().rss / (1024**2)
+    memory_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
     console.print(f"[cyan]Peak resident memory: {memory_mb:.0f} MB")
     console.print(f"[cyan]Total time: {metrics_out['computation_time']:.1f} s")
 

@@ -6,3 +6,9 @@ Type=oneshot
 WorkingDirectory=/var/home/klimasos/Services/artistpath
 ExecStart=/var/home/klimasos/Services/artistpath/ops/check_and_refresh.sh
 EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+Environment=PATH=/home/klimasos/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin
+Environment=PYTHONUNBUFFERED=1
+# Keep the rebuild from starving the live backend.
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

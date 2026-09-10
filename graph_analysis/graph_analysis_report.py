@@ -4,7 +4,7 @@
 title: Last.fm Artist Similarity Graph Analysis
 subtitle: Network Structure and Distribution Analysis
 author: Klim Kostiuk
-date: 2026-05-24
+date: today
 format:
   html:
     code-fold: true

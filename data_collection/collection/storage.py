@@ -1,6 +1,7 @@
 """Data storage utilities for NDJSON and state management."""
 
 import json
+import os
 from collections import deque
 from pathlib import Path
 
@@ -47,12 +48,34 @@ def load_existing_data(output_dir: str = "../data") -> tuple[dict, dict, set, de
     return graph, artist_metadata, processed_mbids, queue
 
 
+def load_names(output_dir: str = "../data") -> dict[str, str]:
+    """Map every metadata id to its name. Lines corrupted by a past crash are skipped."""
+    names: dict[str, str] = {}
+    metadata_path = Path(output_dir) / "metadata.ndjson"
+    if not metadata_path.exists():
+        return names
+    with metadata_path.open() as f:
+        for line in f:
+            if not line.strip():
+                continue
+            try:
+                entry = json.loads(line)
+                names[entry["id"]] = entry["name"]
+            except (json.JSONDecodeError, KeyError, TypeError):
+                continue
+    return names
+
+
 def save_state(processed_mbids: set, queue: deque, output_dir: str = "../data") -> None:
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     state_path = Path(output_dir) / "collection_state.json"
+    tmp_path = state_path.with_suffix(".json.tmp")
     state = {"processed_mbids": list(processed_mbids), "queue": list(queue)}
-    with state_path.open("w") as f:
+    with tmp_path.open("w") as f:
         json.dump(state, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp_path, state_path)
 
 
 def append_to_graph(node_id: str, connections: list, output_dir: str = "../data") -> None:

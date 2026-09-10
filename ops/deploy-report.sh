@@ -22,4 +22,4 @@ trap "rm -rf '$TMPDIR'" EXIT
 
 cp "$REPORT_HTML" "$TMPDIR/index.html"
 echo "📤 Deploying $REPORT_HTML to Cloudflare Pages project '$PROJECT_NAME'"
-npx wrangler pages deploy "$TMPDIR" --project-name="$PROJECT_NAME" --branch=main
+npx --yes wrangler pages deploy "$TMPDIR" --project-name="$PROJECT_NAME" --branch=main
