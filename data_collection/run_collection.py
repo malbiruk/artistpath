@@ -32,7 +32,7 @@ async def main() -> None:
 
 def show_file_sizes() -> None:
     data_dir = Path("../data")
-    files = ["graph.ndjson", "metadata.ndjson", "collection_state.json", "seen_metadata.txt"]
+    files = ["graph.ndjson", "metadata.ndjson", "collection_state.json"]
 
     print("\n📂 File sizes:")
     total = 0

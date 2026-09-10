@@ -59,6 +59,11 @@ def process_metadata(
             if mbid in blocklist:
                 continue
 
+            # Artists whose every edge was removed by cleaning are not in the
+            # graph; keep them out of search too.
+            if mbid not in forward_index and mbid not in reverse_index:
+                continue
+
             metadata[mbid] = {"name": name, "url": url}
 
             clean_name = clean_str(name)

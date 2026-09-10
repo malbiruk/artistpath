@@ -10,21 +10,6 @@ import tenacity
 from collection.collector import StreamingCollector
 
 
-def test_save_state_round_trips_metadata_ids_and_leaves_no_temp_file(tmp_path):
-    collector = StreamingCollector(output_dir=str(tmp_path))
-    collector.seen_metadata_ids = {"id-a", "id-b", "id-c"}
-
-    collector.save_state()
-
-    ids = {
-        line.strip()
-        for line in (tmp_path / "seen_metadata.txt").read_text().splitlines()
-        if line.strip()
-    }
-    assert ids == {"id-a", "id-b", "id-c"}
-    assert not (tmp_path / "seen_metadata.txt.tmp").exists()
-
-
 def test_add_metadata_if_new_makes_name_available_for_lookup(tmp_path):
     collector = StreamingCollector(output_dir=str(tmp_path))
 
@@ -103,3 +88,18 @@ def test_process_single_artist_requeues_artist_on_retry_error(tmp_path, monkeypa
     assert artist_id not in collector.processed_mbids
     assert list(collector.queue) == [artist_id]
     assert not (tmp_path / "graph.ndjson").exists()
+
+
+def test_load_state_requeues_artists_discovered_after_the_last_save(tmp_path):
+    processed, queued, discovered_later = (str(uuid.uuid4()) for _ in range(3))
+    (tmp_path / "collection_state.json").write_text(
+        json.dumps({"processed_mbids": [processed], "queue": [queued]})
+    )
+    with (tmp_path / "metadata.ndjson").open("w") as f:
+        for artist_id in (processed, queued, discovered_later):
+            f.write(json.dumps({"id": artist_id, "name": "x", "url": "u"}) + "\n")
+
+    collector = StreamingCollector(output_dir=str(tmp_path))
+    collector.load_state()
+
+    assert list(collector.queue) == [queued, discovered_later]

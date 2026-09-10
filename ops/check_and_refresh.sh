@@ -12,6 +12,10 @@
 #
 # The collector keeps running throughout: postprocessing reads the append-only
 # NDJSON and skips a partially written last line.
+#
+# The unit's environment comes from .env only, so to override the shrink gate
+# after an intentional cleaning change add REFRESH_ALLOW_SHRINK=1 there for one
+# run (or run this script by hand with it set).
 set -euo pipefail
 
 THRESHOLD=100000
@@ -45,8 +49,23 @@ wait_healthy() {
     return 1
 }
 
+# A bin needs restoring if this run rotated it, or if it is missing while its
+# *.old exists (a signal can land between the rotation mv and the ROTATED
+# bookkeeping). Stale *.old files next to a present live bin are left alone.
+needs_restore() {
+    [ -f "$DATA_DIR/$1.old" ] && { [[ " $ROTATED " == *" $1 "* ]] || [ ! -f "$DATA_DIR/$1" ]; }
+}
+
+swap_in_progress() {
+    for b in $BINS; do
+        needs_restore "$b" && return 0
+    done
+    return 1
+}
+
 restore_old() {
-    for b in $ROTATED; do
+    for b in $BINS; do
+        needs_restore "$b" || continue
         if [ -f "$DATA_DIR/$b" ]; then
             mv -f "$DATA_DIR/$b" "$DATA_DIR/$b.bad"
         fi
@@ -61,7 +80,7 @@ on_exit() {
         return 0
     fi
     echo "❌ Refresh failed (exit code $rc)"
-    if [ -n "$ROTATED" ]; then
+    if swap_in_progress; then
         echo "Restoring previous binaries from *.old"
         systemctl --user stop artistpath-backend.service
         restore_old
@@ -70,6 +89,18 @@ on_exit() {
     ping_hc /fail
 }
 trap on_exit EXIT
+# A signal (systemctl stop, reboot, Ctrl-C) must also run on_exit's rollback.
+trap 'exit 130' INT
+trap 'exit 143' TERM
+trap 'exit 129' HUP
+
+# Self-heal after a SIGKILL or power loss mid-swap (live bin missing, *.old
+# present): put the previous build back before doing anything else.
+if swap_in_progress; then
+    echo "Live binaries missing from an interrupted swap, restoring *.old"
+    restore_old
+    systemctl --user start artistpath-backend.service
+fi
 
 if [ ! -f "$STATE_FILE" ]; then
     echo "No collection_state.json found, skipping"
@@ -101,6 +132,21 @@ if [ "$DIFF" -ge "$THRESHOLD" ]; then
             exit 1
         fi
     done
+
+    # The NDJSON only grows, so a build noticeably smaller than the live one
+    # means broken input or a cleaning regression. REFRESH_ALLOW_SHRINK=1
+    # overrides after an intentional cleaning change.
+    if [ "${REFRESH_ALLOW_SHRINK:-0}" != 1 ]; then
+        for b in $BINS; do
+            [ -f "$DATA_DIR/$b" ] || continue
+            live_size=$(stat -c %s "$DATA_DIR/$b")
+            new_size=$(stat -c %s "$STAGING_DIR/$b")
+            if [ "$new_size" -lt $((live_size * 90 / 100)) ]; then
+                echo "Staging $b is $new_size bytes vs $live_size live: refusing a build >10% smaller (REFRESH_ALLOW_SHRINK=1 to override)"
+                exit 1
+            fi
+        done
+    fi
 
     systemctl --user stop artistpath-backend.service
     for b in $BINS; do

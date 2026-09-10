@@ -5,7 +5,7 @@ Description=Artistpath Backend Health Check
 Type=oneshot
 EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
 # Collector: ping only if it saved state within the last 30 minutes (it saves
-# every ~100 crawled artists). Prefixed with "-" so a silent collector does not
-# stop the backend check below from running.
+# every 10 minutes). Prefixed with "-" so a silent collector does not stop the
+# backend check below from running.
 ExecStart=-/bin/sh -c '[ -z "$HC_COLLECTOR_UUID" ] || [ $(( $(date +%%s) - $(stat -c %%Y /var/home/klimasos/Services/artistpath/data/collection_state.json) )) -gt 1800 ] || curl -fsS -m 10 --retry 3 "https://hc-ping.com/$HC_COLLECTOR_UUID"'
 ExecStart=/bin/sh -c 'curl -fsS -m 10 http://localhost:3050/health && curl -fsS -m 10 --retry 3 https://hc-ping.com/${HC_BACKEND_UUID}'

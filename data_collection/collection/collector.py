@@ -2,8 +2,8 @@
 
 import asyncio
 import json
-import os
 import signal
+import time
 from collections import deque
 from pathlib import Path
 
@@ -19,6 +19,11 @@ from .api_client import (
 )
 from .storage import append_to_graph, append_to_metadata, load_names, save_state
 
+# State is ~250 MB and rewritten whole; saving every few batches would write
+# terabytes a day. A crash costs at most this much crawling (re-crawled
+# records are superseded by postprocessing's last-record-wins rule).
+SAVE_INTERVAL_SECONDS = 600
+
 
 class StreamingCollector:
     def __init__(self, output_dir: str = "../data") -> None:
@@ -26,14 +31,12 @@ class StreamingCollector:
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         self.processed_mbids: set[str] = set()
-        self.seen_metadata_ids: set[str] = set()
-        self.names: dict[str, str] = {}
+        self.names: dict[str, str] = {}  # every artist with a metadata entry
         self.queue: deque = deque()
         self.stop_requested = False
 
     def load_state(self) -> bool:
         state_path = self.output_dir / "collection_state.json"
-        metadata_ids_path = self.output_dir / "seen_metadata.txt"
 
         if not state_path.exists():
             return False
@@ -43,28 +46,25 @@ class StreamingCollector:
             self.processed_mbids = set(state.get("processed_mbids", []))
             self.queue = deque(state.get("queue", []))
 
-        if metadata_ids_path.exists():
-            with metadata_ids_path.open() as f:
-                self.seen_metadata_ids = {line.strip() for line in f if line.strip()}
-
         self.names = load_names(str(self.output_dir))
+
+        # metadata.ndjson is appended as artists are discovered, so after a
+        # crash it is ahead of the saved queue: anything discovered since the
+        # last save is neither processed nor queued. Rebuild that frontier.
+        queued = set(self.queue)
+        self.queue.extend(
+            artist_id
+            for artist_id in self.names
+            if artist_id not in self.processed_mbids and artist_id not in queued
+        )
 
         print(f"Resuming with {len(self.processed_mbids)} processed artists")
         print(f"Queue has {len(self.queue)} pending artists")
-        print(f"Tracking {len(self.seen_metadata_ids)} metadata entries")
+        print(f"Tracking {len(self.names)} metadata entries")
         return True
 
     def save_state(self) -> None:
         save_state(self.processed_mbids, self.queue, str(self.output_dir))
-
-        metadata_ids_path = self.output_dir / "seen_metadata.txt"
-        tmp_path = metadata_ids_path.with_suffix(".txt.tmp")
-        with tmp_path.open("w") as f:
-            for metadata_id in self.seen_metadata_ids:
-                f.write(f"{metadata_id}\n")
-            f.flush()
-            os.fsync(f.fileno())
-        os.replace(tmp_path, metadata_ids_path)
 
     def request_stop(self) -> None:
         # Idempotent: systemd signals the whole cgroup and uv forwards its copy,
@@ -74,8 +74,7 @@ class StreamingCollector:
         self.stop_requested = True
 
     def add_metadata_if_new(self, node_id: str, name: str, url: str) -> bool:
-        if node_id not in self.seen_metadata_ids:
-            self.seen_metadata_ids.add(node_id)
+        if node_id not in self.names:
             self.names[node_id] = name
             append_to_metadata(node_id, name, url, str(self.output_dir))
             return True
@@ -212,6 +211,7 @@ class StreamingCollector:
 
             total_processed = len(self.processed_mbids)
             batch_count = 0
+            last_save = time.monotonic()
 
             while (
                 self.queue
@@ -253,11 +253,12 @@ class StreamingCollector:
                 print(f"  Queue size: {len(self.queue)}")
                 print(
                     f"  Memory usage: {len(self.processed_mbids)} processed IDs, "
-                    f"{len(self.seen_metadata_ids)} metadata entries",
+                    f"{len(self.names)} metadata entries",
                 )
 
-                if batch_count % 10 == 0:
+                if time.monotonic() - last_save >= SAVE_INTERVAL_SECONDS:
                     self.save_state()
+                    last_save = time.monotonic()
                     print(f"  Saved state at batch {batch_count}")
 
                 await asyncio.sleep(0.1)
@@ -272,13 +273,13 @@ class StreamingCollector:
         else:
             print("\n🎉 Collection complete!")
         print(f"📊 Processed {len(self.processed_mbids)} artists")
-        print(f"📝 Collected {len(self.seen_metadata_ids)} metadata entries")
+        print(f"📝 Collected {len(self.names)} metadata entries")
         print(f"⏭️  Queue remaining: {len(self.queue)}")
         print_api_error_summary()
 
         return {
             "processed_artists": len(self.processed_mbids),
-            "metadata_entries": len(self.seen_metadata_ids),
+            "metadata_entries": len(self.names),
             "queue_remaining": len(self.queue),
             "completed": len(self.queue) == 0,
         }

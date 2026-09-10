@@ -2,8 +2,8 @@
 """Calculate graph metrics by loading the full graph into scipy.sparse CSR.
 
 All summary stats (degree, weight, reciprocity, power-law fits) are exact.
-Distributions are saved at full resolution for degrees; edge weights are
-subsampled only for plot rendering (full set is hundreds of millions).
+Degree and weight distributions are subsampled only for plot rendering
+(the full sets are millions and hundreds of millions of values).
 Clustering coefficient remains sampled — exact triangle counting at this
 scale (billions of triplets) is not tractable.
 """
@@ -118,13 +118,14 @@ def load_graph_csr_from_binary(
         graph_len = len(graph_bytes)
         block = uuid_view = weights = None
 
-        # Upper bound on edges (non-positive weights are dropped below).
-        max_edges = 0
+        # Every stored edge is kept, weight 0.0 included, so the node and
+        # edge counts match what the backend serves.
+        n_edges = 0
         for _, pos in forward_entries:
             if pos + 20 <= graph_len:
-                max_edges += struct.unpack_from("<I", graph_bytes, pos + 16)[0]
-        indices = np.empty(max_edges, dtype=np.int32)
-        data = np.empty(max_edges, dtype=np.float32)
+                n_edges += struct.unpack_from("<I", graph_bytes, pos + 16)[0]
+        indices = np.empty(n_edges, dtype=np.int32)
+        data = np.empty(n_edges, dtype=np.float32)
 
         try:
             for uuid_b, pos in forward_entries:
@@ -149,16 +150,10 @@ def load_graph_csr_from_binary(
                     tgt_indices[k] = intern(bytes(uuid_view[k]))
 
                 weights = block["weight"]
-                # Keep only positive weights
-                mask = weights > 0
-                if not mask.all():
-                    tgt_indices = tgt_indices[mask]
-                    weights = weights[mask]
-                n_kept = tgt_indices.size
-                indices[filled : filled + n_kept] = tgt_indices
-                data[filled : filled + n_kept] = weights
-                filled += n_kept
-                row_counts[row] = n_kept
+                indices[filled : filled + conn_count] = tgt_indices
+                data[filled : filled + conn_count] = weights
+                filled += conn_count
+                row_counts[row] = conn_count
                 total_edges_seen += conn_count
 
                 if (row & 0xFFFF) == 0:
@@ -182,7 +177,6 @@ def load_graph_csr_from_binary(
     A = sparse.csr_matrix((data[:filled], indices[:filled], indptr), shape=(n, n))
     del data, indices, indptr
     A.sum_duplicates()
-    A.eliminate_zeros()
     console.print(f"[green]✓ Built CSR: nnz={A.nnz:,}")
     return A, id_to_idx, source_nodes
 
@@ -238,7 +232,7 @@ def weight_stats_dict(weights: npt.NDArray[np.float32]) -> dict[str, Any]:
 def calculate_reciprocity(A: sparse.csr_matrix) -> float:
     """Exact reciprocity: fraction of edges (i,j) such that (j,i) also exists."""
     console.print("[cyan]Calculating reciprocity (exact)...")
-    # Pattern-only matrix sharing A's structure (A holds positive weights only).
+    # Pattern-only matrix sharing A's structure (every stored entry is an edge).
     # A must be canonical: a lazy sort here would permute A's shared indices.
     assert A.has_canonical_format
     pattern = sparse.csr_matrix(

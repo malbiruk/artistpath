@@ -8,6 +8,8 @@ ExecStart=/var/home/klimasos/Services/artistpath/ops/check_and_refresh.sh
 EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
 Environment=PATH=/home/klimasos/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin
 Environment=PYTHONUNBUFFERED=1
+# On stop the script rolls the swap back and restarts the backend.
+TimeoutStopSec=300
 # Keep the rebuild from starving the live backend.
 Nice=10
 IOSchedulingClass=best-effort

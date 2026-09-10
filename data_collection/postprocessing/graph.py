@@ -58,6 +58,32 @@ def _find_chunk_boundaries(path: Path, n_chunks: int) -> list[int]:
     return boundaries
 
 
+def _superseded_offsets(graph_file: Path, end: int) -> set[int]:
+    """Byte offsets of records whose id appears again later in the file: the
+    collector appends, so a re-crawled artist's last record wins."""
+    last_offset: dict[bytes, int] = {}
+    superseded: set[int] = set()
+    with graph_file.open("rb") as f:
+        while f.tell() < end:
+            pos = f.tell()
+            line = f.readline()
+            if not line:
+                break
+            quote = line.find(b'"', 8)
+            if not line.startswith(b'{"id": "') or quote < 0:
+                continue
+            artist_id = line[8:quote]
+            previous = last_offset.get(artist_id)
+            if previous is not None:
+                try:  # a torn re-crawl must not supersede a valid record
+                    orjson.loads(line)
+                except orjson.JSONDecodeError:
+                    continue
+                superseded.add(previous)
+            last_offset[artist_id] = pos
+    return superseded
+
+
 def _blocked_mask(blocklist: np.ndarray, ids: np.ndarray) -> np.ndarray:
     """True where a 16-byte id occurs in the sorted S16 blocklist."""
     if blocklist.size == 0:
@@ -67,7 +93,7 @@ def _blocked_mask(blocklist: np.ndarray, ids: np.ndarray) -> np.ndarray:
 
 
 def _process_forward_chunk(
-    path: str, start: int, end: int, chunk_path: str
+    path: str, start: int, end: int, chunk_path: str, superseded: frozenset[int]
 ) -> tuple[int, list[tuple[str, int]]]:
     """Worker: write the forward-graph records of a byte range to chunk_path.
 
@@ -83,8 +109,9 @@ def _process_forward_chunk(
     with open(path, "rb") as f, open(chunk_path, "wb") as out:
         f.seek(start)
         while f.tell() < end:
+            pos = f.tell()
             line = f.readline().strip()
-            if not line:
+            if not line or pos in superseded:
                 continue
 
             try:
@@ -147,6 +174,9 @@ def process_graph(
     np.save(blocklist_path, np.sort(np.array(list(blocked), dtype="S16")))
     boundaries = _find_chunk_boundaries(graph_file, n_chunks)
     chunk_paths = [data_dir / f"graph.chunk{i:03d}.bin" for i in range(n_chunks)]
+    superseded = frozenset(_superseded_offsets(graph_file, boundaries[-1]))
+    if superseded:
+        print(f"  {len(superseded):,} re-crawled records superseded by later ones")
 
     # Phase 1: Forward graph. Workers stream records to per-chunk files that
     # are concatenated in order, so no chunk output is ever held in RAM.
@@ -171,6 +201,7 @@ def process_graph(
                     boundaries[i],
                     boundaries[i + 1],
                     str(chunk_paths[i]),
+                    superseded,
                 )
                 for i in range(n_chunks)
             ]
@@ -180,6 +211,8 @@ def process_graph(
             for i, future in enumerate(futures):
                 try:
                     chunk_size, chunk_ids = future.result()
+                    if chunk_paths[i].stat().st_size != chunk_size:
+                        raise RuntimeError(f"{chunk_paths[i]} is not the size its worker reported")
                 except BaseException:
                     pool.shutdown(cancel_futures=True)
                     raise
@@ -200,19 +233,26 @@ def process_graph(
 
     # Phase 2: Reverse graph (sequential). Each target collects (source
     # ordinal, weight) pairs; source UUIDs are looked up by ordinal on write.
+    # Reads exactly the byte range the forward phase covered, so both binaries
+    # describe the same snapshot even while the collector keeps appending.
     reverse_data: dict[bytes, bytearray] = {}
     source_uuids = bytearray()
     n_sources = 0
+    end = boundaries[-1]
 
     with graph_file.open("rb") as infile, Progress() as progress:
         task = progress.add_task(
             "[green]Collecting reverse connections...", total=line_count
         )
 
-        for raw_line in infile:
+        while infile.tell() < end:
+            pos = infile.tell()
+            raw_line = infile.readline()
+            if not raw_line:
+                break
             progress.advance(task)
             line = raw_line.strip()
-            if not line:
+            if not line or pos in superseded:
                 continue
 
             try:

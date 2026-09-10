@@ -20,9 +20,9 @@ PROJECT_NAME="artistpath-graph-stats"
 }
 set -a; source "$REPO_DIR/.env"; set +a
 
-TMPDIR="$(mktemp -d)"
-trap "rm -rf '$TMPDIR'" EXIT
+STAGE_DIR="$(mktemp -d)"
+trap "rm -rf '$STAGE_DIR'" EXIT
 
-cp "$REPORT_HTML" "$TMPDIR/index.html"
+cp "$REPORT_HTML" "$STAGE_DIR/index.html"
 echo "📤 Deploying $REPORT_HTML to Cloudflare Pages project '$PROJECT_NAME'"
-npx --yes wrangler pages deploy "$TMPDIR" --project-name="$PROJECT_NAME" --branch=main
+npx --yes wrangler pages deploy "$STAGE_DIR" --project-name="$PROJECT_NAME" --branch=main

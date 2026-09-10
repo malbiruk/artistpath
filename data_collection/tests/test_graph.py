@@ -151,3 +151,54 @@ def test_empty_connections_and_empty_blocklist_produce_zero_count_record(
     assert parse_bin(tmp_path / "rev-graph.bin") == {}
     assert result["artists"] == 1
     assert result["forward_connections"] == 0
+
+
+def test_reverse_pass_stops_at_the_forward_snapshot_boundary(tmp_path, monkeypatch):
+    """Records appended after the chunk boundaries were computed (the collector
+    keeps writing during a build) must not leak into the reverse graph."""
+    import postprocessing.graph as graph_module
+
+    src1, src2, tgt_early, tgt_late = (str(uuid.uuid4()) for _ in range(4))
+    write_ndjson(tmp_path / "graph.ndjson", [{"id": src1, "connections": [[tgt_early, 0.5]]}])
+    snapshot_size = (tmp_path / "graph.ndjson").stat().st_size
+    with (tmp_path / "graph.ndjson").open("a") as f:
+        f.write(json.dumps({"id": src2, "connections": [[tgt_late, 0.9]]}) + "\n")
+    monkeypatch.setattr(graph_module, "_find_chunk_boundaries", lambda path, n: [0] + [snapshot_size] * n)
+
+    stats = process_graph(tmp_path / "graph.ndjson", tmp_path)
+
+    assert set(stats["forward_index"]) == {src1}
+    assert set(stats["reverse_index"]) == {tgt_early}
+
+
+def test_last_record_wins_for_recrawled_artists(tmp_path):
+    src, old_target, new_target, other = (str(uuid.uuid4()) for _ in range(4))
+    write_ndjson(
+        tmp_path / "graph.ndjson",
+        [
+            {"id": src, "connections": [[old_target, 0.9], [other, 0.5]]},
+            {"id": src, "connections": [[new_target, 0.8], [other, 0.5]]},
+            '{"id": "%s", "connections": [["%s", 0.1' % (src, old_target),  # torn re-crawl: ignored
+        ],
+    )
+
+    stats = process_graph(tmp_path / "graph.ndjson", tmp_path)
+
+    forward = parse_bin(tmp_path / "graph.bin")
+    reverse = parse_bin(tmp_path / "rev-graph.bin")
+    assert list(forward) == [src]
+    assert [t for t, _ in forward[src][1]] == [new_target, other]
+    assert set(reverse) == {new_target, other}
+    assert reverse[other][1] == [(src, 0.5)]  # not doubled
+    assert stats["artists"] == 1
+
+
+def test_blocked_mask_handles_ids_with_trailing_nul_bytes():
+    import numpy as np
+    from postprocessing.graph import _blocked_mask
+
+    blocked = np.sort(np.array([b"ab" + b"\x00" * 14, b"\xff" * 15 + b"\x00"], dtype="S16"))
+    ids = np.array([b"ab" + b"\x00" * 14, b"ab" + b"\x00" * 13 + b"\x01", b"\xff" * 16], dtype="S16")
+
+    assert _blocked_mask(blocked, ids).tolist() == [True, False, False]
+    assert _blocked_mask(np.array([], dtype="S16"), ids).tolist() == [False, False, False]

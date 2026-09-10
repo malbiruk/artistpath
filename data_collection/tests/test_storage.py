@@ -46,3 +46,11 @@ def test_load_names_skips_corrupt_lines(tmp_path):
 
 def test_load_names_without_metadata_file(tmp_path):
     assert load_names(str(tmp_path)) == {}
+
+
+def test_append_to_graph_writes_the_prefix_postprocessing_scans_for(tmp_path):
+    from collection.storage import append_to_graph
+
+    append_to_graph("abc", [("def", 0.5)], str(tmp_path))
+
+    assert (tmp_path / "graph.ndjson").read_bytes().startswith(b'{"id": "abc", ')
