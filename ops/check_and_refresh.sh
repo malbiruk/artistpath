@@ -107,14 +107,17 @@ if [ ! -f "$STATE_FILE" ]; then
     exit 0
 fi
 
+# Graph records appended, not artists discovered: the collector's oldest-first
+# sweep refreshes edges in bulk while adding very few new artists, so gating on
+# the processed count would let the served bins sit stale for days.
 CURRENT_COUNT=$(cd "$COLLECTION_DIR" && "$UV" run python -c \
-    "import json; print(len(json.load(open('$STATE_FILE'))['processed_mbids']))")
+    "import json; s = json.load(open('$STATE_FILE')); print(s.get('crawled_total') or len(s['processed_mbids']))")
 LAST_COUNT=$(cat "$LAST_COUNT_FILE" 2>/dev/null || echo 0)
 DIFF=$((CURRENT_COUNT - LAST_COUNT))
 echo "Current: $CURRENT_COUNT, Last refresh: $LAST_COUNT, New: $DIFF"
 
 if [ "$DIFF" -ge "$THRESHOLD" ]; then
-    echo "Refreshing: $DIFF new artists since last refresh"
+    echo "Refreshing: $DIFF records crawled since last refresh"
     ping_hc /start
 
     rm -rf "$STAGING_DIR"
@@ -167,9 +170,9 @@ if [ "$DIFF" -ge "$THRESHOLD" ]; then
     fi
     ROTATED=""
     echo "$CURRENT_COUNT" > "$LAST_COUNT_FILE"
-    echo "Backend serving new data ($CURRENT_COUNT artists crawled)"
+    echo "Backend serving new data ($CURRENT_COUNT records crawled)"
 else
-    echo "Only $DIFF new artists, skipping rebuild (threshold: $THRESHOLD)"
+    echo "Only $DIFF new records, skipping rebuild (threshold: $THRESHOLD)"
 fi
 
 if [ -f "$LAST_COUNT_FILE" ] && [ "$(cat "$REPORT_COUNT_FILE" 2>/dev/null)" != "$(cat "$LAST_COUNT_FILE")" ]; then

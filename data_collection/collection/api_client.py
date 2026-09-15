@@ -73,8 +73,10 @@ def handle_rate_limit() -> None:
 
 
 def handle_forbidden_response() -> None:
-    print("❌ FORBIDDEN! Check your API key")
+    print("❌ FORBIDDEN! Check your API key - retrying...")
     API_ERRORS["forbidden"] += 1
+    API_ERRORS["retries"] += 1
+    raise APIError("HTTP 403 forbidden")
 
 
 def handle_other_api_error(response_status: int) -> None:
@@ -117,7 +119,7 @@ async def fetch_json(session: aiohttp.ClientSession, params: dict) -> dict | Non
                 handle_rate_limit()
 
             if response.status == RESPONSE_CODES["forbidden"]:
-                return handle_forbidden_response()
+                handle_forbidden_response()
 
             handle_other_api_error(response.status)
 

@@ -48,7 +48,17 @@ def main() -> None:
         if artist_id not in queued:
             queue.appendleft(artist_id)
     processed -= uncrawled
-    save_state(processed, queue, str(DATA_DIR))
+    # Carry the sweep fields through: defaulting them would reset the refresh
+    # cursor and zero crawled_total, which drives check_and_refresh.sh's delta
+    # negative and silently stops rebuilds until the count catches up again.
+    save_state(
+        processed,
+        queue,
+        str(DATA_DIR),
+        refresh_queue=deque(state.get("refresh_queue", [])),
+        refresh_offset=state.get("refresh_offset", 0),
+        crawled_total=state.get("crawled_total", 0),
+    )
     print(f"Saved: {len(processed):,} processed, {len(queue):,} queued")
 
 
