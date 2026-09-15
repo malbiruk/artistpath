@@ -8,6 +8,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 from postprocessing import (
+    build_survivor_index,
     identify_blocklisted_uuids,
     identify_cleaning_uuids,
     process_graph,
@@ -70,12 +71,24 @@ def main() -> None:
     blocklist = identify_blocklisted_uuids(metadata_file)
     print(f"✅ Sentinels: {len(blocklist):,} UUID(s)")
 
+    # Every later pass reads the graph through this index, so they all see the
+    # same snapshot and none of them counts a re-crawled record twice. Written
+    # to disk because both readers run in their own process and mmap it.
+    print("\n🧭 Step 0a: Indexing surviving graph records")
+    index_path = data_dir / "survivors.npy"
+    n_survivors = run_isolated(build_survivor_index, graph_file, index_path)
+    print(f"✅ Survivors: {n_survivors:,} record(s)")
+
     # Graph-aware cleaning (duplicates + collab/feature credits) removes ~25% of
     # nodes. On by default; kill-switch is ARTISTPATH_CLEANING=0.
     if os.getenv("ARTISTPATH_CLEANING", "1") != "0":
         print("\n🧹 Step 0b: Identifying duplicate + collab/feature UUIDs")
         dup_uuids, translit_uuids, collab_uuids = run_isolated(
-            identify_cleaning_uuids, graph_file, metadata_file, skip=blocklist
+            identify_cleaning_uuids,
+            graph_file,
+            metadata_file,
+            skip=blocklist,
+            survivor_index=index_path,
         )
         print(
             f"✅ Duplicates: {len(dup_uuids):,}  |  Translit dups: {len(translit_uuids):,}"
@@ -87,7 +100,14 @@ def main() -> None:
         print("\n⏭️  Step 0b: graph-aware cleaning DISABLED (ARTISTPATH_CLEANING=0)")
 
     print("\n📊 Step 1: Converting graph to binary format")
-    graph_stats = run_isolated(process_graph, graph_file, data_dir, blocklist=blocklist)
+    graph_stats = run_isolated(
+        process_graph,
+        graph_file,
+        data_dir,
+        blocklist=blocklist,
+        survivor_index=index_path,
+    )
+    index_path.unlink(missing_ok=True)
     print(f"✅ Forward graph: {graph_stats['graph_bin_size'] / MB:.1f} MB")
     print(f"✅ Reverse graph: {graph_stats['rev_graph_bin_size'] / MB:.1f} MB")
 

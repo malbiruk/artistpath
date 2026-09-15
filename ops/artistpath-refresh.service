@@ -14,3 +14,11 @@ TimeoutStopSec=300
 Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
+# The rebuild peaks around 8-12 GB and, now that every pass reads the graph
+# through the survivor index, that no longer grows with the refresh sweep. A
+# build wanting twice it has regressed, and failing this unit (on_exit rolls the
+# bins back) beats the kernel OOM reaper picking off the backend or collector.
+# Swap is denied because it is zram: spilling there costs RAM too, so it would
+# turn the cap into a suggestion.
+MemoryMax=24G
+MemorySwapMax=0

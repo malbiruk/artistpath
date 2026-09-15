@@ -20,6 +20,7 @@ from postprocessing.cleaning import (
     skeleton,
     translit_key,
 )
+from postprocessing.graph import build_survivor_index
 
 
 # ---------------------------------------------------------------------------
@@ -572,3 +573,68 @@ def test_translit_dups_oversized_block_skipped(tmp_path):
     phon_groups = {c: [i] for c, i in zip(cleans, ids)}
     in_deg = {i: 100 + k for k, i in enumerate(ids)}
     assert _identify_translit_dups(graph, phon_groups, in_deg) == set()
+
+
+# ---------------------------------------------------------------------------
+# survivor index: superseded records must not vote
+# ---------------------------------------------------------------------------
+
+
+def index_for(graph):
+    """Build a survivor index next to `graph` and return its path."""
+    index_path = graph.with_name("survivors.npy")
+    build_survivor_index(graph, index_path)
+    return index_path
+
+
+def test_in_degrees_count_a_recrawled_artist_once(tmp_path):
+    # The superseded copy is still on disk; counting it inflates in-degrees, and
+    # _identify_duplicates picks which spelling survives by comparing them.
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "n1", "connections": [["n2", 0.5], ["n3", 0.5]]}\n'
+        b'{"id": "n1", "connections": [["n2", 0.5]]}\n'
+    )
+
+    assert compute_in_degrees(graph, index_for(graph)) == {"n2": 1}
+    assert compute_in_degrees(graph) == {"n2": 2, "n3": 1}  # what no index counts
+
+
+def test_member_adjacency_ignores_an_edge_a_recrawl_removed(tmp_path):
+    # The fresh record dropped a->b, so the co-occurrence gate must not still see
+    # it in the superseded copy.
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "ida", "connections": [["idb", 0.9]]}\n'
+        b'{"id": "ida", "connections": []}\n'
+    )
+    phon = {"a": ["ida"], "b": ["idb"]}
+
+    assert member_adjacency(graph, phon, {"a", "b"}, index_for(graph)) == {}
+    assert member_adjacency(graph, phon, {"a", "b"}) == {"a": {"b"}, "b": {"a"}}
+
+
+def test_translit_dups_ignore_an_edge_a_recrawl_removed(tmp_path):
+    # Same edge gate, opposite direction: without the index the stale edge merges
+    # two spellings that the current graph no longer links at all.
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "id_cyr", "connections": [["id_lat", 0.9]]}\n'
+        b'{"id": "id_lat", "connections": []}\n'
+        b'{"id": "id_cyr", "connections": []}\n'
+    )
+    phon_groups = {"poshlaia molli": ["id_cyr"], "poshlaya molly": ["id_lat"]}
+    in_deg = {"id_cyr": 1009, "id_lat": 246}
+
+    assert _identify_translit_dups(graph, phon_groups, in_deg, index_for(graph)) == set()
+    assert _identify_translit_dups(graph, phon_groups, in_deg) == {"id_lat"}
+
+
+def test_survivor_reads_skip_a_torn_recrawl_and_keep_the_valid_record(tmp_path):
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b'{"id": "n1", "connections": [["n2", 0.5]]}\n'
+        b'{"id": "n1", "connections": [["n2"\n'
+    )
+
+    assert compute_in_degrees(graph, index_for(graph)) == {"n2": 1}

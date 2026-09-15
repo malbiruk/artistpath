@@ -5,9 +5,11 @@ import struct
 import uuid
 from pathlib import Path
 
+import numpy as np
 import pytest
 
-from postprocessing.graph import process_graph
+import postprocessing.graph as graph_module
+from postprocessing.graph import _chunk_bounds, build_survivor_index, process_graph
 
 _RECORD_HEADER = struct.Struct("<16sI")
 _EDGE = struct.Struct("<16sf")
@@ -17,6 +19,23 @@ def write_ndjson(path: Path, records: list) -> None:
     """Write dicts as NDJSON lines; raw strings are written verbatim (malformed lines)."""
     lines = [r if isinstance(r, str) else json.dumps(r) for r in records]
     path.write_text("\n".join(lines) + "\n")
+
+
+def line_offsets(path: Path) -> list[int]:
+    """Byte offset of every line in the file, in order."""
+    offsets, pos = [], 0
+    for line in path.read_bytes().splitlines(keepends=True):
+        offsets.append(pos)
+        pos += len(line)
+    return offsets
+
+
+def survivor_index(graph: Path, tmp_path: Path) -> tuple[list[int], list[int]]:
+    """Build an index for `graph` and return its (offsets, lengths) as lists."""
+    index_path = tmp_path / "survivors.npy"
+    build_survivor_index(graph, index_path)
+    offsets, lengths = np.load(index_path)
+    return offsets.tolist(), lengths.tolist()
 
 
 def parse_bin(path: Path) -> dict[str, tuple[int, list[tuple[str, float]]]]:
@@ -153,19 +172,18 @@ def test_empty_connections_and_empty_blocklist_produce_zero_count_record(
     assert result["forward_connections"] == 0
 
 
-def test_reverse_pass_stops_at_the_forward_snapshot_boundary(tmp_path, monkeypatch):
-    """Records appended after the chunk boundaries were computed (the collector
-    keeps writing during a build) must not leak into the reverse graph."""
-    import postprocessing.graph as graph_module
-
+def test_both_passes_stop_at_the_snapshot_the_survivor_index_took(tmp_path):
+    """Records appended after the survivor index was built (the collector keeps
+    writing during a build) must not leak into either binary."""
     src1, src2, tgt_early, tgt_late = (str(uuid.uuid4()) for _ in range(4))
-    write_ndjson(tmp_path / "graph.ndjson", [{"id": src1, "connections": [[tgt_early, 0.5]]}])
-    snapshot_size = (tmp_path / "graph.ndjson").stat().st_size
-    with (tmp_path / "graph.ndjson").open("a") as f:
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(graph, [{"id": src1, "connections": [[tgt_early, 0.5]]}])
+    index_path = tmp_path / "survivors.npy"
+    build_survivor_index(graph, index_path)
+    with graph.open("a") as f:
         f.write(json.dumps({"id": src2, "connections": [[tgt_late, 0.9]]}) + "\n")
-    monkeypatch.setattr(graph_module, "_find_chunk_boundaries", lambda path, n: [0] + [snapshot_size] * n)
 
-    stats = process_graph(tmp_path / "graph.ndjson", tmp_path)
+    stats = process_graph(graph, tmp_path, survivor_index=index_path)
 
     assert set(stats["forward_index"]) == {src1}
     assert set(stats["reverse_index"]) == {tgt_early}
@@ -202,3 +220,147 @@ def test_blocked_mask_handles_ids_with_trailing_nul_bytes():
 
     assert _blocked_mask(blocked, ids).tolist() == [True, False, False]
     assert _blocked_mask(np.array([], dtype="S16"), ids).tolist() == [False, False, False]
+
+
+def test_survivor_index_drops_the_earlier_copy_of_a_recrawled_artist(tmp_path, ids):
+    a, b = ids[:2]
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(
+        graph,
+        [
+            {"id": a, "connections": []},
+            {"id": b, "connections": []},
+            {"id": a, "connections": [[b, 1.0]]},
+        ],
+    )
+
+    offsets, lengths = survivor_index(graph, tmp_path)
+
+    pos = line_offsets(graph)
+    assert offsets == [pos[1], pos[2]]  # ascending, so still file order
+    assert lengths == [pos[2] - pos[1], graph.stat().st_size - pos[2]]
+
+
+def test_survivor_index_keeps_the_earlier_record_when_the_later_copy_is_torn(tmp_path, ids):
+    a, b = ids[:2]
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(
+        graph,
+        [
+            {"id": a, "connections": [[b, 1.0]]},
+            '{"id": "%s", "connections": [["%s", 0.1' % (a, b),
+        ],
+    )
+
+    offsets, _ = survivor_index(graph, tmp_path)
+
+    assert offsets == [line_offsets(graph)[0]]
+
+
+def test_survivor_index_skips_blank_lines(tmp_path, ids):
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(graph, ["", {"id": ids[0], "connections": []}, ""])
+
+    offsets, _ = survivor_index(graph, tmp_path)
+
+    assert offsets == [line_offsets(graph)[1]]
+
+
+def test_glued_first_occurrence_is_indexed_but_never_emitted(tmp_path, ids):
+    """The live file holds a truncated record with a whole record concatenated
+    onto it. It carries a valid prefix, so it is indexed under the first id and
+    then dropped by the worker's parse; the buried record stays invisible."""
+    torn, buried, target = ids[:3]
+    graph = tmp_path / "graph.ndjson"
+    glued = '{"id": "%s", "connections": [["%s", 0.5' % (torn, target)
+    write_ndjson(
+        graph,
+        [
+            glued + json.dumps({"id": buried, "connections": [[target, 0.9]]}),
+            {"id": target, "connections": []},
+        ],
+    )
+
+    offsets, _ = survivor_index(graph, tmp_path)
+    stats = process_graph(graph, tmp_path)
+
+    assert offsets == line_offsets(graph)
+    assert set(stats["forward_index"]) == {target}
+    assert stats["reverse_index"] == {}
+
+
+def test_survivor_index_rejects_a_file_whose_writer_changed_the_id_prefix(tmp_path, ids):
+    """Prefix-mismatched lines are dropped from the build, so a writer switching
+    to e.g. orjson's `{"id":` must fail the rebuild instead of silently
+    shrinking the graph."""
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(graph, [f'{{"id":"{i}","connections":[]}}' for i in ids[:3]])
+
+    with pytest.raises(RuntimeError, match="do not start with"):
+        build_survivor_index(graph, tmp_path / "survivors.npy")
+
+
+def test_survivor_index_tolerates_a_mismatched_line_below_the_epsilon(tmp_path, ids, monkeypatch):
+    monkeypatch.setattr(graph_module, "_MAX_PREFIX_MISMATCH_FRAC", 0.5)
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(graph, ["not json at all", {"id": ids[0], "connections": []}])
+
+    offsets, _ = survivor_index(graph, tmp_path)
+
+    assert offsets == [line_offsets(graph)[1]]
+
+
+def test_survivor_index_rejects_a_record_too_long_to_pack(tmp_path, ids, monkeypatch):
+    """Offset and length share one int64, so a record that overflows the length
+    field must stop the build rather than produce a corrupt offset."""
+    monkeypatch.setattr(graph_module, "_MAX_RECORD_LEN", 32)
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(graph, [{"id": ids[0], "connections": []}])
+
+    with pytest.raises(RuntimeError, match="too long"):
+        build_survivor_index(graph, tmp_path / "survivors.npy")
+
+
+def test_chunk_bounds_split_by_survivor_bytes_not_record_count():
+    lengths = np.array([10, 10, 10, 10, 60, 10], dtype=np.int64)
+
+    bounds = _chunk_bounds(lengths, 3)
+
+    # 110 bytes over 3 chunks: the fat record is worth a whole chunk on its own
+    chunk_bytes = [int(lengths[bounds[i] : bounds[i + 1]].sum()) for i in range(3)]
+    assert chunk_bytes == [40, 60, 10]
+    assert bounds[0] == 0 and bounds[-1] == lengths.size
+    assert bounds == sorted(bounds)  # tiles the array, so no survivor is lost
+
+
+def test_chunk_bounds_of_an_empty_index_are_all_empty():
+    assert _chunk_bounds(np.array([], dtype=np.int64), 4) == [0, 0, 0, 0, 0]
+
+
+def test_worker_accounts_for_every_survivor_assigned_to_it(tmp_path, ids, monkeypatch):
+    """emitted + json + uuid + blocklist rejects == survivors assigned, the
+    invariant the parent checks."""
+    good, blocked, torn = ids[:3]
+    monkeypatch.setattr(
+        graph_module, "_BLOCKLIST", np.array([uuid.UUID(blocked).bytes], dtype="S16")
+    )
+    graph = tmp_path / "graph.ndjson"
+    write_ndjson(
+        graph,
+        [
+            {"id": good, "connections": []},
+            {"id": "not-a-uuid", "connections": []},
+            {"id": blocked, "connections": []},
+            '{"id": "%s", "connections": [' % torn,
+        ],
+    )
+    offsets, _ = survivor_index(graph, tmp_path)
+
+    size, forward_ids, rejects = graph_module._process_forward_chunk(
+        str(graph), np.array(offsets, dtype=np.int64), str(tmp_path / "chunk.bin")
+    )
+
+    assert [i for i, _ in forward_ids] == [good]
+    assert rejects == (1, 1, 1)  # json, uuid, blocklist
+    assert len(forward_ids) + sum(rejects) == len(offsets)
+    assert size == (tmp_path / "chunk.bin").stat().st_size

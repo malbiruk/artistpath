@@ -60,6 +60,8 @@ from rich.progress import Progress
 
 from normalization import clean_str
 
+from .graph import survivor_offsets
+
 # Decision threshold for collab centrality (see module docstring / EDA sweep).
 CENTRALITY_FRAC = 0.2
 # Min fraction of member pairs that must co-occur in the graph for the
@@ -203,15 +205,33 @@ def segment_name(norm: str) -> list[str]:
     return _segment(norm)[0]
 
 
+# --- reading the graph -------------------------------------------------------
+
+
+def _survivor_lines(f, survivor_index: Path | None):
+    """Lines of an open graph.ndjson: with a survivor index, only the records a
+    later re-crawl has not superseded; without one, every line — which lets a
+    superseded record vote twice, inflating in-degrees and resurrecting edges a
+    fresh crawl removed."""
+    if survivor_index is None:
+        yield from f
+        return
+    for pos in survivor_offsets(survivor_index):
+        f.seek(pos)
+        yield f.readline()
+
+
 # --- in-degree ---------------------------------------------------------------
 
 
-def compute_in_degrees(graph_file: Path) -> dict[str, int]:
+def compute_in_degrees(
+    graph_file: Path, survivor_index: Path | None = None
+) -> dict[str, int]:
     """Count incoming edges per node by streaming graph.ndjson once."""
     indeg: dict[str, int] = defaultdict(int)
     with graph_file.open("rb") as f, Progress() as progress:
         task = progress.add_task("[cyan]Counting in-degrees...", total=None)
-        for raw in f:
+        for raw in _survivor_lines(f, survivor_index):
             line = raw.strip()
             if not line:
                 continue
@@ -272,7 +292,10 @@ def _edge_components(nodes: list[str], adj: dict[str, set[str]]) -> list[list[st
 
 
 def _stream_adjacency(
-    graph_file: Path, node_key: dict[str, str], label: str
+    graph_file: Path,
+    node_key: dict[str, str],
+    label: str,
+    survivor_index: Path | None = None,
 ) -> dict[str, set[str]]:
     """One streaming pass over graph.ndjson: symmetric adjacency between the keyed
     nodes (uuid -> group key), an edge recorded between two keys whenever a node of
@@ -281,7 +304,7 @@ def _stream_adjacency(
     adj: dict[str, set[str]] = defaultdict(set)
     with graph_file.open("rb") as f, Progress() as progress:
         task = progress.add_task(label, total=None)
-        for raw in f:
+        for raw in _survivor_lines(f, survivor_index):
             line = raw.strip()
             if not line:
                 continue
@@ -305,6 +328,7 @@ def _identify_translit_dups(
     graph_file: Path,
     phon_groups: dict[str, list[str]],
     in_deg: dict[str, int],
+    survivor_index: Path | None = None,
 ) -> set[str]:
     """Drop cross-script transliteration variants the visual skeleton can't reach.
     Spellings of one artist (Cyrillic original + romanizations) share a loose
@@ -334,7 +358,9 @@ def _identify_translit_dups(
         return set()
 
     rep_key = {rep_id[c]: c for cleans in blocks.values() for c in cleans}
-    adj = _stream_adjacency(graph_file, rep_key, "[cyan]Transliteration edges...")
+    adj = _stream_adjacency(
+        graph_file, rep_key, "[cyan]Transliteration edges...", survivor_index
+    )
 
     drop: set[str] = set()
     for cleans in blocks.values():
@@ -402,6 +428,7 @@ def member_adjacency(
     graph_file: Path,
     phon_groups: dict[str, list[str]],
     member_keys: set[str],
+    survivor_index: Path | None = None,
 ) -> dict[str, set[str]]:
     """For each member key, the set of other member keys it shares an edge with
     (either direction). Maps every node of each member group to its key, then
@@ -409,7 +436,9 @@ def member_adjacency(
     if not member_keys:
         return {}
     node_key = {i: k for k in member_keys for i in phon_groups[k]}
-    return _stream_adjacency(graph_file, node_key, "[cyan]Member adjacency...")
+    return _stream_adjacency(
+        graph_file, node_key, "[cyan]Member adjacency...", survivor_index
+    )
 
 
 def _identify_collabs(
@@ -459,11 +488,13 @@ def identify_cleaning_uuids(
     metadata_file: Path,
     centrality_frac: float = CENTRALITY_FRAC,
     skip: set[str] = frozenset(),
+    survivor_index: Path | None = None,
 ) -> tuple[set[str], set[str], set[str]]:
     """Return (duplicate_uuids, translit_uuids, collab_uuids) to blocklist. `skip`
-    (e.g. the sentinel blocklist) is excluded from grouping. Reads NDJSON only;
-    never writes."""
-    in_deg = compute_in_degrees(graph_file)
+    (e.g. the sentinel blocklist) is excluded from grouping. `survivor_index` is
+    the path to a build_survivor_index file, mmapped rather than pickled into
+    this process. Reads NDJSON only; never writes."""
+    in_deg = compute_in_degrees(graph_file, survivor_index)
 
     name_of: dict[str, str] = {}
     phon_groups: dict[str, list[str]] = defaultdict(list)
@@ -487,23 +518,32 @@ def identify_cleaning_uuids(
             progress.advance(task)
 
     dup = _identify_duplicates(skel_groups, name_of, in_deg)
-    translit = _identify_translit_dups(graph_file, phon_groups, in_deg)
+    translit = _identify_translit_dups(graph_file, phon_groups, in_deg, survivor_index)
     member_keys = _collab_member_keys(phon_groups)
-    adj = member_adjacency(graph_file, phon_groups, member_keys)
+    adj = member_adjacency(graph_file, phon_groups, member_keys, survivor_index)
     collab = _identify_collabs(phon_groups, in_deg, centrality_frac, adj)
     return dup, translit, collab
 
 
 def main() -> None:
     """Dry run: report blocklist sizes without building anything."""
+    import tempfile
+
     from .blocklist import identify_blocklisted_uuids
+    from .graph import build_survivor_index
 
     data_dir = Path("../data")
+    graph_file = data_dir / "graph.ndjson"
     metadata_file = data_dir / "metadata.ndjson"
     sentinels = identify_blocklisted_uuids(metadata_file)
-    dup, translit, collab = identify_cleaning_uuids(
-        data_dir / "graph.ndjson", metadata_file, skip=sentinels
-    )
+    # Same index the real build uses, so the dry run's numbers are the ones a
+    # rebuild would produce rather than ones inflated by superseded records.
+    with tempfile.TemporaryDirectory() as tmp:
+        index_path = Path(tmp) / "survivors.npy"
+        build_survivor_index(graph_file, index_path)
+        dup, translit, collab = identify_cleaning_uuids(
+            graph_file, metadata_file, skip=sentinels, survivor_index=index_path
+        )
     print(f"\nsentinels:        {len(sentinels):,}")
     print(f"duplicates:       {len(dup):,}")
     print(f"translit dups:    {len(translit):,}")
