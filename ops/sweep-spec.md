@@ -112,20 +112,20 @@ live size per lap (~42 GB). Two consequences, both gradual:
   fails as an OOM inside the rebuild rather than a clean refusal, and
   `artistpath-refresh.service` sets no `MemoryMax`.
 
-Compaction is therefore a periodic offline chore, not part of this loop: stop
-the collector, full keep-last rewrite emitting survivors in ascending
-last-offset order, verify, rename, reset `refresh_offset` to 0. Emitting in
-last-offset order is what makes offset 0 mean "oldest" again afterwards.
+Compaction is specified in `compaction-spec.md` and runs as the last step of
+`check_and_refresh.sh`. It reuses `build_survivor_index` rather than repeating
+supersession, so this section no longer prescribes its own line handling — the
+index's treatment of glued and torn lines is the proven one, verified
+byte-identical against the previous build code over the full file.
 
-It must JSON-validate every line and confirm the parsed `id` matches the
-prefix-extracted one, and halt rather than skip on a mismatch — that is the
-glued-line hazard, and it is only a hazard for a destructive pass.
+Emitting survivors in ascending offset order is what makes offset 0 mean
+"oldest" again afterwards, which is why resetting `refresh_offset` to 0 is
+correct rather than merely convenient.
 
-**The runbook must stop `artistpath-refresh.timer`, not just the collector.** A
-rebuild that starts mid-compaction reads a survivor index built against the old
-file, so every offset points into the swapped one. `_process_forward_chunk`
-raises on the first offset that does not start a record, but do not rely on
-that alone — mask the timer for the duration.
+Timer masking is not needed for the scheduled path: compaction runs *inside*
+`artistpath-refresh.service`, so systemd cannot start a second rebuild against
+the file being swapped. It is still required when running `run_compaction.py`
+by hand.
 
 ## Healthcheck semantics change
 

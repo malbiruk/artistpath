@@ -57,6 +57,25 @@ def test_append_to_graph_writes_the_prefix_postprocessing_scans_for(tmp_path):
     assert (tmp_path / "graph.ndjson").read_bytes().startswith(b'{"id": "abc", ')
 
 
+def test_the_id_prefix_never_occurs_inside_a_record(tmp_path):
+    """Compaction's verification argument rests on this. A corrupted record
+    length splits a line, and the trailing fragment cannot masquerade as a
+    record of its own because connections hold arrays, never objects. A schema
+    change that nested an object here would break that proof with tests green.
+    """
+    from collection.storage import GRAPH_ID_PREFIX, append_to_graph
+
+    append_to_graph(
+        str(uuid.uuid4()),
+        [(str(uuid.uuid4()), 0.9), (str(uuid.uuid4()), 0.1)],
+        str(tmp_path),
+    )
+    record = (tmp_path / "graph.ndjson").read_bytes()
+
+    assert record.startswith(GRAPH_ID_PREFIX)
+    assert GRAPH_ID_PREFIX not in record[len(GRAPH_ID_PREFIX) :]
+
+
 def _graph_line(artist_id: str) -> str:
     return json.dumps({"id": artist_id, "connections": []}) + "\n"
 

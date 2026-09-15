@@ -76,8 +76,19 @@ def main() -> None:
     # to disk because both readers run in their own process and mmap it.
     print("\n🧭 Step 0a: Indexing surviving graph records")
     index_path = data_dir / "survivors.npy"
-    n_survivors = run_isolated(build_survivor_index, graph_file, index_path)
-    print(f"✅ Survivors: {n_survivors:,} record(s)")
+    index = run_isolated(build_survivor_index, graph_file, index_path)
+    print(f"✅ Survivors: {index.count:,} record(s), {index.live_bytes / GB:.1f} GB live")
+    # What graph.ndjson would shrink to, which is what check_and_refresh.sh
+    # compares its size against to decide whether to compact. Written next to
+    # the file it describes, not into --out-dir, which is a staging directory
+    # that gets deleted.
+    # Compaction checks its own fresh count against this before replacing the
+    # file. Artists are only ever added, so the count only grows: a compaction
+    # finding fewer means the two runs disagree about what the file contains.
+    # Written first, so live_bytes.txt existing implies the guard is armed -
+    # the other order lets a kill between them trigger compaction with it off.
+    (graph_file.parent / "live_survivors.txt").write_text(f"{index.count}\n")
+    (graph_file.parent / "live_bytes.txt").write_text(f"{index.live_bytes}\n")
 
     # Graph-aware cleaning (duplicates + collab/feature credits) removes ~25% of
     # nodes. On by default; kill-switch is ARTISTPATH_CLEANING=0.

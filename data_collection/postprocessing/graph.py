@@ -6,6 +6,7 @@ import shutil
 import struct
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
+from typing import NamedTuple
 
 import numpy as np
 import orjson
@@ -58,9 +59,24 @@ def _uuid_str(b: bytes) -> str:
     return f"{h[:8]}-{h[8:12]}-{h[12:16]}-{h[16:20]}-{h[20:]}"
 
 
-def build_survivor_index(graph_file: Path, index_path: Path) -> int:
+class SurvivorIndex(NamedTuple):
+    """What one index pass counted.
+
+    `live_bytes` is the sum of the survivors' record lengths: exactly what
+    graph.ndjson would shrink to if it were compacted, which is both
+    compaction's trigger and its output size check. `non_blank` is every line
+    the pass looked at, so `non_blank == count` means every line is a distinct
+    survivor — the proof a compacted file is free of superseded records.
+    """
+
+    count: int
+    live_bytes: int
+    non_blank: int
+
+
+def build_survivor_index(graph_file: Path, index_path: Path) -> SurvivorIndex:
     """Index the records that survive supersession — the collector appends, so a
-    re-crawled artist's last record wins — and return how many there are.
+    re-crawled artist's last record wins — and return what the pass counted.
 
     Saves a (2, n) int64 array: ascending byte offsets, then record lengths.
     Indexing survivors rather than the superseded set is what keeps this
@@ -75,6 +91,12 @@ def build_survivor_index(graph_file: Path, index_path: Path) -> int:
             pos = f.tell()
             line = f.readline()
             if not line:
+                break
+            # No trailing newline means an incomplete final record - the
+            # collector mid-append, or a crash-torn tail. scan_oldest_ids
+            # already skips those; indexing one would let compaction copy it
+            # as the last line, leaving a file the next append glues onto.
+            if not line.endswith(b"\n"):
                 break
             if line.isspace():
                 continue
@@ -106,10 +128,11 @@ def build_survivor_index(graph_file: Path, index_path: Path) -> int:
 
     packed = np.fromiter(last_record.values(), dtype=np.int64, count=len(last_record))
     packed.sort()
-    np.save(index_path, np.stack([packed >> _LEN_BITS, packed & (_MAX_RECORD_LEN - 1)]))
+    lengths = packed & (_MAX_RECORD_LEN - 1)
+    np.save(index_path, np.stack([packed >> _LEN_BITS, lengths]))
     dropped = non_blank - mismatched - packed.size
     print(f"  {packed.size:,} surviving records, {dropped:,} superseded or unreadable")
-    return int(packed.size)
+    return SurvivorIndex(int(packed.size), int(lengths.sum()), non_blank)
 
 
 def survivor_offsets(index_path: Path) -> np.ndarray:
