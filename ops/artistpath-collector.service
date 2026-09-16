@@ -15,6 +15,19 @@ RestartSec=3600
 TimeoutStopSec=300
 # Fedora's default is abort (SIGABRT + multi-GB coredump); just kill it instead.
 TimeoutStopFailureMode=terminate
+# Measured 2.16 GB anon steady, 2.51 GB across a save, and near-asymptotic:
+# discovery is down to ~0.1 new artists per re-crawl, so the processed set and
+# name map barely grow. The 6.2 GB systemd reports is memory.peak, which counts
+# reclaimable page cache -- ~1 GB from load_names, up to ~3 GB streamed by one
+# scan_oldest_ids chunk -- so these are a backstop against runaway, not a budget.
+# High throttles first because a kill costs an hour here (RestartSec is sized
+# for API outages); Max because throttling alone stalls silently -- a throttled
+# collector still touches collection_state.json every 600s, and the healthcheck
+# only tests that file's mtime.
+# No MemorySwapMax, unlike the refresh unit: there the spill was pure churn,
+# here zram measures 3.5:1 on a working set this size.
+MemoryHigh=12G
+MemoryMax=16G
 
 [Install]
 WantedBy=default.target

@@ -1,12 +1,13 @@
 """Seed artist management for expanding collection to new graph components."""
 
 import json
+from collections import deque
 from pathlib import Path
 
 import aiohttp
 
 from .api_client import get_artist_info_by_name
-from .storage import append_to_metadata
+from .storage import append_to_metadata, save_state
 
 SEED_GROUPS = {
     "Russian Scene": [
@@ -73,6 +74,7 @@ async def add_seeds_to_queue(seeds: list[str], data_dir: str = "../data") -> int
         processed_mbids = set(state.get("processed_mbids", []))
         queue = state.get("queue", [])
     else:
+        state = {}
         processed_mbids = set()
         queue = []
 
@@ -114,9 +116,17 @@ async def add_seeds_to_queue(seeds: list[str], data_dir: str = "../data") -> int
             print(f"  ✅ Added to queue: {info.get('name', seed)}")
 
     if added_count > 0:
-        state = {"processed_mbids": list(processed_mbids), "queue": queue}
-        with state_path.open("w") as f:
-            json.dump(state, f, indent=2)
+        # save_state keeps the sweep's fields and writes atomically; rebuilding
+        # the dict here zeroes crawled_total, which drives check_and_refresh.sh's
+        # delta negative and silently stops rebuilds until the count catches up.
+        save_state(
+            processed_mbids,
+            deque(queue),
+            data_dir,
+            refresh_queue=deque(state.get("refresh_queue", [])),
+            refresh_offset=state.get("refresh_offset", 0),
+            crawled_total=state.get("crawled_total", 0),
+        )
         print(f"\n🎉 Added {added_count} new seeds to queue")
         print(f"📊 Queue now has {len(queue)} artists waiting")
     else:

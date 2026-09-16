@@ -159,7 +159,7 @@ def reset_refresh_offset(state_file: Path) -> None:
     state["refresh_offset"] = 0
     tmp_path = state_file.with_suffix(".json.tmp")
     with tmp_path.open("w") as f:
-        json.dump(state, f, indent=2)
+        json.dump(state, f)  # compact, like save_state
         f.flush()
         os.fsync(f.fileno())
     os.replace(tmp_path, state_file)

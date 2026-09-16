@@ -147,7 +147,9 @@ def save_state(
         "crawled_total": crawled_total,
     }
     with tmp_path.open("w") as f:
-        json.dump(state, f, indent=2)
+        # Indent costs 26 MB a save at 6.4M ids, 144 times a day, and /var/home
+        # is btrfs without compress=, so those bytes reach the disk.
+        json.dump(state, f)
         f.flush()
         os.fsync(f.fileno())
     os.replace(tmp_path, state_path)
