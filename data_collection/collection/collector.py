@@ -205,10 +205,14 @@ class StreamingCollector:
             similar_artists = await self.fetch_similar_artists(
                 session, artist_id, similar_per_artist
             )
-        except RetryError:
-            # Last.fm unreachable after all retries: try this artist again later
-            # instead of crashing the crawl.
-            print(f"  ⚠️ API unavailable for {artist_id} - re-queued")
+        except Exception as exc:  # noqa: BLE001 - breadth is the point, see below
+            # RetryError means Last.fm stayed unreachable through every retry.
+            # Anything else is a surprise from one artist, and letting it out of
+            # asyncio.gather ends a crawl meant to run for months; re-queue it
+            # instead. MAX_CONSECUTIVE_FAILURES is what keeps a deterministic
+            # bug from looping here forever.
+            reason = "API unavailable" if isinstance(exc, RetryError) else type(exc).__name__
+            print(f"  ⚠️ {reason} for {artist_id} - re-queued")
             if refresh:
                 # Already processed, so it must not go back on the frontier.
                 self.refresh_queue.append(artist_id)

@@ -1,6 +1,7 @@
 """Last.fm API client with retry logic."""
 
 import asyncio
+import json
 import os
 import uuid
 
@@ -90,7 +91,20 @@ def handle_other_api_error(response_status: int) -> None:
     stop=stop_after_attempt(5),
     wait=wait_exponential(multiplier=2, min=1, max=30),
     retry=retry_if_exception_type(
-        (RateLimitError, APIError, aiohttp.ClientError, asyncio.TimeoutError),
+        # A response body truncated mid-flight raises JSONDecodeError, or
+        # UnicodeDecodeError if the cut lands inside a multi-byte character.
+        # Both are ordinary transient failures, but neither is a ClientError,
+        # so without them here the handler below prints "retrying" and the
+        # exception escapes instead - which is how one bad response killed a
+        # crawl that had been running for months.
+        (
+            RateLimitError,
+            APIError,
+            aiohttp.ClientError,
+            asyncio.TimeoutError,
+            json.JSONDecodeError,
+            UnicodeDecodeError,
+        ),
     ),
     reraise=False,
 )
