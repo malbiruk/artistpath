@@ -11,10 +11,12 @@ from postprocessing.cleaning import (
     _identify_collabs,
     _identify_duplicates,
     _identify_translit_dups,
+    _mbid_candidates,
     _member_cooccurrence,
     _real_band_shape,
     compute_in_degrees,
     fold_x_connectors,
+    identify_cleaning_uuids,
     member_adjacency,
     segment_name,
     skeleton,
@@ -134,7 +136,7 @@ def test_duplicates_empty_skel_key_skipped():
     skel = {"": ["id1", "id2", "id3"]}
     name_of = {"id1": "!!!", "id2": "+/-", "id3": "✝✝✝"}
     in_deg = {"id1": 100, "id2": 50, "id3": 10}
-    result = _identify_duplicates(skel, name_of, in_deg)
+    result = _identify_duplicates(skel, name_of, in_deg, set())
     assert result == set()
 
 
@@ -143,7 +145,7 @@ def test_duplicates_skel_drops_decoration_variant():
     skel = {"taylor swift": ["id1", "id2"]}
     name_of = {"id1": "Taylor Swift", "id2": "Taylor.Swift"}
     in_deg = {"id1": 100, "id2": 5}
-    result = _identify_duplicates(skel, name_of, in_deg)
+    result = _identify_duplicates(skel, name_of, in_deg, set())
     assert result == {"id2"}
 
 
@@ -151,7 +153,7 @@ def test_duplicates_skel_canonical_not_dropped():
     skel = {"daft punk": ["id1", "id2"]}
     name_of = {"id1": "Daft Punk", "id2": "Daft.Punk"}
     in_deg = {"id1": 200, "id2": 3}
-    result = _identify_duplicates(skel, name_of, in_deg)
+    result = _identify_duplicates(skel, name_of, in_deg, set())
     assert "id1" not in result
 
 
@@ -160,7 +162,7 @@ def test_duplicates_skel_identical_names_both_kept():
     skel = {"john williams": ["id1", "id2"]}
     name_of = {"id1": "John Williams", "id2": "John Williams"}
     in_deg = {"id1": 50, "id2": 10}
-    result = _identify_duplicates(skel, name_of, in_deg)
+    result = _identify_duplicates(skel, name_of, in_deg, set())
     assert result == set()
 
 
@@ -168,7 +170,7 @@ def test_duplicates_singleton_group_no_drops():
     skel = {"solo": ["id1"]}
     name_of = {"id1": "Solo"}
     in_deg = {"id1": 5}
-    result = _identify_duplicates(skel, name_of, in_deg)
+    result = _identify_duplicates(skel, name_of, in_deg, set())
     assert result == set()
 
 
@@ -393,7 +395,7 @@ def test_compute_in_degrees_counts_incoming_edges(tmp_path):
         {"id": "n2", "connections": [["n3", 0.3]]},
     ]
     graph.write_bytes(b"\n".join(orjson.dumps(line) for line in lines))
-    result = compute_in_degrees(graph)
+    result, _ = compute_in_degrees(graph)
     assert result["n2"] == 1
     assert result["n3"] == 2
 
@@ -402,14 +404,14 @@ def test_compute_in_degrees_source_node_absent(tmp_path):
     # A node that only points outward has no incoming edges — absent from result
     graph = tmp_path / "graph.ndjson"
     graph.write_bytes(orjson.dumps({"id": "n1", "connections": [["n2", 1.0]]}))
-    result = compute_in_degrees(graph)
+    result, _ = compute_in_degrees(graph)
     assert "n1" not in result
 
 
 def test_compute_in_degrees_empty_connections(tmp_path):
     graph = tmp_path / "graph.ndjson"
     graph.write_bytes(orjson.dumps({"id": "n1", "connections": []}))
-    result = compute_in_degrees(graph)
+    result, _ = compute_in_degrees(graph)
     assert "n1" not in result
 
 
@@ -596,8 +598,8 @@ def test_in_degrees_count_a_recrawled_artist_once(tmp_path):
         b'{"id": "n1", "connections": [["n2", 0.5]]}\n'
     )
 
-    assert compute_in_degrees(graph, index_for(graph)) == {"n2": 1}
-    assert compute_in_degrees(graph) == {"n2": 2, "n3": 1}  # what no index counts
+    assert compute_in_degrees(graph, index_for(graph))[0] == {"n2": 1}
+    assert compute_in_degrees(graph)[0] == {"n2": 2, "n3": 1}  # what no index counts
 
 
 def test_member_adjacency_ignores_an_edge_a_recrawl_removed(tmp_path):
@@ -637,4 +639,123 @@ def test_survivor_reads_skip_a_torn_recrawl_and_keep_the_valid_record(tmp_path):
         b'{"id": "n1", "connections": [["n2"\n'
     )
 
-    assert compute_in_degrees(graph, index_for(graph)) == {"n2": 1}
+    assert compute_in_degrees(graph, index_for(graph))[0] == {"n2": 1}
+
+
+# ---------------------------------------------------------------------------
+# _identify_duplicates: MusicBrainz preference
+# ---------------------------------------------------------------------------
+
+# Real ids from the "♫ Pink Floyd" collision — MBID (v4) vs uuid5-from-URL (v5).
+PINK_FLOYD_MBID = "83d91898-7763-47d7-b03b-b92132375c47"
+PINK_FLOYD_URL_ID = "6959f09a-db7f-5a4c-99af-63a58126477c"
+MBID_A = "b7539c32-53e7-4908-bda3-81449c367da6"
+MBID_B = "f1ea9d14-2b60-4dc2-9c1f-6dc1f2f2d0a1"
+MBID_C = "c3d8a072-1f4b-4e91-8a2c-7b5e6d4f3a19"
+URL_ID_A = "1dbffbe3-92fc-5d22-b2a5-245a71467da7"
+URL_ID_B = "7b6f7226-0649-5aa8-96d8-132c2df0001b"
+
+
+def test_duplicates_lone_mbid_beats_higher_in_degree():
+    skel = {"pink floyd": [PINK_FLOYD_URL_ID, PINK_FLOYD_MBID]}
+    name_of = {PINK_FLOYD_URL_ID: "♫ Pink Floyd", PINK_FLOYD_MBID: "Pink Floyd"}
+    in_deg = {PINK_FLOYD_URL_ID: 5056, PINK_FLOYD_MBID: 496}
+    owns = {PINK_FLOYD_URL_ID, PINK_FLOYD_MBID}
+    assert _identify_duplicates(skel, name_of, in_deg, owns) == {PINK_FLOYD_URL_ID}
+
+
+def test_duplicates_two_mbids_fall_back_to_in_degree():
+    # in-degree decides even when that keeps the decorated spelling.
+    skel = {"cream": [MBID_A, MBID_B]}
+    name_of = {MBID_A: "Cream", MBID_B: "*Cream*"}
+    in_deg = {MBID_A: 5, MBID_B: 200}
+    assert _identify_duplicates(skel, name_of, in_deg, {MBID_A, MBID_B}) == {MBID_A}
+
+
+def test_duplicates_second_mbid_disables_preference_even_when_recordless():
+    # Filtering recordless MBIDs before counting them would leave a lone live
+    # MBID here and crown "*Cream*", dropping 5,000 in-edges to keep 3.
+    skel = {"cream": [MBID_A, MBID_B, URL_ID_A]}
+    name_of = {MBID_A: "Cream", MBID_B: "*Cream*", URL_ID_A: "Cream"}
+    in_deg = {MBID_B: 3, URL_ID_A: 5000}
+    assert _identify_duplicates(skel, name_of, in_deg, {MBID_B, URL_ID_A}) == {MBID_B}
+
+
+def test_duplicates_no_mbid_falls_back_to_in_degree():
+    skel = {"cream": [URL_ID_A, URL_ID_B]}
+    name_of = {URL_ID_A: "Cream", URL_ID_B: "☆Cream☆"}
+    in_deg = {URL_ID_A: 400, URL_ID_B: 9}
+    assert _identify_duplicates(skel, name_of, in_deg, {URL_ID_A, URL_ID_B}) == {URL_ID_B}
+
+
+def test_duplicates_recordless_mbid_does_not_win():
+    skel = {"pink floyd": [PINK_FLOYD_URL_ID, PINK_FLOYD_MBID]}
+    name_of = {PINK_FLOYD_URL_ID: "♫ Pink Floyd", PINK_FLOYD_MBID: "Pink Floyd"}
+    in_deg = {PINK_FLOYD_URL_ID: 5056, PINK_FLOYD_MBID: 496}
+    assert _identify_duplicates(skel, name_of, in_deg, {PINK_FLOYD_URL_ID}) == {
+        PINK_FLOYD_MBID
+    }
+
+
+def test_mbid_candidates_only_lone_mbids_in_mergeable_groups():
+    groups = {
+        "pink floyd": [PINK_FLOYD_URL_ID, PINK_FLOYD_MBID],
+        "cream": [MBID_A, MBID_B],  # two, so in-degree decides
+        "solo": [MBID_C],  # singleton, nothing to drop
+        "": [MBID_A, URL_ID_A],  # symbol-only names never merge
+    }
+    assert _mbid_candidates(groups) == {PINK_FLOYD_MBID}
+
+
+def test_compute_in_degrees_reports_watched_record_owners(tmp_path):
+    graph = tmp_path / "graph.ndjson"
+    lines = [
+        {"id": "n1", "connections": [["n2", 0.5]]},
+        {"id": "n2", "connections": [["n3", 0.5]]},
+    ]
+    graph.write_bytes(b"\n".join(orjson.dumps(line) for line in lines))
+    # n3 is pointed at but owns no record; n4 does not appear at all.
+    _, owned = compute_in_degrees(graph, None, frozenset({"n1", "n3", "n4"}))
+    assert owned == {"n1"}
+
+
+def test_duplicates_repeated_metadata_record_still_reads_as_one_mbid():
+    # metadata.ndjson is append-only, so a re-crawled artist contributes its id
+    # to the group twice; counting records instead of ids would see two MBIDs
+    # and fall back to in-degree.
+    skel = {"pink floyd": [PINK_FLOYD_URL_ID, PINK_FLOYD_MBID, PINK_FLOYD_MBID]}
+    name_of = {PINK_FLOYD_URL_ID: "♫ Pink Floyd", PINK_FLOYD_MBID: "Pink Floyd"}
+    in_deg = {PINK_FLOYD_URL_ID: 5056, PINK_FLOYD_MBID: 496}
+    owns = {PINK_FLOYD_URL_ID, PINK_FLOYD_MBID}
+    assert _identify_duplicates(skel, name_of, in_deg, owns) == {PINK_FLOYD_URL_ID}
+
+
+def test_identify_cleaning_uuids_drops_decorated_spelling_of_an_mbid(tmp_path):
+    # Covers the wiring, not the rule: compute_in_degrees only reports ownership
+    # for the ids it is asked about, so losing that argument would revert every
+    # group to in-degree with the unit tests still green.
+    metadata = tmp_path / "metadata.ndjson"
+    metadata.write_bytes(
+        b"\n".join(
+            orjson.dumps(e)
+            for e in (
+                {"id": PINK_FLOYD_MBID, "name": "Pink Floyd", "url": ""},
+                {"id": PINK_FLOYD_URL_ID, "name": "♫ Pink Floyd", "url": ""},
+            )
+        )
+    )
+    graph = tmp_path / "graph.ndjson"
+    graph.write_bytes(
+        b"\n".join(
+            orjson.dumps(e)
+            for e in (
+                {"id": PINK_FLOYD_MBID, "connections": [[URL_ID_A, 0.5]]},
+                {"id": PINK_FLOYD_URL_ID, "connections": [[URL_ID_A, 0.5]]},
+                # the junk cluster: nothing but decorated-spelling citations
+                {"id": URL_ID_B, "connections": [[PINK_FLOYD_URL_ID, 0.9]]},
+                {"id": URL_ID_A, "connections": [[PINK_FLOYD_URL_ID, 0.9]]},
+            )
+        )
+    )
+    dup, _, _ = identify_cleaning_uuids(graph, metadata)
+    assert dup == {PINK_FLOYD_URL_ID}

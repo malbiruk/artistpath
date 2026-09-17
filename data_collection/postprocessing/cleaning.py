@@ -2,11 +2,12 @@
 
   1. Duplicates  — same artist written differently (punctuation/zero-width junk,
      accents, homoglyph spoofs, stylization). Nodes are grouped by a VISUAL key
-     (homoglyph skeleton); within a group we keep the highest in-degree spelling
-     and drop the differently-spelled variants. Byte-identical names are kept
-     (genuine same-name different artists / MBID splits — homonym-safe), and
-     distinct CJK/Cyrillic *letters* yield distinct skeletons so different
-     non-Latin artists are not merged.
+     (homoglyph skeleton); within a group we keep the only MusicBrainz spelling
+     if it owns a graph record, else the highest in-degree one, and drop the
+     differently-spelled variants.
+     Byte-identical names are kept (genuine same-name different artists / MBID
+     splits — homonym-safe), and distinct CJK/Cyrillic *letters* yield distinct
+     skeletons so different non-Latin artists are not merged.
 
   2. Transliteration variants — the same artist across scripts (a Cyrillic
      original and its Latin romanizations), which the visual skeleton misses
@@ -225,10 +226,18 @@ def _survivor_lines(f, survivor_index: Path | None):
 
 
 def compute_in_degrees(
-    graph_file: Path, survivor_index: Path | None = None
-) -> dict[str, int]:
-    """Count incoming edges per node by streaming graph.ndjson once."""
+    graph_file: Path,
+    survivor_index: Path | None = None,
+    watch: frozenset[str] = frozenset(),
+) -> tuple[dict[str, int], set[str]]:
+    """Count incoming edges per node by streaming graph.ndjson once, and report
+    which of `watch` own a record there — the collector appends one only when a
+    crawl returned connections. Callers pass just the ids a decision rests on
+    rather than every record owner: that full set is ~6.5M freshly parsed
+    strings, roughly 0.7 GB, on top of the name and group dicts this process
+    already holds."""
     indeg: dict[str, int] = defaultdict(int)
+    owned: set[str] = set()
     with graph_file.open("rb") as f, Progress() as progress:
         task = progress.add_task("[cyan]Counting in-degrees...", total=None)
         for raw in _survivor_lines(f, survivor_index):
@@ -239,29 +248,81 @@ def compute_in_degrees(
                 data = orjson.loads(line)
             except orjson.JSONDecodeError:
                 continue
+            if data.get("id") in watch:
+                owned.add(data["id"])
             for conn_id, _weight in data.get("connections", []):
                 indeg[conn_id] += 1
             progress.advance(task)
-    return indeg
+    return indeg, owned
 
 
 # --- the two rules -----------------------------------------------------------
+
+
+def _is_mbid(artist_id: str) -> bool:
+    """True for a MusicBrainz id. The collector keys an artist by its MBID when
+    Last.fm supplies one and by uuid5(NAMESPACE_URL, url) otherwise, so the
+    version nibble tells them apart: MBIDs are v4, synthesised ids are v5.
+    collection.api_client.is_real_mbid is the same test on the collector side,
+    spelled as "not v5"; the two agree on every id in metadata.ndjson."""
+    return len(artist_id) == 36 and artist_id[14] == "4"
+
+
+def _lone_mbid(ids: list[str]) -> str | None:
+    """The group's single MusicBrainz id, if it has exactly one.
+
+    Deduplicated because a group holds one entry per metadata record, and
+    metadata.ndjson is append-only: a re-crawled artist appears twice and would
+    otherwise read as two entities, silently disabling the preference.
+    """
+    mbids = {i for i in ids if _is_mbid(i)}
+    return next(iter(mbids)) if len(mbids) == 1 else None
+
+
+def _mbid_candidates(skel_groups: dict[str, list[str]]) -> frozenset[str]:
+    """The lone-MBID ids the duplicate rule needs record ownership for."""
+    return frozenset(
+        m
+        for key, ids in skel_groups.items()
+        if key and len(ids) >= 2 and (m := _lone_mbid(ids)) is not None
+    )
 
 
 def _identify_duplicates(
     skel_groups: dict[str, list[str]],
     name_of: dict[str, str],
     in_deg: dict[str, int],
+    owns_record: set[str],
 ) -> set[str]:
     """Drop same-script decoration variants (junk/punctuation/accents/homoglyphs),
-    keeping the highest in-degree spelling. Byte-identical names are kept (homonym
-    safety). Distinct CJK/Cyrillic letters produce distinct skeletons, so different
-    non-Latin artists are not merged."""
+    keeping the group's only MusicBrainz spelling when it owns a graph record,
+    else the highest in-degree one — a trade of retained in-edges for the right
+    name.
+    Byte-identical names are kept (homonym safety). Distinct CJK/Cyrillic letters
+    produce distinct skeletons, so different non-Latin artists are not merged."""
     dup: set[str] = set()
     for key, ids in skel_groups.items():
         if not key or len(ids) < 2:
             continue
-        canonical = max(ids, key=lambda i: in_deg.get(i, 0))
+        # Last.fm's scrobble-artifact pages ("[HD] Pink Floyd", VEVO handles)
+        # overwhelmingly cite the decorated spellings — MBID-keyed nodes are 19%
+        # of the graph but under 5% of what points at one — so the junk cluster
+        # outvotes the real artists citing the canonical page, which handed
+        # "Pink Floyd" to "♫ Pink Floyd". An MBID means MusicBrainz has an entity
+        # for that exact spelling, which scrobble junk cannot manufacture; two of
+        # them are two real entities, so only a lone MBID decides.
+        # It must also own a graph record: an in-degree winner has out-edges by
+        # construction, an MBID need not, and crowning a spelling Last.fm has no
+        # similar artists for would blocklist the siblings that do, leaving the
+        # artist a dead end. Inbound edges are not the same test and miss most of
+        # these — 91 of 140 such spellings have them (real MusicBrainz entities
+        # like "Queen + Adam Lambert" with no similar-artists page).
+        mbid = _lone_mbid(ids)
+        canonical = (
+            mbid
+            if mbid is not None and mbid in owns_record
+            else max(ids, key=lambda i: in_deg.get(i, 0))
+        )
         cname = name_of[canonical]
         for i in ids:
             if name_of[i] != cname:
@@ -494,8 +555,6 @@ def identify_cleaning_uuids(
     (e.g. the sentinel blocklist) is excluded from grouping. `survivor_index` is
     the path to a build_survivor_index file, mmapped rather than pickled into
     this process. Reads NDJSON only; never writes."""
-    in_deg = compute_in_degrees(graph_file, survivor_index)
-
     name_of: dict[str, str] = {}
     phon_groups: dict[str, list[str]] = defaultdict(list)
     skel_groups: dict[str, list[str]] = defaultdict(list)
@@ -517,7 +576,11 @@ def identify_cleaning_uuids(
             skel_groups[skeleton(name)].append(aid)
             progress.advance(task)
 
-    dup = _identify_duplicates(skel_groups, name_of, in_deg)
+    in_deg, owns_record = compute_in_degrees(
+        graph_file, survivor_index, _mbid_candidates(skel_groups)
+    )
+
+    dup = _identify_duplicates(skel_groups, name_of, in_deg, owns_record)
     translit = _identify_translit_dups(graph_file, phon_groups, in_deg, survivor_index)
     member_keys = _collab_member_keys(phon_groups)
     adj = member_adjacency(graph_file, phon_groups, member_keys, survivor_index)
