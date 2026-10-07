@@ -46,6 +46,13 @@
 Nothing is merged and no edges are rewritten — only nodes are removed, and only
 from the binary build. The source NDJSON is untouched (still used for growing).
 
+One exception undoes our own id split: the collector
+keys an artist by its MBID when Last.fm supplies one and by uuid5(url)
+otherwise, so one Last.fm page can hold two nodes (a "URL twin"). When the page
+has a single MBID and both nodes' similar-artist lists agree (Jaccard >=
+TWIN_JACCARD), the twin's in-edges are remapped onto the MBID node and the twin
+dropped — see ops/node-identity-spec.md.
+
 Validated in graph_analysis/dataset_cleaning/ (collab threshold set from a
 labeled precision sweep: r<0.2 ~= 99.4% precision).
 """
@@ -53,6 +60,7 @@ labeled precision sweep: r<0.2 ~= 99.4% precision).
 import re
 import string
 import unicodedata
+import uuid
 from collections import defaultdict
 from pathlib import Path
 
@@ -72,6 +80,10 @@ MM_FRAC = 0.5
 # so a bigger bucket is almost certainly a degenerate key conflating distinct
 # short names; the edge gate was only validated on small blocks, so skip the rest.
 MAX_TRANSLIT_BLOCK = 8
+# Min out-edge Jaccard for a URL twin to be merged into its MBID node. The
+# distribution over all pairs is bimodal with a sparse valley at 0.3-0.8, so
+# crawl drift does not flip pairs across it between rebuilds.
+TWIN_JACCARD = 0.5
 
 # --- visual key (homoglyph skeleton) -----------------------------------------
 
@@ -229,15 +241,17 @@ def compute_in_degrees(
     graph_file: Path,
     survivor_index: Path | None = None,
     watch: frozenset[str] = frozenset(),
-) -> tuple[dict[str, int], set[str]]:
-    """Count incoming edges per node by streaming graph.ndjson once, and report
+    collect: frozenset[str] = frozenset(),
+) -> tuple[dict[str, int], set[str], dict[str, set[str]]]:
+    """Count incoming edges per node by streaming graph.ndjson once, report
     which of `watch` own a record there — the collector appends one only when a
-    crawl returned connections. Callers pass just the ids a decision rests on
-    rather than every record owner: that full set is ~6.5M freshly parsed
-    strings, roughly 0.7 GB, on top of the name and group dicts this process
-    already holds."""
+    crawl returned connections — and return the out-edge sets of the `collect`
+    ids that own one. Callers pass just the ids a decision rests on rather than
+    every record owner: that full set is ~6.5M freshly parsed strings, roughly
+    0.7 GB, on top of the name and group dicts this process already holds."""
     indeg: dict[str, int] = defaultdict(int)
     owned: set[str] = set()
+    out_edges: dict[str, set[str]] = {}
     with graph_file.open("rb") as f, Progress() as progress:
         task = progress.add_task("[cyan]Counting in-degrees...", total=None)
         for raw in _survivor_lines(f, survivor_index):
@@ -250,10 +264,12 @@ def compute_in_degrees(
                 continue
             if data.get("id") in watch:
                 owned.add(data["id"])
+            if data.get("id") in collect:
+                out_edges[data["id"]] = {c for c, _ in data.get("connections", [])}
             for conn_id, _weight in data.get("connections", []):
                 indeg[conn_id] += 1
             progress.advance(task)
-    return indeg, owned
+    return indeg, owned, out_edges
 
 
 # --- the two rules -----------------------------------------------------------
@@ -286,6 +302,31 @@ def _mbid_candidates(skel_groups: dict[str, list[str]]) -> frozenset[str]:
         for key, ids in skel_groups.items()
         if key and len(ids) >= 2 and (m := _lone_mbid(ids)) is not None
     )
+
+
+def _url_twin(url) -> str | None:
+    """The id the collector mints for `url` when Last.fm omits the mbid."""
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, url)) if isinstance(url, str) and url else None
+
+
+def _jaccard(a: set[str], b: set[str]) -> float:
+    union = len(a | b)
+    return len(a & b) / union if union else 0.0
+
+
+def _confirm_twins(
+    twin_mbid: dict[str, str], out_edges: dict[str, set[str]]
+) -> dict[str, str]:
+    """The twin -> MBID pairs to merge: both nodes own a record (a missing one
+    has no out-edges to compare) and their similar-artist lists agree. Below
+    the threshold the two ids are different entities sharing a page name."""
+    return {
+        t: m
+        for t, m in twin_mbid.items()
+        if t in out_edges
+        and m in out_edges
+        and _jaccard(out_edges[t], out_edges[m]) >= TWIN_JACCARD
+    }
 
 
 def _identify_duplicates(
@@ -357,11 +398,14 @@ def _stream_adjacency(
     node_key: dict[str, str],
     label: str,
     survivor_index: Path | None = None,
+    remap: dict[str, str] | None = None,
 ) -> dict[str, set[str]]:
     """One streaming pass over graph.ndjson: symmetric adjacency between the keyed
     nodes (uuid -> group key), an edge recorded between two keys whenever a node of
     one links a node of the other. Restricted to the keyed universe, so memory
-    stays bounded by that subgraph rather than the whole graph."""
+    stays bounded by that subgraph rather than the whole graph. Edge targets go
+    through `remap` as the build will send them."""
+    remap = remap or {}
     adj: dict[str, set[str]] = defaultdict(set)
     with graph_file.open("rb") as f, Progress() as progress:
         task = progress.add_task(label, total=None)
@@ -377,7 +421,7 @@ def _stream_adjacency(
             if ku is None:
                 continue
             for conn_id, _weight in data.get("connections", []):
-                kv = node_key.get(conn_id)
+                kv = node_key.get(remap.get(conn_id, conn_id))
                 if kv is not None and kv != ku:
                     adj[ku].add(kv)
                     adj[kv].add(ku)
@@ -390,6 +434,7 @@ def _identify_translit_dups(
     phon_groups: dict[str, list[str]],
     in_deg: dict[str, int],
     survivor_index: Path | None = None,
+    remap: dict[str, str] | None = None,
 ) -> set[str]:
     """Drop cross-script transliteration variants the visual skeleton can't reach.
     Spellings of one artist (Cyrillic original + romanizations) share a loose
@@ -420,7 +465,7 @@ def _identify_translit_dups(
 
     rep_key = {rep_id[c]: c for cleans in blocks.values() for c in cleans}
     adj = _stream_adjacency(
-        graph_file, rep_key, "[cyan]Transliteration edges...", survivor_index
+        graph_file, rep_key, "[cyan]Transliteration edges...", survivor_index, remap
     )
 
     drop: set[str] = set()
@@ -490,6 +535,7 @@ def member_adjacency(
     phon_groups: dict[str, list[str]],
     member_keys: set[str],
     survivor_index: Path | None = None,
+    remap: dict[str, str] | None = None,
 ) -> dict[str, set[str]]:
     """For each member key, the set of other member keys it shares an edge with
     (either direction). Maps every node of each member group to its key, then
@@ -498,7 +544,7 @@ def member_adjacency(
         return {}
     node_key = {i: k for k in member_keys for i in phon_groups[k]}
     return _stream_adjacency(
-        graph_file, node_key, "[cyan]Member adjacency...", survivor_index
+        graph_file, node_key, "[cyan]Member adjacency...", survivor_index, remap
     )
 
 
@@ -550,14 +596,19 @@ def identify_cleaning_uuids(
     centrality_frac: float = CENTRALITY_FRAC,
     skip: set[str] = frozenset(),
     survivor_index: Path | None = None,
-) -> tuple[set[str], set[str], set[str]]:
-    """Return (duplicate_uuids, translit_uuids, collab_uuids) to blocklist. `skip`
+) -> tuple[set[str], set[str], set[str], dict[str, str]]:
+    """Return (duplicate_uuids, translit_uuids, collab_uuids) to blocklist, plus
+    the URL-twin remap {twin: mbid} whose edges the build redirects (the
+    twins are in none of the sets; the caller blocklists them). `skip`
     (e.g. the sentinel blocklist) is excluded from grouping. `survivor_index` is
     the path to a build_survivor_index file, mmapped rather than pickled into
     this process. Reads NDJSON only; never writes."""
     name_of: dict[str, str] = {}
     phon_groups: dict[str, list[str]] = defaultdict(list)
     skel_groups: dict[str, list[str]] = defaultdict(list)
+    # twin -> its page's MBID, or None once a second MBID shares the page: two
+    # MusicBrainz entities with one name share a URL and must never merge.
+    twin_of: dict[str, str | None] = {}
     with metadata_file.open("rb") as f, Progress() as progress:
         task = progress.add_task("[cyan]Grouping names...", total=None)
         for raw in f:
@@ -569,6 +620,9 @@ def identify_cleaning_uuids(
                 aid, name = e["id"], e["name"]
             except (orjson.JSONDecodeError, KeyError):
                 continue
+            # Before the skip: a sentinel MBID is still a second entity on the page.
+            if _is_mbid(aid) and (twin := _url_twin(e.get("url"))) is not None:
+                twin_of[twin] = aid if twin_of.get(twin, aid) == aid else None
             if aid in skip or not isinstance(name, str):
                 continue
             name_of[aid] = name
@@ -576,16 +630,38 @@ def identify_cleaning_uuids(
             skel_groups[skeleton(name)].append(aid)
             progress.advance(task)
 
-    in_deg, owns_record = compute_in_degrees(
-        graph_file, survivor_index, _mbid_candidates(skel_groups)
+    twin_mbid = {t: m for t, m in twin_of.items() if m is not None and t in name_of}
+    del twin_of
+    in_deg, owns_record, out_edges = compute_in_degrees(
+        graph_file,
+        survivor_index,
+        _mbid_candidates(skel_groups),
+        frozenset(twin_mbid.keys() | twin_mbid.values()),
     )
+    remap = _confirm_twins(twin_mbid, out_edges)
+
+    # Every rule below votes on the graph the build will ship, where a merged
+    # twin is no node and its citations count for the MBID node.
+    for twin, mbid in remap.items():
+        in_deg[mbid] += in_deg.pop(twin, 0)
+    # Every group, not just the twin's current name's: a renamed artist has
+    # one metadata record per name.
+    for groups in (phon_groups, skel_groups):
+        for key, ids in list(groups.items()):
+            if any(i in remap for i in ids):
+                if kept := [i for i in ids if i not in remap]:
+                    groups[key] = kept
+                else:
+                    del groups[key]
 
     dup = _identify_duplicates(skel_groups, name_of, in_deg, owns_record)
-    translit = _identify_translit_dups(graph_file, phon_groups, in_deg, survivor_index)
+    translit = _identify_translit_dups(
+        graph_file, phon_groups, in_deg, survivor_index, remap
+    )
     member_keys = _collab_member_keys(phon_groups)
-    adj = member_adjacency(graph_file, phon_groups, member_keys, survivor_index)
+    adj = member_adjacency(graph_file, phon_groups, member_keys, survivor_index, remap)
     collab = _identify_collabs(phon_groups, in_deg, centrality_frac, adj)
-    return dup, translit, collab
+    return dup, translit, collab, remap
 
 
 def main() -> None:
@@ -604,14 +680,15 @@ def main() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         index_path = Path(tmp) / "survivors.npy"
         build_survivor_index(graph_file, index_path)
-        dup, translit, collab = identify_cleaning_uuids(
+        dup, translit, collab, remap = identify_cleaning_uuids(
             graph_file, metadata_file, skip=sentinels, survivor_index=index_path
         )
     print(f"\nsentinels:        {len(sentinels):,}")
     print(f"duplicates:       {len(dup):,}")
     print(f"translit dups:    {len(translit):,}")
     print(f"collabs/features: {len(collab):,}")
-    print(f"total to drop:    {len(sentinels | dup | translit | collab):,}")
+    print(f"url twins merged: {len(remap):,}")
+    print(f"total to drop:    {len(sentinels | dup | translit | collab | remap.keys()):,}")
 
 
 if __name__ == "__main__":

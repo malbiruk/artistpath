@@ -364,3 +364,81 @@ def test_worker_accounts_for_every_survivor_assigned_to_it(tmp_path, ids, monkey
     assert rejects == (1, 1, 1)  # json, uuid, blocklist
     assert len(forward_ids) + sum(rejects) == len(offsets)
     assert size == (tmp_path / "chunk.bin").stat().st_size
+
+
+def _build(tmp_path, records, blocklist, remap):
+    write_ndjson(tmp_path / "graph.ndjson", records)
+    result = process_graph(tmp_path / "graph.ndjson", tmp_path, blocklist, remap=remap)
+    return result, parse_bin(tmp_path / "graph.bin"), parse_bin(tmp_path / "rev-graph.bin")
+
+
+def test_remap_redirects_edge_to_twin_onto_mbid_in_both_binaries(tmp_path, ids):
+    a, mbid, twin = ids[:3]
+    _, fwd, rev = _build(
+        tmp_path, [{"id": a, "connections": [[twin, 1.5]]}], {twin}, {twin: mbid}
+    )
+    assert fwd[a][1] == [(mbid, pytest.approx(1.5))]
+    assert rev[mbid][1] == [(a, pytest.approx(1.5))]
+    assert twin not in rev
+
+
+def test_remap_merges_twin_and_mbid_edges_at_first_position_with_max_weight(tmp_path, ids):
+    a, mbid, twin, x = ids[:4]
+    record = {"id": a, "connections": [[x, 1.0], [twin, 2.0], [x, 9.0], [mbid, 7.0]]}
+    result, fwd, rev = _build(tmp_path, [record], {twin}, {twin: mbid})
+    # x is a pre-existing duplicate and stays; twin and mbid collapse into one.
+    assert fwd[a][1] == [
+        (x, pytest.approx(1.0)),
+        (mbid, pytest.approx(7.0)),
+        (x, pytest.approx(9.0)),
+    ]
+    assert rev[mbid][1] == [(a, pytest.approx(7.0))]
+    assert result["forward_connections"] == result["reverse_connections"] == 3
+
+
+def test_remap_keeps_first_position_when_twin_weight_is_higher(tmp_path, ids):
+    a, mbid, twin, x = ids[:4]
+    record = {"id": a, "connections": [[mbid, 1.0], [x, 5.0], [twin, 3.0]]}
+    _, fwd, _ = _build(tmp_path, [record], {twin}, {twin: mbid})
+    assert fwd[a][1] == [(mbid, pytest.approx(3.0)), (x, pytest.approx(5.0))]
+
+
+def test_remap_drops_self_loop_it_created(tmp_path, ids):
+    mbid, twin, x = ids[:3]
+    record = {"id": mbid, "connections": [[twin, 1.0], [x, 2.0]]}
+    _, fwd, rev = _build(tmp_path, [record], {twin}, {twin: mbid})
+    assert fwd[mbid][1] == [(x, pytest.approx(2.0))]
+    assert mbid not in rev
+
+
+def test_remap_leaves_pre_existing_self_loop_alone(tmp_path, ids):
+    mbid, twin, x = ids[:3]
+    record = {"id": mbid, "connections": [[mbid, 1.0], [twin, 4.0], [x, 2.0]]}
+    _, fwd, _ = _build(tmp_path, [record], {twin}, {twin: mbid})
+    assert fwd[mbid][1] == [(mbid, pytest.approx(1.0)), (x, pytest.approx(2.0))]
+
+
+@pytest.mark.parametrize("remap", [None, {}])
+def test_empty_remap_behaves_as_no_remap(tmp_path, ids, remap):
+    a, b = ids[:2]
+    records = [{"id": a, "connections": [[b, 1.0], [b, 2.0], [a, 3.0]]}]
+    _, fwd, _ = _build(tmp_path, records, None, remap)
+    assert fwd[a][1] == [
+        (b, pytest.approx(1.0)),
+        (b, pytest.approx(2.0)),
+        (a, pytest.approx(3.0)),
+    ]
+
+
+def test_remap_to_blocklisted_target_raises(tmp_path, ids):
+    a, mbid, twin = ids[:3]
+    write_ndjson(tmp_path / "graph.ndjson", [{"id": a, "connections": [[twin, 1.0]]}])
+    with pytest.raises(ValueError):
+        process_graph(tmp_path / "graph.ndjson", tmp_path, {twin, mbid}, remap={twin: mbid})
+
+
+def test_remap_from_unblocked_source_raises(tmp_path, ids):
+    a, mbid, twin = ids[:3]
+    write_ndjson(tmp_path / "graph.ndjson", [{"id": a, "connections": [[twin, 1.0]]}])
+    with pytest.raises(ValueError):
+        process_graph(tmp_path / "graph.ndjson", tmp_path, set(), remap={twin: mbid})

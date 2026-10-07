@@ -1,6 +1,8 @@
 """Tests for postprocessing.cleaning — behavior of skeleton, segment_name,
 _identify_duplicates, _identify_collabs, and compute_in_degrees."""
 
+import uuid
+
 import orjson
 import pytest
 
@@ -395,7 +397,7 @@ def test_compute_in_degrees_counts_incoming_edges(tmp_path):
         {"id": "n2", "connections": [["n3", 0.3]]},
     ]
     graph.write_bytes(b"\n".join(orjson.dumps(line) for line in lines))
-    result, _ = compute_in_degrees(graph)
+    result, _, _ = compute_in_degrees(graph)
     assert result["n2"] == 1
     assert result["n3"] == 2
 
@@ -404,14 +406,14 @@ def test_compute_in_degrees_source_node_absent(tmp_path):
     # A node that only points outward has no incoming edges — absent from result
     graph = tmp_path / "graph.ndjson"
     graph.write_bytes(orjson.dumps({"id": "n1", "connections": [["n2", 1.0]]}))
-    result, _ = compute_in_degrees(graph)
+    result, _, _ = compute_in_degrees(graph)
     assert "n1" not in result
 
 
 def test_compute_in_degrees_empty_connections(tmp_path):
     graph = tmp_path / "graph.ndjson"
     graph.write_bytes(orjson.dumps({"id": "n1", "connections": []}))
-    result, _ = compute_in_degrees(graph)
+    result, _, _ = compute_in_degrees(graph)
     assert "n1" not in result
 
 
@@ -715,7 +717,7 @@ def test_compute_in_degrees_reports_watched_record_owners(tmp_path):
     ]
     graph.write_bytes(b"\n".join(orjson.dumps(line) for line in lines))
     # n3 is pointed at but owns no record; n4 does not appear at all.
-    _, owned = compute_in_degrees(graph, None, frozenset({"n1", "n3", "n4"}))
+    _, owned, _ = compute_in_degrees(graph, None, frozenset({"n1", "n3", "n4"}))
     assert owned == {"n1"}
 
 
@@ -757,5 +759,135 @@ def test_identify_cleaning_uuids_drops_decorated_spelling_of_an_mbid(tmp_path):
             )
         )
     )
-    dup, _, _ = identify_cleaning_uuids(graph, metadata)
+    dup, _, _, _ = identify_cleaning_uuids(graph, metadata)
     assert dup == {PINK_FLOYD_URL_ID}
+
+
+# ---------------------------------------------------------------------------
+# URL twins
+# ---------------------------------------------------------------------------
+
+PAGE_A = "https://www.last.fm/music/Cream"
+PAGE_B = "https://www.last.fm/music/Other"
+TWIN_A = str(uuid.uuid5(uuid.NAMESPACE_URL, PAGE_A))
+TWIN_B = str(uuid.uuid5(uuid.NAMESPACE_URL, PAGE_B))
+NEIGHBOURS = [f"n{i}" for i in range(4)]
+
+
+def _identify(tmp_path, metadata, graph, skip=frozenset(), **kwargs):
+    meta_file = tmp_path / "metadata.ndjson"
+    meta_file.write_bytes(b"\n".join(orjson.dumps(e) for e in metadata))
+    graph_file = tmp_path / "graph.ndjson"
+    graph_file.write_bytes(b"\n".join(orjson.dumps(e) for e in graph))
+    return identify_cleaning_uuids(graph_file, meta_file, skip=skip, **kwargs)
+
+
+def _record(node, targets):
+    return {"id": node, "connections": [[t, 0.5] for t in targets]}
+
+
+def test_twin_with_agreeing_out_edges_is_remapped(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    graph = [_record(MBID_A, NEIGHBOURS), _record(TWIN_A, NEIGHBOURS[:3])]
+    assert _identify(tmp_path, metadata, graph)[3] == {TWIN_A: MBID_A}
+
+
+def test_twin_with_disjoint_out_edges_is_not_remapped(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    graph = [_record(MBID_A, ["x1", "x2"]), _record(TWIN_A, ["y1", "y2"])]
+    assert _identify(tmp_path, metadata, graph)[3] == {}
+
+
+def test_page_with_two_mbids_never_remaps(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": MBID_B, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    graph = [_record(m, NEIGHBOURS) for m in (MBID_A, MBID_B, TWIN_A)]
+    assert _identify(tmp_path, metadata, graph)[3] == {}
+
+
+def test_twin_without_graph_record_is_not_remapped(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    assert _identify(tmp_path, metadata, [_record(MBID_A, NEIGHBOURS)])[3] == {}
+
+
+def test_mbid_without_graph_record_is_not_remapped(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    assert _identify(tmp_path, metadata, [_record(TWIN_A, NEIGHBOURS)])[3] == {}
+
+
+def test_twin_citations_count_for_its_mbid_in_the_in_degree_fallback(tmp_path):
+    # Two MBIDs share a skeleton, so in-degree decides. MBID_A has 1 citation to
+    # MBID_B's 3 and would lose; its merged twin's 4 citations make it 5 and win.
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+        {"id": MBID_B, "name": "*Cream*", "url": PAGE_B},
+    ]
+    graph = [
+        _record(MBID_A, NEIGHBOURS),
+        _record(TWIN_A, NEIGHBOURS),
+        _record(MBID_B, ["z"]),
+        _record("c0", [MBID_A]),
+        *(_record(f"t{i}", [TWIN_A]) for i in range(4)),
+        *(_record(f"b{i}", [MBID_B]) for i in range(3)),
+    ]
+    dup, _, _, remap = _identify(tmp_path, metadata, graph)
+    assert (dup, remap) == ({MBID_B}, {TWIN_A: MBID_A})
+
+
+def test_skipped_mbid_on_the_page_still_blocks_the_remap(tmp_path):
+    metadata = [
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+        {"id": MBID_B, "name": "Cream", "url": PAGE_A},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+    ]
+    graph = [_record(m, NEIGHBOURS) for m in (MBID_A, TWIN_A)]
+    assert _identify(tmp_path, metadata, graph, skip={MBID_B})[3] == {}
+
+
+def test_merged_twin_leaves_the_group_of_its_earlier_name(tmp_path):
+    # metadata is append-only, so the renamed twin is still in the "old name"
+    # group, where it would win the 0-0 tie (first id) and drop its sibling.
+    metadata = [
+        {"id": TWIN_A, "name": "Old Name", "url": PAGE_A},
+        {"id": URL_ID_A, "name": "Old Name", "url": PAGE_B},
+        {"id": TWIN_A, "name": "Cream", "url": PAGE_A},
+        {"id": MBID_A, "name": "Cream", "url": PAGE_A},
+    ]
+    graph = [_record(MBID_A, NEIGHBOURS), _record(TWIN_A, NEIGHBOURS)]
+    dup, _, _, remap = _identify(tmp_path, metadata, graph)
+    assert (URL_ID_A in dup, remap) == (False, {TWIN_A: MBID_A})
+
+
+def test_collab_members_co_occur_through_a_merged_twin(tmp_path):
+    # Alpha cites only Beta's twin. The member-adjacency gate sees the pair
+    # co-occur only once edges are redirected onto Beta's MBID. Centrality gate
+    # is off (frac 0) so adjacency alone decides.
+    metadata = [
+        {"id": MBID_A, "name": "Alpha", "url": PAGE_A},
+        {"id": MBID_B, "name": "Beta", "url": PAGE_B},
+        {"id": TWIN_B, "name": "Beta", "url": PAGE_B},
+        {"id": URL_ID_A, "name": "Alpha & Beta", "url": ""},
+    ]
+    graph = [
+        _record(MBID_A, [TWIN_B]),
+        _record(MBID_B, NEIGHBOURS),
+        _record(TWIN_B, NEIGHBOURS),
+    ]
+    _, _, collab, remap = _identify(tmp_path, metadata, graph, centrality_frac=0)
+    assert (collab, remap) == ({URL_ID_A}, {TWIN_B: MBID_B})

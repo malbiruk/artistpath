@@ -20,6 +20,8 @@ _pack_float = struct.Struct("<f").pack
 # the 20-byte UUID + weight written to disk).
 _REV_EDGE_DTYPE = np.dtype([("src", "<u4"), ("weight", "<f4")])
 _OUT_EDGE_DTYPE = np.dtype([("uuid", "S16"), ("weight", "<f4")])
+_RECORD_HEADER_SIZE = 16 + 4  # uuid + edge count
+_EDGE_SIZE = _OUT_EDGE_DTYPE.itemsize
 _COPY_BUFFER = 16 * 1024 * 1024
 
 # Deliberately looser than storage._extract_graph_id, which also checks uuid
@@ -38,13 +40,16 @@ _MAX_UNPARSABLE = 64
 # instead of shrinking the graph.
 _MAX_PREFIX_MISMATCH_FRAC = 1e-6
 
-# Sorted S16 blocklist, memory-mapped once per worker by _load_blocklist.
+# Sorted S16 blocklist, memory-mapped once per worker by _load_tables.
 _BLOCKLIST: np.ndarray | None = None
+# URL-twin remap: a few thousand entries at most, so a plain dict.
+_REMAP: dict[bytes, bytes] = {}
 
 
-def _load_blocklist(path: str) -> None:
-    global _BLOCKLIST
+def _load_tables(path: str, remap: dict[bytes, bytes]) -> None:
+    global _BLOCKLIST, _REMAP
     _BLOCKLIST = np.load(path, mmap_mode="r")
+    _REMAP = remap
 
 
 def _uuid_bytes(s: str) -> bytes:
@@ -162,6 +167,35 @@ def _blocked_mask(blocklist: np.ndarray, ids: np.ndarray) -> np.ndarray:
     return blocklist[pos] == ids
 
 
+def _remap_edges(
+    owner: bytes, conns: list[tuple[bytes, float]], remap: dict[bytes, bytes]
+) -> list[tuple[bytes, float]]:
+    """Redirect edges aimed at a merged twin onto its MBID node; shared by both
+    passes so forward and reverse can't disagree. Redirected edges that become
+    self-loops are dropped and the rest collapse into the first edge to that
+    target at max weight. Edges to other nodes are untouched, including their
+    self-loops and duplicates."""
+    if not remap:
+        return conns
+    hits = {remap[c] for c, _ in conns if c in remap}
+    if not hits:
+        return conns
+    out: list[tuple[bytes, float]] = []
+    first: dict[bytes, int] = {}
+    for c, w in conns:
+        t = remap.get(c, c)
+        if t not in hits:
+            out.append((c, w))
+        elif t == owner and c != t:
+            continue
+        elif (i := first.get(t)) is None:
+            first[t] = len(out)
+            out.append((t, w))
+        else:
+            out[i] = (t, max(out[i][1], w))
+    return out
+
+
 def _process_forward_chunk(
     path: str, offsets: np.ndarray, chunk_path: str
 ) -> tuple[int, list[tuple[str, int]], tuple[int, int, int]]:
@@ -210,18 +244,17 @@ def _process_forward_chunk(
                 blocked_rejects += 1
                 continue
 
-            conn_ids: list[bytes] = []
-            conn_weights: list[float] = []
+            conns: list[tuple[bytes, float]] = []
             for conn_id, weight in data["connections"]:
                 try:
-                    conn_ids.append(_uuid_bytes(conn_id))
+                    conns.append((_uuid_bytes(conn_id), weight))
                 except ValueError:
                     continue
-                conn_weights.append(weight)
+            conns = _remap_edges(artist_bytes, conns, _REMAP)
 
-            edges = np.empty(len(conn_ids), dtype=_OUT_EDGE_DTYPE)
-            edges["uuid"] = conn_ids
-            edges["weight"] = conn_weights
+            edges = np.empty(len(conns), dtype=_OUT_EDGE_DTYPE)
+            edges["uuid"] = [c for c, _ in conns]
+            edges["weight"] = [w for _, w in conns]
             edges = edges[~_blocked_mask(blocklist, edges["uuid"])]
 
             record = artist_bytes + _pack_uint32(edges.size) + edges.tobytes()
@@ -237,12 +270,15 @@ def process_graph(
     data_dir: Path,
     blocklist: set[str] | None = None,
     survivor_index: Path | None = None,
+    remap: dict[str, str] | None = None,
 ) -> dict:
     """Convert graph.ndjson to graph.bin and rev-graph.bin.
 
     `survivor_index` is a build_survivor_index file; it also fixes the snapshot
     both binaries describe, since the collector keeps appending during a build.
-    One is built here and removed again when the caller has none.
+    One is built here and removed again when the caller has none. `remap`
+    redirects edge targets ({twin: mbid}) before the blocklist applies; the
+    twins themselves must be blocklisted and their targets must not be.
     """
     graph_bin = data_dir / "graph.bin"
     rev_graph_bin = data_dir / "rev-graph.bin"
@@ -261,6 +297,9 @@ def process_graph(
             blocked.add(_uuid_bytes(uuid_str))
         except ValueError:
             continue
+    remap_bytes = {_uuid_bytes(t): _uuid_bytes(m) for t, m in (remap or {}).items()}
+    if not remap_bytes.keys() <= blocked or not blocked.isdisjoint(remap_bytes.values()):
+        raise ValueError("remap sources must be blocklisted and its targets must not be")
     # Sorted array in a file that every worker memory-maps, instead of each
     # worker holding its own copy of a 1M+ entry set.
     blocklist_path = data_dir / "blocklist.npy"
@@ -278,8 +317,8 @@ def process_graph(
             ProcessPoolExecutor(
                 n_workers,
                 mp_context=multiprocessing.get_context("spawn"),
-                initializer=_load_blocklist,
-                initargs=(str(blocklist_path),),
+                initializer=_load_tables,
+                initargs=(str(blocklist_path), remap_bytes),
             ) as pool,
             graph_bin.open("wb") as outfile,
             Progress() as progress,
@@ -376,11 +415,13 @@ def process_graph(
             n_sources += 1
             source_uuids.extend(artist_bytes)
 
+            conns: list[tuple[bytes, float]] = []
             for conn_id, weight in data["connections"]:
                 try:
-                    conn_bytes = _uuid_bytes(conn_id)
+                    conns.append((_uuid_bytes(conn_id), weight))
                 except ValueError:
                     continue
+            for conn_bytes, weight in _remap_edges(artist_bytes, conns, remap_bytes):
                 if conn_bytes in blocked:
                     continue
 
@@ -392,6 +433,13 @@ def process_graph(
 
     total_conns = sum(len(v) for v in reverse_data.values()) // 8
     print(f"  {total_conns:,} reverse connections collected")
+    # Counted from graph.bin's bytes, so it checks the forward pass against the
+    # reverse one rather than against itself.
+    forward_conns = (position - _RECORD_HEADER_SIZE * total_artists) // _EDGE_SIZE
+    if forward_conns != total_conns:
+        raise RuntimeError(
+            f"forward graph has {forward_conns:,} edges but reverse has {total_conns:,}"
+        )
 
     # Write reverse graph binary
     source_uuid_arr = np.frombuffer(bytes(source_uuids), dtype="S16")
@@ -419,7 +467,7 @@ def process_graph(
         "forward_index": forward_index,
         "reverse_index": reverse_index,
         "artists": total_artists,
-        "forward_connections": total_conns,
+        "forward_connections": forward_conns,
         "reverse_connections": total_conns,
         "reverse_artists": len(reverse_data),
         "graph_bin_size": graph_bin.stat().st_size,

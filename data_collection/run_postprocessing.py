@@ -92,9 +92,10 @@ def main() -> None:
 
     # Graph-aware cleaning (duplicates + collab/feature credits) removes ~25% of
     # nodes. On by default; kill-switch is ARTISTPATH_CLEANING=0.
+    remap: dict[str, str] = {}
     if os.getenv("ARTISTPATH_CLEANING", "1") != "0":
         print("\n🧹 Step 0b: Identifying duplicate + collab/feature UUIDs")
-        dup_uuids, translit_uuids, collab_uuids = run_isolated(
+        dup_uuids, translit_uuids, collab_uuids, remap = run_isolated(
             identify_cleaning_uuids,
             graph_file,
             metadata_file,
@@ -106,6 +107,15 @@ def main() -> None:
             f"  |  Collabs/features: {len(collab_uuids):,}"
         )
         blocklist |= dup_uuids | translit_uuids | collab_uuids
+        # A rule may drop the MBID node itself; its twin then goes with it
+        # rather than having its edges redirected onto a node that won't ship.
+        twins = set(remap)
+        remap = {t: m for t, m in remap.items() if m not in blocklist}
+        blocklist |= twins
+        print(
+            f"✅ URL twins merged into their MBID node: {len(remap):,}"
+            f"  |  dropped with their MBID: {len(twins) - len(remap):,}"
+        )
         print(f"✅ Blocklist total: {len(blocklist):,} UUID(s) will be excluded")
     else:
         print("\n⏭️  Step 0b: graph-aware cleaning DISABLED (ARTISTPATH_CLEANING=0)")
@@ -117,6 +127,7 @@ def main() -> None:
         data_dir,
         blocklist=blocklist,
         survivor_index=index_path,
+        remap=remap,
     )
     index_path.unlink(missing_ok=True)
     print(f"✅ Forward graph: {graph_stats['graph_bin_size'] / MB:.1f} MB")
