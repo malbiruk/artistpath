@@ -142,6 +142,8 @@ npm run dev
 
 Open http://localhost:3001 in your browser.
 
+Notes on running it as a long-lived service are in [ops/README.md](ops/README.md).
+
 ## Command Line Usage
 
 The CLI version focuses on pathfinding between two specific artists.
