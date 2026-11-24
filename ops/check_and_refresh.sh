@@ -54,6 +54,16 @@ REBUILT=""
 # again on every path out.
 COLLECTOR_STOPPED=""
 
+# put FILE: write stdin to FILE through a temp file and a rename, so a symlink
+# planted at FILE (the collector can write data/) is replaced, not followed.
+put() {
+    local tmp
+    tmp=$(mktemp "$1.XXXXXX")
+    cat >"$tmp"
+    chmod 0644 "$tmp"
+    mv -fT "$tmp" "$1" || { rm -f "$tmp"; return 1; }
+}
+
 ping_hc() {
     [ -n "${HC_REFRESH_UUID:-}" ] || return 0
     curl -fsS -m 10 --retry 3 "https://hc-ping.com/$HC_REFRESH_UUID$1" >/dev/null || true
@@ -153,8 +163,18 @@ fi
 CURRENT_COUNT=$(cd "$COLLECTION_DIR" && "$UV" run python -c \
     "import json; s = json.load(open('$STATE_FILE')); print(s.get('crawled_total') or len(s['processed_mbids']))")
 LAST_COUNT=$(cat "$LAST_COUNT_FILE" 2>/dev/null || echo 0)
+# Both come from files the services write. Bash evaluates $(...) hidden in a
+# variable used inside $(( )), so anything but a plain number is refused. Unlike
+# LIVE_BYTES below (it only gates compaction), a garbled counter fails the run.
+for v in CURRENT_COUNT LAST_COUNT; do
+    if [[ ! "${!v}" =~ ^[0-9]+$ ]]; then
+        echo "$v is not a plain number, refusing to continue"
+        exit 1
+    fi
+done
 DIFF=$((CURRENT_COUNT - LAST_COUNT))
 echo "Current: $CURRENT_COUNT, Last refresh: $LAST_COUNT, New: $DIFF"
+SERVED_COUNT=$LAST_COUNT # what last_refresh_count.txt holds, without re-reading it
 
 if [ "$DIFF" -ge "$THRESHOLD" ]; then
     echo "Refreshing: $DIFF records crawled since last refresh"
@@ -215,19 +235,20 @@ if [ "$DIFF" -ge "$THRESHOLD" ]; then
         rm -f "$DATA_DIR/$b.old"
     done
     REBUILT=1
-    echo "$CURRENT_COUNT" > "$LAST_COUNT_FILE"
+    echo "$CURRENT_COUNT" | put "$LAST_COUNT_FILE"
+    SERVED_COUNT=$CURRENT_COUNT
     echo "Backend serving new data ($CURRENT_COUNT records crawled)"
 else
     echo "Only $DIFF new records, skipping rebuild (threshold: $THRESHOLD)"
 fi
 
-if [ -f "$LAST_COUNT_FILE" ] && [ "$(cat "$REPORT_COUNT_FILE" 2>/dev/null)" != "$(cat "$LAST_COUNT_FILE")" ]; then
+if [ -f "$LAST_COUNT_FILE" ] && [ "$(cat "$REPORT_COUNT_FILE" 2>/dev/null)" != "$SERVED_COUNT" ]; then
     echo "Updating analytics report"
     cd "$ANALYSIS_DIR"
     "$UV" run python calculate_graph_metrics.py
     QUARTO_PYTHON="$ANALYSIS_DIR/.venv/bin/python" "$QUARTO" render graph_analysis_report.py
     "$REPO_DIR/ops/deploy-report.sh"
-    cp "$LAST_COUNT_FILE" "$REPORT_COUNT_FILE"
+    echo "$SERVED_COUNT" | put "$REPORT_COUNT_FILE"
     echo "Report deployed"
 fi
 
