@@ -5,9 +5,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/var/home/klimasos/Services/artistpath/data_collection
-ExecStart=/home/klimasos/.local/bin/uv run python run_collection.py
-EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+WorkingDirectory=%h/Services/artistpath/data_collection
+ExecStart=%h/.local/bin/uv run python run_collection.py
+EnvironmentFile=%h/.config/artistpath/collector.env
 Environment=PYTHONUNBUFFERED=1
 Restart=on-failure
 RestartSec=3600

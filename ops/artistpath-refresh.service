@@ -3,10 +3,10 @@ Description=Artistpath Binary Refresh Check
 
 [Service]
 Type=oneshot
-WorkingDirectory=/var/home/klimasos/Services/artistpath
-ExecStart=/var/home/klimasos/Services/artistpath/ops/check_and_refresh.sh
-EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
-Environment=PATH=/home/klimasos/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin
+WorkingDirectory=%h/Services/artistpath
+ExecStart=%h/Services/artistpath/ops/check_and_refresh.sh
+EnvironmentFile=%h/.config/artistpath/refresh.env
+Environment=PATH=%h/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin
 Environment=PYTHONUNBUFFERED=1
 # On stop the script rolls the swap back and restarts the backend.
 TimeoutStopSec=300

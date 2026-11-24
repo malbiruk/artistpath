@@ -14,11 +14,15 @@ PROJECT_NAME="artistpath-graph-stats"
     exit 1
 }
 
-[ -f "$REPO_DIR/.env" ] || {
-    echo "❌ .env not found (needs CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID)"
+# The refresh unit passes the credentials in its environment; a dev checkout
+# keeps them in .env.
+if [ -f "$REPO_DIR/.env" ]; then
+    set -a; source "$REPO_DIR/.env"; set +a
+fi
+[ -n "${CLOUDFLARE_API_TOKEN:-}" ] && [ -n "${CLOUDFLARE_ACCOUNT_ID:-}" ] || {
+    echo "❌ CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID must be set (environment or .env)"
     exit 1
 }
-set -a; source "$REPO_DIR/.env"; set +a
 
 STAGE_DIR="$(mktemp -d)"
 trap "rm -rf '$STAGE_DIR'" EXIT

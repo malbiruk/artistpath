@@ -19,13 +19,13 @@
 # append-only NDJSON and skips a partially written last line. Only compaction
 # stops it, and a trap restarts it on every path out.
 #
-# The unit's environment comes from .env only, so to override the shrink gate
-# after an intentional cleaning change add REFRESH_ALLOW_SHRINK=1 there for one
-# run (or run this script by hand with it set).
+# The unit's environment comes from its EnvironmentFile only, so to override the
+# shrink gate after an intentional cleaning change add REFRESH_ALLOW_SHRINK=1
+# there for one run (or run this script by hand, as the service user, with it set).
 set -euo pipefail
 
 THRESHOLD=100000
-REPO_DIR="/var/home/klimasos/Services/artistpath"
+REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DATA_DIR="$REPO_DIR/data"
 STAGING_DIR="$DATA_DIR/staging"
 COLLECTION_DIR="$REPO_DIR/data_collection"
@@ -33,8 +33,8 @@ ANALYSIS_DIR="$REPO_DIR/graph_analysis"
 STATE_FILE="$DATA_DIR/collection_state.json"
 LAST_COUNT_FILE="$DATA_DIR/last_refresh_count.txt"  # artists crawled when the served bins were built
 REPORT_COUNT_FILE="$DATA_DIR/last_report_count.txt" # ... when the report was last deployed
-UV="/home/klimasos/.local/bin/uv"
-QUARTO="/home/klimasos/.local/bin/quarto"
+UV="${UV:-$HOME/.local/bin/uv}"
+QUARTO="${QUARTO:-$HOME/.local/bin/quarto}"
 HEALTH_URL="http://localhost:3050/health"
 BINS="graph.bin rev-graph.bin metadata.bin"
 MIN_FREE_GB=40

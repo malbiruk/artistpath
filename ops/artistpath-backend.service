@@ -5,9 +5,9 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/var/home/klimasos/Services/artistpath
-ExecStart=/var/home/klimasos/Services/artistpath/web/backend/target/release/artistpath-web
-EnvironmentFile=/var/home/klimasos/Services/artistpath/.env
+WorkingDirectory=%h/Services/artistpath
+ExecStart=%h/Services/artistpath/web/backend/target/release/artistpath-web
+EnvironmentFile=%h/.config/artistpath/backend.env
 Restart=on-failure
 RestartSec=5
 TimeoutStartSec=120
