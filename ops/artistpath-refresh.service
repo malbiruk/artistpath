@@ -8,6 +8,14 @@ ExecStart=%h/Services/artistpath/ops/check_and_refresh.sh
 EnvironmentFile=%h/.config/artistpath/refresh.env
 Environment=PATH=%h/.local/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin
 Environment=PYTHONUNBUFFERED=1
+# The journal is capped at 50M and rotates in ~2h, so a 02:00 failure is gone
+# by morning. Keep the last run's full output (stderr follows stdout) instead,
+# in ~/.local/state/log/artistpath/: not in data/, which the collector can write
+# (systemd follows a symlink planted at this path, and this unit is unsandboxed).
+# install-services.sh creates the directory: systemd opens this file before it
+# would create LogsDirectory=.
+LogsDirectory=artistpath
+StandardOutput=truncate:%L/artistpath/refresh.log
 # On stop the script rolls the swap back and restarts the backend.
 TimeoutStopSec=300
 # Keep the rebuild from starving the live backend.

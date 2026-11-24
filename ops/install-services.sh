@@ -6,6 +6,9 @@ SYSTEMD_DIR="$HOME/.config/systemd/user"
 QUADLET_DIR="$HOME/.config/containers/systemd"
 
 mkdir -p "$SYSTEMD_DIR" "$QUADLET_DIR"
+# artistpath-refresh.service logs to %L/artistpath/, and systemd opens that file
+# before it creates LogsDirectory=, so the directory must already exist.
+mkdir -p "${XDG_STATE_HOME:-$HOME/.local/state}/log/artistpath"
 
 echo "Installing from $REPO_DIR/ops/"
 
