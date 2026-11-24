@@ -245,8 +245,15 @@ fi
 if [ -f "$LAST_COUNT_FILE" ] && [ "$(cat "$REPORT_COUNT_FILE" 2>/dev/null)" != "$SERVED_COUNT" ]; then
     echo "Updating analytics report"
     cd "$ANALYSIS_DIR"
+    command -v pasta >/dev/null || { echo "pasta (package passt) not found: the report render needs it"; exit 1; }
     "$UV" run python calculate_graph_metrics.py
-    QUARTO_PYTHON="$ANALYSIS_DIR/.venv/bin/python" "$QUARTO" render graph_analysis_report.py
+    # The egress filter leaves the service user only 127.0.0.1:3050 on the host's
+    # loopback, but the Jupyter kernel needs loopback ports of its own and pandoc
+    # needs HTTPS to embed the report's JS. pasta runs the render in a private
+    # netns with its own loopback and outbound internet and no path back to the
+    # host's loopback; env, because pasta's SELinux domain only execs system binaries.
+    pasta --config-net --quiet -t none -u none -T none -U none --no-map-gw -- \
+        env QUARTO_PYTHON="$ANALYSIS_DIR/.venv/bin/python" "$QUARTO" render graph_analysis_report.py
     "$REPO_DIR/ops/deploy-report.sh"
     echo "$SERVED_COUNT" | put "$REPORT_COUNT_FILE"
     echo "Report deployed"
