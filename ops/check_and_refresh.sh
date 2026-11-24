@@ -209,6 +209,11 @@ if [ "$DIFF" -ge "$THRESHOLD" ]; then
         exit 1
     fi
     ROTATED=""
+    # The previous build is only a rollback for this swap: the bins can always
+    # be rebuilt from graph.ndjson, so don't hold ~25 GB of them until next run.
+    for b in $BINS; do
+        rm -f "$DATA_DIR/$b.old"
+    done
     REBUILT=1
     echo "$CURRENT_COUNT" > "$LAST_COUNT_FILE"
     echo "Backend serving new data ($CURRENT_COUNT records crawled)"
