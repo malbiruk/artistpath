@@ -19,7 +19,7 @@ load_dotenv("../.env")
 load_dotenv()
 
 API_KEY = os.getenv("LASTFM_COLLECTOR_API_KEY")
-BASE_URL = "http://ws.audioscrobbler.com/2.0/"
+BASE_URL = "https://ws.audioscrobbler.com/2.0/"
 
 API_ERRORS = {
     "rate_limit": 0,

@@ -10,7 +10,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-BASE = "http://ws.audioscrobbler.com/2.0/"
+BASE = "https://ws.audioscrobbler.com/2.0/"
 
 
 def load_key() -> str:

@@ -100,7 +100,7 @@ impl LastFmClient {
 
         // Make API request
         let url = format!(
-            "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist={}&api_key={}&format=json",
+            "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist={}&api_key={}&format=json",
             urlencoding::encode(artist_name),
             self.api_key
         );
@@ -127,7 +127,7 @@ impl LastFmClient {
 
         // Make API request
         let url = format!(
-            "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist={}&api_key={}&format=json&limit={}",
+            "https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist={}&api_key={}&format=json&limit={}",
             urlencoding::encode(artist_name),
             self.api_key,
             limit
