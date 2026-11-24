@@ -67,10 +67,19 @@ async fn main() {
         .with_state(app_state);
 
     // Loopback only: the Cloudflare tunnel reaches us via localhost, so this
-    // keeps the API off the LAN even if the host firewall is misconfigured.
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3050").await.unwrap();
+    // keeps the API off the LAN even if the host firewall is misconfigured. The
+    // ops/ units and the tunnel assume the default port; BIND_ADDR overrides it,
+    // e.g. so a dev build on the same host can't take the tunnel's port.
+    let bind_addr = std::env::var("BIND_ADDR").unwrap_or_else(|_| "127.0.0.1:3050".to_string());
+    let listener = match tokio::net::TcpListener::bind(&bind_addr).await {
+        Ok(listener) => listener,
+        Err(e) => {
+            eprintln!("Failed to bind {}: {}", bind_addr, e);
+            std::process::exit(1);
+        }
+    };
 
-    println!("Server running on http://127.0.0.1:3050");
+    println!("Server running on http://{bind_addr}");
 
     axum::serve(listener, app).await.unwrap();
 }
